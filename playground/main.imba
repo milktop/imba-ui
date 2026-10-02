@@ -8,6 +8,7 @@ import './pages/pickers.imba'
 import './pages/choices.imba'
 import './pages/forms.imba'
 import './pages/overlays.imba'
+import './pages/disclosure.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -20,6 +21,7 @@ const pages = [
 	{ path: '/choices', title: 'Choices', about: 'Checkbox and radio groups, switch, segmented' }
 	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
 	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, dialog, menu, popover, toast' }
+	{ path: '/disclosure', title: 'Disclosure', about: 'Tabs, accordion' }
 ]
 
 tag page-home
@@ -79,6 +81,7 @@ tag playground
 			<page-choices route='/choices'>
 			<page-forms route='/forms'>
 			<page-overlays route='/overlays'>
+			<page-disclosure route='/disclosure'>
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 

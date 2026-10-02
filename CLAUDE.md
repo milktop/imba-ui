@@ -48,6 +48,10 @@ New components follow the same pattern: add both files, an entry in
   don't reach the host's `change` listeners.
 - **Popups:** put `zi` on `.content`; Zag copies it onto the positioner. Floating
   panels (tooltip, popover) use `strategy: 'fixed'` so overflow can't clip them.
+- **Parent/child components** (tabs, accordion): the parent owns the machine and
+  finds its children after the first render (`rendered`, then render again);
+  children walk up to it, render through `parent.api`, and the parent calls
+  `child.render!` on each of its own renders.
 - **Exit animations:** Zag hides closing popups at once; use `Presence` from
   `zag.imba` (`update(open)` in render, `keep(props)` on hidden parts, `done` on
   animationend) to keep them shown while they animate out.
