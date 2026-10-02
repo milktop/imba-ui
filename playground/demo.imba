@@ -62,12 +62,6 @@ global css
 		.set d:hcl g:2 flw:wrap
 		.set button bd:1px solid $ui-border bg:transparent c:inherit rd:md fs:xs px:2 py:1 cursor:pointer
 			@hover bg:$ui-hover
-		# Stand-in buttons until there's a ui-button.
-		.btn d:inline-flex ai:center jc:center g:2 h:9 px:3 bd:1px solid $ui-border bg:$ui-surface c:inherit rd:$ui-radius fs:sm ff:inherit cursor:pointer
-			@hover bg:$ui-hover
-			@focus-visible outline:2px solid $ui-ring-soft bc:$ui-ring
-			&.primary bg:$ui-accent bc:$ui-accent c:$ui-accent-text
-			&.icon w:9 px:0
 
 	# Token colours for code and JSON.
 	.tok-key c:$ui-text fw:500

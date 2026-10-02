@@ -2,6 +2,7 @@ import 'imba/preflight.css'
 import 'iconify-icon'
 import '../src/index.imba'
 import './demo.imba'
+import './pages/buttons.imba'
 import './pages/inputs.imba'
 import './pages/pickers.imba'
 import './pages/choices.imba'
@@ -13,6 +14,7 @@ global css
 	html.dark body bg:#09090b
 
 const pages = [
+	{ path: '/buttons', title: 'Buttons', about: 'Variants, sizes, icons, loading' }
 	{ path: '/inputs', title: 'Inputs', about: 'Input, number input, textarea' }
 	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
 	{ path: '/choices', title: 'Choices', about: 'Checkbox and radio groups, switch, segmented' }
@@ -71,6 +73,7 @@ tag playground
 			<button.theme @click=toggleTheme> dark ? "Light" : "Dark"
 		<main>
 			<page-home route='/'>
+			<page-buttons route='/buttons'>
 			<page-inputs route='/inputs'>
 			<page-pickers route='/pickers'>
 			<page-choices route='/choices'>

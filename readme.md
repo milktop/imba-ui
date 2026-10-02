@@ -6,6 +6,7 @@ package adds Imba markup and an optional theme.
 
 | Component | Tag | Notes |
 | --- | --- | --- |
+| Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only, loading |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
 | Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |

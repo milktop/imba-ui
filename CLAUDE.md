@@ -53,7 +53,9 @@ New components follow the same pattern: add both files, an entry in
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
   `visit`, `setup`, `mount`); overriding `commit` silently breaks rendering.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
-  Read-only DOM properties (`prefix`) throw as a `prop`; use a get/set accessor.
+  `prop` compiles to a plain assignment, so on a native property (`disabled` on
+  a button) it just sets the native one, and read-only ones (`prefix`) throw;
+  use a get/set accessor. `tag x < button` makes the element a real <button>.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
 - **Values are controlled and bindable.** Read and write the value through `data`

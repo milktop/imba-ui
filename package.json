@@ -21,6 +21,8 @@
     "./number-input/base": "./src/number-input/base.imba",
     "./textarea": "./src/textarea/index.imba",
     "./textarea/base": "./src/textarea/base.imba",
+    "./button": "./src/button/index.imba",
+    "./button/base": "./src/button/base.imba",
     "./checkbox": "./src/checkbox/index.imba",
     "./checkbox/base": "./src/checkbox/base.imba",
     "./checkbox-group": "./src/checkbox-group/index.imba",

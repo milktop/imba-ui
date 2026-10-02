@@ -25,15 +25,15 @@ tag page-overlays
 			<demo-section heading='Tooltip'>
 				<div.row>
 					<ui-tooltip content='Edit lesson'>
-						<button.btn.icon aria-label='Edit lesson'> <iconify-icon icon='lucide:pencil'>
+						<ui-button icon='lucide:pencil' aria-label='Edit lesson'>
 					<ui-tooltip content='Duplicate' placement='right'>
-						<button.btn.icon aria-label='Duplicate'> <iconify-icon icon='lucide:copy'>
+						<ui-button icon='lucide:copy' aria-label='Duplicate'>
 					<ui-tooltip content='Archive' placement='bottom'>
-						<button.btn.icon aria-label='Archive'> <iconify-icon icon='lucide:archive'>
+						<ui-button icon='lucide:archive' aria-label='Archive'>
 					<ui-tooltip content='Delete' placement='left'>
-						<button.btn.icon aria-label='Delete'> <iconify-icon icon='lucide:trash-2'>
+						<ui-button icon='lucide:trash-2' aria-label='Delete'>
 					<ui-tooltip placement='top-start' openDelay=100>
-						<button.btn> "Rich content"
+						<ui-button> "Rich content"
 						<div slot='content'>
 							<strong> "Keyboard"
 							<div> "Tab here to open it without hovering"
@@ -43,15 +43,15 @@ tag page-overlays
 			<demo-section heading='Popover'>
 				<div.row>
 					<ui-popover heading='Maths with Ada' description='Thursday 8 October, 16:00 to 17:00' arrow @openchange=(opens++ if e.detail)>
-						<button.btn slot='trigger'> "Lesson info"
+						<ui-button slot='trigger'> "Lesson info"
 						<div> "Room 4, bring the past paper from last week."
 					<ui-popover heading='Change subject' closable bind=editing @openchange=(startEdit! if e.detail)>
-						<button.btn slot='trigger'> "Edit subject"
+						<ui-button slot='trigger'> "Edit subject"
 						<ui-field label='Subject'>
 							<ui-select items=subjects bind=draft>
 						<div.actions>
-							<button.btn @click=(editing = no)> "Cancel"
-							<button.btn.primary @click=save> "Save"
+							<ui-button @click=(editing = no)> "Cancel"
+							<ui-button variant='primary' @click=save> "Save"
 				<div.out>
 					<json-print data={ editing, subject: subjectName, infoOpened: opens }>
 					<div.set>
