@@ -18,7 +18,7 @@ tag page-overlays
 
 	css
 		.row d:hflex flw:wrap g:2 ai:center
-		.group d:vflex g:2
+		.group d:vflex ai:flex-start g:2
 		.caption fs:xs c:$ui-muted
 		.toolbar d:inline-flex g:0.5 p:1 bd:1px solid $ui-border rd:$ui-radius as:flex-start
 		# Spaced out so each placement's tooltip has room.
@@ -52,6 +52,14 @@ tag page-overlays
 							<ui-button> "Bottom"
 						<ui-tooltip content='Left' placement='left'>
 							<ui-button> "Left"
+				<div.group>
+					<span.caption> "Interactive: stays open over it, so its text can be selected"
+					<ui-tooltip interactive placement='right'>
+						<ui-button icon='lucide:key-round'> "Booking code"
+						<div slot='content'>
+							"Code "
+							<strong> "TUT-4821-XQ"
+							" (select to copy)"
 				<div.group>
 					<span.caption> "Rich content and a delay"
 					<ui-tooltip placement='top-start' openDelay=300>
