@@ -1,3 +1,5 @@
+import '../control.imba'
+
 # Headless text input: a box holding a native <input>, with optional content
 # before and after it.
 #
@@ -11,7 +13,7 @@
 #
 # Works with `bind=`, `bind:value=` or `value` + `@change` like the other
 # components; `change` emits the value on commit, native `input` events bubble.
-tag ui-input-base
+tag ui-input-base < ui-control
 	prop value = null
 	prop type = 'text'
 	prop name = ''
@@ -28,12 +30,6 @@ tag ui-input-base
 	prop attrs = null
 	prop required = false
 	prop disabled = false
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the input goes through `data`.
-	get data do value
-	set data v do value = v
 
 	# `prefix` is a read-only DOM property (a namespace prefix), so a `prop`
 	# can't assign it; an accessor of our own can.

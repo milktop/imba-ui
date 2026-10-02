@@ -1,6 +1,6 @@
 import * as numberInput from '@zag-js/number-input'
 import { Machine, uid, defined } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 
 # Headless number input: a text input with decrement/increment buttons,
@@ -14,7 +14,7 @@ import { icons } from '../icons.imba'
 # The value is a number (or null when empty). It updates while typing, so a
 # binding stays live; `change` is emitted on commit (blur or Enter), as with
 # native inputs.
-tag ui-number-input-base
+tag ui-number-input-base < ui-control
 	prop label = null
 	prop value = null
 	prop min = null
@@ -32,12 +32,6 @@ tag ui-number-input-base
 	prop steppers = yes
 
 	zagId = uid('number-input')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	# `prefix` is a read-only DOM property (a namespace prefix), so a `prop`
 	# can't assign it; an accessor of our own can.
@@ -92,12 +86,9 @@ tag ui-number-input-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		# Also when it goes between empty and filled, which `invalid` depends on.
-		machine.watch "{#field..stateKey}|{#locked}|{data == null}"
+		# Inside a ui-field it owns the label, hint and error; empty vs filled
+		# also matters, as `invalid` depends on it.
+		connectField(data == null)
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)
@@ -114,7 +105,7 @@ tag ui-number-input-base
 					<span.affix.start> <iconify-icon icon=icon>
 				if prefix
 					<span.affix.start> prefix
-				<input$input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) @keydown.capture=stepKey @wheel.capture=startStep @beforeinput=(#stepping = no) @change.stop>
+				<input$input.input zag=describe(api.getInputProps!) @keydown.capture=stepKey @wheel.capture=startStep @beforeinput=(#stepping = no) @change.stop>
 				# The suffix and buttons sit together at the end.
 				<div.end>
 					if suffix

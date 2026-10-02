@@ -1,6 +1,6 @@
 import * as zagFile from '@zag-js/file-upload'
 import { Machine, uid, defined } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 
 # Headless file upload: a dropzone (click, Enter or drop files on it) and the
@@ -12,7 +12,7 @@ import { icons } from '../icons.imba'
 #
 # The value is a File (or null) with maxFiles 1, otherwise an array of Files;
 # `change` is emitted with it. Rejected files are listed with the reason.
-tag ui-file-upload-base
+tag ui-file-upload-base < ui-control
 	prop label = null
 	prop value = null
 	prop accept = null
@@ -24,12 +24,6 @@ tag ui-file-upload-base
 
 	zagId = uid('file-upload')
 	#previews = new WeakMap
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	get single do maxFiles == 1
 	def files value do [].concat(value ?? [])
@@ -78,11 +72,7 @@ tag ui-file-upload-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		# Outside changes (e.g. clearing the model) go into Zag.
 		let key = fileKey(files(data))
@@ -95,7 +85,7 @@ tag ui-file-upload-base
 		<self zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
-			<div.dropzone zag=(#field ? #field.describe(api.getDropzoneProps!) : api.getDropzoneProps!)>
+			<div.dropzone zag=describe(api.getDropzoneProps!)>
 				<ui-icon.icon path=icons.upload size=20>
 				<div.prompt>
 					"Drop {single ? 'a file' : 'files'} here or "

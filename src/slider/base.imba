@@ -1,6 +1,6 @@
 import * as zagSlider from '@zag-js/slider'
 import { Machine, uid, defined } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 
 # Headless slider. Give it an array value for a range (two thumbs).
 #
@@ -11,7 +11,7 @@ import { closestField, fieldIds } from '../field/base.imba'
 # Arrow keys step (Page Up/Down and Shift step by 10), Home/End jump to the
 # ends. The value (a number, or [from, to]) updates while dragging, so a
 # binding stays live; `change` is emitted when the drag or key press ends.
-tag ui-slider-base
+tag ui-slider-base < ui-control
 	prop label = null
 	prop value = null
 	prop min = 0
@@ -25,12 +25,6 @@ tag ui-slider-base
 	prop disabled = false
 
 	zagId = uid('slider')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	get range do Array.isArray(data)
 	def values value do value == null ? [min] : [].concat(value)
@@ -74,11 +68,7 @@ tag ui-slider-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)
@@ -98,7 +88,7 @@ tag ui-slider-base
 				<div.track zag=api.getTrackProps!>
 					<div.range zag=api.getRangeProps!>
 				for v, i in thumbs
-					<div.thumb zag=(#field ? #field.describe(api.getThumbProps(index: i)) : api.getThumbProps(index: i))>
+					<div.thumb zag=describe(api.getThumbProps(index: i))>
 						<input zag=api.getHiddenInputProps(index: i) @change.stop>
 			if marks
 				<div.markers zag=api.getMarkerGroupProps!>

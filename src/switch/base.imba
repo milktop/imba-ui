@@ -1,13 +1,13 @@
 import * as zagSwitch from '@zag-js/switch'
 import { Machine, uid } from '../zag.imba'
-import { closestField } from '../field/base.imba'
+import '../control.imba'
 
 # Headless switch: an on/off track and thumb with its label, and a visually
 # hidden native checkbox for keyboard, forms and assistive tech.
 #
 # Like ui-checkbox, the bound value is `checked` (`bind=` or `bind:checked=`)
 # and `value` is what a form submits. Emits `change` with the new state.
-tag ui-switch-base
+tag ui-switch-base < ui-control
 	prop label = null
 	prop checked = false
 	prop value = 'on'
@@ -40,11 +40,7 @@ tag ui-switch-base
 	def unmount do machine.stop!
 
 	def render
-		# A field adds its hint, error and disabled state; the switch keeps its
-		# own label. A disabled fieldset disables it (Zag doesn't track it).
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		# Not api.setChecked, which also fakes a click on the hidden input.
 		machine.syncValue data, do
@@ -58,4 +54,4 @@ tag ui-switch-base
 					<span.thumb zag=api.getThumbProps!>
 				if label
 					<span.label zag=api.getLabelProps!> label
-				<input zag=(#field ? #field.describe(api.getHiddenInputProps!) : api.getHiddenInputProps!) @change.stop>
+				<input zag=describe(api.getHiddenInputProps!) @change.stop>

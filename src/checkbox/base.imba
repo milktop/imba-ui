@@ -1,6 +1,6 @@
 import * as checkbox from '@zag-js/checkbox'
 import { Machine, uid } from '../zag.imba'
-import { closestField } from '../field/base.imba'
+import '../control.imba'
 import { icons } from '../icons.imba'
 
 # Headless checkbox: a box and its label, with a visually hidden native input
@@ -11,7 +11,7 @@ import { icons } from '../icons.imba'
 # As with native checkboxes, the bound value is `checked` (`bind=` or
 # `bind:checked=`); `value` is what a form submits. Emits `change` with the
 # new checked state.
-tag ui-checkbox-base
+tag ui-checkbox-base < ui-control
 	prop label = null
 	prop checked = false
 	prop value = 'on'
@@ -44,11 +44,7 @@ tag ui-checkbox-base
 	def unmount do machine.stop!
 
 	def render
-		# A field adds its hint, error and disabled state; the checkbox keeps
-		# its own label. A disabled fieldset disables it (Zag doesn't track it).
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		# Not api.setChecked: for outside changes Zag also fakes a click on the
 		# hidden input, which turns 'indeterminate' into false (and emits it).
@@ -64,4 +60,4 @@ tag ui-checkbox-base
 						<ui-icon path=(api.indeterminate ? icons.minus : icons.check) size=12>
 				if label
 					<span.label zag=api.getLabelProps!> label
-				<input zag=(#field ? #field.describe(api.getHiddenInputProps!) : api.getHiddenInputProps!) @change.stop>
+				<input zag=describe(api.getHiddenInputProps!) @change.stop>

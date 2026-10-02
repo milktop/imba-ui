@@ -1,7 +1,7 @@
 import * as datepicker from '@zag-js/date-picker'
 import { today, getLocalTimeZone } from '@internationalized/date'
 import { Machine, uid } from '../zag.imba'
-import { closestField } from '../field/base.imba'
+import { closestField } from '../control.imba'
 import { icons } from '../icons.imba'
 
 # Headless date picker: Zag's machine plus markup, no styles. Elements carry
@@ -9,7 +9,7 @@ import { icons } from '../icons.imba'
 # subclass can style it with plain scoped CSS (see ./index.imba).
 #
 # Emits `change` with an ISO date ('YYYY-MM-DD'), or an array of two in range mode.
-tag ui-date-picker-base
+tag ui-date-picker-base < ui-control
 	prop label = null
 	prop value = null
 	prop range = false
@@ -50,12 +50,6 @@ tag ui-date-picker-base
 			values[other] = date if !values[other] or crossed
 		api.setValue(values)
 
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
-
 	def setup
 		let initial = parseDates(data)
 		machine = new Machine self, datepicker.machine, do
@@ -82,11 +76,7 @@ tag ui-date-picker-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 		machine.syncValue data, do
 			machine.connect(datepicker).setValue(parseDates(data))
 
@@ -97,10 +87,10 @@ tag ui-date-picker-base
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) size=10 @keydown=stepDate(e, 0) @change.stop>
+				<input.input zag=describe(api.getInputProps(index: 0)) size=10 @keydown=stepDate(e, 0) @change.stop>
 				if range
 					<span.separator> "–"
-					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) size=10 @keydown=stepDate(e, 1) @change.stop>
+					<input.input zag=describe(api.getInputProps(index: 1)) size=10 @keydown=stepDate(e, 1) @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.calendar>
 

@@ -1,6 +1,6 @@
 import * as zagPassword from '@zag-js/password-input'
 import { Machine, uid, defined } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 
 # Headless password input with a show/hide button.
 #
@@ -10,7 +10,7 @@ import { closestField, fieldIds } from '../field/base.imba'
 # Works with `bind=`, `bind:value=` or `value` + `@change` like the other
 # inputs; `change` emits on commit, native `input` events bubble. A ui-field
 # with type='password' renders one.
-tag ui-password-input-base
+tag ui-password-input-base < ui-control
 	prop label = null
 	prop value = ''
 	prop name = null
@@ -24,12 +24,6 @@ tag ui-password-input-base
 	prop disabled = false
 
 	zagId = uid('password')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the input goes through `data`.
-	get data do value
-	set data v do value = v
 
 	def setup
 		machine = new Machine self, zagPassword.machine, do defined({
@@ -46,15 +40,11 @@ tag ui-password-input-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		let api = machine.connect(zagPassword)
 		let input = api.getInputProps!
-		input = #field.describe(input) if #field
+		input = describe(input)
 
 		<self zag=api.getRootProps!>
 			if label and !#field..label

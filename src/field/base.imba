@@ -1,19 +1,12 @@
 import { uid } from '../zag.imba'
+import { closestField, fieldIds } from '../control.imba'
 import '../input/base.imba'
 import '../number-input/base.imba'
 import '../textarea/base.imba'
 import '../password-input/base.imba'
 
-# Finds the ui-field (or subclass) a control sits in.
-export def closestField el
-	let node = el.parentElement
-	node = node.parentElement until !node or node.isUiField
-	node
-
-# Zag ids for a component's label. Zag keeps `ids` from when the machine is
-# created, before the component may be in a field, so the id is looked up on use.
-export def fieldIds owner
-	Object.defineProperty({}, 'label', enumerable: yes, get: do closestField(owner)..labelledBy)
+# Defined in control.imba (which can't import this file without a cycle).
+export { closestField, fieldIds }
 
 # Headless form field: a label, hint and error around one control, wired up
 # for assistive tech.

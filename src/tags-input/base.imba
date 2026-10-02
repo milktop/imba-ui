@@ -1,6 +1,6 @@
 import * as zagTags from '@zag-js/tags-input'
 import { Machine, uid, defined } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 
 # Headless tags input: type and press Enter (or the delimiter, a comma by
@@ -14,7 +14,7 @@ import { icons } from '../icons.imba'
 # - `variant`: 'subtle' (default, grey), 'accent' or 'outline' (styling hooks)
 #
 # The value is an array of strings; `change` is emitted with it.
-tag ui-tags-input-base
+tag ui-tags-input-base < ui-control
 	prop label = null
 	prop value = []
 	prop placeholder = ''
@@ -28,12 +28,6 @@ tag ui-tags-input-base
 	prop disabled = false
 
 	zagId = uid('tags')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	def list value do [].concat(value ?? []).map(do String($1))
 
@@ -61,11 +55,7 @@ tag ui-tags-input-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		machine.syncValue data, do
 			machine.connect(zagTags).setValue(list(data))
@@ -86,6 +76,6 @@ tag ui-tags-input-base
 								<span.text zag=api.getItemTextProps(props)> tag
 								<button.remove zag=api.getItemDeleteTriggerProps(props)> <ui-icon path=icons.x size=12>
 							<input.edit zag=api.getItemInputProps(props) @change.stop>
-					<input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) placeholder=(placeholder or '') @change.stop>
+					<input.input zag=describe(api.getInputProps!) placeholder=(placeholder or '') @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 			<input zag=api.getHiddenInputProps! @change.stop>

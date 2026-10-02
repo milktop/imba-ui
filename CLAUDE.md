@@ -76,17 +76,18 @@ New components follow the same pattern: add both files, an entry in
   no `!important` or `@supports`/reduced-motion; plain rules like those live in
   the style element `theme.imba` injects (it also keeps Zag's `[hidden]` parts
   hidden whatever display a component sets).
+- **Form controls extend `ui-control`** (`src/control.imba`): `tag ui-x-base <
+  ui-control`. It provides `data` (aliasing `value`; override the pair for
+  `checked`/`open`), `connectField` and `describe`.
 - **Values are controlled and bindable.** Read and write the value through `data`
-  (it aliases `value`; `bind=` replaces it with the model). Call
-  `machine.syncValue data, do …setValue(…)` in render, and on Zag's
-  `onValueChange` set `data` and `emit('change', data) if machine.track(data)`.
-- **Fields:** components look up their `ui-field` with `closestField` in render
-  (`machine.watch "{#field..stateKey}|{#locked}"` refreshes when it changes), pass `invalid` and lazy `ids` for the
-  label, skip their own label when the field has one (checkbox and switch keep
-  theirs), and spread
-  `#field.describe(props)` onto their focusable control. They also pass
-  `disabled: disabled or #locked`, where `#locked` is an enclosing
-  `fieldset:disabled`, since Zag doesn't track it.
+  (`bind=` replaces it with the model). Call `machine.syncValue data, do
+  …setValue(…)` in render, and on Zag's `onValueChange` set `data` and
+  `emit('change', data) if machine.track(data)`.
+- **Fields:** call `connectField!` first in render (it sets `#field` and `#locked`
+  and refreshes the machine when they change; pass extra state it should watch).
+  Pass `invalid: !!#field..invalid`, `ids: fieldIds(self)` and `disabled: disabled
+  or #locked` to Zag, skip the own label when the field has one (checkbox and
+  switch keep theirs), and spread `describe(props)` onto the focusable control.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 

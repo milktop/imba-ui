@@ -1,6 +1,6 @@
 import * as radio from '@zag-js/radio-group'
 import { Machine, uid } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 
 # Headless segmented control: a row of options with an indicator that slides
@@ -10,7 +10,7 @@ import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 # - `name`: the hidden radios also post with plain forms
 #
 # Emits `change` with the selected item's original value.
-tag ui-segmented-base
+tag ui-segmented-base < ui-control
 	prop label = null
 	prop items = []
 	prop value = null
@@ -21,12 +21,6 @@ tag ui-segmented-base
 	prop disabled = false
 
 	zagId = uid('segmented')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 
 	def setup
@@ -49,11 +43,7 @@ tag ui-segmented-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		machine.syncValue data, do
 			let api = machine.connect(radio)
@@ -64,7 +54,7 @@ tag ui-segmented-base
 		<self>
 			if label and !#field..label
 				<span.label zag=api.getLabelProps!> label
-			<div.group zag=(#field ? #field.describe(api.getRootProps!) : api.getRootProps!)>
+			<div.group zag=describe(api.getRootProps!)>
 				<span.indicator zag=api.getIndicatorProps!>
 				for item in items
 					let props = { value: itemKey(item, valueKey), disabled: itemDisabled(item, disabledKey) }

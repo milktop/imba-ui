@@ -1,3 +1,5 @@
+import '../control.imba'
+
 # Headless textarea that grows with its content, from `rows` lines up to
 # `maxRows` (then it scrolls). Set `autogrow` to false for a fixed height
 # the user can resize.
@@ -6,7 +8,7 @@
 #
 # Works with `bind=`, `bind:value=` or `value` + `@change` like the other
 # components; `change` emits the value on commit, native `input` events bubble.
-tag ui-textarea-base
+tag ui-textarea-base < ui-control
 	prop value = null
 	prop name = ''
 	prop placeholder = ''
@@ -16,12 +18,6 @@ tag ui-textarea-base
 	prop attrs = null
 	prop required = false
 	prop disabled = false
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the textarea goes through `data`.
-	get data do value
-	set data v do value = v
 
 	# Plain attributes go through Zag's spread, which drops undefined ones.
 	get textareaAttrs

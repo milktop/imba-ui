@@ -1,6 +1,6 @@
 import * as radio from '@zag-js/radio-group'
 import { Machine, uid } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 
 # Headless radio group: one choice from a list of options, each with an
@@ -13,7 +13,7 @@ import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 #
 # Emits `change` with the selected item's original value. For a compact row
 # of short options, see ui-segmented.
-tag ui-radio-group-base
+tag ui-radio-group-base < ui-control
 	prop label = null
 	prop items = []
 	prop value = null
@@ -26,12 +26,6 @@ tag ui-radio-group-base
 	prop disabled = false
 
 	zagId = uid('radio-group')
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	def description item
 		typeof item == 'object' and item ? item[descriptionKey] : null
@@ -58,11 +52,7 @@ tag ui-radio-group-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 
 		machine.syncValue data, do
 			let api = machine.connect(radio)
@@ -73,7 +63,7 @@ tag ui-radio-group-base
 		<self>
 			if label and !#field..label
 				<span.label zag=api.getLabelProps!> label
-			<div.group zag=(#field ? #field.describe(api.getRootProps!) : api.getRootProps!)>
+			<div.group zag=describe(api.getRootProps!)>
 				for item in items
 					let props = { value: itemKey(item, valueKey), disabled: itemDisabled(item, disabledKey) }
 					let about = description(item)

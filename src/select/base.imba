@@ -1,6 +1,6 @@
 import * as select from '@zag-js/select'
 import { Machine, uid } from '../zag.imba'
-import { closestField, fieldIds } from '../field/base.imba'
+import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 import { itemLabel, itemValue, toCollection, toValueArray } from '../items.imba'
 
@@ -11,7 +11,7 @@ import { itemLabel, itemValue, toCollection, toValueArray } from '../items.imba'
 #
 # Emits `change` with the selected value (or array of values when `multiple`),
 # using the items' original values rather than Zag's strings.
-tag ui-select-base
+tag ui-select-base < ui-control
 	prop label = null
 	prop items = []
 	prop value = null
@@ -28,12 +28,6 @@ tag ui-select-base
 	zagId = uid('select')
 	#sourceItems = null
 	#collection = null
-
-	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
-	# replaces that property with one reading and writing the bound model, so
-	# `data` aliases `value` here and the component goes through `data`.
-	get data do value
-	set data v do value = v
 
 	def setup
 		#sourceItems = items
@@ -65,11 +59,7 @@ tag ui-select-base
 			#collection = toCollection(select, items, labelKey, valueKey, disabledKey)
 			machine.refresh!
 
-		# Inside a ui-field, it owns the label, hint and error. A disabled
-		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
-		#field = closestField(self)
-		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		connectField!
 		machine.syncValue data, do
 			machine.connect(select).setValue(toValueArray(data))
 
@@ -79,7 +69,7 @@ tag ui-select-base
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<button.trigger zag=(#field ? #field.describe(api.getTriggerProps!) : api.getTriggerProps!)>
+				<button.trigger zag=describe(api.getTriggerProps!)>
 					<span.value-text .placeholder=api.empty zag=api.getValueTextProps!>
 						api.empty ? placeholder : api.valueAsString
 					<span.indicator zag=api.getIndicatorProps!> <ui-icon path=icons.down>
