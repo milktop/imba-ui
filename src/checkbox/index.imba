@@ -3,7 +3,8 @@ import './base.imba'
 
 tag ui-checkbox < ui-checkbox-base
 	css
-		d:inline-block c:$ui-text ff:$ui-font
+		# Top-aligned: as inline-block its baseline (and height) shifted with the icon.
+		d:inline-flex va:top c:$ui-text ff:$ui-font
 
 		.root d:inline-flex ai:center g:2 cursor:pointer fs:sm
 			&[data-disabled] o:0.5 cursor:not-allowed
