@@ -7,12 +7,12 @@ global css
 	html.dark body bg:#09090b
 
 tag demo-section
-	prop title
+	prop heading
 	css
 		d:vtl g:4 py:8 bdb:1px solid $ui-border
 		h2 fs:md fw:600 m:0
 	<self>
-		<h2> title
+		<h2> heading
 		<slot>
 
 tag playground
@@ -81,7 +81,7 @@ tag playground
 			<h1> "Imba UI"
 			<button.theme @click=toggleTheme> dark ? "Light" : "Dark"
 
-		<demo-section title="Date picker">
+		<demo-section heading="Date picker">
 			<ui-fields>
 				<ui-field span=6 label='Lesson date'>
 					<ui-date-picker bind=lesson>
@@ -99,7 +99,7 @@ tag playground
 				<ui-field span=6 label='No weekends' hint='Weekends are unavailable; ↑/↓ step a day, ⇧ a week'>
 					<ui-date-picker unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
 
-		<demo-section title="Select">
+		<demo-section heading="Select">
 			<ui-fields>
 				<ui-field span=6 label='Subject'>
 					<ui-select items=subjects bind=subject>
@@ -115,7 +115,7 @@ tag playground
 						<div.set>
 							<button @click=(examBoards = ['AQA', 'OCR'])> "AQA + OCR"
 
-		<demo-section title="Combobox">
+		<demo-section heading="Combobox">
 			<ui-fields>
 				<ui-field span=4 label='Subject'>
 					<ui-combobox items=subjects placeholder='Search subjects' bind=searched>
@@ -135,11 +135,11 @@ tag playground
 					<div.out>
 						<pre> JSON.stringify(tutor)
 
-		<demo-section title="Input">
+		<demo-section heading="Input">
 			<ui-fields>
 				<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
-				<ui-field span=3 label='Price' type='number' min=0 formatOptions={ style: 'currency', currency: 'GBP' } bind=price>
-				<ui-field span=3 label='Weight' type='number' suffix='kg' min=0 max=200 step=0.5 bind=weight>
+				<ui-field span=3 label='Price' type='number' prefix='£' min=0 formatOptions={ minimumFractionDigits: 2, maximumFractionDigits: 2 } bind=price>
+				<ui-field span=3 label='Weight' type='number' suffix='kg' min=0 max=200 step=0.5 steppers=false hint='↑/↓ to step' bind=weight>
 				<ui-field span=6 label='Password' hint='At least 8 characters'>
 					<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>
 						<button.peek slot='suffix' type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
@@ -148,7 +148,7 @@ tag playground
 			<div.out>
 				<pre> JSON.stringify({ query, price, weight, password, notes })
 
-		<demo-section title="Fields">
+		<demo-section heading="Fields">
 			<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
 				<ui-field span=6 label='First name' required error=errors.first bind=student.first>
 				<ui-field span=6 label='Last name' bind=student.last>

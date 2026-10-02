@@ -27,7 +27,7 @@ export def fieldIds owner
 # Without children it renders an input, passing on `type`, `name`,
 # `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
 # `step`, `attrs`, `required` and `disabled`. `type='number'` renders a number
-# input (with `formatOptions`), `type='textarea'` a textarea (with `rows`,
+# input (with `formatOptions`, `steppers`), `type='textarea'` a textarea (with `rows`,
 # `maxRows`). Each gets the field's value: `bind=`, `bind:value=` or `value` +
 # `@change`.
 tag ui-field-base
@@ -48,6 +48,7 @@ tag ui-field-base
 	prop step = null
 	prop attrs = null
 	prop formatOptions = null
+	prop steppers = yes
 	prop rows = 3
 	prop maxRows = null
 	prop required = false
@@ -118,7 +119,7 @@ tag ui-field-base
 			# One wrapper element: Imba miscompiles a slot fallback that is an if/else.
 			<div.default-control [d:contents]>
 				if type == 'number'
-					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions required=required disabled=disabled bind=data>
+					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions steppers=steppers required=required disabled=disabled bind=data>
 				elif type == 'textarea'
 					<{textareaTag} name=name placeholder=placeholder rows=rows maxRows=maxRows attrs=attrs required=required disabled=disabled bind=data>
 				else

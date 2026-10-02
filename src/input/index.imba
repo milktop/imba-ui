@@ -21,4 +21,5 @@ tag ui-input < ui-input-base
 		>>> input::-webkit-inner-spin-button appearance:none m:0
 		>>> input::-webkit-outer-spin-button appearance:none m:0
 		.affix d:hcc fls:0 c:$ui-muted ws:nowrap
+			&.start mr:1
 		iconify-icon d:block w:1em h:1em fs:md

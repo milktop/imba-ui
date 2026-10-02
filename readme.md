@@ -73,7 +73,8 @@ than 480px (a container query, so it works in dialogs and sidebars too).
 Without children a field renders a `ui-input`, passing on `type`, `name`,
 `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`, `step`,
 `attrs`, `required`, `disabled` and its value (`bind=`, `bind:value=` or `value` + `@change`).
-`type='number'` renders a `ui-number-input` (also passing `formatOptions`) and
+`type='number'` renders a `ui-number-input` (also passing `formatOptions` and
+`steppers`, which hides the +/- buttons when false) and
 `type='textarea'` a `ui-textarea` (with `rows` and `maxRows`). Children replace
 the default with any other control.
 

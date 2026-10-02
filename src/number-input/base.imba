@@ -9,6 +9,7 @@ import { icons } from '../icons.imba'
 #
 # - `icon`, `prefix`, `suffix`: as on ui-input
 # - `allowMouseWheel`: scroll over the focused input to step
+# - `steppers`: false hides the buttons for narrow spaces (keys still step)
 #
 # The value is a number (or null when empty). It updates while typing, so a
 # binding stays live; `change` is emitted on commit (blur or Enter), as with
@@ -28,6 +29,7 @@ tag ui-number-input-base
 	prop required = false
 	prop disabled = false
 	prop allowMouseWheel = false
+	prop steppers = yes
 
 	zagId = uid('number-input')
 
@@ -44,6 +46,23 @@ tag ui-number-input-base
 
 	def toNumber n
 		Number.isNaN(n) ? null : n
+
+	# After each change Zag puts the caret back with setSelectionRange, mapping
+	# its old position onto the new value, so a step can leave it mid-number
+	# ("1|" becomes "1|.5"). From a step (keys, buttons, wheel) until the next
+	# typing, those calls go to the end instead; typing keeps Zag's mapping.
+	def startStep do #stepping = yes
+	def stepKey e
+		startStep! if ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'].includes(e.key)
+
+	def rendered
+		let el = $input
+		return if !el or #caretInput == el
+		#caretInput = el
+		let setRange = el.setSelectionRange
+		el.setSelectionRange = do(start, end, direction)
+			start = end = el.value.length if #stepping
+			setRange.call(el, start, end, direction)
 
 	def setup
 		let initial = data == null ? '' : String(data)
@@ -93,11 +112,14 @@ tag ui-number-input-base
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
 				if icon
-					<span.affix> <iconify-icon icon=icon>
+					<span.affix.start> <iconify-icon icon=icon>
 				if prefix
-					<span.affix> prefix
-				<input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) @change.stop>
-				if suffix
-					<span.affix> suffix
-				<button.step zag=api.getDecrementTriggerProps!> <ui-icon path=icons.minus size=14>
-				<button.step zag=api.getIncrementTriggerProps!> <ui-icon path=icons.plus size=14>
+					<span.affix.start> prefix
+				<input$input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) @keydown.capture=stepKey @wheel.capture=startStep @beforeinput=(#stepping = no) @change.stop>
+				# The suffix and buttons sit together at the end.
+				<div.end>
+					if suffix
+						<span.affix> suffix
+					if steppers
+						<button.step zag=api.getDecrementTriggerProps! @pointerdown.capture=startStep> <ui-icon path=icons.minus size=14>
+						<button.step zag=api.getIncrementTriggerProps! @pointerdown.capture=startStep> <ui-icon path=icons.plus size=14>

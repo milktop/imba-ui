@@ -13,8 +13,12 @@ tag ui-number-input < ui-number-input-base
 		.input fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
 			@placeholder c:$ui-muted
 		.affix d:hcc fls:0 c:$ui-muted ws:nowrap
+			&.start mr:1
+		.end d:hcl fls:0 g:0.5
+			&:not(:has(.step)) mr:0.5
+			.affix mr:1
 		iconify-icon d:block w:1em h:1em fs:md
-		.step d:grid place-items:center fls:0 w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
+		.step d:grid place-items:center fls:0 w:6 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text
 			&[data-disabled] o:0.4 cursor:not-allowed
 			@hover&[data-disabled] bg:transparent c:$ui-muted

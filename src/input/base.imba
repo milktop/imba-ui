@@ -48,9 +48,9 @@ tag ui-input-base
 	<self>
 		<slot name='prefix'>
 			if icon
-				<span.affix.icon> <iconify-icon icon=icon>
+				<span.affix.start> <iconify-icon icon=icon>
 			if prefix
-				<span.affix> prefix
+				<span.affix.start> prefix
 		<slot>
 			<input.input zag=inputAttrs type=type required=required disabled=disabled bind=data @change.stop=emit('change', data)>
 		<slot name='suffix'>
