@@ -1,4 +1,5 @@
 import { uid } from '../zag.imba'
+import '../input/base.imba'
 
 # Finds the ui-field (or subclass) a control sits in.
 export def closestField el
@@ -20,11 +21,37 @@ export def fieldIds owner
 # - A plain <input>, <select> or <textarea> gets an id, the label's `for`,
 #   aria-describedby and aria-invalid.
 # - `span`: columns (of 12) to take inside ui-fields.
+#
+# Without children it renders an input, passing on `type`, `name`,
+# `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `required` and
+# `disabled`, and its value: `bind=`, `bind:value=` or `value` + `@change`.
 tag ui-field-base
 	prop label = null
 	prop hint = null
 	prop error = null
 	prop span = 12
+
+	prop value = null
+	prop type = 'text'
+	prop name = ''
+	prop placeholder = ''
+	prop autocomplete = ''
+	prop icon = null
+	prop suffix = null
+	prop required = false
+	prop disabled = false
+
+	# The tag of the default input; the styled ui-field uses ui-input.
+	inputTag = 'ui-input-base'
+
+	# As in the inputs: `bind=` replaces `data`, which otherwise aliases `value`.
+	get data do value
+	set data v do value = v
+
+	# `prefix` is a read-only DOM property (a namespace prefix), so a `prop`
+	# can't assign it; an accessor of our own can.
+	get prefix do #prefix
+	set prefix v do #prefix = v
 
 	isUiField = yes
 	fieldId = uid('field')
@@ -70,8 +97,11 @@ tag ui-field-base
 
 	<self .invalid=invalid [--span:{span}]>
 		if label
-			<label$label.label id=labelId @click=focusControl> label
+			<label$label.label id=labelId @click=focusControl>
+				label
+				<span.required aria-hidden='true'> ' *' if required
 		<slot>
+			<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix required=required disabled=disabled bind=data>
 		if error
 			<p.error id=errorId role='alert'> error
 		elif hint

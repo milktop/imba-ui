@@ -1,4 +1,5 @@
 import 'imba/preflight.css'
+import 'iconify-icon'
 import '../src/index.imba'
 
 global css
@@ -37,6 +38,12 @@ tag playground
 	tutor = null
 	student = { first: '', last: '', email: '', year: null, subjects: [], start: null }
 	errors = {}
+	query = ''
+	price = null
+	weight = null
+	password = ''
+	showPassword = no
+	notes = ''
 	years = [7, 8, 9, 10, 11, 12, 13].map(do { value: $1, label: "Year {$1}" })
 
 	def validate
@@ -60,14 +67,13 @@ tag playground
 		header d:hcs
 		h1 fs:xl fw:700 m:0
 		p m:0 c:$ui-muted fs:sm
-		pre fs:xs c:$ui-muted m:0 ws:pre-wrap
+		pre fs:xs c:$ui-muted m:0 ws:pre-wrap word-break:break-all
 		.out d:vflex g:2 mt:1
 		button.theme, .set button bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
 		.set d:hcl g:2 flw:wrap
 		.set button fs:xs px:2 py:1
-		input.text h:10 px:3 box-sizing:border-box min-width:0 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ff:inherit
-			@focus bc:$ui-ring outline:2px solid $ui-ring-soft
-			&[aria-invalid] bc:$ui-danger
+		.peek d:grid place-items:center w:7 h:7 mr:-2 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
+			@hover bg:$ui-hover c:$ui-text
 
 	<self>
 		<header>
@@ -128,14 +134,26 @@ tag playground
 					<div.out>
 						<pre> JSON.stringify(tutor)
 
+		<demo-section title="Input">
+			<ui-fields>
+				<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
+				<ui-field span=3 label='Price' type='number' prefix='£' bind=price>
+				<ui-field span=3 label='Weight' type='number' suffix='kg' bind=weight>
+				<ui-field span=6 label='Password' hint='At least 8 characters'>
+					<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>
+						<button.peek slot='suffix' type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
+							<iconify-icon icon=(showPassword ? 'lucide:eye-off' : 'lucide:eye')>
+				<ui-field span=6 label='Notes' hint='A textarea in the default slot'>
+					<ui-input>
+						<textarea rows=2 bind=notes>
+			<div.out>
+				<pre> JSON.stringify({ query, price, weight, password, notes })
+
 		<demo-section title="Fields">
 			<ui-fields>
-				<ui-field span=6 label='First name' error=errors.first>
-					<input.text bind=student.first>
-				<ui-field span=6 label='Last name'>
-					<input.text bind=student.last>
-				<ui-field span=8 label='Email' hint="We'll send lesson reminders here" error=errors.email>
-					<input.text type='email' bind=student.email>
+				<ui-field span=6 label='First name' required error=errors.first bind=student.first>
+				<ui-field span=6 label='Last name' bind=student.last>
+				<ui-field span=8 label='Email' type='email' icon='lucide:mail' required hint="We'll send lesson reminders here" error=errors.email bind=student.email>
 				<ui-field span=4 label='Year group'>
 					<ui-select items=years bind=student.year>
 				<ui-field span=6 label='Subjects' error=errors.subjects>

@@ -15,6 +15,8 @@
     "./combobox/base": "./src/combobox/base.imba",
     "./select": "./src/select/index.imba",
     "./select/base": "./src/select/base.imba",
+    "./input": "./src/input/index.imba",
+    "./input/base": "./src/input/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
     "./fields": "./src/fields/index.imba",
@@ -32,6 +34,7 @@
     "imba": "^2.0.0-alpha.253"
   },
   "devDependencies": {
+    "iconify-icon": "^3.0.3",
     "imba": "^2.0.0-alpha.253",
     "vite": "^8.3.2"
   },

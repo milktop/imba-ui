@@ -35,6 +35,7 @@ New components follow the same pattern: add both files, an entry in
   don't reach the host's `change` listeners.
 - **Popups:** put `zi` on `.content`; Zag copies it onto the positioner.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
+  Read-only DOM properties (`prefix`) throw as a `prop`; use a get/set accessor.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
 - **Values are controlled and bindable.** Read and write the value through `data`
   (it aliases `value`; `bind=` replaces it with the model). Call

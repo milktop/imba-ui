@@ -3,4 +3,5 @@
 import './date-picker/index.imba'
 import './combobox/index.imba'
 import './select/index.imba'
+import './input/index.imba'
 import './fields/index.imba'
