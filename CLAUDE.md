@@ -63,6 +63,8 @@ New components follow the same pattern: add both files, an entry in
 
 Run the playground and drive it in the browser. When the browser pane is in the
 background, rAF is throttled, so screenshots and parent re-renders can lag. Check
-state through the DOM or `el.machine.service` before assuming a bug.
+state through the DOM or `el.machine.service` before assuming a bug. Route
+changes render through `imba.commit` too, so in a background pane call
+`document.querySelector('main').parentElement.render()` after navigating.
 
 Build check: `npx vite build playground`.
