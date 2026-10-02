@@ -6,6 +6,37 @@ tag page-overlays
 	subject = 3
 	draft = 3
 	opens = 0
+	editOpen = no
+	confirmOpen = no
+	noticeOpen = no
+	student = { name: 'Ada Lovelace', email: 'ada@example.com', year: 11 }
+	draftStudent = {}
+	deleted = no
+	selected = null
+	actions = [
+		{ value: 'edit', label: 'Edit', icon: 'lucide:pencil', shortcut: '⌘E' }
+		{ value: 'duplicate', label: 'Duplicate', icon: 'lucide:copy', shortcut: '⌘D' }
+		{ value: 'share', label: 'Share', icon: 'lucide:share-2', disabled: true }
+		{ separator: true }
+		{ value: 'delete', label: 'Delete', icon: 'lucide:trash-2', danger: true }
+	]
+	more = [
+		{ group: 'Lesson' }
+		{ value: 'reschedule', label: 'Reschedule', icon: 'lucide:calendar-clock' }
+		{ value: 'notes', label: 'Add notes', icon: 'lucide:notebook-pen' }
+		{ separator: true }
+		{ group: 'Student' }
+		{ value: 'message', label: 'Send message', icon: 'lucide:message-square' }
+		{ value: 'profile', label: 'View profile', icon: 'lucide:user' }
+	]
+
+	def startEditStudent do draftStudent = Object.assign({}, student)
+	def saveStudent
+		student = draftStudent
+		editOpen = no
+	def confirmDelete
+		deleted = yes
+		confirmOpen = no
 
 	def startEdit
 		draft = subject
@@ -26,7 +57,7 @@ tag page-overlays
 		.actions d:hflex jc:flex-end g:2 mt:4
 
 	<self>
-		<demo-page source=source heading='Overlays' intro='Tooltips and popovers float above the page, positioned by Zag.'>
+		<demo-page source=source heading='Overlays' intro='Tooltips, dialogs, menus and popovers float above the page, positioned by Zag.'>
 			<demo-section heading='Tooltip'>
 				<div.group>
 					<span.caption> "Toolbar: same placement, slide along it"
@@ -69,6 +100,41 @@ tag page-overlays
 							<div> "Tab here to open it without hovering"
 				<div.out>
 					<p.note> "Hover or Tab to the buttons; Escape closes."
+
+			<demo-section heading='Dialog'>
+				<div.row>
+					<ui-dialog heading='Edit student' description='Changes are saved to their profile.' bind=editOpen @openchange=(startEditStudent! if e.detail)>
+						<ui-button slot='trigger' icon='lucide:pencil'> "Edit student"
+						<ui-fields>
+							<ui-field label='Name' bind=draftStudent.name>
+							<ui-field span=8 label='Email' type='email' bind=draftStudent.email>
+							<ui-field span=4 label='Year' type='number' min=7 max=13 bind=draftStudent.year>
+						<div slot='footer'>
+							<ui-button @click=(editOpen = no)> "Cancel"
+							<ui-button variant='primary' @click=saveStudent> "Save"
+					<ui-dialog alert size='sm' closable=false heading='Delete lesson?' description='Thursday’s lesson with Ada will be cancelled and both of you notified.' bind=confirmOpen>
+						<ui-button slot='trigger' variant='danger' icon='lucide:trash-2'> "Delete lesson"
+						<div slot='footer'>
+							<ui-button @click=(confirmOpen = no)> "Keep it"
+							<ui-button variant='danger' @click=confirmDelete> "Delete"
+					<ui-dialog heading='Lesson booked' bind=noticeOpen>
+						"Maths with Ada, Thursday 8 October at 16:00. A confirmation is on its way."
+						<div slot='footer'>
+							<ui-button variant='primary' @click=(noticeOpen = no)> "Done"
+				<div.out>
+					<json-print data={ student, deleted, editOpen, confirmOpen, noticeOpen }>
+					<div.set>
+						<button @click=(noticeOpen = yes)> "Open from code"
+						<button @click=(deleted = no)> "Undo delete"
+
+			<demo-section heading='Menu'>
+				<div.row>
+					<ui-menu items=actions @select=(selected = e.detail)>
+						<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Actions"
+					<ui-menu items=more placement='bottom-end' @select=(selected = e.detail)>
+						<ui-button slot='trigger' variant='ghost' icon='lucide:ellipsis' aria-label='More'>
+				<div.out>
+					<json-print data={ selected }>
 
 			<demo-section heading='Popover'>
 				<div.row>

@@ -6,12 +6,17 @@
 #
 # Dark values apply under `html.dark` or `[data-theme=dark]`.
 
-# Imba's CSS has no reduced-motion modifier, so one plain rule turns the
-# components' animations off when the system asks for less motion.
-if typeof document != 'undefined' and !document.getElementById('ui-reduced-motion')
+# Two plain rules Imba's CSS can't express: Zag's `hidden` on closed parts
+# beats any component display (e.g. d:flex on a dialog panel, which would
+# otherwise stay on screen, invisible but clickable), and animations stop
+# when the system asks for less motion.
+if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 	let style = document.createElement('style')
-	style.id = 'ui-reduced-motion'
-	style.textContent = '@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
+	style.id = 'ui-base-rules'
+	style.textContent = [
+		'[data-scope][hidden] { display: none !important; }'
+		'@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
+	].join('\n')
 	document.head.appendChild(style)
 
 global css

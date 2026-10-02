@@ -19,7 +19,7 @@ const pages = [
 	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
 	{ path: '/choices', title: 'Choices', about: 'Checkbox and radio groups, switch, segmented' }
 	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
-	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, popover' }
+	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, dialog, menu, popover' }
 ]
 
 tag page-home

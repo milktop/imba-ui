@@ -20,6 +20,8 @@ package adds Imba markup and an optional theme.
 | Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
+| Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
+| Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, groups and separators; emits `select` |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 

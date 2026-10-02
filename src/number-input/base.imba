@@ -74,8 +74,9 @@ tag ui-number-input-base
 			min, max, step, formatOptions, locale, name, placeholder, allowMouseWheel
 			required: required
 			disabled: disabled or #locked
-			# Left unset, Zag marks out-of-range values invalid itself.
-			invalid: #field..invalid or undefined
+			# Left unset, Zag marks out-of-range values invalid itself, but it
+			# counts an empty input as out of range too; empty isn't invalid.
+			invalid: #field..invalid or (data == null ? false : undefined)
 			onValueChange: do(details)
 				data = toNumber(details.valueAsNumber)
 				machine.track(data)
@@ -95,7 +96,8 @@ tag ui-number-input-base
 		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
 		#field = closestField(self)
 		#locked = !!closest('fieldset:disabled')
-		machine.watch "{#field..stateKey}|{#locked}"
+		# Also when it goes between empty and filled, which `invalid` depends on.
+		machine.watch "{#field..stateKey}|{#locked}|{data == null}"
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)

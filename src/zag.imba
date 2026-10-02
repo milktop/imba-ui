@@ -84,3 +84,31 @@ export class Machine
 
 	def connect component
 		component.connect(service.service, normalizeProps)
+
+# Zag hides a closing popup at once, so it can't animate out. Presence keeps
+# it shown while its exit animation runs: call `update` from render with the
+# open state, spread `keep(props)` onto the parts it hides, and call `done`
+# on animationend (a timeout covers popups without an exit animation).
+export class Presence
+	constructor owner, timeout = 300
+		#owner = owner
+		#timeout = timeout
+
+	# `instant` closes at once, e.g. a tooltip handing over to the next one.
+	def update open, instant = no
+		if open or instant
+			#leaving = no
+		elif #wasOpen
+			#leaving = yes
+			clearTimeout(#timer)
+			#timer = setTimeout(&, #timeout) do done!
+		#wasOpen = open
+		#leaving
+
+	def keep props
+		#leaving ? Object.assign({}, props, hidden: false) : props
+
+	def done
+		return unless #leaving
+		#leaving = no
+		#owner.render! if #owner.isConnected

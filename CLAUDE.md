@@ -45,7 +45,12 @@ New components follow the same pattern: add both files, an entry in
   don't reach the host's `change` listeners.
 - **Popups:** put `zi` on `.content`; Zag copies it onto the positioner. Floating
   panels (tooltip, popover) use `strategy: 'fixed'` so overflow can't clip them.
-- **Slotted triggers** (tooltip, popover) get Zag's trigger props spread straight
+- **Exit animations:** Zag hides closing popups at once; use `Presence` from
+  `zag.imba` (`update(open)` in render, `keep(props)` on hidden parts, `done` on
+  animationend) to keep them shown while they animate out.
+- **Modals** render their backdrop and panel inside Imba's `<global>` teleport, at
+  the end of <body>.
+- **Slotted triggers** (tooltip, popover, dialog, menu) get Zag's trigger props spread straight
   onto the slotted element (`trigger.zag = …`), in both `render` and `rendered`:
   Machine re-renders without Imba's `rendered` hook.
 - **No optional assignment:** `a..b = c` compiles to invalid `a?.b = c`; write
@@ -58,6 +63,10 @@ New components follow the same pattern: add both files, an entry in
   use a get/set accessor. `tag x < button` makes the element a real <button>.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
+  `inset:` also sets `position:absolute`, so write `pos:fixed` after it. There's
+  no `!important` or `@supports`/reduced-motion; plain rules like those live in
+  the style element `theme.imba` injects (it also keeps Zag's `[hidden]` parts
+  hidden whatever display a component sets).
 - **Values are controlled and bindable.** Read and write the value through `data`
   (it aliases `value`; `bind=` replaces it with the model). Call
   `machine.syncValue data, do …setValue(…)` in render, and on Zag's

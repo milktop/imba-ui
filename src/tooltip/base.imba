@@ -1,5 +1,5 @@
 import * as tooltip from '@zag-js/tooltip'
-import { Machine, uid, defined } from '../zag.imba'
+import { Machine, Presence, uid, defined } from '../zag.imba'
 
 # Headless tooltip around one trigger element:
 #
@@ -43,34 +43,19 @@ tag ui-tooltip-base
 	def rendered
 		trigger.zag = machine.connect(tooltip).getTriggerProps! if trigger
 
-	# Zag hides the content as soon as it closes; keep it shown while its exit
-	# animation runs, with a timeout in case there is none. Moving straight to
-	# another tooltip (Zag's `instant`) hides it at once, so two don't overlap.
-	def leaving open, instant
-		if open or instant
-			#leaving = no
-		elif #wasOpen
-			#leaving = yes
-			clearTimeout(#leaveTimer)
-			#leaveTimer = setTimeout(&, 250) do finishLeaving!
-		#wasOpen = open
-		#leaving
-
-	def finishLeaving
-		return unless #leaving
-		#leaving = no
-		render!
+	# Fades out on close; moving straight to another tooltip (Zag's `instant`)
+	# hides it at once, so two don't overlap.
+	presence = new Presence(self, 250)
 
 	def render
 		let api = machine.connect(tooltip)
 		trigger.zag = api.getTriggerProps! if trigger
 		let contentProps = api.getContentProps!
-		let instant = contentProps['data-instant'] !== undefined
-		contentProps = Object.assign({}, contentProps, hidden: false) if leaving(api.open, instant)
+		presence.update(api.open, contentProps['data-instant'] !== undefined)
 
 		<self>
 			<span$triggerSlot.trigger-slot> <slot>
 			<div.positioner zag=api.getPositionerProps!>
-				<div.content zag=contentProps @animationend=finishLeaving>
+				<div.content zag=presence.keep(contentProps) @animationend=presence.done!>
 					<div.arrow zag=api.getArrowProps!> <div.arrow-tip zag=api.getArrowTipProps!>
 					<slot name='content'> content
