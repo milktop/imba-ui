@@ -13,11 +13,14 @@ and the Zag/Imba lessons below in more detail.
 - `src/<name>/index.imba`: styled tag `tag ui-<name> < ui-<name>-base`, a `css` block only
 - `src/theme.imba`: `$ui-*` tokens (dark under `html.dark` / `[data-theme=dark]`)
 - `src/items.imba`: item/collection helpers shared by select and combobox
-- `playground/`: Vite demo app (`npm run dev`); add a section for every component
+- `playground/`: Vite demo app (`npm run dev`), routed with Imba's router: a shell in
+  `main.imba`, one file per group in `pages/` (inputs, pickers, choices, forms),
+  shared bits in `demo.imba`. Add a `demo-section` for every component
 
 New components follow the same pattern: add both files, an entry in
 `package.json` `exports` (`./<name>` and `./<name>/base`), an import in
-`src/index.imba`, a playground section and a row in the readme table.
+`src/index.imba`, a section on the right playground page (or a new page in
+`pages/`, `main.imba`'s `pages` list and its routes) and a row in the readme table.
 
 ## Rules
 

@@ -23,4 +23,5 @@ function imba() {
   }
 }
 
-export default defineConfig({ plugins: [imba()] })
+// One bundle is fine for a demo app.
+export default defineConfig({ plugins: [imba()], build: { chunkSizeWarningLimit: 1500 } })

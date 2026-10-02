@@ -1,201 +1,77 @@
 import 'imba/preflight.css'
 import 'iconify-icon'
 import '../src/index.imba'
+import './demo.imba'
+import './pages/inputs.imba'
+import './pages/pickers.imba'
+import './pages/choices.imba'
+import './pages/forms.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
 	html.dark body bg:#09090b
 
-tag demo-section
-	prop heading
+const pages = [
+	{ path: '/inputs', title: 'Inputs', about: 'Input, number input, textarea' }
+	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
+	{ path: '/choices', title: 'Choices', about: 'Checkbox, switch, segmented' }
+	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
+]
+
+tag page-home
 	css
-		d:vtl g:4 py:8 bdb:1px solid $ui-border
-		h2 fs:md fw:600 m:0
+		d:block
+		h1 fs:xl fw:700 m:0
+		p m:0 mt:1 c:$ui-muted fs:sm
+		.cards d:grid gtc:1fr @sm:1fr 1fr g:4 mt:8
+		a d:block p:4 bd:1px solid $ui-border rd:lg c:inherit td:none
+			@hover bg:$ui-hover
+		strong d:block fw:600
+		span d:block mt:1 fs:sm c:$ui-muted
 	<self>
-		<h2> heading
-		<slot>
+		<h1> "Imba UI"
+		<p> "Imba components on Zag state machines. Pick a group:"
+		<div.cards> for page in pages
+			<a route-to=page.path>
+				<strong> page.title
+				<span> page.about
 
 tag playground
-	lesson = '2026-10-02'
-	away = []
 	dark = document.documentElement.classList.contains('dark')
-
-	subjects = [
-		{ value: 1, label: 'Maths' }
-		{ value: 2, label: 'English' }
-		{ value: 3, label: 'Physics' }
-		{ value: 4, label: 'Chemistry' }
-		{ value: 5, label: 'Biology' }
-		{ value: 6, label: 'History' }
-		{ value: 7, label: 'Latin', disabled: true }
-		{ value: 8, label: 'Computer Science' }
-	]
-	boards = ['AQA', 'Edexcel', 'OCR', 'WJEC']
-	subject = 1
-	examBoards = []
-	searched = null
-	many = []
-	tutor = null
-	student = { first: '', last: '', email: '', year: null, subjects: [], start: null }
-	errors = {}
-	locked = no
-	reminders = { email: yes, sms: no, push: no }
-	online = yes
-	view = 'week'
-	mode = 1
-	views = [{ value: 'day', label: 'Day' }, { value: 'week', label: 'Week' }, { value: 'month', label: 'Month' }, { value: 'year', label: 'Year', disabled: true }]
-	modes = [{ value: 1, label: 'Online' }, { value: 2, label: 'In person' }, { value: 3, label: 'Hybrid' }]
-
-	get allReminders
-		let on = Object.values(reminders).filter(Boolean).length
-		on == 0 ? false : (on == 3 ? true : 'indeterminate')
-
-	def setAllReminders checked
-		reminders = { email: checked, sms: checked, push: checked }
-	query = ''
-	price = null
-	weight = null
-	password = ''
-	showPassword = no
-	notes = ''
-	years = [7, 8, 9, 10, 11, 12, 13].map(do { value: $1, label: "Year {$1}" })
-
-	def validate
-		errors = {}
-		errors.first = 'Required' unless student.first
-		errors.email = 'Enter a valid email' unless student.email.includes('@')
-		errors.subjects = 'Pick at least one subject' unless student.subjects.length
-
-	# Fake server search with latency.
-	def findTutors query
-		const all = ['Ada Lovelace', 'Alan Turing', 'Grace Hopper', 'Katherine Johnson', 'Marie Curie', 'Rosalind Franklin'].map(do(name, i) { id: i + 1, name })
-		await new Promise(do setTimeout($1, 400))
-		all.filter(do $1.name.toLowerCase!.includes(query.toLowerCase!))
 
 	def toggleTheme
 		dark = !dark
 		document.documentElement.classList.toggle('dark', dark)
 
 	css
-		d:block max-width:880px mx:auto p:4 @md:8
-		header d:hcs
-		h1 fs:xl fw:700 m:0
-		p m:0 c:$ui-muted fs:sm
-		pre fs:xs c:$ui-muted m:0 ws:pre-wrap word-break:break-all
-		.out d:vflex g:2 mt:1
-		.indent d:vflex g:2 pl:6
-		button.theme, .set button bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
-		.set d:hcl g:2 flw:wrap
-		.set button fs:xs px:2 py:1
-		.peek d:grid place-items:center w:7 h:7 mr:-2 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
-			@hover bg:$ui-hover c:$ui-text
+		d:grid gtc:1fr @md:200px 1fr min-height:100vh
+		.sidebar d:vflex g:4 p:4 @md:6 bdb:1px solid $ui-border @md:none
+			@md bdr:1px solid $ui-border pos:sticky t:0 h:100vh box-sizing:border-box
+		.brand d:hcs c:inherit td:none fw:700
+		# A scrolling row of links on phones, a column on wider screens.
+		nav d:hflex @md:vflex g:1 ofx:auto mx:-1 px:1
+		nav a d:block px:3 py:1.5 rd:md c:$ui-muted fs:sm td:none ws:nowrap
+			@hover c:$ui-text bg:$ui-hover
+			&.active c:$ui-text bg:$ui-hover fw:500
+		.theme mt:auto as:flex-start bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 fs:sm cursor:pointer
+			@!md d:none
+		.theme-sm bd:1px solid $ui-border bg:transparent c:inherit rd:md px:2 py:1 fs:xs cursor:pointer
+			@md d:none
+		main min-width:0 max-width:880px w:100% box-sizing:border-box p:4 @md:8
 
 	<self>
-		<header>
-			<h1> "Imba UI"
+		<aside.sidebar>
+			<div.brand>
+				<a route-to='/' [c:inherit td:none]> "Imba UI"
+				<button.theme-sm @click=toggleTheme> dark ? "Light" : "Dark"
+			<nav> for page in pages
+				<a route-to=page.path> page.title
 			<button.theme @click=toggleTheme> dark ? "Light" : "Dark"
-
-		<demo-section heading="Date picker">
-			<ui-fields>
-				<ui-field span=6 label='Lesson date'>
-					<ui-date-picker bind=lesson>
-					<div.out>
-						<pre> JSON.stringify(lesson)
-						<div.set>
-							<button @click=(lesson = '2026-12-25')> "Christmas"
-							<button @click=(lesson = null)> "Clear"
-				<ui-field span=6 label='Tutor away'>
-					<ui-date-picker range min='2026-10-01' value=away @change=(away = e.detail)>
-					<div.out>
-						<pre> JSON.stringify(away)
-						<div.set>
-							<button @click=(away = ['2026-10-12', '2026-10-16'])> "Half term"
-				<ui-field span=6 label='No weekends' hint='Weekends are unavailable; ↑/↓ step a day, ⇧ a week'>
-					<ui-date-picker unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
-
-		<demo-section heading="Select">
-			<ui-fields>
-				<ui-field span=6 label='Subject'>
-					<ui-select items=subjects bind=subject>
-					<div.out>
-						<pre> JSON.stringify(subject)
-						<div.set>
-							<button @click=(subject = 2)> "English"
-							<button @click=(subject = null)> "Clear"
-				<ui-field span=6 label='Exam boards'>
-					<ui-select items=boards multiple clearable bind:value=examBoards>
-					<div.out>
-						<pre> JSON.stringify(examBoards)
-						<div.set>
-							<button @click=(examBoards = ['AQA', 'OCR'])> "AQA + OCR"
-
-		<demo-section heading="Combobox">
-			<ui-fields>
-				<ui-field span=4 label='Subject'>
-					<ui-combobox items=subjects placeholder='Search subjects' bind=searched>
-					<div.out>
-						<pre> JSON.stringify(searched)
-						<div.set>
-							<button @click=(searched = 3)> "Physics"
-							<button @click=(searched = null)> "Clear"
-				<ui-field span=4 label='Students'>
-					<ui-combobox items=subjects multiple placeholder='Add…' bind=many>
-					<div.out>
-						<pre> JSON.stringify(many)
-						<div.set>
-							<button @click=(many = [1, 5])> "Maths + Biology"
-				<ui-field span=4 label='Tutor (async)'>
-					<ui-combobox load=findTutors labelKey='name' valueKey='id' placeholder='Type a name' @change=(tutor = e.detail)>
-					<div.out>
-						<pre> JSON.stringify(tutor)
-
-		<demo-section heading="Input">
-			<ui-fields>
-				<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
-				<ui-field span=3 label='Price' type='number' prefix='£' min=0 formatOptions={ minimumFractionDigits: 2, maximumFractionDigits: 2 } bind=price>
-				<ui-field span=3 label='Weight' type='number' suffix='kg' min=0 max=200 step=0.5 steppers=false hint='↑/↓ to step' bind=weight>
-				<ui-field span=6 label='Password' hint='At least 8 characters'>
-					<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>
-						<button.peek slot='suffix' type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
-							<iconify-icon icon=(showPassword ? 'lucide:eye-off' : 'lucide:eye')>
-				<ui-field span=6 label='Notes' type='textarea' rows=2 maxRows=6 hint='Grows up to 6 lines' bind=notes>
-			<div.out>
-				<pre> JSON.stringify({ query, price, weight, password, notes })
-
-		<demo-section heading="Choices">
-			<ui-fields>
-				<ui-field span=6 label='Reminders' hint='Indeterminate when only some are on'>
-					<ui-checkbox label='All reminders' checked=allReminders @change=setAllReminders(e.detail)>
-					<div.indent>
-						<ui-checkbox label='Email' bind=reminders.email>
-						<ui-checkbox label='SMS' bind=reminders.sms>
-						<ui-checkbox label='Push notification' bind=reminders.push>
-				<ui-field span=6 label='Lessons'>
-					<ui-switch label='Offer online lessons' bind=online>
-				<ui-field span=6 label='Calendar view'>
-					<ui-segmented items=views bind=view>
-				<ui-field span=6 label='Mode' hint='Item values stay numbers'>
-					<ui-segmented items=modes bind=mode>
-			<div.out>
-				<pre> JSON.stringify({ reminders, online, view, mode })
-
-		<demo-section heading="Fields">
-			<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
-				<ui-field span=6 label='First name' required error=errors.first bind=student.first>
-				<ui-field span=6 label='Last name' bind=student.last>
-				<ui-field span=8 label='Email' type='email' icon='lucide:mail' required hint="We'll send lesson reminders here" error=errors.email bind=student.email>
-				<ui-field span=4 label='Year group'>
-					<ui-select items=years bind=student.year>
-			<ui-fields legend='Lessons' disabled=locked>
-				<ui-field span=6 label='Subjects' error=errors.subjects>
-					<ui-combobox items=subjects multiple placeholder='Add…' bind=student.subjects>
-				<ui-field span=6 label='Start date' hint='Lessons start from this date'>
-					<ui-date-picker bind=student.start>
-			<div.out>
-				<div.set>
-					<button @click=validate> "Validate"
-					<button @click=(errors = {})> "Clear errors"
-					<button @click=(locked = !locked)> locked ? "Unlock" : "Lock"
-				<pre> JSON.stringify(student)
+		<main>
+			<page-home route='/'>
+			<page-inputs route='/inputs'>
+			<page-pickers route='/pickers'>
+			<page-choices route='/choices'>
+			<page-forms route='/forms'>
 
 imba.mount <playground>
