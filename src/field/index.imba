@@ -1,9 +1,13 @@
 import '../theme.imba'
 import './base.imba'
 import '../input/index.imba'
+import '../number-input/index.imba'
+import '../textarea/index.imba'
 
 tag ui-field < ui-field-base
 	inputTag = 'ui-input'
+	numberTag = 'ui-number-input'
+	textareaTag = 'ui-textarea'
 
 	css
 		d:vflex ai:stretch g:1.5 min-width:0 c:$ui-text ff:$ui-font

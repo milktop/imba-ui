@@ -1,5 +1,7 @@
 import { uid } from '../zag.imba'
 import '../input/base.imba'
+import '../number-input/base.imba'
+import '../textarea/base.imba'
 
 # Finds the ui-field (or subclass) a control sits in.
 export def closestField el
@@ -24,7 +26,10 @@ export def fieldIds owner
 #
 # Without children it renders an input, passing on `type`, `name`,
 # `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
-# `step`, `attrs`, `required` and `disabled`, and its value: `bind=`, `bind:value=` or `value` + `@change`.
+# `step`, `attrs`, `required` and `disabled`. `type='number'` renders a number
+# input (with `formatOptions`), `type='textarea'` a textarea (with `rows`,
+# `maxRows`). Each gets the field's value: `bind=`, `bind:value=` or `value` +
+# `@change`.
 tag ui-field-base
 	prop label = null
 	prop hint = null
@@ -42,11 +47,16 @@ tag ui-field-base
 	prop max = null
 	prop step = null
 	prop attrs = null
+	prop formatOptions = null
+	prop rows = 3
+	prop maxRows = null
 	prop required = false
 	prop disabled = false
 
-	# The tag of the default input; the styled ui-field uses ui-input.
+	# Tags of the default controls; the styled ui-field uses the styled ones.
 	inputTag = 'ui-input-base'
+	numberTag = 'ui-number-input-base'
+	textareaTag = 'ui-textarea-base'
 
 	# As in the inputs: `bind=` replaces `data`, which otherwise aliases `value`.
 	get data do value
@@ -105,7 +115,14 @@ tag ui-field-base
 				label
 				<span.required aria-hidden='true'> ' *' if required
 		<slot>
-			<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix min=min max=max step=step attrs=attrs required=required disabled=disabled bind=data>
+			# One wrapper element: Imba miscompiles a slot fallback that is an if/else.
+			<div.default-control [d:contents]>
+				if type == 'number'
+					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions required=required disabled=disabled bind=data>
+				elif type == 'textarea'
+					<{textareaTag} name=name placeholder=placeholder rows=rows maxRows=maxRows attrs=attrs required=required disabled=disabled bind=data>
+				else
+					<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix min=min max=max step=step attrs=attrs required=required disabled=disabled bind=data>
 		if error
 			<p.error id=errorId role='alert'> error
 		elif hint

@@ -17,6 +17,10 @@
     "./select/base": "./src/select/base.imba",
     "./input": "./src/input/index.imba",
     "./input/base": "./src/input/base.imba",
+    "./number-input": "./src/number-input/index.imba",
+    "./number-input/base": "./src/number-input/base.imba",
+    "./textarea": "./src/textarea/index.imba",
+    "./textarea/base": "./src/textarea/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
     "./fields": "./src/fields/index.imba",
@@ -43,6 +47,7 @@
     "@zag-js/combobox": "^1.44.0",
     "@zag-js/date-picker": "^1.44.0",
     "@zag-js/dialog": "^1.44.0",
+    "@zag-js/number-input": "^1.44.0",
     "@zag-js/select": "^1.44.0",
     "@zag-js/vanilla": "^1.44.0"
   }

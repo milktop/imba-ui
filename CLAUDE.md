@@ -31,6 +31,10 @@ New components follow the same pattern: add both files, an entry in
 - **Use `globalThis.queueMicrotask`.** Inside tags and classes, Imba compiles bare
   `queueMicrotask` to `self.queueMicrotask`. Check unfamiliar globals in the
   compiled output.
+- **Slot fallbacks must be one element.** Imba miscompiles a `<slot>` whose
+  fallback is an `if`/`else`; wrap it (see `ui-field`).
+- **Machines that spread props over defaults** (number-input) get `defined(...)`
+  props, so unset ones don't wipe out the defaults.
 - **Inner `<input>`/`<select>` elements get `@change.stop`,** so their native events
   don't reach the host's `change` listeners.
 - **Popups:** put `zi` on `.content`; Zag copies it onto the positioner.

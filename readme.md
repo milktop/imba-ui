@@ -10,6 +10,8 @@ package adds Imba markup and an optional theme.
 | Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots; slot a textarea to replace it |
+| Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
+| Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 
@@ -71,7 +73,9 @@ than 480px (a container query, so it works in dialogs and sidebars too).
 Without children a field renders a `ui-input`, passing on `type`, `name`,
 `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`, `step`,
 `attrs`, `required`, `disabled` and its value (`bind=`, `bind:value=` or `value` + `@change`).
-Children replace it with any other control.
+`type='number'` renders a `ui-number-input` (also passing `formatOptions`) and
+`type='textarea'` a `ui-textarea` (with `rows` and `maxRows`). Children replace
+the default with any other control.
 
 `ui-input` takes the same props. `attrs` passes any other attributes to the
 input, e.g. `attrs={ inputmode: 'decimal' }`. `icon` is an [Iconify](https://iconify.design)

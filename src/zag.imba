@@ -15,6 +15,14 @@ extend class Element
 			delete attrs.children
 		spreadProps(self, attrs)
 
+# Drops null and undefined entries, for machines that spread their props over
+# defaults (passing `min: undefined` would wipe out the default).
+export def defined props
+	let out = {}
+	for own key, value of props
+		out[key] = value unless value == null
+	out
+
 let counter = 0
 export def uid prefix = 'ui'
 	"{prefix}-{++counter}"

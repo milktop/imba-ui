@@ -138,15 +138,13 @@ tag playground
 		<demo-section title="Input">
 			<ui-fields>
 				<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
-				<ui-field span=3 label='Price' type='number' prefix='£' min=0 step=0.01 attrs={ inputmode: 'decimal' } bind=price>
-				<ui-field span=3 label='Weight' type='number' suffix='kg' bind=weight>
+				<ui-field span=3 label='Price' type='number' min=0 formatOptions={ style: 'currency', currency: 'GBP' } bind=price>
+				<ui-field span=3 label='Weight' type='number' suffix='kg' min=0 max=200 step=0.5 bind=weight>
 				<ui-field span=6 label='Password' hint='At least 8 characters'>
 					<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>
 						<button.peek slot='suffix' type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
 							<iconify-icon icon=(showPassword ? 'lucide:eye-off' : 'lucide:eye')>
-				<ui-field span=6 label='Notes' hint='A textarea in the default slot'>
-					<ui-input>
-						<textarea rows=2 bind=notes>
+				<ui-field span=6 label='Notes' type='textarea' rows=2 maxRows=6 hint='Grows up to 6 lines' bind=notes>
 			<div.out>
 				<pre> JSON.stringify({ query, price, weight, password, notes })
 
