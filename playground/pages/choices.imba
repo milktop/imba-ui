@@ -1,4 +1,5 @@
 import '../demo.imba'
+import source from './choices.imba?raw'
 
 tag page-choices
 	reminders = { email: yes, sms: no, push: no }
@@ -31,7 +32,7 @@ tag page-choices
 		reminders = { email: checked, sms: checked, push: checked }
 
 	<self>
-		<demo-page heading='Choices' intro='Checkbox and radio groups, single checkboxes, switches and segmented controls.'>
+		<demo-page source=source heading='Choices' intro='Checkbox and radio groups, single checkboxes, switches and segmented controls.'>
 			<demo-section heading='Checkbox group'>
 				<ui-fields>
 					<ui-field span=6 label='Reminders' hint='Bound to an array; Post is disabled' error=(channels.length ? null : 'Pick at least one')>
@@ -39,7 +40,7 @@ tag page-choices
 					<ui-field span=6 label='Days' hint='Item values stay numbers'>
 						<ui-checkbox-group items=dayItems orientation='horizontal' bind=days>
 				<div.out>
-					<pre> JSON.stringify({ channels, days })
+					<json-print data={ channels, days }>
 					<div.set>
 						<button @click=(channels = ['sms'])> "Only SMS"
 						<button @click=(channels = [])> "None"
@@ -51,7 +52,7 @@ tag page-choices
 					<ui-field span=6 label='Level' hint='Horizontal, starts empty'>
 						<ui-radio-group items=levels orientation='horizontal' bind=level>
 				<div.out>
-					<pre> JSON.stringify({ length, level })
+					<json-print data={ length, level }>
 					<div.set>
 						<button @click=(length = 60)> "60 minutes"
 						<button @click=(level = null)> "Clear level"
@@ -67,7 +68,7 @@ tag page-choices
 					<ui-field span=6 label='Terms' error=(terms ? null : 'Please accept to continue')>
 						<ui-checkbox label='I accept the terms' bind=terms>
 				<div.out>
-					<pre> JSON.stringify({ reminders, terms })
+					<json-print data={ reminders, terms }>
 
 			<demo-section heading='Switch'>
 				<ui-fields>
@@ -76,7 +77,7 @@ tag page-choices
 					<ui-field span=6 label='Availability' hint='Disabled'>
 						<ui-switch label='Teach during holidays' disabled bind=holidays>
 				<div.out>
-					<pre> JSON.stringify({ online, holidays })
+					<json-print data={ online, holidays }>
 					<div.set>
 						<button @click=(online = !online)> "Toggle from outside"
 
@@ -87,4 +88,4 @@ tag page-choices
 					<ui-field span=6 label='Mode' hint='Item values stay numbers'>
 						<ui-segmented items=modes bind=mode>
 				<div.out>
-					<pre> JSON.stringify({ view, mode })
+					<json-print data={ view, mode }>

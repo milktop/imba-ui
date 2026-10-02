@@ -1,4 +1,5 @@
 import { subjects } from '../demo.imba'
+import source from './forms.imba?raw'
 
 tag page-forms
 	student = { first: '', last: '', email: '', year: null, subjects: [], start: null, online: yes }
@@ -13,7 +14,7 @@ tag page-forms
 		errors.subjects = 'Pick at least one subject' unless student.subjects.length
 
 	<self>
-		<demo-page heading='Forms' intro='ui-fields lays fields out on a 12-column grid; with a legend it becomes a fieldset.'>
+		<demo-page source=source heading='Forms' intro='ui-fields lays fields out on a 12-column grid; with a legend it becomes a fieldset.'>
 			<demo-section heading='Student form'>
 				<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
 					<ui-field span=6 label='First name' required error=errors.first bind=student.first>
@@ -33,4 +34,4 @@ tag page-forms
 						<button @click=validate> "Validate"
 						<button @click=(errors = {})> "Clear errors"
 						<button @click=(locked = !locked)> locked ? "Unlock" : "Lock"
-					<pre> JSON.stringify(student)
+					<json-print fixed label='Form state' data={ student, errors, locked }>

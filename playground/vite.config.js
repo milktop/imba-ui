@@ -14,7 +14,8 @@ function imba() {
     },
     transform(source, id) {
       const filename = id.split('?')[0]
-      if (!filename.endsWith('.imba')) return null
+      // `?raw` imports (the playground's code toggles) are Vite's to serve as text.
+      if (!filename.endsWith('.imba') || /[?&]raw\b/.test(id)) return null
       const result = compile(source, { sourcePath: filename, platform: 'browser', sourcemap: true })
       const errors = result.diagnostics.filter((d) => d.severity === 1)
       if (errors.length) this.error(errors.map((e) => e.message).join('\n'))

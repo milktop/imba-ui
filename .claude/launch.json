@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["vite", "playground", "--port", "5181", "--strictPort"],
       "port": 5181
+    },
+    {
+      "name": "playground-5182",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "playground", "--port", "5182", "--strictPort"],
+      "port": 5182
     }
   ]
 }

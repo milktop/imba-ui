@@ -15,7 +15,10 @@ and the Zag/Imba lessons below in more detail.
 - `src/items.imba`: item/collection helpers shared by select and combobox
 - `playground/`: Vite demo app (`npm run dev`), routed with Imba's router: a shell in
   `main.imba`, one file per group in `pages/` (inputs, pickers, choices, forms),
-  shared bits in `demo.imba`. Add a `demo-section` for every component
+  shared bits in `demo.imba`. Add a `demo-section` for every component. Its Code
+  toggle shows the section's own markup from the page source (`?raw`); put
+  readouts (`json-print`) and value-setting buttons in a `<div.out>` so they're
+  left out of it
 
 New components follow the same pattern: add both files, an entry in
 `package.json` `exports` (`./<name>` and `./<name>/base`), an import in

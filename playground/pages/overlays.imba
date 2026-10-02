@@ -1,4 +1,5 @@
 import { subjects } from '../demo.imba'
+import source from './overlays.imba?raw'
 
 tag page-overlays
 	editing = no
@@ -20,7 +21,7 @@ tag page-overlays
 		.actions d:hflex jc:flex-end g:2 mt:4
 
 	<self>
-		<demo-page heading='Overlays' intro='Tooltips and popovers float above the page, positioned by Zag.'>
+		<demo-page source=source heading='Overlays' intro='Tooltips and popovers float above the page, positioned by Zag.'>
 			<demo-section heading='Tooltip'>
 				<div.row>
 					<ui-tooltip content='Edit lesson'>
@@ -37,7 +38,7 @@ tag page-overlays
 							<strong> "Keyboard"
 							<div> "Tab here to open it without hovering"
 				<div.out>
-					<pre> "Hover or Tab to the buttons; Escape closes."
+					<p.note> "Hover or Tab to the buttons; Escape closes."
 
 			<demo-section heading='Popover'>
 				<div.row>
@@ -52,6 +53,6 @@ tag page-overlays
 							<button.btn @click=(editing = no)> "Cancel"
 							<button.btn.primary @click=save> "Save"
 				<div.out>
-					<pre> JSON.stringify({ editing, subject: subjectName, infoOpened: opens })
+					<json-print data={ editing, subject: subjectName, infoOpened: opens }>
 					<div.set>
 						<button @click=(editing = !editing)> "Toggle edit from outside"
