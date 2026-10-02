@@ -1,5 +1,6 @@
 import * as select from '@zag-js/select'
 import { Machine, uid } from '../zag.imba'
+import { closestField, fieldIds } from '../field/base.imba'
 import { icons } from '../icons.imba'
 import { itemLabel, itemValue, toCollection, toValueArray } from '../items.imba'
 
@@ -43,6 +44,8 @@ tag ui-select-base
 			collection: #collection
 			multiple: multiple
 			disabled: disabled
+			invalid: !!#field..invalid
+			ids: fieldIds(self)
 			name: name
 			defaultValue: initial
 			positioning: { placement, sameWidth: true }
@@ -62,16 +65,21 @@ tag ui-select-base
 			#collection = toCollection(select, items, labelKey, valueKey, disabledKey)
 			machine.refresh!
 
+		# Inside a ui-field, it owns the label, hint and error.
+		#field = closestField(self)
+		if #field..stateKey != #fieldKey
+			#fieldKey = #field..stateKey
+			machine.refresh!
 		machine.syncValue data, do
 			machine.connect(select).setValue(toValueArray(data))
 
 		let api = machine.connect(select)
 
 		<self zag=api.getRootProps!>
-			if label
+			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<button.trigger zag=api.getTriggerProps!>
+				<button.trigger zag=(#field ? #field.describe(api.getTriggerProps!) : api.getTriggerProps!)>
 					<span.value-text .placeholder=api.empty zag=api.getValueTextProps!>
 						api.empty ? placeholder : api.valueAsString
 					<span.indicator zag=api.getIndicatorProps!> <ui-icon path=icons.down>

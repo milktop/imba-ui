@@ -12,7 +12,10 @@ tag ui-date-picker < ui-date-picker-base
 		.control d:hcl g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 h:10
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
-		.input bd:none bg:transparent outline:none fs:sm w:26 c:inherit p:0
+			&[data-invalid] bc:$ui-danger
+		# The last input grows, keeping range dates together and the buttons at the end.
+		.input min-width:0 bd:none bg:transparent outline:none fs:sm w:26 c:inherit p:0
+			&:last-of-type flg:1
 			@placeholder c:$ui-muted
 		.separator c:$ui-muted fs:sm px:1
 		.clear, .trigger, .prev, .next

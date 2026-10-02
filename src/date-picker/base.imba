@@ -1,5 +1,6 @@
 import * as datepicker from '@zag-js/date-picker'
 import { Machine, uid } from '../zag.imba'
+import { closestField } from '../field/base.imba'
 import { icons } from '../icons.imba'
 
 # Headless date picker: Zag's machine plus markup, no styles. Elements carry
@@ -36,6 +37,8 @@ tag ui-date-picker-base
 			id: zagId
 			locale: locale
 			disabled: disabled
+			invalid: !!#field..invalid
+			ids: { label: do closestField(self)..labelledBy }
 			selectionMode: range ? 'range' : 'single'
 			defaultValue: initial
 			min: min and datepicker.parse(min)
@@ -54,6 +57,11 @@ tag ui-date-picker-base
 	def unmount do machine.stop!
 
 	def render
+		# Inside a ui-field, it owns the label, hint and error.
+		#field = closestField(self)
+		if #field..stateKey != #fieldKey
+			#fieldKey = #field..stateKey
+			machine.refresh!
 		machine.syncValue data, do
 			machine.connect(datepicker).setValue(parseDates(data))
 
@@ -61,13 +69,13 @@ tag ui-date-picker-base
 		let view = api.view
 
 		<self zag=api.getRootProps!>
-			if label
+			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<input.input zag=api.getInputProps(index: 0) @change.stop>
+				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) @change.stop>
 				if range
 					<span.separator> "–"
-					<input.input zag=api.getInputProps(index: 1) @change.stop>
+					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.calendar>
 

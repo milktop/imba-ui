@@ -9,6 +9,8 @@ package adds Imba markup and an optional theme.
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views |
 | Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
+| Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
+| Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow |
 
 ## Install
 
@@ -51,6 +53,26 @@ Values are plain: ISO dates from the date picker, and the items' own values
 outside updates the component without emitting `change`, as with native inputs;
 only user changes emit it. With async `load`, an outside value only shows a
 label once its item is among the loaded results.
+
+## Forms
+
+`ui-fields` lays fields out on a 12-column grid; each `ui-field` spans `span`
+columns (default 12) and every field goes full width when the grid is narrower
+than 480px (a container query, so it works in dialogs and sidebars too).
+
+```imba
+<ui-fields>
+	<ui-field span=6 label='Email' hint='For reminders' error=form.errors.email>
+		<input type='email' bind=form.email>
+	<ui-field span=6 label='Subject' error=form.errors.subject>
+		<ui-select items=subjects bind=form.subject>
+```
+
+A field owns its control's label, hint and error; an error replaces the hint
+while there is one. Plain inputs get an id, the
+label's `for`, `aria-describedby` and `aria-invalid`. Components inside a field
+skip their own `label`, use the field's, and turn `invalid` on (`data-invalid`)
+while there is an error.
 
 ## Theming
 

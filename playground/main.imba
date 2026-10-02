@@ -35,6 +35,15 @@ tag playground
 	searched = null
 	many = []
 	tutor = null
+	student = { first: '', last: '', email: '', year: null, subjects: [], start: null }
+	errors = {}
+	years = [7, 8, 9, 10, 11, 12, 13].map(do { value: $1, label: "Year {$1}" })
+
+	def validate
+		errors = {}
+		errors.first = 'Required' unless student.first
+		errors.email = 'Enter a valid email' unless student.email.includes('@')
+		errors.subjects = 'Pick at least one subject' unless student.subjects.length
 
 	# Fake server search with latency.
 	def findTutors query
@@ -47,15 +56,18 @@ tag playground
 		document.documentElement.classList.toggle('dark', dark)
 
 	css
-		d:block max-width:720px mx:auto p:8
+		d:block max-width:880px mx:auto p:4 @md:8
 		header d:hcs
 		h1 fs:xl fw:700 m:0
 		p m:0 c:$ui-muted fs:sm
-		.row d:hcl g:8 flw:wrap ai:flex-start
-		pre fs:xs c:$ui-muted m:0 mt:2
+		pre fs:xs c:$ui-muted m:0 ws:pre-wrap
+		.out d:vflex g:2 mt:1
 		button.theme, .set button bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
-		.set d:hcl g:2 mt:2
+		.set d:hcl g:2 flw:wrap
 		.set button fs:xs px:2 py:1
+		input.text h:10 px:3 box-sizing:border-box min-width:0 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ff:inherit
+			@focus bc:$ui-ring outline:2px solid $ui-ring-soft
+			&[aria-invalid] bc:$ui-danger
 
 	<self>
 		<header>
@@ -63,50 +75,77 @@ tag playground
 			<button.theme @click=toggleTheme> dark ? "Light" : "Dark"
 
 		<demo-section title="Date picker">
-			<div.row>
-				<div>
-					<ui-date-picker label='Lesson date' bind=lesson>
-					<pre> JSON.stringify(lesson)
-					<div.set>
-						<button @click=(lesson = '2026-12-25')> "Christmas"
-						<button @click=(lesson = null)> "Clear"
-				<div>
-					<ui-date-picker label='Tutor away' range min='2026-10-01' value=away @change=(away = e.detail)>
-					<pre> JSON.stringify(away)
-					<div.set>
-						<button @click=(away = ['2026-10-12', '2026-10-16'])> "Half term"
-				<div>
-					<ui-date-picker label='No weekends' unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
+			<ui-fields>
+				<ui-field span=6 label='Lesson date'>
+					<ui-date-picker bind=lesson>
+					<div.out>
+						<pre> JSON.stringify(lesson)
+						<div.set>
+							<button @click=(lesson = '2026-12-25')> "Christmas"
+							<button @click=(lesson = null)> "Clear"
+				<ui-field span=6 label='Tutor away'>
+					<ui-date-picker range min='2026-10-01' value=away @change=(away = e.detail)>
+					<div.out>
+						<pre> JSON.stringify(away)
+						<div.set>
+							<button @click=(away = ['2026-10-12', '2026-10-16'])> "Half term"
+				<ui-field span=6 label='No weekends' hint='Saturdays and Sundays are unavailable'>
+					<ui-date-picker unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
 
 		<demo-section title="Select">
-			<div.row>
-				<div>
-					<ui-select label='Subject' items=subjects bind=subject>
-					<pre> JSON.stringify(subject)
-					<div.set>
-						<button @click=(subject = 2)> "English"
-						<button @click=(subject = null)> "Clear"
-				<div>
-					<ui-select label='Exam boards' items=boards multiple clearable bind:value=examBoards>
-					<pre> JSON.stringify(examBoards)
-					<div.set>
-						<button @click=(examBoards = ['AQA', 'OCR'])> "AQA + OCR"
+			<ui-fields>
+				<ui-field span=6 label='Subject'>
+					<ui-select items=subjects bind=subject>
+					<div.out>
+						<pre> JSON.stringify(subject)
+						<div.set>
+							<button @click=(subject = 2)> "English"
+							<button @click=(subject = null)> "Clear"
+				<ui-field span=6 label='Exam boards'>
+					<ui-select items=boards multiple clearable bind:value=examBoards>
+					<div.out>
+						<pre> JSON.stringify(examBoards)
+						<div.set>
+							<button @click=(examBoards = ['AQA', 'OCR'])> "AQA + OCR"
 
 		<demo-section title="Combobox">
-			<div.row>
-				<div>
-					<ui-combobox label='Subject' items=subjects placeholder='Search subjects' bind=searched>
-					<pre> JSON.stringify(searched)
-					<div.set>
-						<button @click=(searched = 3)> "Physics"
-						<button @click=(searched = null)> "Clear"
-				<div>
-					<ui-combobox label='Students' items=subjects multiple placeholder='Add…' bind=many>
-					<pre> JSON.stringify(many)
-					<div.set>
-						<button @click=(many = [1, 5])> "Maths + Biology"
-				<div>
-					<ui-combobox label='Tutor (async)' load=findTutors labelKey='name' valueKey='id' placeholder='Type a name' @change=(tutor = e.detail)>
-					<pre> JSON.stringify(tutor)
+			<ui-fields>
+				<ui-field span=4 label='Subject'>
+					<ui-combobox items=subjects placeholder='Search subjects' bind=searched>
+					<div.out>
+						<pre> JSON.stringify(searched)
+						<div.set>
+							<button @click=(searched = 3)> "Physics"
+							<button @click=(searched = null)> "Clear"
+				<ui-field span=4 label='Students'>
+					<ui-combobox items=subjects multiple placeholder='Add…' bind=many>
+					<div.out>
+						<pre> JSON.stringify(many)
+						<div.set>
+							<button @click=(many = [1, 5])> "Maths + Biology"
+				<ui-field span=4 label='Tutor (async)'>
+					<ui-combobox load=findTutors labelKey='name' valueKey='id' placeholder='Type a name' @change=(tutor = e.detail)>
+					<div.out>
+						<pre> JSON.stringify(tutor)
+
+		<demo-section title="Fields">
+			<ui-fields>
+				<ui-field span=6 label='First name' error=errors.first>
+					<input.text bind=student.first>
+				<ui-field span=6 label='Last name'>
+					<input.text bind=student.last>
+				<ui-field span=8 label='Email' hint="We'll send lesson reminders here" error=errors.email>
+					<input.text type='email' bind=student.email>
+				<ui-field span=4 label='Year group'>
+					<ui-select items=years bind=student.year>
+				<ui-field span=6 label='Subjects' error=errors.subjects>
+					<ui-combobox items=subjects multiple placeholder='Add…' bind=student.subjects>
+				<ui-field span=6 label='Start date' hint='Lessons start from this date'>
+					<ui-date-picker bind=student.start>
+			<div.out>
+				<div.set>
+					<button @click=validate> "Validate"
+					<button @click=(errors = {})> "Clear errors"
+				<pre> JSON.stringify(student)
 
 imba.mount <playground>

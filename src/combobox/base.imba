@@ -1,5 +1,6 @@
 import * as combobox from '@zag-js/combobox'
 import { Machine, uid } from '../zag.imba'
+import { closestField, fieldIds } from '../field/base.imba'
 import { icons } from '../icons.imba'
 import { itemLabel, itemValue, toCollection, toValueArray } from '../items.imba'
 
@@ -71,6 +72,8 @@ tag ui-combobox-base
 			collection: #collection
 			multiple: multiple
 			disabled: disabled
+			invalid: !!#field..invalid
+			ids: fieldIds(self)
 			placeholder: placeholder
 			defaultValue: initial
 			openOnClick: true
@@ -104,6 +107,11 @@ tag ui-combobox-base
 			filterLocal(machine.service.context.get('inputValue') or '')
 			machine.refresh!
 
+		# Inside a ui-field, it owns the label, hint and error.
+		#field = closestField(self)
+		if #field..stateKey != #fieldKey
+			#fieldKey = #field..stateKey
+			machine.refresh!
 		machine.syncValue data, do
 			machine.connect(combobox).setValue(toValueArray(data))
 
@@ -111,7 +119,7 @@ tag ui-combobox-base
 		let list = #collection.items
 
 		<self zag=api.getRootProps!>
-			if label
+			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
 				if multiple
@@ -120,7 +128,7 @@ tag ui-combobox-base
 							itemLabel(item, labelKey)
 							<button.tag-remove type='button' tabIndex=-1 aria-label="Remove {itemLabel(item, labelKey)}" @click.stop=api.clearValue(String(itemValue(item, valueKey)))>
 								<ui-icon path=icons.x size=12>
-				<input.input zag=api.getInputProps! @change.stop>
+				<input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.down>
 

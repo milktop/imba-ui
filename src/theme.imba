@@ -18,6 +18,7 @@ global css
 		$ui-accent-soft:#e0e7ff
 		$ui-ring:#6366f1
 		$ui-ring-soft:#6366f133
+		$ui-danger:#dc2626
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
 		$ui-font:inherit
@@ -32,4 +33,5 @@ global css
 		$ui-accent-soft:#312e81
 		$ui-ring:#818cf8
 		$ui-ring-soft:#818cf833
+		$ui-danger:#f87171
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.6)

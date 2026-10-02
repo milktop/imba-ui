@@ -1,0 +1,17 @@
+import '../theme.imba'
+import './base.imba'
+
+tag ui-field < ui-field-base
+	css
+		d:vflex ai:stretch g:1.5 min-width:0 c:$ui-text ff:$ui-font
+		gc:span var(--span)
+		# Full width when the surrounding ui-fields is narrow.
+		..@!480 gc:1 / -1
+
+		# Components fill the field, whatever their standalone min-width.
+		>>> [data-part=root] min-width:0
+
+		.label fs:sm fw:500 w:max-content
+		.hint, .error m:0 fs:xs
+		.hint c:$ui-muted
+		.error c:$ui-danger

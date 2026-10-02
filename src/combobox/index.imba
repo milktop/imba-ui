@@ -9,6 +9,7 @@ tag ui-combobox < ui-combobox-base
 		.control d:hcl flw:wrap g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 py:1 min-height:10 box-sizing:border-box
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
+			&[data-invalid] bc:$ui-danger
 		.input fl:1 min-width:20 bd:none bg:transparent outline:none fs:sm c:inherit p:0 h:7
 			@placeholder c:$ui-muted
 		.tag d:hcl g:1 bg:$ui-hover rd:sm pl:2 pr:0.5 h:6 fs:xs fw:500

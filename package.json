@@ -14,7 +14,11 @@
     "./combobox": "./src/combobox/index.imba",
     "./combobox/base": "./src/combobox/base.imba",
     "./select": "./src/select/index.imba",
-    "./select/base": "./src/select/base.imba"
+    "./select/base": "./src/select/base.imba",
+    "./field": "./src/field/index.imba",
+    "./field/base": "./src/field/base.imba",
+    "./fields": "./src/fields/index.imba",
+    "./fields/base": "./src/fields/base.imba"
   },
   "files": [
     "src",

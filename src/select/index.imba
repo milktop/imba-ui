@@ -10,6 +10,7 @@ tag ui-select < ui-select-base
 		.trigger d:hcs g:2 w:100% h:10 px:3 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ta:left cursor:pointer
 			@focus-visible bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5 cursor:not-allowed
+			&[data-invalid] bc:$ui-danger
 		.value-text ws:nowrap of:hidden text-overflow:ellipsis
 			&.placeholder c:$ui-muted
 		.indicator d:inline-flex c:$ui-muted

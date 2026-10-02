@@ -40,6 +40,10 @@ New components follow the same pattern: add both files, an entry in
   (it aliases `value`; `bind=` replaces it with the model). Call
   `machine.syncValue data, do …setValue(…)` in render, and on Zag's
   `onValueChange` set `data` and `emit('change', data) if machine.track(data)`.
+- **Fields:** components look up their `ui-field` with `closestField` in render
+  (refreshing when its `stateKey` changes), pass `invalid` and lazy `ids` for the
+  label, skip their own label when the field has one, and spread
+  `#field.describe(props)` onto their focusable control.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 
