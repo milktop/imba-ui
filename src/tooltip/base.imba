@@ -48,6 +48,8 @@ tag ui-tooltip-base
 	presence = new Presence(self, 250)
 
 	def render
+		# Zag reads these lazily; e.g. nav items enable their tooltip in the rail.
+		machine.watch "{disabled}|{placement}"
 		let api = machine.connect(tooltip)
 		trigger.zag = api.getTriggerProps! if trigger
 		let contentProps = api.getContentProps!

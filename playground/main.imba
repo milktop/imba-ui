@@ -37,6 +37,7 @@ import './pages/menu.imba'
 import './pages/toast.imba'
 import './pages/tabs.imba'
 import './pages/accordion.imba'
+import './pages/app-shell.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -44,23 +45,23 @@ global css
 
 # One page per component, grouped in the sidebar.
 const groups = [
-	{ title: 'Actions', pages: [
+	{ title: 'Actions', icon: 'lucide:mouse-pointer-click', pages: [
 		{ path: '/button', title: 'Button', about: 'Variants, sizes, icons, loading' }
 		{ path: '/copy-button', title: 'Copy button', about: 'Copy text with feedback' }
 	] }
-	{ title: 'Display', pages: [
+	{ title: 'Display', icon: 'lucide:layout-grid', pages: [
 		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback' }
 		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
 		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
 	] }
-	{ title: 'Feedback', pages: [
+	{ title: 'Feedback', icon: 'lucide:bell', pages: [
 		{ path: '/alert', title: 'Alert', about: 'Messages in the page' }
 		{ path: '/progress', title: 'Progress', about: 'Bars and circles' }
 		{ path: '/skeleton', title: 'Skeleton', about: 'Loading placeholders' }
 		{ path: '/spinner', title: 'Spinner', about: 'Short waits' }
 		{ path: '/empty-state', title: 'Empty state', about: 'Nothing here yet' }
 	] }
-	{ title: 'Inputs', pages: [
+	{ title: 'Inputs', icon: 'lucide:text-cursor-input', pages: [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
 		{ path: '/password-input', title: 'Password input', about: 'Show/hide, new or current password' }
 		{ path: '/number-input', title: 'Number input', about: 'Steppers, clamping, formatting' }
@@ -70,28 +71,31 @@ const groups = [
 		{ path: '/slider', title: 'Slider', about: 'Single values and ranges' }
 		{ path: '/file-upload', title: 'File upload', about: 'Dropzone with previews' }
 	] }
-	{ title: 'Pickers', pages: [
+	{ title: 'Pickers', icon: 'lucide:list-checks', pages: [
 		{ path: '/select', title: 'Select', about: 'One or more from a list' }
 		{ path: '/combobox', title: 'Combobox', about: 'Filter as you type, or search a server' }
 		{ path: '/date-picker', title: 'Date picker', about: 'Dates and ranges, keyboard stepping' }
 	] }
-	{ title: 'Choices', pages: [
+	{ title: 'Choices', icon: 'lucide:circle-check', pages: [
 		{ path: '/checkbox', title: 'Checkbox', about: 'Single, groups and select-all' }
 		{ path: '/radio-group', title: 'Radio group', about: 'One of a list, with descriptions' }
 		{ path: '/switch', title: 'Switch', about: 'On/off toggles' }
 		{ path: '/segmented', title: 'Segmented', about: 'A compact row of options' }
 	] }
-	{ title: 'Forms', pages: [
+	{ title: 'Forms', icon: 'lucide:clipboard-list', pages: [
 		{ path: '/fields', title: 'Fields', about: 'Grid, labels, hints, errors, fieldsets' }
 	] }
-	{ title: 'Overlays', pages: [
+	{ title: 'Layout', icon: 'lucide:panels-top-left', pages: [
+		{ path: '/app-shell', title: 'App shell', about: 'Sidebar, top bar and page' }
+	] }
+	{ title: 'Overlays', icon: 'lucide:layers', pages: [
 		{ path: '/tooltip', title: 'Tooltip', about: 'Hints on hover and focus' }
 		{ path: '/popover', title: 'Popover', about: 'Floating panels' }
 		{ path: '/dialog', title: 'Dialog', about: 'Modals and confirmations' }
 		{ path: '/menu', title: 'Menu', about: 'Dropdowns of actions' }
 		{ path: '/toast', title: 'Toast', about: 'Notifications' }
 	] }
-	{ title: 'Disclosure', pages: [
+	{ title: 'Disclosure', icon: 'lucide:chevrons-up-down', pages: [
 		{ path: '/tabs', title: 'Tabs', about: 'Panels behind tabs' }
 		{ path: '/accordion', title: 'Accordion', about: 'Expandable sections' }
 		{ path: '/collapsible', title: 'Collapsible', about: 'A section that opens and closes' }
@@ -119,70 +123,76 @@ tag page-home
 					<strong> page.title
 					<span> page.about
 
+# The playground runs in ui-app-shell: one nav group per component group.
 tag playground
 	css
-		d:grid gtc:1fr @md:210px 1fr min-height:100vh
-		.sidebar d:vflex g:4 p:4 @md:5 min-width:0 bdb:1px solid $ui-border @md:none
-			@md bdr:1px solid $ui-border pos:sticky t:0 h:100vh box-sizing:border-box ofy:auto
-		# Indented like the links (whose padding holds the active highlight), so
-		# the title, group headings and links share one left edge.
-		.brand d:hcs fw:700 px:3
-			a c:inherit td:none
-		# A scrolling row of links on phones, grouped columns on wider screens.
-		nav d:hflex @md:vflex fls:0 g:1 @md:4 ofx:auto @md:visible mx:-1 px:1
-		.group d:contents @md:vflex g:0.5
-		.group-title d:none @md:block px:3 mb:1 fs:xs fw:600 tt:uppercase ls:0.05em c:$ui-muted
-		nav a d:block px:3 py:1.5 rd:md c:$ui-muted fs:sm td:none ws:nowrap
-			@hover c:$ui-text bg:$ui-hover
-			&.active c:$ui-text bg:$ui-hover fw:500
-		main min-width:0 max-width:880px w:100% box-sizing:border-box p:4 @md:8
+		.brand d:flex ai:center g:2 c:inherit td:none
+		.mark d:inline-flex ai:center jc:center w:7 h:7 fls:0 rd:$ui-radius bg:$ui-accent c:$ui-accent-text fs:xs fw:700
+		.crumb fs:sm c:$ui-muted ws:nowrap of:hidden text-overflow:ellipsis
+			b c:$ui-text fw:500
+
+	get current do groups.flatMap(do $1.pages).find(do $1.path == router.pathname)
 
 	<self>
-		<aside.sidebar>
-			<div.brand>
-				<a route-to='/'> "Imba UI"
-			<nav> for group in groups
-				<div.group>
-					<span.group-title> group.title
-					for page in group.pages
-						<a route-to=page.path> page.title
-		<main>
-			<page-home route='/'>
-			<page-button route='/button'>
-			<page-copy-button route='/copy-button'>
-			<page-avatar route='/avatar'>
-			<page-badge route='/badge'>
-			<page-card route='/card'>
-			<page-alert route='/alert'>
-			<page-skeleton route='/skeleton'>
-			<page-spinner route='/spinner'>
-			<page-empty-state route='/empty-state'>
-			<page-progress route='/progress'>
-			<page-collapsible route='/collapsible'>
-			<page-input route='/input'>
-			<page-number-input route='/number-input'>
-			<page-textarea route='/textarea'>
-			<page-password-input route='/password-input'>
-			<page-pin-input route='/pin-input'>
-			<page-slider route='/slider'>
-			<page-tags-input route='/tags-input'>
-			<page-file-upload route='/file-upload'>
-			<page-select route='/select'>
-			<page-combobox route='/combobox'>
-			<page-date-picker route='/date-picker'>
-			<page-checkbox route='/checkbox'>
-			<page-radio-group route='/radio-group'>
-			<page-switch route='/switch'>
-			<page-segmented route='/segmented'>
-			<page-fields route='/fields'>
-			<page-tooltip route='/tooltip'>
-			<page-popover route='/popover'>
-			<page-dialog route='/dialog'>
-			<page-menu route='/menu'>
-			<page-toast route='/toast'>
-			<page-tabs route='/tabs'>
-			<page-accordion route='/accordion'>
-		<appearance-panel>
+		<ui-app-shell persist='imba-ui:sidebar'>
+			<ui-sidebar>
+				<a.brand slot='logo' href='/'>
+					<span.mark> "UI"
+					<span> "Imba UI"
+				<span.mark slot='logo-collapsed'> "UI"
+				<ui-nav-section>
+					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
+				<ui-nav-section heading='Components'>
+					for group in groups
+						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
+							for page in group.pages
+								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
+			<ui-topbar>
+				<span.crumb>
+					if current
+						<span> "Components / "
+						<b> current.title
+					else
+						<b> "Overview"
+				<div slot='end'>
+					<appearance-panel>
+			<ui-page>
+				<page-home route='/'>
+				<page-button route='/button'>
+				<page-copy-button route='/copy-button'>
+				<page-avatar route='/avatar'>
+				<page-badge route='/badge'>
+				<page-card route='/card'>
+				<page-alert route='/alert'>
+				<page-skeleton route='/skeleton'>
+				<page-spinner route='/spinner'>
+				<page-empty-state route='/empty-state'>
+				<page-progress route='/progress'>
+				<page-collapsible route='/collapsible'>
+				<page-input route='/input'>
+				<page-number-input route='/number-input'>
+				<page-textarea route='/textarea'>
+				<page-password-input route='/password-input'>
+				<page-pin-input route='/pin-input'>
+				<page-slider route='/slider'>
+				<page-tags-input route='/tags-input'>
+				<page-file-upload route='/file-upload'>
+				<page-select route='/select'>
+				<page-combobox route='/combobox'>
+				<page-date-picker route='/date-picker'>
+				<page-checkbox route='/checkbox'>
+				<page-radio-group route='/radio-group'>
+				<page-switch route='/switch'>
+				<page-segmented route='/segmented'>
+				<page-fields route='/fields'>
+				<page-tooltip route='/tooltip'>
+				<page-popover route='/popover'>
+				<page-dialog route='/dialog'>
+				<page-menu route='/menu'>
+				<page-toast route='/toast'>
+				<page-tabs route='/tabs'>
+				<page-accordion route='/accordion'>
+				<page-app-shell route='/app-shell'>
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 

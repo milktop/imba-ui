@@ -42,6 +42,7 @@ package adds Imba markup and an optional theme.
 | Accordion | `<ui-accordion>` + `<ui-accordion-item>` | Expandable sections, single or multiple open |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
+| App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
 
 ## Install
 
@@ -130,6 +131,43 @@ while there is one. Plain inputs get an id, the
 label's `for`, `aria-describedby` and `aria-invalid`. Components inside a field
 skip their own `label`, use the field's, and turn `invalid` on (`data-invalid`)
 while there is an error.
+
+## App layout
+
+`ui-app-shell` lays out a sidebar, a top bar and the page:
+
+```imba
+<ui-app-shell persist='sidebar'>
+	<ui-sidebar>
+		<a slot='logo' href='/'> "Tutor"
+		<span slot='logo-collapsed'> "T"
+		<ui-nav-section heading='Menu'>
+			<ui-nav-item icon='lucide:house' href='/' active=isHome> "Dashboard"
+			<ui-nav-item icon='lucide:users' href='/students' badge=3> "Students"
+			<ui-nav-group icon='lucide:settings' label='Settings'>
+				<ui-nav-item href='/settings/billing'> "Billing"
+		<div slot='footer'> …
+	<ui-topbar>
+		"Search…"
+		<div slot='end'> <ui-avatar name='Ada Lovelace'>
+	<ui-page heading='Students' description='12 active'>
+		<ui-button slot='actions'> "Add student"
+		…
+```
+
+- The sidebar collapses to an icon rail with its button or ⌘/Ctrl+B. Labels
+  then show as tooltips and groups open as a flyout. Bind the state with
+  `bind=` (or `bind:collapsed=`), and remember it with `persist` (a
+  localStorage key).
+- Below `breakpoint` (768px) the sidebar is a drawer, opened by the top bar's
+  menu button and closed by Escape, the backdrop or following a link.
+- Nav items render `<a href>`, which Imba's router picks up. For Inertia,
+  subclass `ui-nav-item` and set `linkTag = 'inertia-link'`.
+- Instead of markup, give the sidebar `items`: `[{ heading, items: [{ label,
+  icon, href, active, badge, items }] }]`.
+- `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
+  `breadcrumbs` and `actions` slots.
+- Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
 
 ## Theming
 

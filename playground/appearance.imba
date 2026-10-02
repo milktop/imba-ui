@@ -94,8 +94,7 @@ tag appearance-panel
 	def reset do update(defaults)
 
 	css
-		# Fixed top right, clear of the sidebar's links.
-		pos:fixed t:3 r:3 zi:30
+		d:block
 		.rows d:vflex g:4
 		.swatches d:flex flw:wrap g:2
 		.swatch w:7 h:7 p:0 rd:full bd:2px solid $ui-surface cursor:pointer outline:1px solid $ui-border
@@ -106,7 +105,7 @@ tag appearance-panel
 
 	<self>
 		<ui-popover heading='Appearance' description='Overrides the $ui-* tokens on <html>.' closable placement='bottom-end'>
-			<ui-button slot='trigger' size='sm' icon='lucide:palette' aria-label='Appearance'>
+			<ui-button slot='trigger' size='sm' variant='ghost' icon='lucide:palette' aria-label='Appearance'>
 			<div.rows>
 				<ui-field label='Theme'>
 					<ui-segmented items=themeItems value=state.scheme @change=update(scheme: e.detail)>

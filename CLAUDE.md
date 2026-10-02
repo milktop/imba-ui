@@ -70,6 +70,12 @@ New components follow the same pattern: add both files, an entry in
   use a get/set accessor. Imba sets `autocomplete`, `inputmode`, `autofocus` and
   `spellcheck` through `set$`, which needs a setter too (else they land as
   attributes). `tag x < button` makes the element a real <button>.
+- **Slotted content can't move between `if`/`else` branches** (Imba throws in
+  `moveBefore`). Render a `<slot>` once and restyle its wrapper instead (see
+  ui-nav-group's rail flyout).
+- **Imba CSS selectors:** a pseudo-class followed by a combinator
+  (`.a:empty + .b`, `.a .b:not(:empty)`) fails to parse; use the `@empty`
+  modifier form (`.a@empty + .b`).
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
   `inset:` also sets `position:absolute`, so write `pos:fixed` after it. There's
@@ -90,6 +96,10 @@ New components follow the same pattern: add both files, an entry in
   switch keep theirs), and spread `describe(props)` onto the focusable control.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
+
+- **Layout parts** (ui-sidebar, ui-nav-item, …) find their shell by walking up
+  (`closestWith(self, 'isUiAppShell')`) and carry `data-ui-shell-part`; the
+  shell re-renders them directly on changes, since they're rendered by the app.
 
 ## Testing
 

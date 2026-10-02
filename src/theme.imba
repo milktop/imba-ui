@@ -42,6 +42,9 @@ global css
 		$ui-control-height:2.25rem
 		$ui-control-height-sm:2rem
 		$ui-control-height-lg:2.75rem
+		# ui-app-shell's sidebar, open and as an icon rail.
+		$ui-sidebar-width:15rem
+		$ui-sidebar-rail-width:3.5rem
 
 	html.dark, [data-theme=dark]
 		$ui-text:#fafafa
