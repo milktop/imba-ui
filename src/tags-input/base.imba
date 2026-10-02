@@ -11,6 +11,7 @@ import { icons } from '../icons.imba'
 # - `max`: most tags allowed
 # - `allowDuplicates`, `addOnPaste` (splits pasted text by the delimiter)
 # - `validate`: function({ inputValue, value }) returning whether to add it
+# - `variant`: 'subtle' (default, grey), 'accent' or 'outline' (styling hooks)
 #
 # The value is an array of strings; `change` is emitted with it.
 tag ui-tags-input-base
@@ -23,6 +24,7 @@ tag ui-tags-input-base
 	prop addOnPaste = false
 	prop validate = null
 	prop name = null
+	prop variant = 'subtle'
 	prop disabled = false
 
 	zagId = uid('tags')
@@ -70,17 +72,20 @@ tag ui-tags-input-base
 
 		let api = machine.connect(zagTags)
 
-		<self zag=api.getRootProps!>
+		<self .{variant} zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				for tag, index in api.value
-					let props = { index, value: tag }
-					<span.tag zag=api.getItemProps(props)>
-						<span.preview zag=api.getItemPreviewProps(props)>
-							<span.text zag=api.getItemTextProps(props)> tag
-							<button.remove zag=api.getItemDeleteTriggerProps(props)> <ui-icon path=icons.x size=12>
-						<input.edit zag=api.getItemInputProps(props) @change.stop>
-				<input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) placeholder=(placeholder or '') @change.stop>
+				# Tags and the input wrap together; the clear button keeps its own
+				# column, however many rows there are.
+				<div.tags>
+					for tag, index in api.value
+						let props = { index, value: tag }
+						<span.tag zag=api.getItemProps(props)>
+							<span.preview zag=api.getItemPreviewProps(props)>
+								<span.text zag=api.getItemTextProps(props)> tag
+								<button.remove zag=api.getItemDeleteTriggerProps(props)> <ui-icon path=icons.x size=12>
+							<input.edit zag=api.getItemInputProps(props) @change.stop>
+					<input.input zag=(#field ? #field.describe(api.getInputProps!) : api.getInputProps!) placeholder=(placeholder or '') @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 			<input zag=api.getHiddenInputProps! @change.stop>
