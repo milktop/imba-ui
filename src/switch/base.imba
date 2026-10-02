@@ -46,8 +46,9 @@ tag ui-switch-base
 		#locked = !!closest('fieldset:disabled')
 		machine.watch "{#field..stateKey}|{#locked}"
 
+		# Not api.setChecked, which also fakes a click on the hidden input.
 		machine.syncValue data, do
-			machine.connect(zagSwitch).setChecked(!!data)
+			machine.service.send(type: 'CHECKED.SET', checked: !!data, isTrusted: true)
 
 		let api = machine.connect(zagSwitch)
 

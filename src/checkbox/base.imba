@@ -50,8 +50,10 @@ tag ui-checkbox-base
 		#locked = !!closest('fieldset:disabled')
 		machine.watch "{#field..stateKey}|{#locked}"
 
+		# Not api.setChecked: for outside changes Zag also fakes a click on the
+		# hidden input, which turns 'indeterminate' into false (and emits it).
 		machine.syncValue data, do
-			machine.connect(checkbox).setChecked(data)
+			machine.service.send(type: 'CHECKED.SET', checked: data, isTrusted: true)
 
 		let api = machine.connect(checkbox)
 
