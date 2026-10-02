@@ -21,6 +21,12 @@
     "./number-input/base": "./src/number-input/base.imba",
     "./textarea": "./src/textarea/index.imba",
     "./textarea/base": "./src/textarea/base.imba",
+    "./checkbox": "./src/checkbox/index.imba",
+    "./checkbox/base": "./src/checkbox/base.imba",
+    "./switch": "./src/switch/index.imba",
+    "./switch/base": "./src/switch/base.imba",
+    "./segmented": "./src/segmented/index.imba",
+    "./segmented/base": "./src/segmented/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
     "./fields": "./src/fields/index.imba",
@@ -44,11 +50,14 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
+    "@zag-js/checkbox": "^1.44.0",
     "@zag-js/combobox": "^1.44.0",
     "@zag-js/date-picker": "^1.44.0",
     "@zag-js/dialog": "^1.44.0",
     "@zag-js/number-input": "^1.44.0",
+    "@zag-js/radio-group": "^1.44.0",
     "@zag-js/select": "^1.44.0",
+    "@zag-js/switch": "^1.44.0",
     "@zag-js/vanilla": "^1.44.0"
   }
 }

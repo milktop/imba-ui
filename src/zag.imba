@@ -50,6 +50,13 @@ export class Machine
 	def refresh
 		globalThis.queueMicrotask do service.notify!
 
+	# Refreshes when `key` changes: state outside Zag that its props read, like
+	# an enclosing field's label and error.
+	def watch key
+		return if key == #watchKey
+		#watchKey = key
+		refresh!
+
 	# Controlled values. Components call `syncValue` from render with their
 	# current value; when it differs from the last one seen (a parent or a bound
 	# model changed it), `apply` pushes it into the machine, deferred like

@@ -12,6 +12,9 @@ package adds Imba markup and an optional theme.
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots; slot a textarea to replace it |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
+| Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked` |
+| Switch | `<ui-switch>` | On/off toggle; binds `checked` |
+| Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 

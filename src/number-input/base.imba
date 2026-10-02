@@ -95,10 +95,7 @@ tag ui-number-input-base
 		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
 		#field = closestField(self)
 		#locked = !!closest('fieldset:disabled')
-		let key = "{#field..stateKey}|{#locked}"
-		if key != #fieldKey
-			#fieldKey = key
-			machine.refresh!
+		machine.watch "{#field..stateKey}|{#locked}"
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)

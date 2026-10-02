@@ -39,6 +39,19 @@ tag playground
 	student = { first: '', last: '', email: '', year: null, subjects: [], start: null }
 	errors = {}
 	locked = no
+	reminders = { email: yes, sms: no, push: no }
+	online = yes
+	view = 'week'
+	mode = 1
+	views = [{ value: 'day', label: 'Day' }, { value: 'week', label: 'Week' }, { value: 'month', label: 'Month' }, { value: 'year', label: 'Year', disabled: true }]
+	modes = [{ value: 1, label: 'Online' }, { value: 2, label: 'In person' }, { value: 3, label: 'Hybrid' }]
+
+	get allReminders
+		let on = Object.values(reminders).filter(Boolean).length
+		on == 0 ? false : (on == 3 ? true : 'indeterminate')
+
+	def setAllReminders checked
+		reminders = { email: checked, sms: checked, push: checked }
 	query = ''
 	price = null
 	weight = null
@@ -70,6 +83,7 @@ tag playground
 		p m:0 c:$ui-muted fs:sm
 		pre fs:xs c:$ui-muted m:0 ws:pre-wrap word-break:break-all
 		.out d:vflex g:2 mt:1
+		.indent d:vflex g:2 pl:6
 		button.theme, .set button bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
 		.set d:hcl g:2 flw:wrap
 		.set button fs:xs px:2 py:1
@@ -147,6 +161,23 @@ tag playground
 				<ui-field span=6 label='Notes' type='textarea' rows=2 maxRows=6 hint='Grows up to 6 lines' bind=notes>
 			<div.out>
 				<pre> JSON.stringify({ query, price, weight, password, notes })
+
+		<demo-section heading="Choices">
+			<ui-fields>
+				<ui-field span=6 label='Reminders' hint='Indeterminate when only some are on'>
+					<ui-checkbox label='All reminders' checked=allReminders @change=setAllReminders(e.detail)>
+					<div.indent>
+						<ui-checkbox label='Email' bind=reminders.email>
+						<ui-checkbox label='SMS' bind=reminders.sms>
+						<ui-checkbox label='Push notification' bind=reminders.push>
+				<ui-field span=6 label='Lessons'>
+					<ui-switch label='Offer online lessons' bind=online>
+				<ui-field span=6 label='Calendar view'>
+					<ui-segmented items=views bind=view>
+				<ui-field span=6 label='Mode' hint='Item values stay numbers'>
+					<ui-segmented items=modes bind=mode>
+			<div.out>
+				<pre> JSON.stringify({ reminders, online, view, mode })
 
 		<demo-section heading="Fields">
 			<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>

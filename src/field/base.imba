@@ -94,13 +94,16 @@ tag ui-field-base
 
 	# The label points `for` at a native control or a component's text input.
 	# Components without one (ui-select's button) use aria-labelledby, and a
-	# click on the label focuses them instead.
+	# click on the label focuses them instead. Checkboxes, switches and radios
+	# have their own labels, so the field's must not toggle or pick them.
 	get labelTarget
-		nativeControl or querySelector('[data-scope] input:not([type=hidden])')
+		nativeControl or querySelector('[data-scope] input:not([type=hidden], [type=checkbox], [type=radio])')
 
 	def focusControl
 		return if $label.htmlFor
-		querySelector('[data-scope] button:not([tabindex="-1"])')..focus!
+		let target = querySelector('[data-scope] :is(button:not([tabindex="-1"]), input[type=checkbox])')
+		target ||= querySelector('[data-scope] input[type=radio]:checked') or querySelector('[data-scope] input[type=radio]')
+		target..focus!
 
 	def rendered
 		let control = nativeControl
