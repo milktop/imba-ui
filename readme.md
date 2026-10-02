@@ -22,6 +22,7 @@ package adds Imba markup and an optional theme.
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
 | Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, groups and separators; emits `select` |
+| Toast | `<ui-toaster>` + `toaster` | Notifications stacked in a corner: success/error/warning/info/loading, actions, pause on hover |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 

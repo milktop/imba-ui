@@ -1,4 +1,5 @@
 import { subjects } from '../demo.imba'
+import { toaster } from '../../src/toast/index.imba'
 import source from './overlays.imba?raw'
 
 tag page-overlays
@@ -29,6 +30,24 @@ tag page-overlays
 		{ value: 'message', label: 'Send message', icon: 'lucide:message-square' }
 		{ value: 'profile', label: 'View profile', icon: 'lucide:user' }
 	]
+
+	toasts = 0
+
+	def booked
+		toasts++
+		toaster.success(title: 'Lesson booked', description: 'Maths with Ada, Thursday at 16:00')
+
+	def removed
+		toasts++
+		toaster.create
+			title: 'Lesson removed'
+			description: 'It’s gone from the calendar.'
+			action: { label: 'Undo', onClick: do toaster.info(title: 'Lesson restored') }
+
+	def upload
+		toasts++
+		let id = toaster.loading(title: 'Uploading worksheet…')
+		setTimeout(&, 1500) do toaster.update(id, type: 'success', title: 'Worksheet uploaded', description: 'fractions.pdf, 240 KB')
 
 	def startEditStudent do draftStudent = Object.assign({}, student)
 	def saveStudent
@@ -135,6 +154,16 @@ tag page-overlays
 						<ui-button slot='trigger' variant='ghost' icon='lucide:ellipsis' aria-label='More'>
 				<div.out>
 					<json-print data={ selected }>
+
+			<demo-section heading='Toast'>
+				<div.row>
+					<ui-button icon='lucide:check' @click=booked> "Success"
+					<ui-button icon='lucide:circle-x' @click=(toaster.error(title: 'Could not save', description: 'Check your connection and try again.'))> "Error"
+					<ui-button icon='lucide:triangle-alert' @click=(toaster.warning(title: 'Lesson overlaps', description: 'Ada has another lesson at 16:30.'))> "Warning"
+					<ui-button icon='lucide:undo-2' @click=removed> "With action"
+					<ui-button icon='lucide:upload' @click=upload> "Loading → success"
+				<div.out>
+					<p.note> "Toasts stack bottom right; hover pauses them, Escape dismisses the focused one, Alt+T jumps to them."
 
 			<demo-section heading='Popover'>
 				<div.row>

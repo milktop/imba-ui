@@ -19,7 +19,7 @@ const pages = [
 	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
 	{ path: '/choices', title: 'Choices', about: 'Checkbox and radio groups, switch, segmented' }
 	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
-	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, dialog, menu, popover' }
+	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, dialog, menu, popover, toast' }
 ]
 
 tag page-home
@@ -79,5 +79,7 @@ tag playground
 			<page-choices route='/choices'>
 			<page-forms route='/forms'>
 			<page-overlays route='/overlays'>
+		# One toaster for the app; pages call toaster.success(…) etc.
+		<ui-toaster>
 
 imba.mount <playground>

@@ -37,6 +37,9 @@ New components follow the same pattern: add both files, an entry in
 - **Use `globalThis.queueMicrotask`.** Inside tags and classes, Imba compiles bare
   `queueMicrotask` to `self.queueMicrotask`. Check unfamiliar globals in the
   compiled output.
+- **Template loops:** render tags, not bare expressions (a prebuilt element in a
+  loop is dropped). Key items that own state with `<tag key=item.id>` so
+  they keep their element as the list changes (`ui-toaster`).
 - **Slot fallbacks must be one element.** Imba miscompiles a `<slot>` whose
   fallback is an `if`/`else`; wrap it (see `ui-field`).
 - **Machines that spread props over defaults** (number-input) get `defined(...)`
