@@ -9,6 +9,12 @@ package adds Imba markup and an optional theme.
 | Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only, loading |
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
+| Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
+| Card | `<ui-card>` | Surface with heading, description, actions and footer slots |
+| Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |
+| Skeleton | `<ui-skeleton>` | Loading placeholders: blocks, circles, text lines |
+| Spinner | `<ui-spinner>` | Small loading indicator with an accessible label |
+| Empty state | `<ui-empty-state>` | Icon, heading, description and actions for empty views |
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |

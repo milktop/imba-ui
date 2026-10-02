@@ -6,6 +6,12 @@ import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/button.imba'
 import './pages/copy-button.imba'
 import './pages/avatar.imba'
+import './pages/badge.imba'
+import './pages/card.imba'
+import './pages/alert.imba'
+import './pages/skeleton.imba'
+import './pages/spinner.imba'
+import './pages/empty-state.imba'
 import './pages/progress.imba'
 import './pages/collapsible.imba'
 import './pages/input.imba'
@@ -44,7 +50,15 @@ const groups = [
 	] }
 	{ title: 'Display', pages: [
 		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback' }
+		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
+		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
+	] }
+	{ title: 'Feedback', pages: [
+		{ path: '/alert', title: 'Alert', about: 'Messages in the page' }
 		{ path: '/progress', title: 'Progress', about: 'Bars and circles' }
+		{ path: '/skeleton', title: 'Skeleton', about: 'Loading placeholders' }
+		{ path: '/spinner', title: 'Spinner', about: 'Short waits' }
+		{ path: '/empty-state', title: 'Empty state', about: 'Nothing here yet' }
 	] }
 	{ title: 'Inputs', pages: [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
@@ -137,6 +151,12 @@ tag playground
 			<page-button route='/button'>
 			<page-copy-button route='/copy-button'>
 			<page-avatar route='/avatar'>
+			<page-badge route='/badge'>
+			<page-card route='/card'>
+			<page-alert route='/alert'>
+			<page-skeleton route='/skeleton'>
+			<page-spinner route='/spinner'>
+			<page-empty-state route='/empty-state'>
 			<page-progress route='/progress'>
 			<page-collapsible route='/collapsible'>
 			<page-input route='/input'>

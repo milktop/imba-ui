@@ -37,8 +37,9 @@ tag ui-dialog < ui-dialog-base
 		.header + .body pt:4
 		.footer d:flex jc:flex-end g:2 flw:wrap px:6 pb:6
 			&:not(:has(*)) d:none
-		# The slotted wrapper steps aside, so its buttons are the flex items.
-		.footer >>> [slot=footer] d:contents
+		# A slotted wrapper <div> steps aside, so its buttons are the flex items
+		# (a button slotted directly keeps its own box).
+		.footer >>> div[slot=footer] d:contents
 		.close pos:absolute t:4 r:4 d:grid place-items:center w:8 h:8 bd:none bg:transparent rd:md c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
