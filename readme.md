@@ -12,6 +12,11 @@ package adds Imba markup and an optional theme.
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots; slot a textarea to replace it |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
+| Password input | `<ui-password-input>` | Show/hide button; `ui-field type='password'` renders one |
+| Pin input | `<ui-pin-input>` | One box per character for codes; emits `complete` when filled |
+| Slider | `<ui-slider>` | Single or range (array value), marks, formatted value |
+| Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |
+| File upload | `<ui-file-upload>` | Dropzone and file list with previews and rejections |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
 | Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked` |
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all |

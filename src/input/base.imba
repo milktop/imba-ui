@@ -16,7 +16,10 @@ tag ui-input-base
 	prop type = 'text'
 	prop name = ''
 	prop placeholder = ''
-	prop autocomplete = ''
+	# Imba passes `autocomplete` (like inputmode, autofocus, spellcheck) through
+	# set$, which only assigns a property that has a setter; a `prop` has none.
+	get autocomplete do #autocomplete ?? ''
+	set autocomplete v do #autocomplete = v
 	prop icon = null
 	prop suffix = null
 	prop min = null

@@ -3,11 +3,13 @@ import './base.imba'
 import '../input/index.imba'
 import '../number-input/index.imba'
 import '../textarea/index.imba'
+import '../password-input/index.imba'
 
 tag ui-field < ui-field-base
 	inputTag = 'ui-input'
 	numberTag = 'ui-number-input'
 	textareaTag = 'ui-textarea'
+	passwordTag = 'ui-password-input'
 
 	css
 		d:vflex ai:stretch g:1.5 min-width:0 c:$ui-text ff:$ui-font

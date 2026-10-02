@@ -7,6 +7,11 @@ import './pages/button.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
 import './pages/textarea.imba'
+import './pages/password-input.imba'
+import './pages/pin-input.imba'
+import './pages/slider.imba'
+import './pages/tags-input.imba'
+import './pages/file-upload.imba'
 import './pages/select.imba'
 import './pages/combobox.imba'
 import './pages/date-picker.imba'
@@ -34,8 +39,13 @@ const groups = [
 	] }
 	{ title: 'Inputs', pages: [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
+		{ path: '/password-input', title: 'Password input', about: 'Show/hide, new or current password' }
 		{ path: '/number-input', title: 'Number input', about: 'Steppers, clamping, formatting' }
 		{ path: '/textarea', title: 'Textarea', about: 'Grows with its content' }
+		{ path: '/tags-input', title: 'Tags input', about: 'Free-form tags' }
+		{ path: '/pin-input', title: 'Pin input', about: 'Codes, one box per character' }
+		{ path: '/slider', title: 'Slider', about: 'Single values and ranges' }
+		{ path: '/file-upload', title: 'File upload', about: 'Dropzone with previews' }
 	] }
 	{ title: 'Pickers', pages: [
 		{ path: '/select', title: 'Select', about: 'One or more from a list' }
@@ -116,6 +126,11 @@ tag playground
 			<page-input route='/input'>
 			<page-number-input route='/number-input'>
 			<page-textarea route='/textarea'>
+			<page-password-input route='/password-input'>
+			<page-pin-input route='/pin-input'>
+			<page-slider route='/slider'>
+			<page-tags-input route='/tags-input'>
+			<page-file-upload route='/file-upload'>
 			<page-select route='/select'>
 			<page-combobox route='/combobox'>
 			<page-date-picker route='/date-picker'>

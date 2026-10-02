@@ -2,6 +2,7 @@ import { uid } from '../zag.imba'
 import '../input/base.imba'
 import '../number-input/base.imba'
 import '../textarea/base.imba'
+import '../password-input/base.imba'
 
 # Finds the ui-field (or subclass) a control sits in.
 export def closestField el
@@ -27,7 +28,8 @@ export def fieldIds owner
 # Without children it renders an input, passing on `type`, `name`,
 # `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
 # `step`, `attrs`, `required` and `disabled`. `type='number'` renders a number
-# input (with `formatOptions`, `steppers`), `type='textarea'` a textarea (with `rows`,
+# input (with `formatOptions`, `steppers`), `type='password'` a password
+# input with a show/hide button, `type='textarea'` a textarea (with `rows`,
 # `maxRows`). Each gets the field's value: `bind=`, `bind:value=` or `value` +
 # `@change`.
 tag ui-field-base
@@ -40,7 +42,10 @@ tag ui-field-base
 	prop type = 'text'
 	prop name = ''
 	prop placeholder = ''
-	prop autocomplete = ''
+	# Imba passes `autocomplete` (like inputmode, autofocus, spellcheck) through
+	# set$, which only assigns a property that has a setter; a `prop` has none.
+	get autocomplete do #autocomplete ?? ''
+	set autocomplete v do #autocomplete = v
 	prop icon = null
 	prop suffix = null
 	prop min = null
@@ -58,6 +63,7 @@ tag ui-field-base
 	inputTag = 'ui-input-base'
 	numberTag = 'ui-number-input-base'
 	textareaTag = 'ui-textarea-base'
+	passwordTag = 'ui-password-input-base'
 
 	# As in the inputs: `bind=` replaces `data`, which otherwise aliases `value`.
 	get data do value
@@ -97,11 +103,11 @@ tag ui-field-base
 	# click on the label focuses them instead. Checkboxes, switches and radios
 	# have their own labels, so the field's must not toggle or pick them.
 	get labelTarget
-		nativeControl or querySelector('[data-scope] input:not([type=hidden], [type=checkbox], [type=radio])')
+		nativeControl or querySelector('[data-scope] input:not([type=hidden], [type=checkbox], [type=radio], [hidden])')
 
 	def focusControl
 		return if $label.htmlFor
-		let target = querySelector('[data-scope] :is(button:not([tabindex="-1"]), input[type=checkbox])')
+		let target = querySelector('[data-scope] :is(button:not([tabindex="-1"]), input[type=checkbox], [role=slider])')
 		target ||= querySelector('[data-scope] input[type=radio]:checked') or querySelector('[data-scope] input[type=radio]')
 		target..focus!
 
@@ -123,6 +129,8 @@ tag ui-field-base
 			<div.default-control [d:contents]>
 				if type == 'number'
 					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions steppers=steppers required=required disabled=disabled bind=data>
+				elif type == 'password'
+					<{passwordTag} name=name placeholder=placeholder autocomplete=(autocomplete or 'current-password') icon=icon required=required disabled=disabled bind=data>
 				elif type == 'textarea'
 					<{textareaTag} name=name placeholder=placeholder rows=rows maxRows=maxRows attrs=attrs required=required disabled=disabled bind=data>
 				else

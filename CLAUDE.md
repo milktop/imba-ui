@@ -67,7 +67,9 @@ New components follow the same pattern: add both files, an entry in
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
   `prop` compiles to a plain assignment, so on a native property (`disabled` on
   a button) it just sets the native one, and read-only ones (`prefix`) throw;
-  use a get/set accessor. `tag x < button` makes the element a real <button>.
+  use a get/set accessor. Imba sets `autocomplete`, `inputmode`, `autofocus` and
+  `spellcheck` through `set$`, which needs a setter too (else they land as
+  attributes). `tag x < button` makes the element a real <button>.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
   `inset:` also sets `position:absolute`, so write `pos:fixed` after it. There's
@@ -95,5 +97,9 @@ background, rAF is throttled, so screenshots and parent re-renders can lag. Chec
 state through the DOM or `el.machine.service` before assuming a bug. Route
 changes render through `imba.commit` too, so in a background pane call
 `document.querySelector('main').parentElement.render()` after navigating.
+Zag work deferred with requestAnimationFrame (e.g. tags-input clearing its input)
+won't run while the tab is hidden. The browser tool's `type` inserts a whole
+string as one input event (type a tag and its comma separately); file inputs
+are simulated by setting `input.files` and dispatching `input`.
 
 Build check: `npx vite build playground`.
