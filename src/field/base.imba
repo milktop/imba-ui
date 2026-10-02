@@ -23,8 +23,8 @@ export def fieldIds owner
 # - `span`: columns (of 12) to take inside ui-fields.
 #
 # Without children it renders an input, passing on `type`, `name`,
-# `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `required` and
-# `disabled`, and its value: `bind=`, `bind:value=` or `value` + `@change`.
+# `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
+# `step`, `attrs`, `required` and `disabled`, and its value: `bind=`, `bind:value=` or `value` + `@change`.
 tag ui-field-base
 	prop label = null
 	prop hint = null
@@ -38,6 +38,10 @@ tag ui-field-base
 	prop autocomplete = ''
 	prop icon = null
 	prop suffix = null
+	prop min = null
+	prop max = null
+	prop step = null
+	prop attrs = null
 	prop required = false
 	prop disabled = false
 
@@ -101,7 +105,7 @@ tag ui-field-base
 				label
 				<span.required aria-hidden='true'> ' *' if required
 		<slot>
-			<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix required=required disabled=disabled bind=data>
+			<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix min=min max=max step=step attrs=attrs required=required disabled=disabled bind=data>
 		if error
 			<p.error id=errorId role='alert'> error
 		elif hint

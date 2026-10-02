@@ -95,7 +95,7 @@ tag playground
 						<pre> JSON.stringify(away)
 						<div.set>
 							<button @click=(away = ['2026-10-12', '2026-10-16'])> "Half term"
-				<ui-field span=6 label='No weekends' hint='Saturdays and Sundays are unavailable'>
+				<ui-field span=6 label='No weekends' hint='Weekends are unavailable; ↑/↓ step a day, ⇧ a week'>
 					<ui-date-picker unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
 
 		<demo-section title="Select">
@@ -137,7 +137,7 @@ tag playground
 		<demo-section title="Input">
 			<ui-fields>
 				<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
-				<ui-field span=3 label='Price' type='number' prefix='£' bind=price>
+				<ui-field span=3 label='Price' type='number' prefix='£' min=0 step=0.01 attrs={ inputmode: 'decimal' } bind=price>
 				<ui-field span=3 label='Weight' type='number' suffix='kg' bind=weight>
 				<ui-field span=6 label='Password' hint='At least 8 characters'>
 					<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>

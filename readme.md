@@ -6,7 +6,7 @@ package adds Imba markup and an optional theme.
 
 | Component | Tag | Notes |
 | --- | --- | --- |
-| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views |
+| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
 | Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots; slot a textarea to replace it |
@@ -69,11 +69,12 @@ than 480px (a container query, so it works in dialogs and sidebars too).
 ```
 
 Without children a field renders a `ui-input`, passing on `type`, `name`,
-`placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `required`,
-`disabled` and its value (`bind=`, `bind:value=` or `value` + `@change`).
+`placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`, `step`,
+`attrs`, `required`, `disabled` and its value (`bind=`, `bind:value=` or `value` + `@change`).
 Children replace it with any other control.
 
-`ui-input` takes the same props. `icon` is an [Iconify](https://iconify.design)
+`ui-input` takes the same props. `attrs` passes any other attributes to the
+input, e.g. `attrs={ inputmode: 'decimal' }`. `icon` is an [Iconify](https://iconify.design)
 name and needs `import 'iconify-icon'` in the app; the built-in components
 don't use it. For anything else before or after the input, use the slots:
 

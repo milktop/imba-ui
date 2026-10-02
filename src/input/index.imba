@@ -11,7 +11,14 @@ tag ui-input < ui-input-base
 
 		# The default input or a slotted replacement.
 		>>> :is(input, textarea) fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
-			@placeholder c:$ui-muted
-		>>> textarea as:stretch py:2 resize:vertical
+		>>> input::placeholder c:$ui-muted
+		>>> textarea::placeholder c:$ui-muted
+		# A slotted textarea fills the box, which pads it like the input.
+		&:has(textarea) ai:stretch py:2
+		>>> textarea resize:vertical lh:1.5
+		# Number inputs drop the native spinners.
+		>>> input[type=number] appearance:textfield
+		>>> input::-webkit-inner-spin-button appearance:none m:0
+		>>> input::-webkit-outer-spin-button appearance:none m:0
 		.affix d:hcc fls:0 c:$ui-muted ws:nowrap
 		iconify-icon d:block w:1em h:1em fs:md

@@ -1,4 +1,5 @@
 import * as datepicker from '@zag-js/date-picker'
+import { today, getLocalTimeZone } from '@internationalized/date'
 import { Machine, uid } from '../zag.imba'
 import { closestField } from '../field/base.imba'
 import { icons } from '../icons.imba'
@@ -24,6 +25,30 @@ tag ui-date-picker-base
 
 	def parseDates value
 		[].concat(value or []).map(do datepicker.parse($1))
+
+	# Up/Down in an input step its date by a day (with Shift, a week), skipping
+	# unavailable dates; on an empty input the first press picks today.
+	def stepDate e, index
+		let step = { ArrowUp: 1, ArrowDown: -1 }[e.key]
+		return unless step and !e.altKey and !e.metaKey and !e.ctrlKey
+		e.preventDefault!
+		let api = machine.connect(datepicker)
+		let values = api.value.slice!
+		let date = values[index]
+		let days = step * (e.shiftKey ? 7 : 1)
+		date = date ? date.add(days: days) : today(getLocalTimeZone!)
+		let tries = 0
+		while api.isUnavailable(date)
+			return if ++tries > 366 # past min/max, or nothing available
+			date = date.add(days: step)
+		values[index] = date
+		# In range mode, the stepped date pushes the other end along with it
+		# (and fills it when empty), so start never passes end.
+		if range
+			let other = 1 - index
+			let crossed = values[other] and (index == 0 ? date.compare(values[1]) > 0 : date.compare(values[0]) < 0)
+			values[other] = date if !values[other] or crossed
+		api.setValue(values)
 
 	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
 	# replaces that property with one reading and writing the bound model, so
@@ -72,10 +97,10 @@ tag ui-date-picker-base
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) @change.stop>
+				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) @keydown=stepDate(e, 0) @change.stop>
 				if range
 					<span.separator> "–"
-					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) @change.stop>
+					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) @keydown=stepDate(e, 1) @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.calendar>
 
