@@ -6,6 +6,14 @@
 #
 # Dark values apply under `html.dark` or `[data-theme=dark]`.
 
+# Imba's CSS has no reduced-motion modifier, so one plain rule turns the
+# components' animations off when the system asks for less motion.
+if typeof document != 'undefined' and !document.getElementById('ui-reduced-motion')
+	let style = document.createElement('style')
+	style.id = 'ui-reduced-motion'
+	style.textContent = '@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
+	document.head.appendChild(style)
+
 global css
 	@root
 		$ui-text:#18181b

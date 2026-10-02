@@ -8,8 +8,8 @@ import { Machine, uid, defined } from '../zag.imba'
 #
 # Zag's trigger props go straight onto that first child, so it keeps its own
 # focus, clicks and label and gains aria-describedby (Zag also sets its id).
-# It opens on hover after `openDelay` and on keyboard focus, and closes on
-# Escape, click or scroll. Disabled elements fire no events, so wrap those in
+# It opens on hover (straight away unless `openDelay` is set) and on keyboard
+# focus, and closes on Escape, click or scroll. Disabled elements fire no events, so wrap those in
 # a span.
 #
 # - `content`: the text; a `content` slot takes richer markup instead
@@ -19,7 +19,7 @@ import { Machine, uid, defined } from '../zag.imba'
 tag ui-tooltip-base
 	prop content = null
 	prop placement = 'top'
-	prop openDelay = null
+	prop openDelay = 0
 	prop closeDelay = null
 	prop interactive = false
 	prop disabled = false
@@ -43,13 +43,34 @@ tag ui-tooltip-base
 	def rendered
 		trigger.zag = machine.connect(tooltip).getTriggerProps! if trigger
 
+	# Zag hides the content as soon as it closes; keep it shown while its exit
+	# animation runs, with a timeout in case there is none. Moving straight to
+	# another tooltip (Zag's `instant`) hides it at once, so two don't overlap.
+	def leaving open, instant
+		if open or instant
+			#leaving = no
+		elif #wasOpen
+			#leaving = yes
+			clearTimeout(#leaveTimer)
+			#leaveTimer = setTimeout(&, 250) do finishLeaving!
+		#wasOpen = open
+		#leaving
+
+	def finishLeaving
+		return unless #leaving
+		#leaving = no
+		render!
+
 	def render
 		let api = machine.connect(tooltip)
 		trigger.zag = api.getTriggerProps! if trigger
+		let contentProps = api.getContentProps!
+		let instant = contentProps['data-instant'] !== undefined
+		contentProps = Object.assign({}, contentProps, hidden: false) if leaving(api.open, instant)
 
 		<self>
 			<span$triggerSlot.trigger-slot> <slot>
 			<div.positioner zag=api.getPositionerProps!>
-				<div.content zag=api.getContentProps!>
+				<div.content zag=contentProps @animationend=finishLeaving>
 					<div.arrow zag=api.getArrowProps!> <div.arrow-tip zag=api.getArrowTipProps!>
 					<slot name='content'> content
