@@ -14,7 +14,7 @@ tag ui-menu < ui-menu-base
 		.trigger-slot d:contents
 
 		# Zag copies the content's z-index onto its positioner.
-		.content zi:50 fw:400 min-width:48 py:1.5 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
+		.content zi:50 fw:400 min-width:48 py:2 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 			transform-origin:var(--transform-origin)
 			&[data-state=open] animation:ui-menu-in 120ms ease-out
 			&[data-state=closed] animation:ui-menu-out 100ms ease-in forwards
