@@ -32,11 +32,13 @@ tag page-dialog
 					<json-print data={ student }>
 
 			<demo-section heading='Confirmation'>
+
 				<ui-dialog alert size='sm' closable=false heading='Delete lesson?' description='Thursday’s lesson with Ada will be cancelled and both of you notified.' bind=confirmOpen>
 					<ui-button slot='trigger' variant='danger' icon='lucide:trash-2'> "Delete lesson"
 					<div slot='footer'>
 						<ui-button @click=(confirmOpen = no)> "Keep it"
 						<ui-button variant='danger' @click=confirmDelete> "Delete"
+
 				<div.out>
 					<json-print data={ deleted }>
 					<div.set>

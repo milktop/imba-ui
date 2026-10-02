@@ -1,6 +1,10 @@
 # Everything, styled. Import single components from their own entry points
 # (e.g. '@milktop/imba-ui/date-picker') to keep bundles small.
 import './button/index.imba'
+import './copy-button/index.imba'
+import './avatar/index.imba'
+import './progress/index.imba'
+import './collapsible/index.imba'
 import './date-picker/index.imba'
 import './combobox/index.imba'
 import './select/index.imba'

@@ -7,6 +7,10 @@ package adds Imba markup and an optional theme.
 | Component | Tag | Notes |
 | --- | --- | --- |
 | Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only, loading |
+| Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
+| Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
+| Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
+| Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
 | Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |

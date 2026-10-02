@@ -1,0 +1,43 @@
+import * as zagAvatar from '@zag-js/avatar'
+import { Machine, uid } from '../zag.imba'
+import { icons } from '../icons.imba'
+
+# Headless avatar: an image, or initials while it loads and if it fails.
+#
+# - `src`: the image URL
+# - `name`: used for the alt text and the initials ("Ada Lovelace" → AL);
+#   without one the fallback is a person icon
+# - `size`: 'sm', 'md' (default), 'lg' or 'xl'
+# - `square`: rounded square instead of a circle
+tag ui-avatar-base
+	prop src = null
+	prop name = null
+	prop size = 'md'
+	prop square = false
+
+	zagId = uid('avatar')
+
+	get initials
+		let words = String(name or '').trim!.split(/\s+/).filter(Boolean)
+		return '' unless words.length
+		(words.length == 1 ? words[0].slice(0, 2) : words[0][0] + words[words.length - 1][0]).toUpperCase!
+
+	def setup
+		machine = new Machine self, zagAvatar.machine, do
+			id: zagId
+
+	def mount do machine.start!
+	def unmount do machine.stop!
+
+	def render
+		let api = machine.connect(zagAvatar)
+
+		<self .{size} .square=square zag=api.getRootProps!>
+			if src
+				<img.image zag=api.getImageProps! src=src alt=(name or '')>
+			<span.fallback zag=api.getFallbackProps! aria-hidden=(name ? undefined : 'true')>
+				if initials
+					initials
+				else
+					<svg.person viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width=2 stroke-linecap='round' stroke-linejoin='round'>
+						<path d=icons.user>

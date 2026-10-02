@@ -4,6 +4,10 @@ import '../src/index.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/button.imba'
+import './pages/copy-button.imba'
+import './pages/avatar.imba'
+import './pages/progress.imba'
+import './pages/collapsible.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
 import './pages/textarea.imba'
@@ -36,6 +40,11 @@ global css
 const groups = [
 	{ title: 'Actions', pages: [
 		{ path: '/button', title: 'Button', about: 'Variants, sizes, icons, loading' }
+		{ path: '/copy-button', title: 'Copy button', about: 'Copy text with feedback' }
+	] }
+	{ title: 'Display', pages: [
+		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback' }
+		{ path: '/progress', title: 'Progress', about: 'Bars and circles' }
 	] }
 	{ title: 'Inputs', pages: [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
@@ -71,6 +80,7 @@ const groups = [
 	{ title: 'Disclosure', pages: [
 		{ path: '/tabs', title: 'Tabs', about: 'Panels behind tabs' }
 		{ path: '/accordion', title: 'Accordion', about: 'Expandable sections' }
+		{ path: '/collapsible', title: 'Collapsible', about: 'A section that opens and closes' }
 	] }
 ]
 
@@ -123,6 +133,10 @@ tag playground
 		<main>
 			<page-home route='/'>
 			<page-button route='/button'>
+			<page-copy-button route='/copy-button'>
+			<page-avatar route='/avatar'>
+			<page-progress route='/progress'>
+			<page-collapsible route='/collapsible'>
 			<page-input route='/input'>
 			<page-number-input route='/number-input'>
 			<page-textarea route='/textarea'>
