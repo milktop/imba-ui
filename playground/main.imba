@@ -105,7 +105,6 @@ tag playground
 		<aside.sidebar>
 			<div.brand>
 				<a route-to='/'> "Imba UI"
-				<appearance-panel>
 			<nav> for group in groups
 				<div.group>
 					<span.group-title> group.title
@@ -132,6 +131,7 @@ tag playground
 			<page-toast route='/toast'>
 			<page-tabs route='/tabs'>
 			<page-accordion route='/accordion'>
+		<appearance-panel>
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 

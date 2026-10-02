@@ -26,23 +26,30 @@ export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], rou
 # Control heights: [md, sm, lg].
 export const densities = { compact: ['Compact', '2rem', '1.75rem', '2.5rem'], default: ['Default', '2.25rem', '2rem', '2.75rem'], comfortable: ['Roomy', '2.5rem', '2.25rem', '3rem'] }
 
-export const defaults = { dark: no, accent: 'indigo', font: 'system', radius: 'default', density: 'default' }
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default' }
 
 const storageKey = 'imba-ui-playground-appearance'
 
 export def loadAppearance
-	try
-		Object.assign({}, defaults, JSON.parse(globalThis.localStorage.getItem(storageKey) or '{}'))
-	catch
-		Object.assign({}, defaults)
+	let saved = {}
+	try saved = JSON.parse(globalThis.localStorage.getItem(storageKey) or '{}')
+	# Older saves had `dark: true/false`.
+	if saved.dark !== undefined and !saved.scheme
+		saved.scheme = saved.dark ? 'dark' : 'light'
+	Object.assign({}, defaults, saved)
+
+# 'system' follows the OS setting, live.
+const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)')
+export def isDark state do state.scheme == 'dark' or (state.scheme == 'system' and prefersDark.matches)
 
 export def saveAppearance state
 	try globalThis.localStorage.setItem(storageKey, JSON.stringify(state))
 
 export def applyAppearance state
 	let root = document.documentElement
-	root.classList.toggle('dark', !!state.dark)
-	let [accent, accentText, soft, softText, ring] = (accents[state.accent] or accents.indigo)[state.dark ? 'dark' : 'light']
+	let dark = isDark(state)
+	root.classList.toggle('dark', dark)
+	let [accent, accentText, soft, softText, ring] = (accents[state.accent] or accents.indigo)[dark ? 'dark' : 'light']
 	let [_name, md, sm, lg] = densities[state.density] or densities.default
 	let tokens = {
 		'--ui-accent': accent
@@ -67,7 +74,17 @@ tag appearance-panel
 	fontItems = options(fonts)
 	radiusItems = options(radii)
 	densityItems = options(densities)
-	themeItems = [{ value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }]
+	themeItems = [{ value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }, { value: 'system', label: 'System' }]
+
+	def mount
+		# Re-apply when the OS switches while 'system' is chosen.
+		#onScheme = do
+			return unless state.scheme == 'system'
+			applyAppearance(state)
+			render!
+		prefersDark.addEventListener('change', #onScheme)
+
+	def unmount do prefersDark.removeEventListener('change', #onScheme)
 
 	def update changes
 		state = Object.assign({}, state, changes)
@@ -77,6 +94,8 @@ tag appearance-panel
 	def reset do update(defaults)
 
 	css
+		# Fixed top right, clear of the sidebar's links.
+		pos:fixed t:3 r:3 zi:30
 		.rows d:vflex g:4
 		.swatches d:flex flw:wrap g:2
 		.swatch w:7 h:7 p:0 rd:full bd:2px solid $ui-surface cursor:pointer outline:1px solid $ui-border
@@ -86,15 +105,15 @@ tag appearance-panel
 		.footer d:flex jc:flex-end
 
 	<self>
-		<ui-popover heading='Appearance' description='Overrides the $ui-* tokens on <html>.' closable placement='bottom-start'>
-			<ui-button slot='trigger' variant='ghost' size='sm' icon='lucide:palette' aria-label='Appearance'>
+		<ui-popover heading='Appearance' description='Overrides the $ui-* tokens on <html>.' closable placement='bottom-end'>
+			<ui-button slot='trigger' size='sm' icon='lucide:palette' aria-label='Appearance'>
 			<div.rows>
 				<ui-field label='Theme'>
-					<ui-segmented items=themeItems value=(state.dark ? 'dark' : 'light') @change=update(dark: e.detail == 'dark')>
+					<ui-segmented items=themeItems value=state.scheme @change=update(scheme: e.detail)>
 				<ui-field label='Accent'>
 					<div.swatches role='radiogroup' aria-label='Accent'>
 						for own key, accent of accents
-							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[state.dark ? 'dark' : 'light'][0]}] @click=update(accent: key)>
+							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[isDark(state) ? 'dark' : 'light'][0]}] @click=update(accent: key)>
 				<ui-field label='Font'>
 					<ui-segmented items=fontItems value=state.font @change=update(font: e.detail)>
 				<ui-field label='Radius'>
