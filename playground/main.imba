@@ -110,7 +110,9 @@ tag playground
 		d:grid gtc:1fr @md:210px 1fr min-height:100vh
 		.sidebar d:vflex g:4 p:4 @md:5 min-width:0 bdb:1px solid $ui-border @md:none
 			@md bdr:1px solid $ui-border pos:sticky t:0 h:100vh box-sizing:border-box ofy:auto
-		.brand d:hcs fw:700
+		# Indented like the links (whose padding holds the active highlight), so
+		# the title, group headings and links share one left edge.
+		.brand d:hcs fw:700 px:3
 			a c:inherit td:none
 		# A scrolling row of links on phones, grouped columns on wider screens.
 		nav d:hflex @md:vflex fls:0 g:1 @md:4 ofx:auto @md:visible mx:-1 px:1
