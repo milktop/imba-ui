@@ -18,21 +18,43 @@ tag page-overlays
 
 	css
 		.row d:hflex flw:wrap g:2 ai:center
+		.group d:vflex g:2
+		.caption fs:xs c:$ui-muted
+		.toolbar d:inline-flex g:0.5 p:1 bd:1px solid $ui-border rd:$ui-radius as:flex-start
+		# Spaced out so each placement's tooltip has room.
+		.placements d:hflex flw:wrap g:2 12
 		.actions d:hflex jc:flex-end g:2 mt:4
 
 	<self>
 		<demo-page source=source heading='Overlays' intro='Tooltips and popovers float above the page, positioned by Zag.'>
 			<demo-section heading='Tooltip'>
-				<div.row>
-					<ui-tooltip content='Edit lesson'>
-						<ui-button icon='lucide:pencil' aria-label='Edit lesson'>
-					<ui-tooltip content='Duplicate' placement='right'>
-						<ui-button icon='lucide:copy' aria-label='Duplicate'>
-					<ui-tooltip content='Archive' placement='bottom'>
-						<ui-button icon='lucide:archive' aria-label='Archive'>
-					<ui-tooltip content='Delete' placement='left'>
-						<ui-button icon='lucide:trash-2' aria-label='Delete'>
-					<ui-tooltip placement='top-start' openDelay=100>
+				<div.group>
+					<span.caption> "Toolbar: same placement, slide along it"
+					<div.toolbar>
+						<ui-tooltip content='Bold'>
+							<ui-button variant='ghost' icon='lucide:bold' aria-label='Bold'>
+						<ui-tooltip content='Italic'>
+							<ui-button variant='ghost' icon='lucide:italic' aria-label='Italic'>
+						<ui-tooltip content='Underline'>
+							<ui-button variant='ghost' icon='lucide:underline' aria-label='Underline'>
+						<ui-tooltip content='Insert link'>
+							<ui-button variant='ghost' icon='lucide:link' aria-label='Insert link'>
+						<ui-tooltip content='Clear formatting'>
+							<ui-button variant='ghost' icon='lucide:remove-formatting' aria-label='Clear formatting'>
+				<div.group>
+					<span.caption> "Placements"
+					<div.placements>
+						<ui-tooltip content='Top'>
+							<ui-button> "Top"
+						<ui-tooltip content='Right' placement='right'>
+							<ui-button> "Right"
+						<ui-tooltip content='Bottom' placement='bottom'>
+							<ui-button> "Bottom"
+						<ui-tooltip content='Left' placement='left'>
+							<ui-button> "Left"
+				<div.group>
+					<span.caption> "Rich content and a delay"
+					<ui-tooltip placement='top-start' openDelay=300>
 						<ui-button> "Rich content"
 						<div slot='content'>
 							<strong> "Keyboard"
