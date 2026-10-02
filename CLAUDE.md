@@ -36,6 +36,10 @@ New components follow the same pattern: add both files, an entry in
 - **Popups:** put `zi` on `.content`; Zag copies it onto the positioner.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
+- **Values are controlled and bindable.** Read and write the value through `data`
+  (it aliases `value`; `bind=` replaces it with the model). Call
+  `machine.syncValue data, do …setValue(…)` in render, and on Zag's
+  `onValueChange` set `data` and `emit('change', data) if machine.track(data)`.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 

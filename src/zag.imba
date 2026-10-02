@@ -42,6 +42,27 @@ export class Machine
 	def refresh
 		globalThis.queueMicrotask do service.notify!
 
+	# Controlled values. Components call `syncValue` from render with their
+	# current value; when it differs from the last one seen (a parent or a bound
+	# model changed it), `apply` pushes it into the machine, deferred like
+	# refresh. `track` records values the machine produced and returns whether
+	# it is new, so the echo of a pushed value doesn't emit `change` (native
+	# inputs don't either).
+	def track value
+		let key = valueKey(value)
+		let changed = key != #valueKey
+		#valueKey = key
+		changed
+
+	def syncValue value, apply
+		let key = valueKey(value)
+		return if key == #valueKey
+		#valueKey = key
+		globalThis.queueMicrotask(apply)
+
+	def valueKey value
+		[].concat(value ?? []).map(String).join('\n')
+
 	def stop
 		unsubscribe!
 		service.stop!

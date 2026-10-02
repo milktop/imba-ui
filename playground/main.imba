@@ -53,7 +53,9 @@ tag playground
 		p m:0 c:$ui-muted fs:sm
 		.row d:hcl g:8 flw:wrap ai:flex-start
 		pre fs:xs c:$ui-muted m:0 mt:2
-		button.theme bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
+		button.theme, .set button bd:1px solid $ui-border bg:transparent c:inherit rd:md px:3 py:1.5 cursor:pointer
+		.set d:hcl g:2 mt:2
+		.set button fs:xs px:2 py:1
 
 	<self>
 		<header>
@@ -63,31 +65,46 @@ tag playground
 		<demo-section title="Date picker">
 			<div.row>
 				<div>
-					<ui-date-picker label='Lesson date' value=lesson @change=(lesson = e.detail)>
+					<ui-date-picker label='Lesson date' bind=lesson>
 					<pre> JSON.stringify(lesson)
+					<div.set>
+						<button @click=(lesson = '2026-12-25')> "Christmas"
+						<button @click=(lesson = null)> "Clear"
 				<div>
-					<ui-date-picker label='Tutor away' range min='2026-10-01' @change=(away = e.detail)>
+					<ui-date-picker label='Tutor away' range min='2026-10-01' value=away @change=(away = e.detail)>
 					<pre> JSON.stringify(away)
+					<div.set>
+						<button @click=(away = ['2026-10-12', '2026-10-16'])> "Half term"
 				<div>
 					<ui-date-picker label='No weekends' unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0)>
 
 		<demo-section title="Select">
 			<div.row>
 				<div>
-					<ui-select label='Subject' items=subjects value=subject @change=(subject = e.detail)>
+					<ui-select label='Subject' items=subjects bind=subject>
 					<pre> JSON.stringify(subject)
+					<div.set>
+						<button @click=(subject = 2)> "English"
+						<button @click=(subject = null)> "Clear"
 				<div>
-					<ui-select label='Exam boards' items=boards multiple clearable @change=(examBoards = e.detail)>
+					<ui-select label='Exam boards' items=boards multiple clearable bind:value=examBoards>
 					<pre> JSON.stringify(examBoards)
+					<div.set>
+						<button @click=(examBoards = ['AQA', 'OCR'])> "AQA + OCR"
 
 		<demo-section title="Combobox">
 			<div.row>
 				<div>
-					<ui-combobox label='Subject' items=subjects placeholder='Search subjects' @change=(searched = e.detail)>
+					<ui-combobox label='Subject' items=subjects placeholder='Search subjects' bind=searched>
 					<pre> JSON.stringify(searched)
+					<div.set>
+						<button @click=(searched = 3)> "Physics"
+						<button @click=(searched = null)> "Clear"
 				<div>
-					<ui-combobox label='Students' items=subjects multiple placeholder='Add…' @change=(many = e.detail)>
+					<ui-combobox label='Students' items=subjects multiple placeholder='Add…' bind=many>
 					<pre> JSON.stringify(many)
+					<div.set>
+						<button @click=(many = [1, 5])> "Maths + Biology"
 				<div>
 					<ui-combobox label='Tutor (async)' load=findTutors labelKey='name' valueKey='id' placeholder='Type a name' @change=(tutor = e.detail)>
 					<pre> JSON.stringify(tutor)

@@ -28,10 +28,16 @@ tag ui-select-base
 	#sourceItems = null
 	#collection = null
 
+	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
+	# replaces that property with one reading and writing the bound model, so
+	# `data` aliases `value` here and the component goes through `data`.
+	get data do value
+	set data v do value = v
+
 	def setup
 		#sourceItems = items
 		#collection = toCollection(select, items, labelKey, valueKey, disabledKey)
-		let initial = toValueArray(value)
+		let initial = toValueArray(data)
 		machine = new Machine self, select.machine, do
 			id: zagId
 			collection: #collection
@@ -42,8 +48,10 @@ tag ui-select-base
 			positioning: { placement, sameWidth: true }
 			onValueChange: do(details)
 				let values = details.items.map(do itemValue($1, valueKey))
-				value = multiple ? values : (values[0] ?? null)
-				emit('change', value)
+				data = multiple ? values : (values[0] ?? null)
+				emit('change', data) if machine.track(data)
+
+		machine.track(data)
 
 	def mount do machine.start!
 	def unmount do machine.stop!
@@ -53,6 +61,9 @@ tag ui-select-base
 			#sourceItems = items
 			#collection = toCollection(select, items, labelKey, valueKey, disabledKey)
 			machine.refresh!
+
+		machine.syncValue data, do
+			machine.connect(select).setValue(toValueArray(data))
 
 		let api = machine.connect(select)
 

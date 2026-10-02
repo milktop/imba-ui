@@ -36,12 +36,21 @@ export default defineConfig({
 import '@milktop/imba-ui/date-picker'
 import '@milktop/imba-ui/combobox'
 
-<ui-date-picker label='Lesson date' value=lesson.date @change=(lesson.date = e.detail)>
-<ui-combobox label='Subject' items=subjects labelKey='name' valueKey='id' @change=(subjectId = e.detail)>
+<ui-date-picker label='Lesson date' bind=lesson.date>
+<ui-combobox label='Subject' items=subjects labelKey='name' valueKey='id' bind=subjectId>
 ```
 
-Each component emits `change` with plain values: ISO dates from the date picker,
-and the items' own values (numeric ids stay numbers) from select and combobox.
+Values work three ways, all two-way:
+
+- `bind=model.field` (Imba binds custom tags through `data`, which aliases `value`)
+- `bind:value=model.field`
+- `value=x @change=(x = e.detail)`
+
+Values are plain: ISO dates from the date picker, and the items' own values
+(numeric ids stay numbers) from select and combobox. Changing the value from
+outside updates the component without emitting `change`, as with native inputs;
+only user changes emit it. With async `load`, an outside value only shows a
+label once its item is among the loaded results.
 
 ## Theming
 

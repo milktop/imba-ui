@@ -21,8 +21,17 @@ tag ui-date-picker-base
 
 	zagId = uid('date-picker')
 
+	def parseDates value
+		[].concat(value or []).map(do datepicker.parse($1))
+
+	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
+	# replaces that property with one reading and writing the bound model, so
+	# `data` aliases `value` here and the component goes through `data`.
+	get data do value
+	set data v do value = v
+
 	def setup
-		let initial = [].concat(value or []).map(do datepicker.parse($1))
+		let initial = parseDates(data)
 		machine = new Machine self, datepicker.machine, do
 			id: zagId
 			locale: locale
@@ -36,13 +45,18 @@ tag ui-date-picker-base
 			onValueChange: do(details)
 				# CalendarDate#toString is ISO; valueAsString is locale-formatted.
 				let iso = details.value.map(String)
-				value = range ? iso : (iso[0] or null)
-				emit('change', value)
+				data = range ? iso : (iso[0] or null)
+				emit('change', data) if machine.track(data)
+
+		machine.track(data)
 
 	def mount do machine.start!
 	def unmount do machine.stop!
 
 	def render
+		machine.syncValue data, do
+			machine.connect(datepicker).setValue(parseDates(data))
+
 		let api = machine.connect(datepicker)
 		let view = api.view
 

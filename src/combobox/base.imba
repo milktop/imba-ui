@@ -56,10 +56,16 @@ tag ui-combobox-base
 			setResults(list or [])
 			machine.refresh!
 
+	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
+	# replaces that property with one reading and writing the bound model, so
+	# `data` aliases `value` here and the component goes through `data`.
+	get data do value
+	set data v do value = v
+
 	def setup
 		#sourceItems = items
 		setResults(items)
-		let initial = toValueArray(value)
+		let initial = toValueArray(data)
 		machine = new Machine self, combobox.machine, do
 			id: zagId
 			collection: #collection
@@ -83,8 +89,10 @@ tag ui-combobox-base
 					machine.refresh!
 			onValueChange: do(details)
 				let values = details.items.map(do itemValue($1, valueKey))
-				value = multiple ? values : (values[0] ?? null)
-				emit('change', value)
+				data = multiple ? values : (values[0] ?? null)
+				emit('change', data) if machine.track(data)
+
+		machine.track(data)
 
 	def mount do machine.start!
 	def unmount do machine.stop!
@@ -95,6 +103,9 @@ tag ui-combobox-base
 			#sourceItems = items
 			filterLocal(machine.service.context.get('inputValue') or '')
 			machine.refresh!
+
+		machine.syncValue data, do
+			machine.connect(combobox).setValue(toValueArray(data))
 
 		let api = machine.connect(combobox)
 		let list = #collection.items
