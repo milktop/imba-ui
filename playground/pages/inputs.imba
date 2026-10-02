@@ -21,8 +21,9 @@ tag page-inputs
 					<ui-field span=6 label='Search' icon='lucide:search' placeholder='Search lessons' bind=query>
 					<ui-field span=6 label='Password' hint='At least 8 characters'>
 						<ui-input type=(showPassword ? 'text' : 'password') icon='lucide:key' autocomplete='new-password' bind=password>
-							<button.peek slot='suffix' type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
-								<iconify-icon icon=(showPassword ? 'lucide:eye-off' : 'lucide:eye')>
+							<ui-tooltip slot='suffix' content=(showPassword ? 'Hide password' : 'Show password')>
+								<button.peek type='button' aria-label=(showPassword ? 'Hide password' : 'Show password') @click=(showPassword = !showPassword)>
+									<iconify-icon icon=(showPassword ? 'lucide:eye-off' : 'lucide:eye')>
 				<div.out>
 					<pre> JSON.stringify({ query, password })
 

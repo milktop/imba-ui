@@ -27,6 +27,10 @@
     "./switch/base": "./src/switch/base.imba",
     "./segmented": "./src/segmented/index.imba",
     "./segmented/base": "./src/segmented/base.imba",
+    "./tooltip": "./src/tooltip/index.imba",
+    "./tooltip/base": "./src/tooltip/base.imba",
+    "./popover": "./src/popover/index.imba",
+    "./popover/base": "./src/popover/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
     "./fields": "./src/fields/index.imba",
@@ -55,9 +59,11 @@
     "@zag-js/date-picker": "^1.44.0",
     "@zag-js/dialog": "^1.44.0",
     "@zag-js/number-input": "^1.44.0",
+    "@zag-js/popover": "^1.44.0",
     "@zag-js/radio-group": "^1.44.0",
     "@zag-js/select": "^1.44.0",
     "@zag-js/switch": "^1.44.0",
+    "@zag-js/tooltip": "^1.44.0",
     "@zag-js/vanilla": "^1.44.0"
   }
 }

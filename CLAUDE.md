@@ -40,7 +40,13 @@ New components follow the same pattern: add both files, an entry in
   props, so unset ones don't wipe out the defaults.
 - **Inner `<input>`/`<select>` elements get `@change.stop`,** so their native events
   don't reach the host's `change` listeners.
-- **Popups:** put `zi` on `.content`; Zag copies it onto the positioner.
+- **Popups:** put `zi` on `.content`; Zag copies it onto the positioner. Floating
+  panels (tooltip, popover) use `strategy: 'fixed'` so overflow can't clip them.
+- **Slotted triggers** (tooltip, popover) get Zag's trigger props spread straight
+  onto the slotted element (`trigger.zag = …`), in both `render` and `rendered`:
+  Machine re-renders without Imba's `rendered` hook.
+- **No optional assignment:** `a..b = c` compiles to invalid `a?.b = c`; write
+  `a.b = c if a`.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
   Read-only DOM properties (`prefix`) throw as a `prop`; use a get/set accessor.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.

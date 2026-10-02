@@ -6,6 +6,7 @@ import './pages/inputs.imba'
 import './pages/pickers.imba'
 import './pages/choices.imba'
 import './pages/forms.imba'
+import './pages/overlays.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -16,6 +17,7 @@ const pages = [
 	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
 	{ path: '/choices', title: 'Choices', about: 'Checkbox, switch, segmented' }
 	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
+	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, popover' }
 ]
 
 tag page-home
@@ -73,5 +75,6 @@ tag playground
 			<page-pickers route='/pickers'>
 			<page-choices route='/choices'>
 			<page-forms route='/forms'>
+			<page-overlays route='/overlays'>
 
 imba.mount <playground>
