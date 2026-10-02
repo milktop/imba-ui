@@ -6,7 +6,7 @@ tag ui-combobox < ui-combobox-base
 		d:inline-block pos:relative c:$ui-text ff:$ui-font min-width:60
 
 		.label d:block fs:sm fw:500 mb:1.5
-		.control d:hcl flw:wrap g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 py:1 min-height:10 box-sizing:border-box
+		.control d:hcl flw:wrap g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 py:0.5 min-height:$ui-control-height box-sizing:border-box
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger

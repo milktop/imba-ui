@@ -7,7 +7,7 @@ tag ui-select < ui-select-base
 
 		.label d:block fs:sm fw:500 mb:1.5
 		.control d:hcl pos:relative
-		.trigger d:hcs g:2 w:100% h:10 px:3 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ta:left cursor:pointer
+		.trigger d:hcs g:2 w:100% h:$ui-control-height px:3 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ta:left cursor:pointer
 			@focus-visible bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5 cursor:not-allowed
 			&[data-invalid] bc:$ui-danger

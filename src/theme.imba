@@ -16,12 +16,17 @@ global css
 		$ui-accent:#4f46e5
 		$ui-accent-text:white
 		$ui-accent-soft:#e0e7ff
+		$ui-accent-soft-text:#3730a3
 		$ui-ring:#6366f1
 		$ui-ring-soft:#6366f133
 		$ui-danger:#dc2626
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
 		$ui-font:inherit
+		# One height for buttons and inputs, so they line up in a row.
+		$ui-control-height:2.25rem
+		$ui-control-height-sm:2rem
+		$ui-control-height-lg:2.75rem
 
 	html.dark, [data-theme=dark]
 		$ui-text:#fafafa
@@ -31,6 +36,7 @@ global css
 		$ui-hover:#27272a
 		$ui-accent:#6366f1
 		$ui-accent-soft:#312e81
+		$ui-accent-soft-text:#c7d2fe
 		$ui-ring:#818cf8
 		$ui-ring-soft:#818cf833
 		$ui-danger:#f87171

@@ -14,13 +14,15 @@ tag page-buttons
 		.row d:hflex flw:wrap g:2 ai:center
 
 	<self>
-		<demo-page source=source heading='Buttons' intro='ui-button is a real <button>, so labels, types and forms work natively.'>
+		<demo-page source=source heading='Buttons' intro='ui-button is a real <button>, so labels, types and forms work natively. Primary uses $ui-accent; heights come from $ui-control-height.'>
 			<demo-section heading='Variants'>
 				<div.row>
 					<ui-button @click=(clicks++)> "Default"
 					<ui-button variant='primary' @click=(clicks++)> "Primary"
 					<ui-button variant='danger' @click=(clicks++)> "Delete"
+					<ui-button variant='soft' @click=(clicks++)> "Soft"
 					<ui-button variant='ghost' @click=(clicks++)> "Ghost"
+					<ui-button variant='link' @click=(clicks++)> "Forgot password?"
 					<ui-button disabled> "Disabled"
 				<div.out>
 					<json-print data={ clicks }>

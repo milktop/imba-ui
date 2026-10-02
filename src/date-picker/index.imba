@@ -9,7 +9,7 @@ tag ui-date-picker < ui-date-picker-base
 		d:inline-block pos:relative c:$ui-text ff:$ui-font
 
 		.label d:block fs:sm fw:500 mb:1.5
-		.control d:hcl g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 h:10
+		.control d:hcl g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius px:2 h:$ui-control-height
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger

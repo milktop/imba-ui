@@ -3,7 +3,7 @@ import './base.imba'
 
 tag ui-input < ui-input-base
 	css
-		d:hcl g:2 min-height:10 px:3 box-sizing:border-box min-width:0
+		d:hcl g:2 min-height:$ui-control-height px:3 box-sizing:border-box min-width:0
 		bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
 		@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 		&:has([aria-invalid=true]) bc:$ui-danger

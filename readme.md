@@ -113,8 +113,10 @@ while there is an error.
 
 ## Theming
 
-Styled components read `$ui-*` tokens from `src/theme.imba`. Override them
-globally, e.g. to map onto an app's own tokens:
+Styled components read `$ui-*` tokens from `src/theme.imba`: colours (`$ui-accent`
+for primary buttons and selections, `$ui-danger`, `$ui-ring`…), `$ui-radius`,
+and `$ui-control-height` (with `-sm`/`-lg`), which buttons and inputs share so
+they line up. Override them globally, e.g. to map onto an app's own tokens:
 
 ```imba
 global css @root
