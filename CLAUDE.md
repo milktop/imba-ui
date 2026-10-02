@@ -47,6 +47,8 @@ New components follow the same pattern: add both files, an entry in
   Machine re-renders without Imba's `rendered` hook.
 - **No optional assignment:** `a..b = c` compiles to invalid `a?.b = c`; write
   `a.b = c if a`.
+- **Method names:** don't reuse Imba's component methods (`commit`, `render`,
+  `visit`, `setup`, `mount`); overriding `commit` silently breaks rendering.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).
   Read-only DOM properties (`prefix`) throw as a `prop`; use a get/set accessor.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.

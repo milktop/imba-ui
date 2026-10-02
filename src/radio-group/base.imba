@@ -3,24 +3,29 @@ import { Machine, uid } from '../zag.imba'
 import { closestField, fieldIds } from '../field/base.imba'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 
-# Headless segmented control: a row of options with an indicator that slides
-# to the selected one (Zag's radio group, so arrow keys move the selection).
+# Headless radio group: one choice from a list of options, each with an
+# optional description (Zag's radio group, so arrow keys move the selection).
 #
-# - `items`: strings or objects (see `labelKey`, `valueKey`, `disabledKey`)
+# - `items`: strings or objects (see `labelKey`, `valueKey`, `disabledKey`,
+#   `descriptionKey`)
+# - `orientation`: 'vertical' (default) or 'horizontal'
 # - `name`: the hidden radios also post with plain forms
 #
-# Emits `change` with the selected item's original value.
-tag ui-segmented-base
+# Emits `change` with the selected item's original value. For a compact row
+# of short options, see ui-segmented.
+tag ui-radio-group-base
 	prop label = null
 	prop items = []
 	prop value = null
 	prop labelKey = 'label'
 	prop valueKey = 'value'
 	prop disabledKey = 'disabled'
+	prop descriptionKey = 'description'
+	prop orientation = 'vertical'
 	prop name = null
 	prop disabled = false
 
-	zagId = uid('segmented')
+	zagId = uid('radio-group')
 
 	# `bind=` targets `data` and `bind:value=` targets `value`. Either way Imba
 	# replaces that property with one reading and writing the bound model, so
@@ -28,6 +33,10 @@ tag ui-segmented-base
 	get data do value
 	set data v do value = v
 
+	def description item
+		typeof item == 'object' and item ? item[descriptionKey] : null
+
+	def descriptionId item do "{zagId}-{itemKey(item, valueKey)}-description"
 
 	def setup
 		let initial = data == null ? null : String(data)
@@ -35,7 +44,7 @@ tag ui-segmented-base
 			id: zagId
 			ids: fieldIds(self)
 			name: name
-			orientation: 'horizontal'
+			orientation: orientation
 			disabled: disabled or #locked
 			invalid: !!#field..invalid
 			defaultValue: initial
@@ -65,9 +74,13 @@ tag ui-segmented-base
 			if label and !#field..label
 				<span.label zag=api.getLabelProps!> label
 			<div.group zag=(#field ? #field.describe(api.getRootProps!) : api.getRootProps!)>
-				<span.indicator zag=api.getIndicatorProps!>
 				for item in items
 					let props = { value: itemKey(item, valueKey), disabled: itemDisabled(item, disabledKey) }
+					let about = description(item)
 					<label.item zag=api.getItemProps(props)>
-						<span.item-text zag=api.getItemTextProps(props)> itemLabel(item, labelKey)
-						<input zag=api.getItemHiddenInputProps(props) @change.stop>
+						<span.control zag=api.getItemControlProps(props)>
+						<span.text>
+							<span.item-text zag=api.getItemTextProps(props)> itemLabel(item, labelKey)
+							if about
+								<span.description id=descriptionId(item)> about
+						<input zag=Object.assign({}, api.getItemHiddenInputProps(props), 'aria-describedby': about ? descriptionId(item) : undefined) @change.stop>

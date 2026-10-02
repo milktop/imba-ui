@@ -15,7 +15,7 @@ global css
 const pages = [
 	{ path: '/inputs', title: 'Inputs', about: 'Input, number input, textarea' }
 	{ path: '/pickers', title: 'Pickers', about: 'Date picker, select, combobox' }
-	{ path: '/choices', title: 'Choices', about: 'Checkbox, switch, segmented' }
+	{ path: '/choices', title: 'Choices', about: 'Checkbox and radio groups, switch, segmented' }
 	{ path: '/forms', title: 'Forms', about: 'Fields, fieldsets, validation' }
 	{ path: '/overlays', title: 'Overlays', about: 'Tooltip, popover' }
 ]
