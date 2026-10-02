@@ -71,7 +71,7 @@ tag ui-combobox-base
 			id: zagId
 			collection: #collection
 			multiple: multiple
-			disabled: disabled
+			disabled: disabled or #locked
 			invalid: !!#field..invalid
 			ids: fieldIds(self)
 			placeholder: placeholder
@@ -107,10 +107,13 @@ tag ui-combobox-base
 			filterLocal(machine.service.context.get('inputValue') or '')
 			machine.refresh!
 
-		# Inside a ui-field, it owns the label, hint and error.
+		# Inside a ui-field, it owns the label, hint and error. A disabled
+		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
 		#field = closestField(self)
-		if #field..stateKey != #fieldKey
-			#fieldKey = #field..stateKey
+		#locked = !!closest('fieldset:disabled')
+		let key = "{#field..stateKey}|{#locked}"
+		if key != #fieldKey
+			#fieldKey = key
 			machine.refresh!
 		machine.syncValue data, do
 			machine.connect(combobox).setValue(toValueArray(data))

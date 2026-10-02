@@ -38,6 +38,7 @@ tag playground
 	tutor = null
 	student = { first: '', last: '', email: '', year: null, subjects: [], start: null }
 	errors = {}
+	locked = no
 	query = ''
 	price = null
 	weight = null
@@ -150,12 +151,13 @@ tag playground
 				<pre> JSON.stringify({ query, price, weight, password, notes })
 
 		<demo-section title="Fields">
-			<ui-fields>
+			<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
 				<ui-field span=6 label='First name' required error=errors.first bind=student.first>
 				<ui-field span=6 label='Last name' bind=student.last>
 				<ui-field span=8 label='Email' type='email' icon='lucide:mail' required hint="We'll send lesson reminders here" error=errors.email bind=student.email>
 				<ui-field span=4 label='Year group'>
 					<ui-select items=years bind=student.year>
+			<ui-fields legend='Lessons' disabled=locked>
 				<ui-field span=6 label='Subjects' error=errors.subjects>
 					<ui-combobox items=subjects multiple placeholder='Add…' bind=student.subjects>
 				<ui-field span=6 label='Start date' hint='Lessons start from this date'>
@@ -164,6 +166,7 @@ tag playground
 				<div.set>
 					<button @click=validate> "Validate"
 					<button @click=(errors = {})> "Clear errors"
+					<button @click=(locked = !locked)> locked ? "Unlock" : "Lock"
 				<pre> JSON.stringify(student)
 
 imba.mount <playground>

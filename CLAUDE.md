@@ -44,7 +44,9 @@ New components follow the same pattern: add both files, an entry in
 - **Fields:** components look up their `ui-field` with `closestField` in render
   (refreshing when its `stateKey` changes), pass `invalid` and lazy `ids` for the
   label, skip their own label when the field has one, and spread
-  `#field.describe(props)` onto their focusable control.
+  `#field.describe(props)` onto their focusable control. They also pass
+  `disabled: disabled or #locked`, where `#locked` is an enclosing
+  `fieldset:disabled`, since Zag doesn't track it.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 

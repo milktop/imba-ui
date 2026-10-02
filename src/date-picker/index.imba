@@ -13,8 +13,10 @@ tag ui-date-picker < ui-date-picker-base
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger
-		# The last input grows, keeping range dates together and the buttons at the end.
-		.input min-width:0 bd:none bg:transparent outline:none fs:sm w:26 c:inherit p:0
+		# Inputs fit their text (`size` is the fallback where field-sizing isn't
+		# supported) and the last one grows, keeping range dates together and
+		# the buttons at the end.
+		.input min-width:0 bd:none bg:transparent outline:none fs:sm w:auto field-sizing:content c:inherit p:0
 			&:last-of-type flg:1
 			@placeholder c:$ui-muted
 		.separator c:$ui-muted fs:sm px:1

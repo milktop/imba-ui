@@ -11,7 +11,7 @@ package adds Imba markup and an optional theme.
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots; slot a textarea to replace it |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
-| Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow |
+| Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 
 ## Install
 
@@ -81,6 +81,15 @@ don't use it. For anything else before or after the input, use the slots:
 ```imba
 <ui-input type=(show ? 'text' : 'password') icon='lucide:key' bind=password>
 	<button slot='suffix' @click=(show = !show)> <iconify-icon icon='lucide:eye'>
+```
+
+Use one `ui-fields` for a plain form, or several with a `legend` (and optional
+`description`) to group them. With a legend or `disabled` it renders a real
+`<fieldset>`: assistive tech announces the named group, and `disabled`
+disables every control inside, components included.
+
+```imba
+<ui-fields legend='Student' description='Who the lessons are for' disabled=saving>
 ```
 
 A field owns its control's label, hint and error; an error replaces the hint

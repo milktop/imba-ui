@@ -61,7 +61,7 @@ tag ui-date-picker-base
 		machine = new Machine self, datepicker.machine, do
 			id: zagId
 			locale: locale
-			disabled: disabled
+			disabled: disabled or #locked
 			invalid: !!#field..invalid
 			ids: { label: do closestField(self)..labelledBy }
 			selectionMode: range ? 'range' : 'single'
@@ -82,10 +82,13 @@ tag ui-date-picker-base
 	def unmount do machine.stop!
 
 	def render
-		# Inside a ui-field, it owns the label, hint and error.
+		# Inside a ui-field, it owns the label, hint and error. A disabled
+		# fieldset (e.g. ui-fields disabled) disables it, which Zag doesn't track.
 		#field = closestField(self)
-		if #field..stateKey != #fieldKey
-			#fieldKey = #field..stateKey
+		#locked = !!closest('fieldset:disabled')
+		let key = "{#field..stateKey}|{#locked}"
+		if key != #fieldKey
+			#fieldKey = key
 			machine.refresh!
 		machine.syncValue data, do
 			machine.connect(datepicker).setValue(parseDates(data))
@@ -97,10 +100,10 @@ tag ui-date-picker-base
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
-				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) @keydown=stepDate(e, 0) @change.stop>
+				<input.input zag=(#field ? #field.describe(api.getInputProps(index: 0)) : api.getInputProps(index: 0)) size=10 @keydown=stepDate(e, 0) @change.stop>
 				if range
 					<span.separator> "–"
-					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) @keydown=stepDate(e, 1) @change.stop>
+					<input.input zag=(#field ? #field.describe(api.getInputProps(index: 1)) : api.getInputProps(index: 1)) size=10 @keydown=stepDate(e, 1) @change.stop>
 				<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.calendar>
 
