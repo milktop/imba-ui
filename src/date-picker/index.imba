@@ -26,7 +26,7 @@ tag ui-date-picker < ui-date-picker-base
 			&[hidden] d:none
 
 		# Zag copies the content's z-index onto its positioner.
-		.content zi:50 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:3 outline:none
+		.content zi:50 fw:400 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:3 outline:none
 		.view-control d:hcs mb:2
 		.view-trigger fw:600 fs:sm bd:none bg:transparent rd:sm px:2 py:1 c:inherit cursor:pointer
 			@hover bg:$ui-hover

@@ -22,7 +22,7 @@ tag ui-combobox < ui-combobox-base
 		.trigger[data-state=open] rotate:180deg
 
 		# Zag copies the content's z-index onto its positioner.
-		.content zi:50 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:1 outline:none max-height:min(300px, var(--available-height)) ofy:auto box-sizing:border-box
+		.content zi:50 fw:400 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:1 outline:none max-height:min(300px, var(--available-height)) ofy:auto box-sizing:border-box
 		.status px:2 py:2 fs:sm c:$ui-muted
 		.item d:hcs g:2 px:2 py:1.5 rd:sm fs:sm cursor:pointer
 			&[data-highlighted] bg:$ui-hover

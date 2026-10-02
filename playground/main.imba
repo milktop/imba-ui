@@ -2,6 +2,7 @@ import 'imba/preflight.css'
 import 'iconify-icon'
 import '../src/index.imba'
 import './demo.imba'
+import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/button.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
@@ -85,12 +86,6 @@ tag page-home
 					<span> page.about
 
 tag playground
-	dark = document.documentElement.classList.contains('dark')
-
-	def toggleTheme
-		dark = !dark
-		document.documentElement.classList.toggle('dark', dark)
-
 	css
 		d:grid gtc:1fr @md:210px 1fr min-height:100vh
 		.sidebar d:vflex g:4 p:4 @md:5 min-width:0 bdb:1px solid $ui-border @md:none
@@ -104,14 +99,13 @@ tag playground
 		nav a d:block px:3 py:1.5 rd:md c:$ui-muted fs:sm td:none ws:nowrap
 			@hover c:$ui-text bg:$ui-hover
 			&.active c:$ui-text bg:$ui-hover fw:500
-		.theme bd:1px solid $ui-border bg:transparent c:inherit rd:md px:2 py:1 fs:xs cursor:pointer
 		main min-width:0 max-width:880px w:100% box-sizing:border-box p:4 @md:8
 
 	<self>
 		<aside.sidebar>
 			<div.brand>
 				<a route-to='/'> "Imba UI"
-				<button.theme @click=toggleTheme> dark ? "Light" : "Dark"
+				<appearance-panel>
 			<nav> for group in groups
 				<div.group>
 					<span.group-title> group.title
@@ -141,4 +135,6 @@ tag playground
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 
+# Saved appearance first, so a reload doesn't flash the defaults.
+applyAppearance(loadAppearance!)
 imba.mount <playground>
