@@ -1,11 +1,12 @@
 import { subjects } from '../demo.imba'
-import source from './forms.imba?raw'
+import source from './fields.imba?raw'
 
-tag page-forms
+tag page-fields
 	student = { first: '', last: '', email: '', year: null, subjects: [], start: null, online: yes }
 	errors = {}
 	locked = no
 	years = [7, 8, 9, 10, 11, 12, 13].map(do { value: $1, label: "Year {$1}" })
+	address = { line1: '', town: '', postcode: '' }
 
 	def validate
 		errors = {}
@@ -14,8 +15,16 @@ tag page-forms
 		errors.subjects = 'Pick at least one subject' unless student.subjects.length
 
 	<self>
-		<demo-page source=source heading='Forms' intro='ui-fields lays fields out on a 12-column grid; with a legend it becomes a fieldset.'>
-			<demo-section heading='Student form'>
+		<demo-page source=source heading='Fields' intro='ui-fields lays fields out on a 12-column grid that stacks when narrow; ui-field adds a label, hint and error to any control.'>
+			<demo-section heading='Grid'>
+				<ui-fields>
+					<ui-field span=12 label='Address' bind=address.line1>
+					<ui-field span=8 label='Town' bind=address.town>
+					<ui-field span=4 label='Postcode' bind=address.postcode>
+				<div.out>
+					<p.note> "Each field spans `span` of 12 columns; below 480px wide they all go full width."
+
+			<demo-section heading='Fieldsets and validation'>
 				<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
 					<ui-field span=6 label='First name' required error=errors.first bind=student.first>
 					<ui-field span=6 label='Last name' bind=student.last>
@@ -35,3 +44,4 @@ tag page-forms
 						<button @click=(errors = {})> "Clear errors"
 						<button @click=(locked = !locked)> locked ? "Unlock" : "Lock"
 					<json-print fixed label='Form state' data={ student, errors, locked }>
+					<p.note> "With a legend or `disabled`, ui-fields is a real fieldset; Lock disables everything inside."

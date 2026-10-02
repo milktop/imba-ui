@@ -57,6 +57,9 @@ export def sectionSource source, heading
 global css
 	demo-section
 		.out d:vflex g:2 mt:1
+		.row d:hflex flw:wrap g:2 ai:center
+		.group d:vflex ai:flex-start g:2
+		.caption fs:xs c:$ui-muted
 		.note m:0 fs:xs c:$ui-muted
 		.indent d:vflex g:2 pl:6
 		.set d:hcl g:2 flw:wrap

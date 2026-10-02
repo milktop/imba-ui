@@ -1,0 +1,37 @@
+import source from './menu.imba?raw'
+
+tag page-menu
+	selected = null
+	actions = [
+		{ value: 'edit', label: 'Edit', icon: 'lucide:pencil', shortcut: '⌘E' }
+		{ value: 'duplicate', label: 'Duplicate', icon: 'lucide:copy', shortcut: '⌘D' }
+		{ value: 'share', label: 'Share', icon: 'lucide:share-2', disabled: true }
+		{ separator: true }
+		{ value: 'delete', label: 'Delete', icon: 'lucide:trash-2', danger: true }
+	]
+	more = [
+		{ group: 'Lesson' }
+		{ value: 'reschedule', label: 'Reschedule', icon: 'lucide:calendar-clock' }
+		{ value: 'notes', label: 'Add notes', icon: 'lucide:notebook-pen' }
+		{ separator: true }
+		{ group: 'Student' }
+		{ value: 'message', label: 'Send message', icon: 'lucide:message-square' }
+		{ value: 'profile', label: 'View profile', icon: 'lucide:user' }
+	]
+
+	<self>
+		<demo-page source=source heading='Menu' intro='ui-menu is a dropdown of actions. Arrow keys move through it, typing jumps to an item, and it emits `select` with the item’s value.'>
+			<demo-section heading='Actions'>
+				<ui-menu items=actions @select=(selected = e.detail)>
+					<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Actions"
+				<div.out>
+					<json-print data={ selected }>
+					<p.note> "Icons, shortcuts, a disabled item, a separator and a danger item."
+
+			<demo-section heading='Groups, aligned to the end'>
+				<div.row>
+					<span> "Maths with Ada, Thursday 16:00"
+					<ui-menu items=more placement='bottom-end' @select=(selected = e.detail)>
+						<ui-button slot='trigger' variant='ghost' icon='lucide:ellipsis' aria-label='More'>
+				<div.out>
+					<json-print data={ selected }>

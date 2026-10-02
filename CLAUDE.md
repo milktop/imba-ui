@@ -14,16 +14,16 @@ and the Zag/Imba lessons below in more detail.
 - `src/theme.imba`: `$ui-*` tokens (dark under `html.dark` / `[data-theme=dark]`)
 - `src/items.imba`: item/collection helpers shared by select and combobox
 - `playground/`: Vite demo app (`npm run dev`), routed with Imba's router: a shell in
-  `main.imba`, one file per group in `pages/` (inputs, pickers, choices, forms),
-  shared bits in `demo.imba`. Add a `demo-section` for every component. Its Code
-  toggle shows the section's own markup from the page source (`?raw`); put
+  `main.imba` (sidebar `groups` and routes), one page per component in
+  `pages/<name>.imba`, shared bits in `demo.imba`. Each example is a
+  `demo-section`; its Code toggle shows the section's own markup from the page source (`?raw`); put
   readouts (`json-print`) and value-setting buttons in a `<div.out>` so they're
   left out of it
 
 New components follow the same pattern: add both files, an entry in
 `package.json` `exports` (`./<name>` and `./<name>/base`), an import in
-`src/index.imba`, a section on the right playground page (or a new page in
-`pages/`, `main.imba`'s `pages` list and its routes) and a row in the readme table.
+`src/index.imba`, a playground page (`pages/<name>.imba`, plus an entry in
+`main.imba`'s `groups` and a route) and a row in the readme table.
 
 ## Rules
 
