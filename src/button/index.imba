@@ -12,6 +12,8 @@ tag ui-button < ui-button-base
 		transition:background-color 120ms, border-color 120ms
 		@hover bg:$ui-hover
 		@active y:1px
+		# A ring for keyboard focus only, not after a click.
+		outline:none
 		@focus-visible outline:2px solid $ui-ring-soft bc:$ui-ring
 		@disabled o:0.5 cursor:not-allowed
 			@active y:0

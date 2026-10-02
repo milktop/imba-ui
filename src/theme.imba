@@ -6,15 +6,17 @@
 #
 # Dark values apply under `html.dark` or `[data-theme=dark]`.
 
-# Two plain rules Imba's CSS can't express: Zag's `hidden` on closed parts
-# beats any component display (e.g. d:flex on a dialog panel, which would
-# otherwise stay on screen, invisible but clickable), and animations stop
-# when the system asks for less motion.
+# Plain rules Imba's CSS can't express: Zag's `hidden` on closed parts beats
+# any component display (e.g. d:flex on a dialog panel, which would otherwise
+# stay on screen, invisible but clickable); the browser's focus outline only
+# shows for keyboard focus, not after a click; and animations stop when the
+# system asks for less motion.
 if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 	let style = document.createElement('style')
 	style.id = 'ui-base-rules'
 	style.textContent = [
 		'[data-scope][hidden] { display: none !important; }'
+		'[data-scope]:focus:not(:focus-visible) { outline: none; }'
 		'@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
 	].join('\n')
 	document.head.appendChild(style)
