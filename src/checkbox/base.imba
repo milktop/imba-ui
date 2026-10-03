@@ -7,6 +7,8 @@ import { icons } from '../icons.imba'
 # for keyboard, forms (`name`, `value`) and assistive tech.
 #
 # - `checked`: true, false or 'indeterminate'
+# - `labelHidden`: keeps the label for assistive tech but doesn't show it
+#   (e.g. row checkboxes in ui-table)
 #
 # As with native checkboxes, the bound value is `checked` (`bind=` or
 # `bind:checked=`); `value` is what a form submits. Emits `change` with the
@@ -18,6 +20,7 @@ tag ui-checkbox-base < ui-control
 	prop name = null
 	prop required = false
 	prop disabled = false
+	prop labelHidden = false
 
 	zagId = uid('checkbox')
 
@@ -59,5 +62,5 @@ tag ui-checkbox-base < ui-control
 					<span.indicator zag=api.getIndicatorProps!>
 						<ui-icon path=(api.indeterminate ? icons.minus : icons.check) size=12>
 				if label
-					<span.label zag=api.getLabelProps!> label
+					<span.label .visually-hidden=labelHidden zag=api.getLabelProps!> label
 				<input zag=describe(api.getHiddenInputProps!) @change.stop>

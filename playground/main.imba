@@ -9,6 +9,7 @@ import './pages/copy-button.imba'
 import './pages/avatar.imba'
 import './pages/badge.imba'
 import './pages/card.imba'
+import './pages/table.imba'
 import './pages/alert.imba'
 import './pages/skeleton.imba'
 import './pages/spinner.imba'
@@ -58,6 +59,7 @@ const groups = [
 		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback' }
 		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
 		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
+		{ path: '/table', title: 'Table', about: 'Sorting, selection, paging' }
 	] }
 	{ title: 'Feedback', icon: 'lucide:bell', pages: [
 		{ path: '/alert', title: 'Alert', about: 'Messages in the page' }
@@ -207,6 +209,7 @@ tag playground
 				<page-avatar route='/avatar'>
 				<page-badge route='/badge'>
 				<page-card route='/card'>
+				<page-table route='/table'>
 				<page-alert route='/alert'>
 				<page-skeleton route='/skeleton'>
 				<page-spinner route='/spinner'>

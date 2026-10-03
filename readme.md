@@ -11,6 +11,8 @@ package adds Imba markup and an optional theme.
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
 | Card | `<ui-card>` | Surface with heading, description, actions and footer slots |
+| Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all, custom cell tags, formats, loading/empty states, sticky header |
+| Pagination | `<ui-pagination>` | Previous/next and page numbers with ellipses, optional "11–20 of 95" summary; binds `page` |
 | Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |
 | Skeleton | `<ui-skeleton>` | Loading placeholders: blocks, circles, text lines |
 | Spinner | `<ui-spinner>` | Small loading indicator with an accessible label |
@@ -28,7 +30,7 @@ package adds Imba markup and an optional theme.
 | Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |
 | File upload | `<ui-file-upload>` | Dropzone and file list with previews and rejections |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
-| Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked` |
+| Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked`; `labelHidden` for a label only assistive tech hears |
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all |
 | Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions |
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
