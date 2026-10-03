@@ -55,6 +55,13 @@ tag ui-sidebar < ui-sidebar-base
 			&:not(:has(*)) d:none
 		&.rail .footer ai:center
 
+		# The edge strip sits over the border, inside the sidebar (which clips
+		# overflow); a line shows on hover, and the cursor points the way it goes.
+		.edge pos:absolute t:0 b:0 r:0 zi:1 w:1.5 p:0 bd:none bg:transparent outline:none cursor:w-resize
+			@after content:'' pos:absolute t:0 b:0 r:0 w:2px bg:transparent transition:background 150ms
+			@hover@after bg:$ui-muted o:0.6
+		&.rail .edge cursor:e-resize
+
 # The heading fades out in the rail; a divider keeps sections apart.
 tag ui-nav-section < ui-nav-section-base
 	css

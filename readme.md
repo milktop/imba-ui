@@ -158,7 +158,8 @@ while there is an error.
 		…
 ```
 
-- The sidebar collapses to an icon rail with its button or ⌘/Ctrl+B. Labels
+- The sidebar collapses to an icon rail with its button, ⌘/Ctrl+B, or a
+  click anywhere along its right edge (`edge=false` turns that off). Labels
   then show as tooltips and groups open as a flyout. Bind the state with
   `bind=` (or `bind:collapsed=`), and remember it with `persist` (a
   localStorage key).
