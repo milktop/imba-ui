@@ -121,6 +121,7 @@ tag ui-command-base
 			collection: #collection
 			loopFocus: yes
 			value: []
+			scrollToIndexFn: do(details) scrollToItem(details.getElement!)
 			onSelect: do(details) choose(details.value)
 
 	def mount
@@ -142,13 +143,27 @@ tag ui-command-base
 	def reset
 		query = ''
 		$input.value = '' if $input
+		$list.scrollTop = 0 if $list
 		search('')
-
-	# Highlights the first result once the input has focus, so Enter picks it.
-	def highlightFirst
+		# The first result, so Enter picks it (not whatever was highlighted
+		# last time), once the new results are in the machine.
 		globalThis.setTimeout(&, 0) do
-			let api = listMachine.connect(listbox)
-			api.highlightFirst! unless api.highlightedValue
+			listMachine.connect(listbox).highlightFirst!
+
+	# Keeps the highlighted item in view, scrolling only the list (not the page)
+	# and showing a group's heading along with its first item.
+	def scrollToItem el
+		return unless el and $list
+		let box = $list.getBoundingClientRect!
+		let offset = do(node) node.getBoundingClientRect!.top - box.top + $list.scrollTop
+		let group = el.closest('[data-part=item-group]')
+		let first = group and group.querySelector('[data-part=item]') == el
+		let top = offset(first ? group : el) - 4
+		let bottom = offset(el) + el.offsetHeight + 4
+		if top < $list.scrollTop
+			$list.scrollTop = top
+		elif bottom > $list.scrollTop + $list.clientHeight
+			$list.scrollTop = bottom - $list.clientHeight
 
 	def choose key
 		let item = #results.find(do keyOf($1) == key)
@@ -196,9 +211,9 @@ tag ui-command-base
 							<span.sr-only zag=list.getLabelProps!> label
 							<div.search>
 								<ui-icon.search-icon path=icons.search size=16>
-								<input$input.input type='text' zag=list.getInputProps(autoHighlight: yes) placeholder=placeholder @input=search(e.target.value) @focus=highlightFirst @change.stop>
+								<input$input.input type='text' zag=list.getInputProps(autoHighlight: yes) placeholder=placeholder @input=search(e.target.value) @change.stop>
 								<kbd.key.esc> "Esc"
-							<div.list zag=list.getContentProps!>
+							<div$list.list zag=list.getContentProps!>
 								# Earlier results stay while a search runs.
 								if loading and #results.length == 0
 									<div.status> loadingText
