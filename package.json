@@ -79,6 +79,8 @@
     "./empty-state/base": "./src/empty-state/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
+    "./sheet": "./src/sheet/index.imba",
+    "./sheet/base": "./src/sheet/base.imba",
     "./command": "./src/command/index.imba",
     "./command/base": "./src/command/base.imba",
     "./breadcrumbs": "./src/breadcrumbs/index.imba",

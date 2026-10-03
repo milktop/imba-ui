@@ -34,6 +34,7 @@ import './pages/fields.imba'
 import './pages/tooltip.imba'
 import './pages/popover.imba'
 import './pages/dialog.imba'
+import './pages/sheet.imba'
 import './pages/menu.imba'
 import './pages/toast.imba'
 import './pages/tabs.imba'
@@ -97,6 +98,7 @@ const groups = [
 		{ path: '/tooltip', title: 'Tooltip', about: 'Hints on hover and focus' }
 		{ path: '/popover', title: 'Popover', about: 'Floating panels' }
 		{ path: '/dialog', title: 'Dialog', about: 'Modals and confirmations' }
+		{ path: '/sheet', title: 'Sheet', about: 'Panels that slide in from an edge' }
 		{ path: '/menu', title: 'Menu', about: 'Dropdowns of actions' }
 		{ path: '/toast', title: 'Toast', about: 'Notifications' }
 	] }
@@ -228,6 +230,7 @@ tag playground
 				<page-tooltip route='/tooltip'>
 				<page-popover route='/popover'>
 				<page-dialog route='/dialog'>
+				<page-sheet route='/sheet'>
 				<page-menu route='/menu'>
 				<page-toast route='/toast'>
 				<page-tabs route='/tabs'>

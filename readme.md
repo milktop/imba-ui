@@ -36,7 +36,8 @@ package adds Imba markup and an optional theme.
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
-| Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, groups and separators; emits `select` |
+| Sheet | `<ui-sheet>` | Panel sliding in from any edge (`side`), sized sm/md/lg; a modal dialog underneath, with scrolling body and pinned footer |
+| Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups and separators; emits `select` |
 | Toast | `<ui-toaster>` + `toaster` | Notifications stacked in a corner: success/error/warning/info/loading, actions, pause on hover |
 | Tabs | `<ui-tabs>` + `<ui-tab>` | Panels with a tab list built from their labels; line or pills |
 | Accordion | `<ui-accordion>` + `<ui-accordion-item>` | Expandable sections, single or multiple open |
