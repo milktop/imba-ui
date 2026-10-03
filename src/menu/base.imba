@@ -14,6 +14,7 @@ import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 #   optional `icon` (Iconify), `shortcut` text and `danger`; `{ separator: true }`
 #   draws a line and `{ group: 'Label' }` a group heading
 # - `placement`: 'bottom-start' (default), 'bottom-end', …
+# - `label`: a small label above the items, styled like a group heading
 #
 # Emits `select` with the chosen item's original value.
 tag ui-menu-base
@@ -22,6 +23,7 @@ tag ui-menu-base
 	prop valueKey = 'value'
 	prop disabledKey = 'disabled'
 	prop placement = 'bottom-start'
+	prop label = null
 
 	zagId = uid('menu')
 	presence = new Presence(self, 200)
@@ -58,6 +60,8 @@ tag ui-menu-base
 			<span$triggerSlot.trigger-slot> <slot name='trigger'>
 			<div.positioner zag=api.getPositionerProps!>
 				<div.content zag=presence.keep(api.getContentProps!) @animationend=presence.done!>
+					if label
+						<div.group-label.menu-label> label
 					for item in items
 						if item..separator
 							<div.separator zag=api.getSeparatorProps!>

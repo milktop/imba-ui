@@ -28,3 +28,5 @@ tag ui-menu < ui-menu-base
 		.shortcut ml:4 c:$ui-muted fs:11px ff:inherit
 		.separator h:1px my:1 mx:-1 bg:$ui-border
 		.group-label px:2 pt:2 pb:1 fs:xs fw:500 c:$ui-muted
+		# The menu's own label reads a little stronger than its group headings.
+		.menu-label pt:1.5 c:$ui-text fw:600

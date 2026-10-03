@@ -9,6 +9,20 @@ tag page-menu
 		{ separator: true }
 		{ value: 'delete', label: 'Delete', icon: 'lucide:trash-2', danger: true }
 	]
+	account = [
+		{ value: 'profile', label: 'Profile', icon: 'lucide:user' }
+		{ value: 'settings', label: 'Settings', icon: 'lucide:settings' }
+		{ separator: true }
+		{ value: 'logout', label: 'Log out', icon: 'lucide:log-out' }
+	]
+	lesson = [
+		{ value: 'reschedule', label: 'Reschedule', icon: 'lucide:calendar-clock' }
+		{ value: 'notes', label: 'Add notes', icon: 'lucide:notebook-pen' }
+		{ separator: true }
+		{ group: 'Student' }
+		{ value: 'message', label: 'Send message', icon: 'lucide:message-square' }
+		{ value: 'profile', label: 'View profile', icon: 'lucide:user' }
+	]
 	more = [
 		{ group: 'Lesson' }
 		{ value: 'reschedule', label: 'Reschedule', icon: 'lucide:calendar-clock' }
@@ -35,3 +49,13 @@ tag page-menu
 						<ui-button slot='trigger' variant='ghost' icon='lucide:ellipsis' aria-label='More'>
 				<div.out>
 					<json-print data={ selected }>
+
+			<demo-section heading='Label and sections'>
+				<div.row>
+					<ui-menu items=account label='My account' @select=(selected = e.detail)>
+						<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Account"
+					<ui-menu items=lesson label='Maths with Ada' @select=(selected = e.detail)>
+						<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Lesson"
+				<div.out>
+					<json-print data={ selected }>
+					<p.note> '`label` sits above the items. For sections, add `{ group: "Label" }` items (and `{ separator: true }` lines) between them.'
