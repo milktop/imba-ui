@@ -47,13 +47,16 @@ tag ui-menu-base
 	# Applied in render as well, since Machine re-renders without Imba's
 	# `rendered` hook; the trigger only exists after the first render.
 	def rendered
-		trigger.zag = machine.connect(menu).getTriggerProps! if trigger
+		trigger.zag = triggerProps(machine.connect(menu)) if trigger
+
+	# The trigger's props; ui-context-menu swaps in Zag's context trigger.
+	def triggerProps api do api.getTriggerProps!
 
 	def render
 		# Zag reads the placement lazily; e.g. ui-sidebar-user changes it in the rail.
 		machine.watch placement
 		let api = machine.connect(menu)
-		trigger.zag = api.getTriggerProps! if trigger
+		trigger.zag = triggerProps(api) if trigger
 		presence.update(api.open)
 
 		<self>

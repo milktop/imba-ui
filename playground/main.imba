@@ -99,7 +99,7 @@ const groups = [
 		{ path: '/popover', title: 'Popover', about: 'Floating panels' }
 		{ path: '/dialog', title: 'Dialog', about: 'Modals and confirmations' }
 		{ path: '/sheet', title: 'Sheet', about: 'Panels that slide in from an edge' }
-		{ path: '/menu', title: 'Menu', about: 'Dropdowns of actions' }
+		{ path: '/menu', title: 'Menu', about: 'Dropdowns and context menus' }
 		{ path: '/toast', title: 'Toast', about: 'Notifications' }
 	] }
 	{ title: 'Disclosure', icon: 'lucide:chevrons-up-down', pages: [
