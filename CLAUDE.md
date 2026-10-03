@@ -60,6 +60,8 @@ New components follow the same pattern: add both files, an entry in
 - **Slotted triggers** (tooltip, popover, dialog, menu) get Zag's trigger props spread straight
   onto the slotted element (`trigger.zag = …`), in both `render` and `rendered`:
   Machine re-renders without Imba's `rendered` hook.
+- **`==` is loose in Imba** (compiles to JS `==`, so `0 == ''`). Use `===`
+  when comparing against `''`, `0` or `false`.
 - **No optional assignment:** `a..b = c` compiles to invalid `a?.b = c`; write
   `a.b = c if a`.
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
