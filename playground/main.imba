@@ -1,6 +1,7 @@
 import 'imba/preflight.css'
 import 'iconify-icon'
 import '../src/index.imba'
+import { toaster } from '../src/toast/index.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/button.imba'
@@ -131,6 +132,16 @@ tag playground
 		.crumb fs:sm c:$ui-muted ws:nowrap of:hidden text-overflow:ellipsis
 			b c:$ui-text fw:500
 
+	accountItems = [
+		{ label: 'Profile', value: 'profile', icon: 'lucide:user' }
+		{ label: 'Settings', value: 'settings', icon: 'lucide:settings', shortcut: '⌘,' }
+		{ separator: true }
+		{ label: 'Log out', value: 'logout', icon: 'lucide:log-out', danger: true }
+	]
+
+	def account action
+		toaster.info(title: "Picked “{action}”")
+
 	get current do groups.flatMap(do $1.pages).find(do $1.path == router.pathname)
 
 	<self>
@@ -147,6 +158,7 @@ tag playground
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
 							for page in group.pages
 								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
+				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' items=accountItems @select=account(e.detail)>
 			<ui-topbar>
 				<span.crumb>
 					if current

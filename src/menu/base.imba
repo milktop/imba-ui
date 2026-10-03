@@ -48,6 +48,8 @@ tag ui-menu-base
 		trigger.zag = machine.connect(menu).getTriggerProps! if trigger
 
 	def render
+		# Zag reads the placement lazily; e.g. ui-sidebar-user changes it in the rail.
+		machine.watch placement
 		let api = machine.connect(menu)
 		trigger.zag = api.getTriggerProps! if trigger
 		presence.update(api.open)

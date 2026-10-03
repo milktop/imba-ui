@@ -1,5 +1,7 @@
 import '../theme.imba'
 import '../tooltip/index.imba'
+import '../menu/index.imba'
+import '../avatar/index.imba'
 import './base.imba'
 
 global css
@@ -97,6 +99,24 @@ tag ui-nav-group < ui-nav-group-base
 		&.rail .children pos:fixed t:var(--flyout-top) l:var(--flyout-left) zi:50 pl:2
 		&.rail .panel m:0 p:1.5 min-width:44 bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface shadow:$ui-shadow animation:ui-flyout-in 120ms ease-out
 		&.rail .flyout-heading d:block px:3 pt:1 pb:1.5 fs:xs fw:600 c:$ui-muted
+
+tag ui-sidebar-user < ui-sidebar-user-base
+	css
+		d:block w:100%
+		.user d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm ta:left ws:nowrap cursor:pointer
+			@hover bg:$ui-hover
+			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
+			&[aria-expanded=true] bg:$ui-hover
+		.avatar fls:0
+		.text d:flex fld:column flg:1 min-width:0 lh:1.3 transition:opacity 150ms
+		.name fw:500 of:hidden text-overflow:ellipsis
+		.description fs:xs c:$ui-muted of:hidden text-overflow:ellipsis
+			&:empty d:none
+		.chevron fls:0 c:$ui-muted fs:14px
+		&.rail .text, &.rail .chevron o:0
+		# As wide as the trigger when it opens upwards (Zag sets
+		# --reference-width), and never narrower than 13rem.
+		>>> .content min-width:max(13rem, var(--reference-width)) box-sizing:border-box
 
 tag ui-topbar < ui-topbar-base
 	css

@@ -1,5 +1,7 @@
 import { icons } from '../icons.imba'
 import '../tooltip/base.imba'
+import '../menu/base.imba'
+import '../avatar/base.imba'
 
 # Headless app layout: a sidebar with the logo and navigation, a top bar and
 # the page.
@@ -280,6 +282,33 @@ tag ui-nav-group-base
 			<div.panel>
 				<div.flyout-heading aria-hidden='true'> label
 				<slot>
+
+# The signed-in user, for the sidebar's footer: avatar, name and a line
+# under it, opening a menu of account actions upwards (to the right in the
+# rail, where only the avatar shows).
+#
+#   <ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com'
+#     items=[{ label: 'Profile', value: 'profile', icon: 'lucide:user' }, …]
+#     @select=account(e.detail)>
+#
+# Emits `select` with the chosen item's value, like ui-menu.
+tag ui-sidebar-user-base
+	prop name = ''
+	prop description = null
+	prop src = null
+	prop items = []
+
+	get shell do closestWith(self, 'isUiAppShell')
+	get rail do !!shell..rail
+
+	<self .rail=rail data-ui-shell-part>
+		<ui-menu items=items placement=(rail ? 'right-end' : 'top-start')>
+			<button.user slot='trigger' type='button' aria-label=(rail ? name : undefined)>
+				<ui-avatar.avatar name=name src=src size='sm'>
+				<span.text>
+					<span.name> name
+					<span.description> description if description
+				<iconify-icon.chevron icon='lucide:chevrons-up-down' aria-hidden='true'>
 
 # The bar above the page: a menu button on phones, then its content and an
 # `end` slot on the right.

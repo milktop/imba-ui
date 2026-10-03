@@ -107,7 +107,7 @@ Run the playground and drive it in the browser. When the browser pane is in the
 background, rAF is throttled, so screenshots and parent re-renders can lag. Check
 state through the DOM or `el.machine.service` before assuming a bug. Route
 changes render through `imba.commit` too, so in a background pane call
-`document.querySelector('main').parentElement.render()` after navigating.
+`document.querySelector('ui-app-shell').parentElement.render()` after navigating.
 Zag work deferred with requestAnimationFrame (e.g. tags-input clearing its input)
 won't run while the tab is hidden. The browser tool's `type` inserts a whole
 string as one input event (type a tag and its comma separately); file inputs
