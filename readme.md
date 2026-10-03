@@ -35,6 +35,7 @@ package adds Imba markup and an optional theme.
 | Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
+| Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
 | Sheet | `<ui-sheet>` | Panel sliding in from any edge (`side`), sized sm/md/lg; a modal dialog underneath, with scrolling body and pinned footer |
 | Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups and separators; emits `select` |
