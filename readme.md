@@ -42,6 +42,7 @@ package adds Imba markup and an optional theme.
 | Accordion | `<ui-accordion>` + `<ui-accordion-item>` | Expandable sections, single or multiple open |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
+| Breadcrumbs | `<ui-breadcrumbs>` (+ `<ui-breadcrumb>`) | Trail from `items` or markup; icons, custom separator; middle crumbs fold into a … popover past `max` or when they don't fit |
 | App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-sidebar-user>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
 
 ## Install

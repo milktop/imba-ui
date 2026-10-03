@@ -39,6 +39,7 @@ import './pages/toast.imba'
 import './pages/tabs.imba'
 import './pages/accordion.imba'
 import './pages/app-shell.imba'
+import './pages/breadcrumbs.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -86,8 +87,9 @@ const groups = [
 	{ title: 'Forms', icon: 'lucide:clipboard-list', pages: [
 		{ path: '/fields', title: 'Fields', about: 'Grid, labels, hints, errors, fieldsets' }
 	] }
-	{ title: 'Layout', icon: 'lucide:panels-top-left', pages: [
+	{ title: 'Navigation', icon: 'lucide:compass', pages: [
 		{ path: '/app-shell', title: 'App shell', about: 'Sidebar, top bar and page' }
+		{ path: '/breadcrumbs', title: 'Breadcrumbs', about: 'Where the page sits, with folding' }
 	] }
 	{ title: 'Overlays', icon: 'lucide:layers', pages: [
 		{ path: '/tooltip', title: 'Tooltip', about: 'Hints on hover and focus' }
@@ -129,8 +131,6 @@ tag playground
 	css
 		.brand d:flex ai:center g:2 c:inherit td:none
 		.mark d:inline-flex ai:center jc:center w:7 h:7 fls:0 rd:$ui-radius bg:$ui-accent c:$ui-accent-text fs:xs fw:700
-		.crumb fs:sm c:$ui-muted ws:nowrap of:hidden text-overflow:ellipsis
-			b c:$ui-text fw:500
 
 	accountItems = [
 		{ label: 'Profile', value: 'profile', icon: 'lucide:user' }
@@ -142,7 +142,12 @@ tag playground
 	def account action
 		toaster.info(title: "Picked “{action}”")
 
-	get current do groups.flatMap(do $1.pages).find(do $1.path == router.pathname)
+	# Home, then the page's group and the page.
+	get trail
+		for group in groups
+			for page in group.pages
+				return [{ label: 'Imba UI', href: '/' }, { label: group.title }, { label: page.title }] if page.path == router.pathname
+		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
 	<self>
 		<ui-app-shell persist='imba-ui:sidebar'>
@@ -160,12 +165,7 @@ tag playground
 								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
 				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' items=accountItems @select=account(e.detail)>
 			<ui-topbar>
-				<span.crumb>
-					if current
-						<span> "Components / "
-						<b> current.title
-					else
-						<b> "Overview"
+				<ui-breadcrumbs items=trail>
 				<div slot='end'>
 					<appearance-panel>
 			<ui-page>
@@ -205,6 +205,7 @@ tag playground
 				<page-tabs route='/tabs'>
 				<page-accordion route='/accordion'>
 				<page-app-shell route='/app-shell'>
+				<page-breadcrumbs route='/breadcrumbs'>
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 
