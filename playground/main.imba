@@ -40,6 +40,7 @@ import './pages/tabs.imba'
 import './pages/accordion.imba'
 import './pages/app-shell.imba'
 import './pages/breadcrumbs.imba'
+import './pages/command.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -90,6 +91,7 @@ const groups = [
 	{ title: 'Navigation', icon: 'lucide:compass', pages: [
 		{ path: '/app-shell', title: 'App shell', about: 'Sidebar, top bar and page' }
 		{ path: '/breadcrumbs', title: 'Breadcrumbs', about: 'Where the page sits, with folding' }
+		{ path: '/command', title: 'Command menu', about: '⌘K search and actions' }
 	] }
 	{ title: 'Overlays', icon: 'lucide:layers', pages: [
 		{ path: '/tooltip', title: 'Tooltip', about: 'Hints on hover and focus' }
@@ -130,6 +132,12 @@ tag page-home
 tag playground
 	css
 		.brand d:flex ai:center g:2 c:inherit td:none
+		# The ⌘K trigger: a search box on wide screens, an icon on phones.
+		.search d:flex ai:center g:2 h:8 pl:2.5 pr:2.5 @md:1.5 w:auto @md:56 box-sizing:border-box bd:1px solid $ui-border rd:$ui-radius bg:$ui-surface c:$ui-muted ff:inherit fs:sm cursor:pointer
+			@hover c:$ui-text bc:$ui-muted
+			@focus-visible outline:2px solid $ui-ring-soft
+			.search-text d:none @md:block flg:1 ta:left
+			kbd d:none @md:inline-flex ai:center h:5 px:1.5 bd:1px solid $ui-border rd:sm bg:$ui-hover ff:inherit fs:11px
 		.mark d:inline-flex ai:center jc:center w:7 h:7 fls:0 rd:$ui-radius bg:$ui-accent c:$ui-accent-text fs:xs fw:700
 
 	accountItems = [
@@ -138,6 +146,21 @@ tag playground
 		{ separator: true }
 		{ label: 'Log out', value: 'logout', icon: 'lucide:log-out', danger: true }
 	]
+
+	# ⌘K: every page, then a few actions.
+	commands = [
+		...groups.flatMap do(group) group.pages.map do(page)
+			{ label: page.title, description: page.about, href: page.path, icon: group.icon, group: group.title }
+		{ label: 'Toggle sidebar', value: 'sidebar', icon: 'lucide:panel-left', shortcut: '⌘B', group: 'Playground' }
+		{ label: 'Light theme', value: 'light', icon: 'lucide:sun', group: 'Playground', keywords: ['appearance', 'mode'] }
+		{ label: 'Dark theme', value: 'dark', icon: 'lucide:moon', group: 'Playground', keywords: ['appearance', 'mode'] }
+	]
+
+	def run command
+		if command == 'sidebar'
+			document.querySelector('ui-app-shell').toggle!
+		elif command == 'light' or command == 'dark'
+			document.querySelector('appearance-panel').update(scheme: command)
 
 	def account action
 		toaster.info(title: "Picked “{action}”")
@@ -167,6 +190,11 @@ tag playground
 			<ui-topbar>
 				<ui-breadcrumbs items=trail>
 				<div slot='end'>
+					<ui-command$command items=commands @select=run(e.detail)>
+						<button.search slot='trigger' type='button'>
+							<iconify-icon icon='lucide:search' aria-hidden='true'>
+							<span.search-text> "Search"
+							<kbd> $command..hotkeyText
 					<appearance-panel>
 			<ui-page>
 				<page-home route='/'>
@@ -206,6 +234,7 @@ tag playground
 				<page-accordion route='/accordion'>
 				<page-app-shell route='/app-shell'>
 				<page-breadcrumbs route='/breadcrumbs'>
+				<page-command route='/command'>
 		# One toaster for the app; pages call toaster.success(…) etc.
 		<ui-toaster>
 

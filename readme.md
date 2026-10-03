@@ -43,6 +43,7 @@ package adds Imba markup and an optional theme.
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 | Breadcrumbs | `<ui-breadcrumbs>` (+ `<ui-breadcrumb>`) | Trail from `items` or markup; icons, custom separator; middle crumbs fold into a … popover past `max` or when they don't fit |
+| Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load`; emits `select` |
 | App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-sidebar-user>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
 
 ## Install
@@ -172,6 +173,31 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
+
+## Command menu
+
+`ui-command` is a ⌘K menu: a search box over a list of commands, filtered as
+you type (every word must appear in the label, description, group or
+`keywords`).
+
+```imba
+<ui-command items=commands @select=run(e.detail)>
+	<button slot='trigger'> "Search"
+
+commands = [
+	{ label: 'Students', href: '/students', icon: 'lucide:users', group: 'Pages' }
+	{ label: 'New lesson', value: 'new-lesson', shortcut: 'N', group: 'Actions' }
+]
+```
+
+- ⌘K (Ctrl+K elsewhere) opens it; set `hotkey` to another key, or `null`
+  for none. `hotkeyText` reads it out for a trigger ('⌘K' or 'Ctrl K').
+- Items with `href` go there when picked: a link is clicked, so Imba's router
+  handles it. For Inertia pass `navigate=(do(href) router.visit(href))`.
+- `select` gets the item's `value` (or the item when it has none).
+- `load` takes an async function(query) for server search; earlier results
+  stay while it runs.
+- Bind the open state with `bind=`; the `trigger` slot is optional.
 
 ## Theming
 
