@@ -17,7 +17,8 @@ tag ui-tabs < ui-tabs-base
 
 		# Line: an underline that slides to the selected tab.
 		&.line .list bdb:1px solid $ui-border
-		&.line .trigger rd:0
+		# Taller than a control, so the underlined tabs have room to breathe.
+		&.line .trigger rd:0 h:calc($ui-control-height + 0.5rem) px:3.5
 		&.line .indicator pos:absolute b:-1px l:var(--left) w:var(--width) h:2px bg:$ui-accent
 
 		# Pills: a raised pill behind the selected tab, like ui-segmented.
