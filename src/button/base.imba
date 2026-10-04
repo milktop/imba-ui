@@ -9,6 +9,7 @@
 # - `loading`: shows a spinner in place of the icon, sets aria-busy and
 #   disables it
 # - `block`: full width
+# - `round`: fully rounded: a circle for icon buttons, a pill with text
 #
 # `type` defaults to 'button' rather than the native 'submit'; pass
 # type='submit' for form buttons.
@@ -19,6 +20,7 @@ tag ui-button-base < button
 	prop iconEnd = null
 	prop loading = false
 	prop block = false
+	prop round = false
 	# What the caller asked for, kept apart from the native property (a `prop`
 	# would just assign that), so loading can disable the button and undo it;
 	# the attribute does the disabling.
@@ -35,7 +37,7 @@ tag ui-button-base < button
 	def render
 		toggleAttribute('disabled', !!(disabled or loading))
 
-		<self .{variant} .{size} .block=block .loading=loading zag={ 'aria-busy': loading ? 'true' : undefined }>
+		<self .{variant} .{size} .block=block .round=round .loading=loading zag={ 'aria-busy': loading ? 'true' : undefined }>
 			if loading
 				<span.spinner aria-hidden='true'>
 			elif icon

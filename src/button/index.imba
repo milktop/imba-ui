@@ -36,6 +36,7 @@ tag ui-button < ui-button-base
 		&.icon-only px:0 w:$ui-control-height
 			&.sm w:$ui-control-height-sm
 			&.lg w:$ui-control-height-lg
+		&.round rd:full
 		&.block d:flex w:100%
 		&.loading cursor:progress
 

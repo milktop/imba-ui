@@ -42,8 +42,14 @@ tag page-button
 					<ui-button size='lg' icon='lucide:pencil' aria-label='Edit'>
 					<ui-tooltip content='Settings'>
 						<ui-button variant='ghost' icon='lucide:settings' aria-label='Settings'>
+				<div.row>
+					<ui-button round size='sm' icon='lucide:pencil' aria-label='Edit'>
+					<ui-button round icon='lucide:pencil' aria-label='Edit'>
+					<ui-button round size='lg' variant='primary' icon='lucide:plus' aria-label='Add'>
+					<ui-button round variant='ghost' icon='lucide:settings' aria-label='Settings'>
+					<ui-button round icon='lucide:plus'> "Pill with text"
 				<div.out>
-					<p.note> "With no text a button is square; give it an aria-label (and perhaps a tooltip)."
+					<p.note> "With no text a button is square, matching the inputs and the radius setting; `round` makes it a circle (or a pill, with text). Give icon buttons an aria-label, and perhaps a tooltip."
 
 			<demo-section heading='Loading and disabled'>
 				<div.row>
