@@ -43,3 +43,8 @@ tag page-input
 			<demo-section heading='Disabled'>
 				<ui-fields>
 					<ui-field span=6 label='Account ID' disabled value='TUT-0042'>
+
+			<demo-section heading='Round'>
+				<ui-input round icon='lucide:search' placeholder='Search students…' [w:100% max-width:24rem]>
+				<div.out>
+					<p.note> "`round` makes a pill, e.g. for a search box."

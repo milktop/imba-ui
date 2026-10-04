@@ -9,6 +9,7 @@ import '../control.imba'
 # - `prefix` / `suffix` slots replace those for anything else, like buttons
 # - `min`, `max`, `step`: as on a native input
 # - `attrs`: any other attributes for the input, e.g. { inputmode: 'numeric' }
+# - `round`: fully rounded, a pill (e.g. for a search box)
 # - default slot: replaces the <input> (e.g. with a <textarea>)
 #
 # Works with `bind=`, `bind:value=` or `value` + `@change` like the other
@@ -30,6 +31,7 @@ tag ui-input-base < ui-control
 	prop attrs = null
 	prop required = false
 	prop disabled = false
+	prop round = false
 
 	# `prefix` is a read-only DOM property (a namespace prefix), so a `prop`
 	# can't assign it; an accessor of our own can.
@@ -44,7 +46,7 @@ tag ui-input-base < ui-control
 			out[key] = undefined if val == null or val === ''
 		Object.assign(out, attrs)
 
-	<self>
+	<self .round=round>
 		<slot name='prefix'>
 			if icon
 				<span.affix.start> <iconify-icon icon=icon>

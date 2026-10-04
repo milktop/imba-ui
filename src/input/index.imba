@@ -8,6 +8,7 @@ tag ui-input < ui-input-base
 		@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 		&:has([aria-invalid=true]) bc:$ui-danger
 		&:has(:disabled) o:0.5
+		&.round rd:full px:3.5
 
 		# The default input or a slotted replacement.
 		>>> :is(input, textarea) fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit

@@ -56,7 +56,7 @@ tag block-list
 		# The toolbar, table and paging read as one unit in a card.
 		<ui-card flush>
 			<div.toolbar>
-				<ui-input.search icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
+				<ui-input.search round icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
 				<ui-select.subject items=subjectItems placeholder='All subjects' clearable bind=subject @change=(page = 1)>
 				<ui-sheet side='right' size='sm' heading='Filters' bind=filtersOpen>
 					<ui-button slot='trigger' icon='lucide:sliders-horizontal'> statuses.length ? "Filters ({statuses.length})" : "Filters"
