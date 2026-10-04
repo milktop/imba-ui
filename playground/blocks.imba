@@ -50,9 +50,11 @@ tag block-examples
 			<block-example key=example.tag heading=example.heading code=[example.tag, ...(example.helpers or [])].map(do tagSource(source, $1)).join('\n\n')>
 				<{example.tag}>
 
-# One variant: a heading, a Preview/Code switch, then the preview or code.
-tag block-example
-	prop heading
+# A preview framed like a window: a slim bar (a title or description, and
+# the Preview/Code switch) above the block or its code. The bar is the
+# playground's, not part of the block.
+tag block-frame
+	prop caption
 	prop code = ''
 	view = 'preview'
 	copied = no
@@ -67,70 +69,48 @@ tag block-example
 			imba.commit!
 
 	css
-		d:block mb:10
-		header d:flex ai:center jc:space-between g:4 mb:3
-		h2 m:0 fs:md fw:600
-		.preview p:4 @md:6 bd:1px solid $ui-border rd:calc($ui-radius + 6px) bg:$ui-canvas
-		.code pos:relative
-			pre m:0 p:5 pr:16 bg:$ui-hover rd:calc($ui-radius + 6px) ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto max-height:60vh ofy:auto
-			.copy pos:absolute t:3 r:3 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
-				@hover c:$ui-text
+		d:block bd:1px solid $ui-border rd:calc($ui-radius + 6px) of:hidden bg:$ui-canvas
+		.bar d:flex ai:center jc:space-between g:4 py:2 pl:4 pr:2 bg:$ui-surface bdb:1px solid $ui-border
+		.caption c:$ui-muted fs:sm min-width:0 of:hidden text-overflow:ellipsis ws:nowrap
+		.bar-actions d:flex ai:center g:2 fls:0
+		.preview p:4 @md:8
+		.code pre m:0 p:5 ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto max-height:70vh ofy:auto bg:$ui-surface
 
+	# Both views stay rendered (one hidden), so the slotted block isn't moved.
 	<self>
-		<header>
-			<h2> heading
-			<ui-segmented items=views bind=view>
+		<div.bar>
+			<span.caption> caption
+			<div.bar-actions>
+				if view == 'code'
+					<ui-button size='sm' variant='ghost' icon=(copied ? 'lucide:check' : 'lucide:copy') @click=copy> copied ? "Copied" : "Copy"
+				<ui-segmented items=views bind=view>
 		<div.preview hidden=(view != 'preview')> <slot>
 		<div.code hidden=(view != 'code')>
 			<pre> <code> for tok in highlightImba(code)
 				<span .tok-{tok.kind or 'plain'}> tok.text
-			<button.copy @click=copy> copied ? "Copied" : "Copy"
 
-# A block's page: a live preview, or its source.
+# One variant on a sections page.
+tag block-example
+	prop heading
+	prop code = ''
+	css d:block mb:8
+	<self>
+		<block-frame caption=heading code=code> <slot>
+
+# A page block: just the framed preview (its name is in the breadcrumbs, so
+# the only heading is the block's own).
 tag block-page
 	prop heading
 	prop intro
 	prop source = ''
-	view = 'preview'
-	copied = no
-
-	views = [{ value: 'preview', label: 'Preview' }, { value: 'code', label: 'Code' }]
 
 	# The block's file without its imports.
 	get code do source.split('\n').filter(do !$1.startsWith('import ')).join('\n').trim!
 
-	def copy
-		await globalThis.navigator.clipboard.writeText(code)
-		copied = yes
-		imba.commit!
-		setTimeout(&, 1500) do
-			copied = no
-			imba.commit!
+	css d:block
 
-	css
-		d:block
-		header d:flex ai:flex-end jc:space-between g:4 flw:wrap mb:5
-		h1 fs:xl fw:700 m:0
-		.intro m:0 mt:1 c:$ui-muted fs:sm
-		# On the canvas, like an app's main area.
-		.preview p:4 @md:8 bd:1px solid $ui-border rd:calc($ui-radius + 6px) bg:$ui-canvas
-		.code pos:relative
-			pre m:0 p:5 pr:16 bg:$ui-hover rd:calc($ui-radius + 6px) ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto max-height:70vh ofy:auto
-			.copy pos:absolute t:3 r:3 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
-				@hover c:$ui-text
-
-	# Both views stay rendered (one hidden), so the slotted block isn't moved.
 	<self>
-		<header>
-			<div>
-				<h1> heading
-				<p.intro> intro if intro
-			<ui-segmented items=views bind=view>
-		<div.preview hidden=(view != 'preview')> <slot>
-		<div.code hidden=(view != 'code')>
-			<pre> <code> for tok in highlightImba(code)
-				<span .tok-{tok.kind or 'plain'}> tok.text
-			<button.copy @click=copy> copied ? "Copied" : "Copy"
+		<block-frame caption=intro code=code> <slot>
 
 import './blocks/dashboard.imba'
 import './blocks/profile.imba'
