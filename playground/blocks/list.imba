@@ -42,7 +42,7 @@ tag block-list
 		.head d:flex ai:flex-end jc:space-between g:4 flw:wrap mb:2
 		h2 m:0 fs:xl fw:700
 		.sub m:0 mt:1 c:$ui-muted fs:sm
-		.toolbar d:flex g:2 flw:wrap py:3 px:5 bdb:1px solid $ui-border
+		.toolbar d:flex g:2 flw:wrap p:3 bdb:1px solid $ui-border
 		.search flg:1 min-width:48
 		.subject w:44
 		.pager fl:1
@@ -56,10 +56,10 @@ tag block-list
 		# The toolbar, table and paging read as one unit in a card.
 		<ui-card flush>
 			<div.toolbar>
-				<ui-input.search round icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
-				<ui-select.subject items=subjectItems placeholder='All subjects' clearable bind=subject @change=(page = 1)>
+				<ui-input.search round size='sm' icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
+				<ui-select.subject size='sm' items=subjectItems placeholder='All subjects' clearable bind=subject @change=(page = 1)>
 				<ui-sheet side='right' size='sm' heading='Filters' bind=filtersOpen>
-					<ui-button slot='trigger' icon='lucide:sliders-horizontal'> statuses.length ? "Filters ({statuses.length})" : "Filters"
+					<ui-button slot='trigger' size='sm' icon='lucide:sliders-horizontal'> statuses.length ? "Filters ({statuses.length})" : "Filters"
 					<ui-checkbox-group label='Status' items=statusItems bind=statuses @change=(page = 1)>
 					<div slot='footer'>
 						<ui-button @click=clearFilters> "Clear"

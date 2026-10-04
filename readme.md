@@ -24,9 +24,9 @@ package adds Imba markup and an optional theme.
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
-| Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms |
+| Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms; `size='sm'` |
 | Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
-| Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots, `round` for a pill; slot a textarea to replace it |
+| Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots, `round` for a pill, `size='sm'`; slot a textarea to replace it |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
 | Password input | `<ui-password-input>` | Show/hide button; `ui-field type='password'` renders one |
 | Pin input | `<ui-pin-input>` | One box per character for codes; emits `complete` when filled |

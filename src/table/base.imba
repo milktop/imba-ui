@@ -152,9 +152,9 @@ tag ui-table-base
 							for column in columns
 								<th scope='col' data-align=(column.align or 'start') aria-sort=ariaSort(column) style=(column.width ? "width: {column.width}" : undefined)>
 									if column.sortable
-										<button.sort type='button' data-dir=sortDir(column) @click=toggleSort(column)>
+										<button.sort type='button' data-dir=(sortDir(column) or undefined) @click=toggleSort(column)>
 											<span> column.label
-											<ui-icon.sort-icon path=(sortDir(column) == 'asc' ? icons.up : (sortDir(column) == 'desc' ? icons.down : icons.upDown)) size=14>
+											<span.sort-icon> <ui-icon path=(sortDir(column) == 'asc' ? icons.up : (sortDir(column) == 'desc' ? icons.down : icons.upDown)) size=14>
 									else
 										column.label
 					<tbody @pointerdown.capture=noteShift @mousedown.capture=noteShift @keydown.capture=noteShift>

@@ -42,6 +42,11 @@ New components follow the same pattern: add both files, an entry in
 - **Template loops:** render tags, not bare expressions (a prebuilt element in a
   loop is dropped). Key items that own state with `<tag key=item.id>` so
   they keep their element as the list changes (`ui-toaster`).
+- **Attributes: `null` still renders** (Imba sets `data-x="null"`-style
+  values, so `[data-x]` matches); pass `undefined` to leave one off.
+- **Child components don't get a subclass's scope.** In the styled tag, a
+  class on a component in the base's markup (`<ui-icon.sort-icon>`) never
+  matches; wrap it (`<span.sort-icon> <ui-icon>`) and style the wrapper.
 - **Slot fallbacks must be one element.** Imba miscompiles a `<slot>` whose
   fallback is an `if`/`else`; wrap it (see `ui-field`).
 - **Machines that spread props over defaults** (number-input) get `defined(...)`

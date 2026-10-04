@@ -24,6 +24,8 @@ tag ui-select-base < ui-control
 	prop clearable = false
 	prop disabled = false
 	prop placement = 'bottom-start'
+	# 'sm' or 'md' (default), as for buttons and inputs.
+	prop size = 'md'
 
 	zagId = uid('select')
 	#sourceItems = null
@@ -65,7 +67,7 @@ tag ui-select-base < ui-control
 
 		let api = machine.connect(select)
 
-		<self zag=api.getRootProps!>
+		<self .{size} zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
