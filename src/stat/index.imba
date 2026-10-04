@@ -18,7 +18,7 @@ if typeof document != 'undefined' and !document.getElementById('ui-stats-rules')
 tag ui-stat < ui-stat-base
 	css
 		d:flex fld:column g:1 min-width:0 c:$ui-text ff:$ui-font fs:sm
-		&.card p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface
+		&.card p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface shadow:$ui-card-shadow
 		.header d:flex ai:center jc:space-between g:3 min-height:6
 		.label c:$ui-muted fw:500 min-width:0 overflow-wrap:anywhere
 		# Small enough to sit in the label's row without making it taller than
@@ -43,7 +43,7 @@ tag ui-stats < ui-stats-base
 		d:block w:100%
 		# Columns come from the container queries above.
 		.grid d:grid g:4
-		&.cards .grid >>> ui-stat p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface
+		&.cards .grid >>> ui-stat p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface shadow:$ui-card-shadow
 		# One card split into cells by 1px gaps over the border colour.
-		&.divided .grid g:1px bg:$ui-border bd:1px solid $ui-border rd:calc($ui-radius + 4px) of:hidden
+		&.divided .grid g:1px bg:$ui-border bd:1px solid $ui-border rd:calc($ui-radius + 4px) shadow:$ui-card-shadow of:hidden
 		&.divided .grid >>> ui-stat p:5 bg:$ui-surface

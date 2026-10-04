@@ -8,9 +8,9 @@ tag ui-table < ui-table-base
 		d:block w:100% min-width:0 c:$ui-text ff:$ui-font fs:sm
 		# Scrolls sideways on narrow screens; with maxHeight, down too, under a
 		# sticky header.
-		.scroll w:100% ofx:auto bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) box-sizing:border-box
+		.scroll w:100% ofx:auto bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-card-shadow box-sizing:border-box
 			&.sticky ofy:auto
-		&.flush .scroll bd:none rd:0 bg:transparent
+		&.flush .scroll bd:none rd:0 bg:transparent shadow:none
 		# Outer cells line up with a card's padding.
 		&.flush .scroll >>> :is(th, td)@first-child pl:5
 		&.flush .scroll >>> :is(th, td)@last-child pr:5

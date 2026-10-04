@@ -14,7 +14,7 @@ tag ui-data-list < ui-data-list-base
 		&.horizontal >>> .item d:grid gtc:var(--label-width, 10rem) minmax(0, 1fr) g:4 py:2 ai:baseline
 		&.vertical >>> .item d:flex fld:column g:0.5 py:2
 		&.divided >>> .item, &.card >>> .item py:3 bdb:1px solid $ui-border mb:-1px
-		&.card .list bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) px:4
+		&.card .list bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-card-shadow px:4
 		# A grid of items; one column on narrow screens.
 		&.grid .list gtc:1fr @sm:repeat(var(--columns, 2), minmax(0, 1fr)) cg:6
 

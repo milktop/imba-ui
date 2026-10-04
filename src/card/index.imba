@@ -3,7 +3,7 @@ import './base.imba'
 
 tag ui-card < ui-card-base
 	css
-		d:flex fld:column w:100% box-sizing:border-box min-width:0 bg:$ui-surface c:$ui-text bd:1px solid $ui-border rd:calc($ui-radius + 4px) ff:$ui-font fs:sm
+		d:flex fld:column w:100% box-sizing:border-box min-width:0 bg:$ui-surface c:$ui-text bd:1px solid $ui-border rd:calc($ui-radius + 4px) shadow:$ui-card-shadow ff:$ui-font fs:sm
 
 		.header d:flex ai:flex-start jc:space-between g:4 px:5 pt:5
 		.titles min-width:0

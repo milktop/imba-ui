@@ -28,7 +28,7 @@ global css
 		$ui-surface:white
 		# Behind the content (ui-app-shell's main area), so cards and tables on
 		# $ui-surface stand out from it.
-		$ui-canvas:#f6f7f9
+		$ui-canvas:#f3f4f6
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
 		$ui-accent:#4f46e5
@@ -47,6 +47,8 @@ global css
 		$ui-chart-5:#0ea5e9
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
+		# Cards at rest: a soft lift off the canvas (popups use $ui-shadow).
+		$ui-card-shadow:0 1px 2px rgba(16,24,40,0.05), 0 1px 3px rgba(16,24,40,0.06)
 		$ui-font:inherit
 		# One height for buttons and inputs, so they line up in a row.
 		$ui-control-height:2.25rem
@@ -75,3 +77,5 @@ global css
 		$ui-chart-4:#fb7185
 		$ui-chart-5:#38bdf8
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.6)
+		# Shadows don't read on dark; borders do the work.
+		$ui-card-shadow:none
