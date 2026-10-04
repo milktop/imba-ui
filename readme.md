@@ -184,6 +184,8 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
+- `inset` makes the page a rounded panel inset from the edges, with the
+  sidebar and top bar flat on the surface around it.
 - The main area sits on `$ui-canvas` (a faint grey), so cards and tables on
   `$ui-surface` stand out; set it to `$ui-surface` for an all-white app.
 
@@ -284,7 +286,7 @@ source a click away, to copy as a starting point:
 
 - **Sections**: page headings, card panels, stacked lists, form layouts,
   feeds and banners, a few variants each
-- **Pages**: a dashboard, profile, list page, settings, sign in and empty
+- **Pages**: a dashboard, profile, table page, settings, sign in and empty
   states, composed from them
 
 ```sh

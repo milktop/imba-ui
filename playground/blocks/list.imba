@@ -1,7 +1,8 @@
 import { students, subjectItems } from './data.imba'
 
-# A list page: a title with the main action, search and filters, a
-# selectable table with an action bar, and paging.
+# A table page: a title with the main action, then one card holding the
+# search and filters, a selectable table and paging, with an action bar for
+# the selection.
 tag block-list
 	query = ''
 	subject = null
@@ -41,9 +42,10 @@ tag block-list
 		.head d:flex ai:flex-end jc:space-between g:4 flw:wrap mb:2
 		h2 m:0 fs:xl fw:700
 		.sub m:0 mt:1 c:$ui-muted fs:sm
-		.toolbar d:flex g:2 flw:wrap
+		.toolbar d:flex g:2 flw:wrap py:3 px:5 bdb:1px solid $ui-border
 		.search flg:1 min-width:48
 		.subject w:44
+		.pager fl:1
 
 	<self>
 		<div.head>
@@ -51,20 +53,22 @@ tag block-list
 				<h2> "Students"
 				<p.sub> "{filtered.length} of {students.length} students"
 			<ui-button variant='primary' icon='lucide:user-plus'> "Add student"
-		<div.toolbar>
-			<ui-input.search icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
-			<ui-select.subject items=subjectItems placeholder='All subjects' clearable bind=subject @change=(page = 1)>
-			<ui-sheet side='right' size='sm' heading='Filters' bind=filtersOpen>
-				<ui-button slot='trigger' icon='lucide:sliders-horizontal'> statuses.length ? "Filters ({statuses.length})" : "Filters"
-				<ui-checkbox-group label='Status' items=statusItems bind=statuses @change=(page = 1)>
-				<div slot='footer'>
-					<ui-button @click=clearFilters> "Clear"
-					<ui-button variant='primary' @click=(filtersOpen = no)> "Show {filtered.length} students"
-		<ui-table$table columns=columns rows=rows manualSort selectable bind:selected=selected bind:sort=sort label='Students'>
-			<div slot='empty'>
-				<ui-empty-state icon='lucide:search-x' heading='No students match' description='Try a different search or clear the filters.'>
-					<ui-button slot='actions' size='sm' @click=(query = '', clearFilters!)> "Clear search and filters"
-		<ui-pagination count=filtered.length pageSize=pageSize summary bind=page>
+		# The toolbar, table and paging read as one unit in a card.
+		<ui-card flush>
+			<div.toolbar>
+				<ui-input.search icon='lucide:search' placeholder='Search by name or email' bind=query @input=(page = 1)>
+				<ui-select.subject items=subjectItems placeholder='All subjects' clearable bind=subject @change=(page = 1)>
+				<ui-sheet side='right' size='sm' heading='Filters' bind=filtersOpen>
+					<ui-button slot='trigger' icon='lucide:sliders-horizontal'> statuses.length ? "Filters ({statuses.length})" : "Filters"
+					<ui-checkbox-group label='Status' items=statusItems bind=statuses @change=(page = 1)>
+					<div slot='footer'>
+						<ui-button @click=clearFilters> "Clear"
+						<ui-button variant='primary' @click=(filtersOpen = no)> "Show {filtered.length} students"
+			<ui-table$table flush columns=columns rows=rows manualSort selectable bind:selected=selected bind:sort=sort label='Students'>
+				<div slot='empty'>
+					<ui-empty-state icon='lucide:search-x' heading='No students match' description='Try a different search or clear the filters.'>
+						<ui-button slot='actions' size='sm' @click=(query = '', clearFilters!)> "Clear search and filters"
+			<ui-pagination.pager slot='footer' count=filtered.length pageSize=pageSize summary bind=page>
 		<ui-action-bar open=(selected.length > 0) @close=(selected = [])>
 			<span slot='selection'> "{selected.length} selected"
 			<ui-button size='sm' icon='lucide:send'> "Message"

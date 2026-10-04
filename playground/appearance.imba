@@ -26,7 +26,9 @@ export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], rou
 # Control heights: [md, sm, lg].
 export const densities = { compact: ['Compact', '2rem', '1.75rem', '2.5rem'], default: ['Default', '2.25rem', '2rem', '2.75rem'], comfortable: ['Roomy', '2.5rem', '2.25rem', '3rem'] }
 
-export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default' }
+export const layouts = { full: ['Full'], inset: ['Inset'] }
+
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'full' }
 
 const storageKey = 'imba-ui-playground-appearance'
 
@@ -65,6 +67,8 @@ export def applyAppearance state
 	}
 	root.style.setProperty(name, value) for own name, value of tokens
 	document.body.style.fontFamily = (fonts[state.font] or fonts.system).family
+	# The shell reads this for its `inset` prop.
+	root.dataset.layout = state.layout or 'full'
 
 def options map
 	Object.keys(map).map do(key) { value: key, label: Array.isArray(map[key]) ? map[key][0] : map[key].name }
@@ -73,6 +77,7 @@ tag appearance-panel
 	state = loadAppearance!
 	fontItems = options(fonts)
 	radiusItems = options(radii)
+	layoutItems = options(layouts)
 	densityItems = options(densities)
 	themeItems = [{ value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }, { value: 'system', label: 'System' }]
 
@@ -117,6 +122,8 @@ tag appearance-panel
 					<ui-segmented items=fontItems value=state.font @change=update(font: e.detail)>
 				<ui-field label='Radius'>
 					<ui-segmented items=radiusItems value=state.radius @change=update(radius: e.detail)>
+				<ui-field label='Layout' hint='ui-app-shell’s inset option'>
+					<ui-segmented items=layoutItems value=state.layout @change=update(layout: e.detail)>
 				<ui-field label='Density' hint='Sets $ui-control-height'>
 					<ui-segmented items=densityItems value=state.density @change=update(density: e.detail)>
 				<div.footer>

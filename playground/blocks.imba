@@ -11,7 +11,7 @@ export const blocks = [
 	{ group: 'Sections', path: '/blocks/banners', title: 'Banners', icon: 'lucide:megaphone', about: 'Announcements, prompts and onboarding' }
 	{ group: 'Pages', path: '/blocks/dashboard', title: 'Dashboard', icon: 'lucide:layout-dashboard', about: 'Stats, upcoming lessons and recent activity' }
 	{ group: 'Pages', path: '/blocks/profile', title: 'Profile', icon: 'lucide:id-card', about: 'A student: header, tabs, details and history' }
-	{ group: 'Pages', path: '/blocks/list', title: 'List page', icon: 'lucide:list', about: 'Search, filters, a selectable table and paging' }
+	{ group: 'Pages', path: '/blocks/table', title: 'Table page', icon: 'lucide:table', about: 'Search, filters, a selectable table and paging, in one card' }
 	{ group: 'Pages', path: '/blocks/settings', title: 'Settings', icon: 'lucide:settings', about: 'Form sections with a save bar' }
 	{ group: 'Pages', path: '/blocks/sign-in', title: 'Sign in', icon: 'lucide:log-in', about: 'A centred sign-in card' }
 	{ group: 'Pages', path: '/blocks/empty-states', title: 'Empty states', icon: 'lucide:inbox', about: 'First run, no results and not found' }
@@ -156,7 +156,7 @@ tag page-block-profile
 		<block-profile>
 
 tag page-block-list
-	<self> <block-page heading='List page' intro='Search, a subject filter and a filters sheet over a selectable, sortable table, with an action bar for the selection and paging.' source=listSource>
+	<self> <block-page heading='Table page' intro='Search, a subject filter and a filters sheet over a selectable, sortable table, with an action bar for the selection and paging.' source=listSource>
 		<block-list>
 
 tag page-block-settings

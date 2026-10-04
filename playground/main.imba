@@ -194,7 +194,7 @@ tag playground
 		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
 	<self>
-		<ui-app-shell persist='imba-ui:sidebar'>
+		<ui-app-shell persist='imba-ui:sidebar' inset=(document.documentElement.dataset.layout == 'inset')>
 			<ui-sidebar>
 				<a.brand slot='logo' href='/'>
 					<span.mark> "UI"
@@ -232,7 +232,7 @@ tag playground
 				<page-block-banners route='/blocks/banners'>
 				<page-block-dashboard route='/blocks/dashboard'>
 				<page-block-profile route='/blocks/profile'>
-				<page-block-list route='/blocks/list'>
+				<page-block-list route='/blocks/table'>
 				<page-block-settings route='/blocks/settings'>
 				<page-block-sign-in route='/blocks/sign-in'>
 				<page-block-empty-states route='/blocks/empty-states'>

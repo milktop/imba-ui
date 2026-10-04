@@ -23,6 +23,13 @@ tag ui-app-shell < ui-app-shell-base
 		transition:grid-template-columns 200ms ease
 		&.rail gtc:$ui-sidebar-rail-width 1fr
 		&.mobile gtc:1fr grid-template-areas:"topbar" "main"
+		# Inset: the page is a rounded panel on the canvas, and the sidebar and
+		# top bar sit flat on the surface around it.
+		&.inset bg:$ui-surface
+		&.inset >>> [data-ui-page] bg:$ui-canvas mr:2 mb:2 bd:1px solid $ui-border rd:calc($ui-radius + 8px)
+		&.inset.mobile >>> [data-ui-page] ml:2
+		&.inset >>> [data-ui-topbar] bdb:none
+		&.inset >>> [data-ui-sidebar] bdr:none
 		.backdrop pos:fixed inset:0 zi:40 bg:rgba(0,0,0,0.4) animation:ui-backdrop-in 200ms ease-out
 
 tag ui-sidebar < ui-sidebar-base

@@ -26,6 +26,8 @@ import '../avatar/base.imba'
 #
 # - `collapsed`: bindable (`bind=` or `bind:collapsed=`)
 # - `persist`: a localStorage key to remember the collapsed state
+# - `inset`: the page becomes a rounded panel inset from the edges, with the
+#   sidebar and top bar flat around it
 #
 # The parts find the shell by walking up the DOM, so they can be subclassed
 # or wrapped freely.
@@ -40,6 +42,7 @@ tag ui-app-shell-base
 	prop collapsed = false
 	prop persist = null
 	prop breakpoint = 768
+	prop inset = false
 
 	isUiAppShell = yes
 	drawerOpen = no
@@ -113,7 +116,7 @@ tag ui-app-shell-base
 		refresh!
 		#returnFocus..focus!
 
-	<self .rail=rail .mobile=mobile .drawer-open=drawerOpen>
+	<self .rail=rail .mobile=mobile .inset=inset .drawer-open=drawerOpen>
 		<slot>
 		if mobile and drawerOpen
 			<div.backdrop @click=closeDrawer>
@@ -328,7 +331,7 @@ tag ui-topbar-base
 
 	def openMenu do shell..openDrawer!
 
-	<self data-ui-shell-part>
+	<self data-ui-shell-part data-ui-topbar>
 		if shell..mobile
 			<button.menu type='button' aria-label='Open menu' aria-expanded=String(!!shell.drawerOpen) @click=openMenu> <ui-icon path=icons.menu size=18>
 		<div.start> <slot>
@@ -343,7 +346,7 @@ tag ui-page-base
 	prop description = null
 	prop width = 'default'
 
-	<self data-width=width>
+	<self data-width=width data-ui-page>
 		<div.inner>
 			if heading or description
 				<header.header>

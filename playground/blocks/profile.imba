@@ -22,6 +22,7 @@ tag block-profile
 
 	css
 		d:flex fld:column g:6
+		.top d:flex fld:column g:4
 		.head d:flex ai:center jc:space-between g:4 flw:wrap
 		.person d:flex ai:center g:4
 		h2 m:0 fs:xl fw:700
@@ -33,19 +34,22 @@ tag block-profile
 		.panel pt:5
 
 	<self>
-		<div.head>
-			<div.person>
-				<ui-avatar size='lg' name='Ada Lovelace'>
-				<div>
-					<h2> "Ada Lovelace"
-					<div.meta>
-						<ui-badge variant='success' dot> "Active"
-						<span> "Year 11 · GCSE Maths"
-			<div.actions>
-				<ui-button icon='lucide:message-square'> "Message"
-				<ui-button variant='primary' icon='lucide:calendar-plus'> "Book lesson"
-				<ui-menu items=actions placement='bottom-end'>
-					<ui-button slot='trigger' icon='lucide:ellipsis' aria-label='More actions'>
+		# Breadcrumbs above the header: a detail page's way back.
+		<div.top>
+			<ui-breadcrumbs items=[{ label: 'Students', href: '#' }, { label: 'Ada Lovelace' }]>
+			<div.head>
+				<div.person>
+					<ui-avatar size='lg' name='Ada Lovelace'>
+					<div>
+						<h2> "Ada Lovelace"
+						<div.meta>
+							<ui-badge variant='success' dot> "Active"
+							<span> "Year 11 · GCSE Maths"
+				<div.actions>
+					<ui-button icon='lucide:message-square'> "Message"
+					<ui-button variant='primary' icon='lucide:calendar-plus'> "Book lesson"
+					<ui-menu items=actions placement='bottom-end'>
+						<ui-button slot='trigger' icon='lucide:ellipsis' aria-label='More actions'>
 		<ui-tabs bind=tab>
 			<ui-tab value='overview' label='Overview'>
 				<div.overview>
@@ -56,11 +60,12 @@ tag block-profile
 						{ label: 'Rate', value: '£35 / hour' }
 						{ label: 'Since', value: 'September 2025' }
 					]>
-					<ui-stats.numbers columns=2>
-						<ui-stat label='Lessons' value=24>
-						<ui-stat label='Attendance' value='92' unit='%'>
-						<ui-stat label='Paid' value='£840'>
-						<ui-stat label='Owed' value='£35'>
+					<ui-card.numbers>
+						<ui-stats columns=2>
+							<ui-stat label='Lessons' value=24>
+							<ui-stat label='Attendance' value='92' unit='%'>
+							<ui-stat label='Paid' value='£840'>
+							<ui-stat label='Owed' value='£35' help='Invoice due 15 Oct'>
 			<ui-tab value='lessons' label='Lessons'>
 				<div.panel>
 					<ui-table columns=lessonColumns rows=lessons>
