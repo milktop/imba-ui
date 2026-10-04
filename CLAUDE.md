@@ -101,6 +101,10 @@ New components follow the same pattern: add both files, an entry in
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 
+- **Charts** (`src/chart/`) render SVG in Imba with d3-scale/d3-shape for the
+  maths, measure their width with a ResizeObserver (so text isn't stretched),
+  and share their styles through `global css` under `[data-ui-chart]`. Imba's
+  CSS has no container queries; inject plain rules like `ui-stats` does.
 - **Layout parts** (ui-sidebar, ui-nav-item, …) find their shell by walking up
   (`closestWith(self, 'isUiAppShell')`) and carry `data-ui-shell-part`; the
   shell re-renders them directly on changes, since they're rendered by the app.

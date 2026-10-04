@@ -1,8 +1,10 @@
-import { upcoming, activity } from './data.imba'
+import { upcoming, activity, revenue } from './data.imba'
 
 # A dashboard: a greeting with actions, a row of stats, then upcoming lessons
 # beside recent activity.
 tag block-dashboard
+	range = 7
+	ranges = [{ value: 3, label: '3m' }, { value: 7, label: '7m' }]
 	columns = [
 		{ key: 'student', label: 'Student', tag: 'dashboard-student' }
 		{ key: 'subject', label: 'Subject' }
@@ -36,6 +38,9 @@ tag block-dashboard
 			<ui-stat icon='lucide:calendar-check' label='Lessons' value=52 change=12.5 changeLabel='vs September'>
 			<ui-stat icon='lucide:clock' label='Hours taught' value='48.5' unit='h' change=-2.1>
 			<ui-stat icon='lucide:wallet' label='Outstanding' value='£320' change=15 invert>
+		<ui-card heading='Revenue' description='Paid and outstanding, by month'>
+			<ui-segmented slot='actions' items=ranges bind=range>
+			<ui-area-chart data=revenue.slice(-range) x='month' series=[{ key: 'paid', label: 'Paid' }, { key: 'owed', label: 'Outstanding', color: 'var(--ui-chart-3)' }] format=(do(v) "£{v.toLocaleString!}") height=220 label='Revenue by month'>
 		<div.columns>
 			<section.lessons>
 				<div.panel-head>

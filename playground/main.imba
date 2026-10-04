@@ -12,6 +12,7 @@ import './pages/card.imba'
 import './pages/table.imba'
 import './pages/data-list.imba'
 import './pages/stat.imba'
+import './pages/charts.imba'
 import './pages/timeline.imba'
 import './pages/alert.imba'
 import './pages/skeleton.imba'
@@ -67,6 +68,7 @@ const groups = [
 		{ path: '/table', title: 'Table', about: 'Sorting, selection, paging' }
 		{ path: '/data-list', title: 'Data list', about: 'Labels and values' }
 		{ path: '/stat', title: 'Stat', about: 'Headline numbers and trends' }
+		{ path: '/charts', title: 'Charts', about: 'Area, bar and sparklines' }
 		{ path: '/timeline', title: 'Timeline', about: 'Events down a line' }
 	] }
 	{ title: 'Feedback', icon: 'lucide:bell', pages: [
@@ -242,6 +244,7 @@ tag playground
 				<page-table route='/table'>
 				<page-data-list route='/data-list'>
 				<page-stat route='/stat'>
+				<page-charts route='/charts'>
 				<page-timeline route='/timeline'>
 				<page-alert route='/alert'>
 				<page-skeleton route='/skeleton'>

@@ -79,6 +79,8 @@
     "./empty-state/base": "./src/empty-state/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
+    "./chart": "./src/chart/index.imba",
+    "./chart/base": "./src/chart/base.imba",
     "./data-list": "./src/data-list/index.imba",
     "./data-list/base": "./src/data-list/base.imba",
     "./stat": "./src/stat/index.imba",
@@ -152,6 +154,8 @@
     "@zag-js/tags-input": "^1.44.0",
     "@zag-js/toast": "^1.44.0",
     "@zag-js/tooltip": "^1.44.0",
-    "@zag-js/vanilla": "^1.44.0"
+    "@zag-js/vanilla": "^1.44.0",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0"
   }
 }

@@ -33,3 +33,13 @@ export const activity = [
 	{ title: 'Ada Lovelace cancelled', time: 'Yesterday', color: 'danger', description: 'Rescheduled for Thursday' }
 	{ title: 'New student: Radia Perlman', time: '2 days ago' }
 ]
+
+export const revenue = [
+	{ month: 'Apr', paid: 1240, owed: 120 }
+	{ month: 'May', paid: 1480, owed: 90 }
+	{ month: 'Jun', paid: 1310, owed: 160 }
+	{ month: 'Jul', paid: 860, owed: 40 }
+	{ month: 'Aug', paid: 720, owed: 60 }
+	{ month: 'Sep', paid: 1650, owed: 210 }
+	{ month: 'Oct', paid: 1820, owed: 320 }
+]
