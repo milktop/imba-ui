@@ -198,5 +198,10 @@ tag page-table
 						<button @click=(loading = !loading)> loading ? "Stop loading" : "Load"
 						<button @click=(empty = !empty)> empty ? "Show rows" : "Empty"
 
+			<demo-section heading='Roomy'>
+				<ui-table columns=compactColumns rows=students.slice(0, 3) size='lg'>
+				<div.out>
+					<p.note> "`size` is 'sm', 'md' (default) or 'lg'."
+
 			<demo-section heading='Compact, with a sticky header'>
 				<ui-table columns=compactColumns rows=students size='sm' maxHeight='16rem' sort={ key: 'lessons', dir: 'desc' }>

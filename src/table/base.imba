@@ -30,7 +30,7 @@ import '../skeleton/base.imba'
 # - `emptyText`, or an `empty` slot, for no rows
 # - `maxHeight`: scrolls the rows under a sticky header
 # - `label`: a caption for assistive tech
-# - `size`: 'sm' or 'md' (default)
+# - `size`: 'sm', 'md' (default) or 'lg' (roomier rows)
 # - `flush`: no border or rounding, to sit edge to edge in a card
 #
 # Emits `rowclick` with the row when a row is clicked (outside its controls).

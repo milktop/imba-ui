@@ -18,12 +18,16 @@ tag ui-table < ui-table-base
 		# (without columns) looks the same as the generated one.
 		.scroll >>> table w:100% border-collapse:separate border-spacing:0
 		.scroll >>> caption pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
-		.scroll >>> :is(th, td) px:3 h:11 ta:left va:middle bdb:1px solid $ui-border
+		# Rows get room from padding (so two-line cells breathe too), with a
+		# minimum height for one-line ones.
+		.scroll >>> :is(th, td) px:3 py:3 h:12 ta:left va:middle bdb:1px solid $ui-border
 		# Generated cells stay on one line (the table scrolls sideways instead).
 		.table th, .table td ws:nowrap
-		.scroll >>> th h:10 fw:500 fs:xs c:$ui-muted bg:$ui-hover
-		&.sm .scroll >>> :is(th, td) h:9 px:2.5
-		&.sm .scroll >>> th h:8
+		.scroll >>> th h:10 py:2 fw:500 fs:xs c:$ui-muted bg:$ui-hover
+		&.sm .scroll >>> :is(th, td) h:9 py:1.5 px:2.5
+		&.sm .scroll >>> th h:8 py:1.5
+		&.lg .scroll >>> :is(th, td) h:14 py:4 px:4
+		&.lg .scroll >>> th h:11 py:2.5
 		.sticky >>> th pos:sticky t:0 zi:1
 		.scroll >>> :is(th, td)[data-align=center] ta:center
 		.scroll >>> :is(th, td)[data-align=end] ta:right
