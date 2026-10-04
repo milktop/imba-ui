@@ -29,6 +29,7 @@ import './pages/pin-input.imba'
 import './pages/slider.imba'
 import './pages/tags-input.imba'
 import './pages/file-upload.imba'
+import './pages/attachments.imba'
 import './pages/select.imba'
 import './pages/combobox.imba'
 import './pages/date-picker.imba'
@@ -89,6 +90,7 @@ const groups = [
 		{ path: '/pin-input', title: 'Pin input', about: 'Codes, one box per character' }
 		{ path: '/slider', title: 'Slider', about: 'Single values and ranges' }
 		{ path: '/file-upload', title: 'File upload', about: 'Dropzone with previews' }
+		{ path: '/attachments', title: 'Attachments', about: 'Files added to a page or form' }
 	] }
 	{ title: 'Pickers', icon: 'lucide:list-checks', pages: [
 		{ path: '/select', title: 'Select', about: 'One or more from a list' }
@@ -204,16 +206,16 @@ tag playground
 				<span.mark slot='logo-collapsed'> "UI"
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
-				<ui-nav-section heading='Blocks'>
-					for group in ['Sections', 'Pages']
-						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=yes>
-							for block in blocks.filter(do $1.group == group)
-								<ui-nav-item key=block.path href=block.path active=(router.pathname == block.path)> block.title
 				<ui-nav-section heading='Components'>
 					for group in groups
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
 							for page in group.pages
 								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
+				<ui-nav-section heading='Blocks'>
+					for group in ['Sections', 'Pages']
+						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=yes>
+							for block in blocks.filter(do $1.group == group)
+								<ui-nav-item key=block.path href=block.path active=(router.pathname == block.path)> block.title
 				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' items=accountItems @select=account(e.detail)>
 			<ui-topbar>
 				<ui-breadcrumbs items=trail>
@@ -264,6 +266,7 @@ tag playground
 				<page-slider route='/slider'>
 				<page-tags-input route='/tags-input'>
 				<page-file-upload route='/file-upload'>
+				<page-attachments route='/attachments'>
 				<page-select route='/select'>
 				<page-combobox route='/combobox'>
 				<page-date-picker route='/date-picker'>

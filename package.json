@@ -55,6 +55,8 @@
     "./slider/base": "./src/slider/base.imba",
     "./tags-input": "./src/tags-input/index.imba",
     "./tags-input/base": "./src/tags-input/base.imba",
+    "./attachments": "./src/attachments/index.imba",
+    "./attachments/base": "./src/attachments/base.imba",
     "./file-upload": "./src/file-upload/index.imba",
     "./file-upload/base": "./src/file-upload/base.imba",
     "./progress": "./src/progress/index.imba",

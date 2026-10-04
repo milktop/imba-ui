@@ -8,9 +8,9 @@ tag block-detail
 		{ title: 'Times tables practice (7s and 8s)', due: 'Due Mon 12 Oct', status: 'Done' }
 	]
 	files = [
-		{ name: 'Lesson slides.pdf', size: '2.4 MB', icon: 'lucide:file-text' }
-		{ name: 'Worksheet 4.pdf', size: '480 KB', icon: 'lucide:file-text' }
-		{ name: 'Whiteboard photo.jpg', size: '1.1 MB', icon: 'lucide:image' }
+		{ name: 'Lesson slides.pdf', size: 2516582, type: 'application/pdf' }
+		{ name: 'Worksheet 4.pdf', size: 491520, type: 'application/pdf' }
+		{ name: 'Mock results.xlsx', size: 48000 }
 	]
 	actions = [
 		{ value: 'reschedule', label: 'Reschedule', icon: 'lucide:calendar-clock' }
@@ -84,15 +84,8 @@ tag block-detail
 								<div.name> item.title
 								<div.sub> item.due
 							<ui-badge variant=(item.status == 'Done' ? 'success' : 'neutral')> item.status
-				<ui-card flush heading='Files' description='Shared with Ada and her parent'>
-					<ui-button slot='actions' size='sm' icon='lucide:upload'> "Upload"
-					<ul.rows> for file in files
-						<li>
-							<span.file-icon> <iconify-icon icon=file.icon>
-							<div.grow>
-								<div.name> file.name
-								<div.sub> file.size
-							<ui-button size='sm' variant='ghost' icon='lucide:download' aria-label="Download {file.name}">
+				<ui-card heading='Files' description='Shared with Ada and her parent'>
+					<ui-attachments bind=files removable addable>
 				<ui-card heading='Activity'>
 					<ui-timeline size='sm' items=[
 						{ title: 'Grace added the lesson slides', time: '2h ago', color: 'accent' }

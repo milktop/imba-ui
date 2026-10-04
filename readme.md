@@ -34,6 +34,7 @@ package adds Imba markup and an optional theme.
 | Slider | `<ui-slider>` | Single or range (array value), marks, formatted value |
 | Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |
 | File upload | `<ui-file-upload>` | Dropzone and file list with previews and rejections |
+| Attachments | `<ui-attachments>` | Files on a page or form, as tiles or a list: image thumbnails with a large preview, file icons, download, remove, an add tile; takes Files too; bindable |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
 | Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked`; `labelHidden` for a label only assistive tech hears |
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range |
