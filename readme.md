@@ -11,6 +11,9 @@ package adds Imba markup and an optional theme.
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
 | Card | `<ui-card>` | Surface with heading, description, actions and footer slots |
+| Data list | `<ui-data-list>` (+ `<ui-data-item>`) | Labels and values as a `<dl>`: beside or above, plain/divided/card, grid columns, info tooltips |
+| Stat | `<ui-stat>`, `<ui-stats>` | Headline numbers with unit, coloured change, help and icon; grids that are plain, cards or one divided card |
+| Timeline | `<ui-timeline>` (+ `<ui-timeline-item>`) | Events down a line with icon or dot markers, colours, times; line or cards |
 | Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header; or style a `<table>` written inside |
 | Pagination | `<ui-pagination>` | Previous/next and page numbers with ellipses, optional "11–20 of 95" summary; binds `page` |
 | Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |

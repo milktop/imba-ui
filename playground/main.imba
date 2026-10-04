@@ -10,6 +10,9 @@ import './pages/avatar.imba'
 import './pages/badge.imba'
 import './pages/card.imba'
 import './pages/table.imba'
+import './pages/data-list.imba'
+import './pages/stat.imba'
+import './pages/timeline.imba'
 import './pages/alert.imba'
 import './pages/skeleton.imba'
 import './pages/spinner.imba'
@@ -61,6 +64,9 @@ const groups = [
 		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
 		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
 		{ path: '/table', title: 'Table', about: 'Sorting, selection, paging' }
+		{ path: '/data-list', title: 'Data list', about: 'Labels and values' }
+		{ path: '/stat', title: 'Stat', about: 'Headline numbers and trends' }
+		{ path: '/timeline', title: 'Timeline', about: 'Events down a line' }
 	] }
 	{ title: 'Feedback', icon: 'lucide:bell', pages: [
 		{ path: '/alert', title: 'Alert', about: 'Messages in the page' }
@@ -212,6 +218,9 @@ tag playground
 				<page-badge route='/badge'>
 				<page-card route='/card'>
 				<page-table route='/table'>
+				<page-data-list route='/data-list'>
+				<page-stat route='/stat'>
+				<page-timeline route='/timeline'>
 				<page-alert route='/alert'>
 				<page-skeleton route='/skeleton'>
 				<page-spinner route='/spinner'>

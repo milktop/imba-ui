@@ -35,6 +35,7 @@ global css
 		$ui-ring:#6366f1
 		$ui-ring-soft:#6366f133
 		$ui-danger:#dc2626
+		$ui-success:#16a34a
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
 		$ui-font:inherit
@@ -58,4 +59,5 @@ global css
 		$ui-ring:#818cf8
 		$ui-ring-soft:#818cf833
 		$ui-danger:#f87171
+		$ui-success:#4ade80
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.6)

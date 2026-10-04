@@ -16,6 +16,8 @@ export const icons = {
 	x: 'M18 6 6 18M6 6l12 12'
 	left: 'm15 18-6-6 6-6'
 	right: 'm9 18 6-6-6-6'
+	trendUp: 'M22 7 13.5 15.5l-5-5L2 17M16 7h6v6'
+	trendDown: 'M22 17l-8.5-8.5-5 5L2 7M16 17h6v-6'
 	up: 'm18 15-6-6-6 6'
 	upDown: 'm7 15 5 5 5-5M7 9l5-5 5 5'
 	down: 'm6 9 6 6 6-6'
