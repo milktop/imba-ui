@@ -79,6 +79,8 @@
     "./empty-state/base": "./src/empty-state/base.imba",
     "./field": "./src/field/index.imba",
     "./field/base": "./src/field/base.imba",
+    "./action-bar": "./src/action-bar/index.imba",
+    "./action-bar/base": "./src/action-bar/base.imba",
     "./table": "./src/table/index.imba",
     "./table/base": "./src/table/base.imba",
     "./pagination": "./src/pagination/index.imba",

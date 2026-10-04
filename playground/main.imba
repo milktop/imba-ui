@@ -37,6 +37,7 @@ import './pages/popover.imba'
 import './pages/hover-card.imba'
 import './pages/dialog.imba'
 import './pages/sheet.imba'
+import './pages/action-bar.imba'
 import './pages/menu.imba'
 import './pages/toast.imba'
 import './pages/tabs.imba'
@@ -103,6 +104,7 @@ const groups = [
 		{ path: '/hover-card', title: 'Hover card', about: 'Previews on hover' }
 		{ path: '/dialog', title: 'Dialog', about: 'Modals and confirmations' }
 		{ path: '/sheet', title: 'Sheet', about: 'Panels that slide in from an edge' }
+		{ path: '/action-bar', title: 'Action bar', about: 'Actions for a selection' }
 		{ path: '/menu', title: 'Menu', about: 'Dropdowns and context menus' }
 		{ path: '/toast', title: 'Toast', about: 'Notifications' }
 	] }
@@ -237,6 +239,7 @@ tag playground
 				<page-hover-card route='/hover-card'>
 				<page-dialog route='/dialog'>
 				<page-sheet route='/sheet'>
+				<page-action-bar route='/action-bar'>
 				<page-menu route='/menu'>
 				<page-toast route='/toast'>
 				<page-tabs route='/tabs'>

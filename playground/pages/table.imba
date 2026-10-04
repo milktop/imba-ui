@@ -124,7 +124,6 @@ tag page-table
 	css
 		.toolbar d:flex ai:center jc:space-between g:3 flw:wrap w:100%
 		.search w:100% @sm:64
-		.bulk d:flex ai:center g:2 fs:sm c:$ui-muted
 		.stack d:flex fld:column g:3 w:100%
 		.code m:0 p:4 w:100% box-sizing:border-box bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
 		code ff:mono fs:xs
@@ -132,18 +131,20 @@ tag page-table
 		.total fw:600
 
 	<self>
-		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all (Shift-click a checkbox to tick a run of rows), custom cells, loading and empty states. ui-pagination pages through them.'>
+		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all (Shift-click a checkbox to tick a run of rows, and an action bar appears), custom cells, loading and empty states. ui-pagination pages through them.'>
 			<demo-section heading='Students'>
 				<div.stack>
 					<div.toolbar>
 						<ui-input.search icon='lucide:search' placeholder='Search students' bind=query @input=(page = 1)>
-						if selected.length
-							<div.bulk>
-								"{selected.length} selected"
-								<ui-button size='sm' @click=(selected = [])> "Clear"
-								<ui-button size='sm' variant='primary' icon='lucide:send'> "Message"
 					<ui-table$table columns=columns rows=pageRows manualSort selectable bind:selected=selected bind:sort=sort label='Students' @sortchange=(page = 1) @rowclick=toaster.info(title: "Open {e.detail.name}")>
 					<ui-pagination$pager count=filtered.length pageSize=8 summary bind=page>
+					# Floats at the bottom of the screen while rows are ticked.
+					<ui-action-bar open=(selected.length > 0) @close=(selected = [])>
+						<span slot='selection'> "{selected.length} selected"
+						<ui-button size='sm' icon='lucide:send' @click=toaster.info(title: "Message {selected.length} students")> "Message"
+						<ui-button size='sm' icon='lucide:calendar-plus'> "Book lessons"
+						<ui-button size='sm' variant='danger' icon='lucide:archive' @click=(selected = [])> "Archive"
+
 				<div.out>
 					<json-print data={ page, sort, selected }>
 

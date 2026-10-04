@@ -40,6 +40,7 @@ package adds Imba markup and an optional theme.
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
 | Sheet | `<ui-sheet>` | Panel sliding in from any edge (`side`), sized sm/md/lg; a modal dialog underneath, with scrolling body and pinned footer |
+| Action bar | `<ui-action-bar>` | Floating toolbar at the bottom while something is selected: count, actions, close; not modal |
 | Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups and separators; emits `select` |
 | Context menu | `<ui-context-menu>` | ui-menu opened by right-click or long-press on its area, at the pointer |
 | Toast | `<ui-toaster>` + `toaster` | Notifications stacked in a corner: success/error/warning/info/loading, actions, pause on hover |

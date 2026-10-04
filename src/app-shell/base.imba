@@ -79,6 +79,10 @@ tag ui-app-shell-base
 	# maybe before the shell was in the page, and the app's next commit waits
 	# for an animation frame.
 	def refresh
+		# Where the main area starts, for things fixed to the viewport that
+		# should centre over it (ui-action-bar).
+		let left = mobile ? '0px' : (rail ? 'var(--ui-sidebar-rail-width)' : 'var(--ui-sidebar-width)')
+		globalThis.document.documentElement.style.setProperty('--ui-main-left', left)
 		render!
 		# `commit` renders and runs the `rendered` hook.
 		for part in querySelectorAll('[data-ui-shell-part]')
@@ -86,6 +90,7 @@ tag ui-app-shell-base
 		imba.commit!
 
 	def unmount
+		globalThis.document.documentElement.style.removeProperty('--ui-main-left')
 		#media..removeEventListener('change', #onMedia)
 		globalThis.removeEventListener('keydown', #onKey)
 
