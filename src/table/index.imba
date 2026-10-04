@@ -8,7 +8,7 @@ tag ui-table < ui-table-base
 		d:block w:100% min-width:0 c:$ui-text ff:$ui-font fs:sm
 		# Scrolls sideways on narrow screens; with maxHeight, down too, under a
 		# sticky header.
-		.scroll w:100% ofx:auto bd:1px solid $ui-border rd:calc($ui-radius + 2px) box-sizing:border-box
+		.scroll w:100% ofx:auto bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) box-sizing:border-box
 			&.sticky ofy:auto
 		# The table's parts are styled through `>>>`, so a <table> written inside
 		# (without columns) looks the same as the generated one.

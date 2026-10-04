@@ -26,6 +26,9 @@ global css
 		$ui-text:#18181b
 		$ui-muted:#71717a
 		$ui-surface:white
+		# Behind the content (ui-app-shell's main area), so cards and tables on
+		# $ui-surface stand out from it.
+		$ui-canvas:#f8f8f9
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
 		$ui-accent:#4f46e5
@@ -51,6 +54,7 @@ global css
 		$ui-text:#fafafa
 		$ui-muted:#a1a1aa
 		$ui-surface:#18181b
+		$ui-canvas:#0f0f11
 		$ui-border:#27272a
 		$ui-hover:#27272a
 		$ui-accent:#6366f1

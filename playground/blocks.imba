@@ -16,8 +16,6 @@ tag block-page
 	prop heading
 	prop intro
 	prop source = ''
-	# 'muted' gives the preview a tinted background (for centred cards).
-	prop frame = 'plain'
 	view = 'preview'
 	copied = no
 
@@ -39,8 +37,8 @@ tag block-page
 		header d:flex ai:flex-end jc:space-between g:4 flw:wrap mb:5
 		h1 fs:xl fw:700 m:0
 		.intro m:0 mt:1 c:$ui-muted fs:sm
-		.preview p:4 @md:8 bd:1px solid $ui-border rd:calc($ui-radius + 6px) bg:$ui-surface
-			&.muted bg:$ui-hover
+		# On the canvas, like an app's main area.
+		.preview p:4 @md:8 bd:1px solid $ui-border rd:calc($ui-radius + 6px) bg:$ui-canvas
 		.code pos:relative
 			pre m:0 p:5 pr:16 bg:$ui-hover rd:calc($ui-radius + 6px) ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto max-height:70vh ofy:auto
 			.copy pos:absolute t:3 r:3 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
@@ -53,7 +51,7 @@ tag block-page
 				<h1> heading
 				<p.intro> intro if intro
 			<ui-segmented items=views bind=view>
-		<div.preview .muted=(frame == 'muted') hidden=(view != 'preview')> <slot>
+		<div.preview hidden=(view != 'preview')> <slot>
 		<div.code hidden=(view != 'code')>
 			<pre> <code> for tok in highlightImba(code)
 				<span .tok-{tok.kind or 'plain'}> tok.text
@@ -89,7 +87,7 @@ tag page-block-settings
 		<block-settings>
 
 tag page-block-sign-in
-	<self> <block-page heading='Sign in' intro='A centred card with the form, a social sign-in and a link to create an account.' source=signInSource frame='muted'>
+	<self> <block-page heading='Sign in' intro='A centred card with the form, a social sign-in and a link to create an account.' source=signInSource>
 		<block-sign-in>
 
 tag page-block-empty-states

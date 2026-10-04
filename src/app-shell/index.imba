@@ -18,7 +18,8 @@ tag ui-app-shell < ui-app-shell-base
 	css
 		d:grid gtc:$ui-sidebar-width 1fr gtr:auto 1fr min-height:100dvh
 		grid-template-areas:"sidebar topbar" "sidebar main"
-		bg:$ui-surface c:$ui-text ff:$ui-font
+		# The main area sits on the canvas; the sidebar and top bar on the surface.
+		bg:$ui-canvas c:$ui-text ff:$ui-font
 		transition:grid-template-columns 200ms ease
 		&.rail gtc:$ui-sidebar-rail-width 1fr
 		&.mobile gtc:1fr grid-template-areas:"topbar" "main"

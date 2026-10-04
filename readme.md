@@ -183,6 +183,8 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
+- The main area sits on `$ui-canvas` (a faint grey), so cards and tables on
+  `$ui-surface` stand out; set it to `$ui-surface` for an all-white app.
 
 ## Command menu
 
