@@ -31,6 +31,15 @@ import '../skeleton/base.imba'
 # - `size`: 'sm' or 'md' (default)
 #
 # Emits `rowclick` with the row when a row is clicked (outside its controls).
+#
+# Or write the table yourself, for its look alone (no sorting, selection or
+# loading states): without `columns`, a <table> inside is styled the same,
+# `data-align` on cells included.
+#
+#   <ui-table>
+#     <table>
+#       <thead> <tr> <th> 'Name'; <th data-align='end'> 'Year'
+#       <tbody> …
 tag ui-table-base
 	prop columns = []
 	prop rows = []
@@ -112,43 +121,47 @@ tag ui-table-base
 
 	<self .{size} .loading=(loading and rows.length > 0)>
 		<div.scroll .sticky=!!maxHeight style=(maxHeight ? "max-height: {maxHeight}" : undefined)>
-			<table.table aria-busy=String(!!loading)>
-				if label
-					<caption.caption> label
-				<thead>
-					<tr>
-						if selectable
-							<th.select-cell scope='col'>
-								<ui-checkbox label='Select all rows' labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
-						for column in columns
-							<th scope='col' data-align=(column.align or 'start') aria-sort=ariaSort(column) style=(column.width ? "width: {column.width}" : undefined)>
-								if column.sortable
-									<button.sort type='button' data-dir=sortDir(column) @click=toggleSort(column)>
-										<span> column.label
-										<ui-icon.sort-icon path=(sortDir(column) == 'asc' ? icons.up : (sortDir(column) == 'desc' ? icons.down : icons.upDown)) size=14>
-								else
-									column.label
-				<tbody>
-					if loading and !rows.length
-						for i in [0 ... loadingRows]
-							<tr.skeleton-row>
-								if selectable
-									<td.select-cell>
-								for column in columns
-									<td> <ui-skeleton height='0.75rem' width='60%'>
-					elif !rows.length
+			# Without columns, a <table> written inside is styled the same.
+			if !columns or !columns.length
+				<slot>
+			else
+				<table.table aria-busy=String(!!loading)>
+					if label
+						<caption.caption> label
+					<thead>
 						<tr>
-							<td.empty colSpan=columnCount>
-								<slot name='empty'> <span> emptyText
-					else
-						for row in sortedRows
-							<tr key=keyOf(row) .selected=isSelected(row) aria-selected=(selectable ? String(isSelected(row)) : undefined) @click=rowClicked(e, row)>
-								if selectable
-									<td.select-cell>
-										<ui-checkbox label="Select {display(row, columns[0])}" labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
-								for column in columns
-									<td data-align=(column.align or 'start')>
-										if column.tag
-											<{column.tag} row=row column=column value=valueOf(row, column)>
-										else
-											display(row, column)
+							if selectable
+								<th.select-cell scope='col'>
+									<ui-checkbox label='Select all rows' labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
+							for column in columns
+								<th scope='col' data-align=(column.align or 'start') aria-sort=ariaSort(column) style=(column.width ? "width: {column.width}" : undefined)>
+									if column.sortable
+										<button.sort type='button' data-dir=sortDir(column) @click=toggleSort(column)>
+											<span> column.label
+											<ui-icon.sort-icon path=(sortDir(column) == 'asc' ? icons.up : (sortDir(column) == 'desc' ? icons.down : icons.upDown)) size=14>
+									else
+										column.label
+					<tbody>
+						if loading and !rows.length
+							for i in [0 ... loadingRows]
+								<tr.skeleton-row>
+									if selectable
+										<td.select-cell>
+									for column in columns
+										<td> <ui-skeleton height='0.75rem' width='60%'>
+						elif !rows.length
+							<tr>
+								<td.empty colSpan=columnCount>
+									<slot name='empty'> <span> emptyText
+						else
+							for row in sortedRows
+								<tr key=keyOf(row) .selected=isSelected(row) aria-selected=(selectable ? String(isSelected(row)) : undefined) @click=rowClicked(e, row)>
+									if selectable
+										<td.select-cell>
+											<ui-checkbox label="Select {display(row, columns[0])}" labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
+									for column in columns
+										<td data-align=(column.align or 'start')>
+											if column.tag
+												<{column.tag} row=row column=column value=valueOf(row, column)>
+											else
+												display(row, column)
