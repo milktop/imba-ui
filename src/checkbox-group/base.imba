@@ -12,6 +12,9 @@ import '../checkbox/base.imba'
 # - `orientation`: 'vertical' (default) or 'horizontal'
 # - `name`: each checkbox posts its value with plain forms
 #
+# Shift-clicking a checkbox ticks (or clears) every item between it and the
+# last one clicked, as in mail and file lists.
+#
 # Emits `change` with the selected values, in item order, as the items' own
 # values. It is a labelled group: inside a ui-field it takes the field's
 # label, and the field's hint and error are announced once, on the group.
@@ -54,7 +57,20 @@ tag ui-checkbox-group-base
 		data = next.map(do itemValue($1, valueKey))
 		emit('change', data)
 
+	# Change events don't carry the Shift key, so it's noted on the way in;
+	# Shift+mousedown would also select the labels' text between.
+	def noteShift e
+		#shift = e.shiftKey
+		e.preventDefault! if e.shiftKey and e.type == 'mousedown'
+
 	def toggle item, checked
+		let index = items.indexOf(item)
+		let anchor = #anchor
+		#anchor = index
+		if #shift and anchor != null and anchor != index and items[anchor]
+			let lo = Math.min(anchor, index)
+			let hi = Math.max(anchor, index)
+			return setSelection items.filter(do(i, n) n >= lo and n <= hi and !isLocked(i) ? checked : isSelected(i))
 		setSelection items.filter(do(i) i == item ? checked : isSelected(i))
 
 	def toggleAll checked
@@ -77,6 +93,6 @@ tag ui-checkbox-group-base
 			<div.group role='group' zag={ 'aria-labelledby': labelledBy, 'aria-describedby': #field..describedBy ?? undefined }>
 				if selectAll
 					<{checkboxTag}.select-all label=selectAll checked=allState disabled=disabled @change.stop=toggleAll(e.detail)>
-				<div.items .horizontal=(orientation == 'horizontal') .indented=!!selectAll>
+				<div.items .horizontal=(orientation == 'horizontal') .indented=!!selectAll @pointerdown.capture=noteShift @mousedown.capture=noteShift @keydown.capture=noteShift>
 					for item in items
 						<{checkboxTag}.item label=itemLabel(item, labelKey) checked=isSelected(item) disabled=isLocked(item) name=name value=itemKey(item, valueKey) @change.stop=toggle(item, e.detail)>

@@ -132,7 +132,7 @@ tag page-table
 		.total fw:600
 
 	<self>
-		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all, custom cells, loading and empty states. ui-pagination pages through them.'>
+		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all (Shift-click a checkbox to tick a run of rows), custom cells, loading and empty states. ui-pagination pages through them.'>
 			<demo-section heading='Students'>
 				<div.stack>
 					<div.toolbar>

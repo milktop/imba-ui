@@ -23,7 +23,9 @@ import '../skeleton/base.imba'
 #   with `manualSort` rows aren't sorted here: sort them yourself, with
 #   `sortList(list)` before paging or on a server (listen for `sortchange`).
 # - `selectable`: a checkbox per row and a select-all; the selected rows' keys
-#   are bindable with `bind:selected=` (`selectionchange` is emitted too)
+#   are bindable with `bind:selected=` (`selectionchange` is emitted too).
+#   Shift-clicking a row's checkbox ticks (or clears) the rows between it and
+#   the last one clicked.
 # - `loading`: skeleton rows while there are none yet, else dims the rows
 # - `emptyText`, or an `empty` slot, for no rows
 # - `maxHeight`: scrolls the rows under a sticky header
@@ -103,10 +105,22 @@ tag ui-table-base
 		selected = keys
 		emit('selectionchange', keys)
 
+	# Change events don't carry the Shift key, so it's noted on the way in;
+	# Shift+mousedown would also select the text between.
+	def noteShift e
+		#shift = e.shiftKey
+		e.preventDefault! if e.shiftKey and e.type == 'mousedown' and e.target.closest('.select-cell')
+
 	def toggleRow row, on
-		let key = keyOf(row)
-		let rest = (selected or []).filter(do $1 != key)
-		setSelected(on ? [...rest, key] : rest)
+		let list = sortedRows
+		let index = list.indexOf(row)
+		let anchor = list.findIndex(do keyOf($1) == #anchorKey)
+		#anchorKey = keyOf(row)
+		# With Shift, every row from the last one clicked to this one.
+		let range = #shift and anchor >= 0 and anchor != index ? list.slice(Math.min(anchor, index), Math.max(anchor, index) + 1) : [row]
+		let keys = range.map(do keyOf($1))
+		let rest = (selected or []).filter(do !keys.includes($1))
+		setSelected(on ? [...rest, ...keys] : rest)
 
 	def toggleAll on
 		let keys = (rows or []).map(do keyOf($1))
@@ -141,7 +155,7 @@ tag ui-table-base
 											<ui-icon.sort-icon path=(sortDir(column) == 'asc' ? icons.up : (sortDir(column) == 'desc' ? icons.down : icons.upDown)) size=14>
 									else
 										column.label
-					<tbody>
+					<tbody @pointerdown.capture=noteShift @mousedown.capture=noteShift @keydown.capture=noteShift>
 						if loading and !rows.length
 							for i in [0 ... loadingRows]
 								<tr.skeleton-row>

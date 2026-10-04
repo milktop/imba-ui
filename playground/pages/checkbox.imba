@@ -30,6 +30,7 @@ tag page-checkbox
 						<ui-checkbox-group items=channelItems selectAll='All reminders' bind=channels>
 				<div.out>
 					<json-print data={ channels }>
+					<p.note> "Shift-click a checkbox to tick (or clear) every one between it and the last one clicked."
 					<div.set>
 						<button @click=(channels = ['sms'])> "Only SMS"
 						<button @click=(channels = [])> "None"
