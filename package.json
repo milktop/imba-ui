@@ -69,6 +69,8 @@
     "./badge/base": "./src/badge/base.imba",
     "./card": "./src/card/index.imba",
     "./card/base": "./src/card/base.imba",
+    "./banner": "./src/banner/index.imba",
+    "./banner/base": "./src/banner/base.imba",
     "./alert": "./src/alert/index.imba",
     "./alert/base": "./src/alert/base.imba",
     "./skeleton": "./src/skeleton/index.imba",

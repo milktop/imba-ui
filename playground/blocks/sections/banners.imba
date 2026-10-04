@@ -1,23 +1,11 @@
-# A slim announcement across the top of the content.
+# A slim announcement across the top of the content (ui-banner).
 tag banner-announcement
 	open = yes
-	css
-		.bar d:flex ai:center g:3 px:4 py:2.5 rd:calc($ui-radius + 2px) bg:$ui-accent c:$ui-accent-text fs:sm
-		.text flg:1
-		a c:inherit fw:600 td:underline text-underline-offset:2px
-		.close d:grid place-items:center w:7 h:7 bd:none rd:$ui-radius bg:transparent c:inherit cursor:pointer
-			@hover bg:rgba(255,255,255,0.15)
-		.again fs:sm
 	<self>
-		if open
-			<div.bar>
-				<iconify-icon icon='lucide:sparkles'>
-				<span.text>
-					"Lesson notes can now be shared with parents. "
-					<a href='#'> "See how"
-				<button.close type='button' aria-label='Dismiss' @click=(open = no)> <iconify-icon icon='lucide:x'>
-		else
-			<ui-button.again size='sm' variant='ghost' @click=(open = yes)> "Show the banner again"
+		<ui-banner icon='lucide:sparkles' dismissible bind=open>
+			"Lesson notes can now be shared with parents. "
+			<a href='#'> "See how"
+		<ui-button size='sm' variant='ghost' @click=(open = yes)> "Show the banner again" unless open
 
 # A prompt to do something next, with an illustration-like icon.
 tag banner-prompt

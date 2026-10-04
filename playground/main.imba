@@ -15,6 +15,7 @@ import './pages/stat.imba'
 import './pages/charts.imba'
 import './pages/timeline.imba'
 import './pages/alert.imba'
+import './pages/banner.imba'
 import './pages/skeleton.imba'
 import './pages/spinner.imba'
 import './pages/empty-state.imba'
@@ -73,6 +74,7 @@ const groups = [
 	] }
 	{ title: 'Feedback', icon: 'lucide:bell', pages: [
 		{ path: '/alert', title: 'Alert', about: 'Messages in the page' }
+		{ path: '/banner', title: 'Banner', about: 'Announcements across the page' }
 		{ path: '/progress', title: 'Progress', about: 'Bars and circles' }
 		{ path: '/skeleton', title: 'Skeleton', about: 'Loading placeholders' }
 		{ path: '/spinner', title: 'Spinner', about: 'Short waits' }
@@ -248,6 +250,7 @@ tag playground
 				<page-charts route='/charts'>
 				<page-timeline route='/timeline'>
 				<page-alert route='/alert'>
+				<page-banner route='/banner'>
 				<page-skeleton route='/skeleton'>
 				<page-spinner route='/spinner'>
 				<page-empty-state route='/empty-state'>

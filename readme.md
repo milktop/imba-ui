@@ -18,6 +18,7 @@ package adds Imba markup and an optional theme.
 | Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header, sizes sm/md/lg, `flush` inside cards; or style a `<table>` written inside |
 | Pagination | `<ui-pagination>` | Previous/next and page numbers with ellipses, optional "11–20 of 95" summary; binds `page` |
 | Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |
+| Banner | `<ui-banner>` | Slim announcement strip: accent, soft, neutral, success, warning, danger; icon, actions, dismissible, edge to edge |
 | Skeleton | `<ui-skeleton>` | Loading placeholders: blocks, circles, text lines |
 | Spinner | `<ui-spinner>` | Small loading indicator with an accessible label |
 | Empty state | `<ui-empty-state>` | Icon, heading, description and actions for empty views |
