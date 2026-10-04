@@ -11,6 +11,7 @@ export const blocks = [
 	{ group: 'Sections', path: '/blocks/banners', title: 'Banners', icon: 'lucide:megaphone', about: 'Announcements, prompts and onboarding' }
 	{ group: 'Pages', path: '/blocks/dashboard', title: 'Dashboard', icon: 'lucide:layout-dashboard', about: 'Stats, upcoming lessons and recent activity' }
 	{ group: 'Pages', path: '/blocks/profile', title: 'Profile', icon: 'lucide:id-card', about: 'A student: header, tabs, details and history' }
+	{ group: 'Pages', path: '/blocks/detail', title: 'Detail page', icon: 'lucide:file-text', about: 'Main content beside an aside of details' }
 	{ group: 'Pages', path: '/blocks/table', title: 'Table page', icon: 'lucide:table', about: 'Search, filters, a selectable table and paging, in one card' }
 	{ group: 'Pages', path: '/blocks/settings', title: 'Settings', icon: 'lucide:settings', about: 'Form sections with a save bar' }
 	{ group: 'Pages', path: '/blocks/sign-in', title: 'Sign in', icon: 'lucide:log-in', about: 'A centred sign-in card' }
@@ -136,12 +137,14 @@ tag block-page
 
 import './blocks/dashboard.imba'
 import './blocks/profile.imba'
+import './blocks/detail.imba'
 import './blocks/list.imba'
 import './blocks/settings.imba'
 import './blocks/sign-in.imba'
 import './blocks/empty-states.imba'
 import dashboardSource from './blocks/dashboard.imba?raw'
 import profileSource from './blocks/profile.imba?raw'
+import detailSource from './blocks/detail.imba?raw'
 import listSource from './blocks/list.imba?raw'
 import settingsSource from './blocks/settings.imba?raw'
 import signInSource from './blocks/sign-in.imba?raw'
@@ -154,6 +157,10 @@ tag page-block-dashboard
 tag page-block-profile
 	<self> <block-page heading='Profile' intro='A person with their status and actions, then tabs: details and numbers, their lessons, and notes.' source=profileSource>
 		<block-profile>
+
+tag page-block-detail
+	<self> <block-page heading='Detail page' intro='A lesson: its header, then the plan, homework, files and activity beside its details, payment and progress.' source=detailSource>
+		<block-detail>
 
 tag page-block-list
 	<self> <block-page heading='Table page' intro='Search, a subject filter and a filters sheet over a selectable, sortable table, with an action bar for the selection and paging.' source=listSource>

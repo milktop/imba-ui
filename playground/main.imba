@@ -232,6 +232,7 @@ tag playground
 				<page-block-banners route='/blocks/banners'>
 				<page-block-dashboard route='/blocks/dashboard'>
 				<page-block-profile route='/blocks/profile'>
+				<page-block-detail route='/blocks/detail'>
 				<page-block-list route='/blocks/table'>
 				<page-block-settings route='/blocks/settings'>
 				<page-block-sign-in route='/blocks/sign-in'>

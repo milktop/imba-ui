@@ -288,7 +288,8 @@ source a click away, to copy as a starting point:
 
 - **Sections**: page headings, card panels, stacked lists, form layouts,
   feeds and banners, a few variants each
-- **Pages**: a dashboard, profile, table page, settings, sign in and empty
+- **Pages**: a dashboard, profile, detail page (main and aside), table page,
+  settings, sign in and empty
   states, composed from them
 
 ```sh
