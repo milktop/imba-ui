@@ -27,10 +27,15 @@ tag ui-app-shell < ui-app-shell-base
 		# top bar sit flat on the surface around it.
 		&.inset bg:$ui-surface
 		# The panel is set apart by its colour alone, with room around it.
-		&.inset >>> [data-ui-page] bg:$ui-canvas mr:3 mb:3 rd:calc($ui-radius + 10px)
+		&.inset >>> [data-ui-page] bg:$ui-canvas mx:3 mb:3 rd:calc($ui-radius + 10px)
 		&.inset.mobile >>> [data-ui-page] mx:2 mb:2
 		&.inset >>> [data-ui-topbar] bdb:none
-		&.inset >>> [data-ui-sidebar] bdr:none
+		# The sidebar is grey too, so the white frame (top bar and the gap round
+		# the panel) is a layer of its own; its hover and active items go white.
+		&.inset >>> [data-ui-sidebar] bdr:none bg:$ui-canvas
+			--ui-sidebar-hover:color-mix(in srgb, $ui-surface 75%, transparent)
+			--ui-sidebar-active:$ui-surface
+			--ui-sidebar-active-shadow:0 1px 2px rgba(0,0,0,0.06)
 		.backdrop pos:fixed inset:0 zi:40 bg:rgba(0,0,0,0.4) animation:ui-backdrop-in 200ms ease-out
 
 tag ui-sidebar < ui-sidebar-base
@@ -57,7 +62,7 @@ tag ui-sidebar < ui-sidebar-base
 		.logo >>> div[slot] d:contents
 
 		.icon-button d:inline-flex ai:center jc:center w:8 h:8 fls:0 p:0 bd:none rd:$ui-radius bg:transparent c:$ui-muted cursor:pointer
-			@hover bg:$ui-hover c:$ui-text
+			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
 		.nav d:flex fld:column g:4 flg:1 min-height:0 ofy:auto ofx:hidden px:2 py:2
 		.footer d:flex fld:column g:1 px:2 py:3 fls:0
@@ -88,9 +93,9 @@ tag ui-nav-item < ui-nav-item-base
 	css
 		d:block
 		.link d:flex ai:center g:3 w:100% h:9 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm ta:left td:none ws:nowrap cursor:pointer
-			@hover bg:$ui-hover c:$ui-text
+			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
-		&.active .link bg:$ui-hover c:$ui-text fw:500
+		&.active .link bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text fw:500
 		.icon fs:16px fls:0 w:4 h:4
 		.text flg:1 min-width:0 of:hidden text-overflow:ellipsis transition:opacity 150ms
 		.badge fls:0 min-width:5 h:5 px:1.5 box-sizing:border-box d:inline-flex ai:center jc:center rd:full bg:$ui-accent-soft c:$ui-accent-soft-text fs:xs fw:500
@@ -101,9 +106,9 @@ tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
 		.toggle d:flex ai:center g:3 w:100% h:9 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm ta:left ws:nowrap cursor:pointer
-			@hover bg:$ui-hover c:$ui-text
+			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
-		&.flyout .toggle bg:$ui-hover c:$ui-text
+		&.flyout .toggle bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text
 		.icon fs:16px fls:0 w:4 h:4
 		.text flg:1 min-width:0 of:hidden text-overflow:ellipsis transition:opacity 150ms
 		.chevron c:$ui-muted transition:transform 200ms, opacity 150ms
@@ -116,15 +121,17 @@ tag ui-nav-group < ui-nav-group-base
 		# bridges the gap, so the pointer can cross to it without closing it.
 		&.rail .children pos:fixed t:var(--flyout-top) l:var(--flyout-left) zi:50 pl:2
 		&.rail .panel m:0 p:1.5 min-width:44 bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface shadow:$ui-shadow animation:ui-flyout-in 120ms ease-out
+			# On the white flyout, hovers are grey again.
+			--ui-sidebar-hover:$ui-hover --ui-sidebar-active:$ui-hover --ui-sidebar-active-shadow:none
 		&.rail .flyout-heading d:block px:3 pt:1 pb:1.5 fs:xs fw:600 c:$ui-muted
 
 tag ui-sidebar-user < ui-sidebar-user-base
 	css
 		d:block w:100%
 		.user d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm ta:left ws:nowrap cursor:pointer
-			@hover bg:$ui-hover
+			@hover bg:var(--ui-sidebar-hover, $ui-hover)
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
-			&[aria-expanded=true] bg:$ui-hover
+			&[aria-expanded=true] bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none)
 		.avatar fls:0
 		.text d:flex fld:column flg:1 min-width:0 lh:1.3 transition:opacity 150ms
 		.name fw:500 of:hidden text-overflow:ellipsis

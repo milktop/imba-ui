@@ -28,7 +28,7 @@ global css
 		$ui-surface:white
 		# Behind the content (ui-app-shell's main area), so cards and tables on
 		# $ui-surface stand out from it.
-		$ui-canvas:#f8f8f9
+		$ui-canvas:#f6f7f9
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
 		$ui-accent:#4f46e5

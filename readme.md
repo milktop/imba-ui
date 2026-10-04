@@ -184,8 +184,10 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
-- `inset` makes the page a rounded panel inset from the edges, with the
-  sidebar and top bar flat on the surface around it.
+- `inset` layers it: a grey sidebar, a white frame (the top bar and a gap
+  round the page), the page as a rounded grey panel, and white cards on it.
+  The sidebar's hover and active colours come from `--ui-sidebar-hover`,
+  `--ui-sidebar-active` (and `--ui-sidebar-active-shadow`).
 - The main area sits on `$ui-canvas` (a faint grey), so cards and tables on
   `$ui-surface` stand out; set it to `$ui-surface` for an all-white app.
 
