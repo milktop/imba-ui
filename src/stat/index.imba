@@ -3,16 +3,19 @@ import './base.imba'
 
 tag ui-stat < ui-stat-base
 	css
-		d:flex ai:flex-start g:3 min-width:0 c:$ui-text ff:$ui-font fs:sm
+		d:flex fld:column g:1 min-width:0 c:$ui-text ff:$ui-font fs:sm
 		&.card p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface
-		.icon d:grid place-items:center w:10 h:10 fls:0 rd:$ui-radius bg:$ui-accent-soft c:$ui-accent-soft-text fs:20px
-		.body d:flex fld:column g:1 min-width:0
-		.label c:$ui-muted fw:500
+		.header d:flex ai:center jc:space-between g:3 min-height:6
+		.label c:$ui-muted fw:500 min-width:0
+		# Small enough to sit in the label's row without making it taller than
+		# in a stat without one.
+		.icon d:grid place-items:center w:8 h:8 my:-1 fls:0 rd:$ui-radius bg:$ui-accent-soft c:$ui-accent-soft-text fs:16px
 		.value d:flex ai:baseline g:1 fs:2xl fw:700 lh:1.2 ls:-0.01em
 		&.sm .value fs:xl
 		&.lg .value fs:3xl
-		.unit fs:sm fw:500 c:$ui-muted ls:0
-		.footer d:flex ai:center g:1.5 flw:wrap fs:xs
+		# Line height 1, so a unit doesn't make the row taller.
+		.unit fs:sm fw:500 lh:1 c:$ui-muted ls:0
+		.footer d:flex ai:center g:1.5 flw:wrap fs:xs mt:0.5
 		.change d:inline-flex ai:center g:1 fw:600 c:$ui-muted
 			&.good c:$ui-success
 			&.bad c:$ui-danger

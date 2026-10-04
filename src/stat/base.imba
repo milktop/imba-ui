@@ -9,7 +9,7 @@ import { icons } from '../icons.imba'
 #   when down; `invert` swaps the colours (for things like cancellations);
 #   `changeUnit` replaces the '%'
 # - `changeLabel`, `help`: muted text after the change, and under it all
-# - `icon`: an Iconify icon in a tinted square
+# - `icon`: an Iconify icon in a tinted square, beside the label
 # - `variant`: 'plain' (default) or 'card'
 # - `size`: 'sm', 'md' (default) or 'lg'
 #
@@ -31,23 +31,25 @@ tag ui-stat-base
 	get good do direction == 'flat' ? null : ((direction == 'up') != !!invert)
 	get changeText do "{change > 0 ? '+' : ''}{change}{changeUnit}"
 
+	# The icon shares the label's row, at the end, so the text keeps one left
+	# edge and the rows line up from stat to stat.
 	<self .{variant} .{size}>
-		if icon
-			<span.icon aria-hidden='true'> <iconify-icon icon=icon>
-		<div.body>
+		<div.header>
 			<div.label> label
-			<div.value>
-				<span> String(value ?? '')
-				<span.unit> unit if unit
-			if change != null or changeLabel
-				<div.footer>
-					if change != null
-						<span.change .good=(good === true) .bad=(good === false) aria-label="{direction == 'up' ? 'Up' : (direction == 'down' ? 'Down' : 'No change')} {changeText}">
-							<ui-icon path=(direction == 'down' ? icons.trendDown : icons.trendUp) size=14> if direction != 'flat'
-							changeText
-					<span.change-label> changeLabel if changeLabel
-			<div.help> help if help
-			<slot>
+			if icon
+				<span.icon aria-hidden='true'> <iconify-icon icon=icon>
+		<div.value>
+			<span> String(value ?? '')
+			<span.unit> unit if unit
+		if change != null or changeLabel
+			<div.footer>
+				if change != null
+					<span.change .good=(good === true) .bad=(good === false) aria-label="{direction == 'up' ? 'Up' : (direction == 'down' ? 'Down' : 'No change')} {changeText}">
+						<ui-icon path=(direction == 'down' ? icons.trendDown : icons.trendUp) size=14> if direction != 'flat'
+						changeText
+				<span.change-label> changeLabel if changeLabel
+		<div.help> help if help
+		<slot>
 
 # A responsive grid of stats.
 #
