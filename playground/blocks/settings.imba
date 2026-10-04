@@ -1,5 +1,5 @@
-# A settings page: sections with a title and description beside their
-# fields, and a bar to save or discard changes.
+# A settings page: a header, then sections with a title and description
+# beside their fields in a card, and a bar to save or discard changes.
 tag block-settings
 	saved = { name: 'Grace Hopper', email: 'grace@example.com', bio: 'Maths and physics tutor, GCSE and A level.', lessonLength: 60, reminders: yes, digest: no, marketing: no }
 	form = Object.assign({}, saved)
@@ -13,8 +13,10 @@ tag block-settings
 
 	css
 		d:flex fld:column g:8
+		.page-head h2 m:0 fs:xl fw:700
+		.page-head > p m:0 mt:1 c:$ui-muted fs:sm
 		# Title beside the fields when there's room, above them when not.
-		.section d:flex flw:wrap g:4 cg:8 pb:8 bdb:1px solid $ui-border
+		.section d:flex flw:wrap g:4 cg:8
 		.about fl:1 1 14rem
 		.section > ui-card fl:2 1 24rem min-width:0
 		h3 m:0 fs:md fw:600
@@ -24,6 +26,9 @@ tag block-settings
 		.unsaved mr:auto c:$ui-muted fs:sm
 
 	<self>
+		<div.page-head>
+			<h2> "Settings"
+			<p> "Your profile, lesson defaults and notifications."
 		<div.section>
 			<div.about>
 				<h3> "Profile"

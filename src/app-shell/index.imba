@@ -45,7 +45,9 @@ tag ui-sidebar < ui-sidebar-base
 
 	css
 		grid-area:sidebar d:flex fld:column min-width:0 box-sizing:border-box
-		pos:sticky t:0 h:100dvh of:hidden bg:$ui-surface bdr:1px solid $ui-border fs:sm
+		# Sticky makes it a stacking context, so it needs a z-index to keep its
+		# flyouts above the page (and below the top bar's popups).
+		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-surface bdr:1px solid $ui-border fs:sm
 		&.mobile pos:fixed l:0 t:0 b:0 zi:50 w:min(18rem, 85vw) shadow:$ui-shadow
 			d:none
 		&.mobile.open d:flex animation:ui-drawer-in 200ms ease-out
@@ -146,7 +148,7 @@ tag ui-sidebar-user < ui-sidebar-user-base
 tag ui-topbar < ui-topbar-base
 	css
 		grid-area:topbar d:flex ai:center g:3 h:3.5rem px:4 @md:6 box-sizing:border-box min-width:0
-		pos:sticky t:0 zi:30 bg:$ui-surface bdb:1px solid $ui-border
+		pos:sticky t:0 zi:36 bg:$ui-surface bdb:1px solid $ui-border
 		.menu d:inline-flex ai:center jc:center w:9 h:9 ml:-2 fls:0 p:0 bd:none rd:$ui-radius bg:transparent c:$ui-text cursor:pointer
 			@hover bg:$ui-hover
 			@focus-visible outline:2px solid $ui-ring-soft

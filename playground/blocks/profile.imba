@@ -1,5 +1,6 @@
-# A profile page: a header with the person and actions, then tabs for an
-# overview, their lessons and notes.
+# A profile page: breadcrumbs and the person (with actions) as the page's
+# header, then one card holding the tabs and their content: an overview,
+# their lessons and notes.
 tag block-profile
 	tab = 'overview'
 	lessons = [
@@ -28,10 +29,13 @@ tag block-profile
 		h2 m:0 fs:xl fw:700
 		.meta d:flex ai:center g:2 mt:1.5 flw:wrap c:$ui-muted fs:sm
 		.actions d:flex g:2
-		.overview d:flex flw:wrap g:6 ai:flex-start pt:5
-		.details fl:3 1 22rem min-width:0
-		.numbers fl:2 1 16rem min-width:0
-		.panel pt:5
+		# The tab list runs along the card's top edge; panels pad themselves.
+		.tabbed >>> .list px:3
+		.tabbed >>> .panels pt:0
+		.overview d:flex flw:wrap g:6 ai:flex-start p:5
+		.details fl:3 1 20rem min-width:0
+		.numbers fl:2 1 14rem min-width:0 p:4 rd:calc($ui-radius + 2px) bg:$ui-canvas
+		.pad p:5
 
 	<self>
 		# Breadcrumbs above the header: a detail page's way back.
@@ -50,31 +54,31 @@ tag block-profile
 					<ui-button variant='primary' icon='lucide:calendar-plus'> "Book lesson"
 					<ui-menu items=actions placement='bottom-end'>
 						<ui-button slot='trigger' icon='lucide:ellipsis' aria-label='More actions'>
-		<ui-tabs bind=tab>
-			<ui-tab value='overview' label='Overview'>
-				<div.overview>
-					<ui-data-list.details variant='card' labelWidth='6rem' items=[
-						{ label: 'Email', value: 'ada.lovelace@example.com' }
-						{ label: 'Parent', value: 'Anne Byron, 07700 900123' }
-						{ label: 'School', value: 'St Mary’s High' }
-						{ label: 'Rate', value: '£35 / hour' }
-						{ label: 'Since', value: 'September 2025' }
-					]>
-					<ui-card.numbers>
-						<ui-stats columns=2>
-							<ui-stat label='Lessons' value=24>
-							<ui-stat label='Attendance' value='92' unit='%'>
-							<ui-stat label='Paid' value='£840'>
-							<ui-stat label='Owed' value='£35' help='Invoice due 15 Oct'>
-			<ui-tab value='lessons' label='Lessons'>
-				<div.panel>
-					<ui-table columns=lessonColumns rows=lessons>
-			<ui-tab value='notes' label='Notes'>
-				<div.panel>
-					<ui-timeline variant='cards'>
-						<ui-timeline-item title='Confident with fractions' time='1 Oct' icon='lucide:notebook-pen' description='Start on percentages next week.'>
-						<ui-timeline-item title='Homework set' time='24 Sep' icon='lucide:book-open' color='accent' description='Worksheet 4, due 1 October.'>
-						<ui-timeline-item title='First lesson' time='10 Sep' icon='lucide:sparkles' color='success' description='Assessment and goals for the year.'>
+		<ui-card.tabbed flush>
+			<ui-tabs bind=tab>
+				<ui-tab value='overview' label='Overview'>
+					<div.overview>
+						<ui-data-list.details labelWidth='7rem' items=[
+							{ label: 'Email', value: 'ada.lovelace@example.com' }
+							{ label: 'Parent', value: 'Anne Byron, 07700 900123' }
+							{ label: 'School', value: 'St Mary’s High' }
+							{ label: 'Rate', value: '£35 / hour' }
+							{ label: 'Since', value: 'September 2025' }
+						]>
+						<div.numbers>
+							<ui-stats columns=2>
+								<ui-stat size='sm' label='Lessons' value=24>
+								<ui-stat size='sm' label='Attendance' value='92' unit='%'>
+								<ui-stat size='sm' label='Paid' value='£840'>
+								<ui-stat size='sm' label='Owed' value='£35' help='Due 15 Oct'>
+				<ui-tab value='lessons' label='Lessons'>
+					<ui-table flush columns=lessonColumns rows=lessons>
+				<ui-tab value='notes' label='Notes'>
+					<div.pad>
+						<ui-timeline>
+							<ui-timeline-item title='Confident with fractions' time='1 Oct' icon='lucide:notebook-pen' description='Start on percentages next week.'>
+							<ui-timeline-item title='Homework set' time='24 Sep' icon='lucide:book-open' color='accent' description='Worksheet 4, due 1 October.'>
+							<ui-timeline-item title='First lesson' time='10 Sep' icon='lucide:sparkles' color='success' description='Assessment and goals for the year.'>
 
 tag profile-status
 	prop value
