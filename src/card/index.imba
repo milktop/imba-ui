@@ -14,6 +14,10 @@ tag ui-card < ui-card-base
 		# No empty check here: a body of plain text has no child elements.
 		.body p:5
 		.header + .body pt:4
+		&.flush of:hidden
+			.body p:0
+			.header pb:4 bdb:1px solid $ui-border
+			.header + .body pt:0
 		.footer d:flex ai:center jc:flex-end g:2 px:5 py:3 bdt:1px solid $ui-border
 			&:not(:has(*)) d:none
 		# Slotted wrapper <div>s step aside, so their buttons are laid out here

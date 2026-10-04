@@ -10,11 +10,11 @@ package adds Imba markup and an optional theme.
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
-| Card | `<ui-card>` | Surface with heading, description, actions and footer slots |
+| Card | `<ui-card>` | Surface with heading, description, actions and footer slots; `flush` for edge-to-edge content |
 | Data list | `<ui-data-list>` (+ `<ui-data-item>`) | Labels and values as a `<dl>`: beside or above, plain/divided/card, grid columns, info tooltips |
 | Stat | `<ui-stat>`, `<ui-stats>` | Headline numbers with unit, coloured change, help and icon; grids that are plain, cards or one divided card |
 | Timeline | `<ui-timeline>` (+ `<ui-timeline-item>`) | Events down a line with icon or dot markers, colours, times; line or cards |
-| Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header; or style a `<table>` written inside |
+| Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header, `flush` inside cards; or style a `<table>` written inside |
 | Pagination | `<ui-pagination>` | Previous/next and page numbers with ellipses, optional "11–20 of 95" summary; binds `page` |
 | Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |
 | Skeleton | `<ui-skeleton>` | Loading placeholders: blocks, circles, text lines |
@@ -278,9 +278,13 @@ Things learned the hard way:
 
 ## Develop
 
-The playground also has **Blocks**: composed screens (dashboard, profile,
-list page, settings, sign in, empty states) in `playground/blocks/`, each
-with its source a click away. Copy them as a starting point.
+The playground also has **Blocks** in `playground/blocks/`, each with its
+source a click away, to copy as a starting point:
+
+- **Sections**: page headings, card panels, stacked lists, form layouts,
+  feeds and banners, a few variants each
+- **Pages**: a dashboard, profile, list page, settings, sign in and empty
+  states, composed from them
 
 ```sh
 npm install

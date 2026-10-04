@@ -31,6 +31,7 @@ import '../skeleton/base.imba'
 # - `maxHeight`: scrolls the rows under a sticky header
 # - `label`: a caption for assistive tech
 # - `size`: 'sm' or 'md' (default)
+# - `flush`: no border or rounding, to sit edge to edge in a card
 #
 # Emits `rowclick` with the row when a row is clicked (outside its controls).
 #
@@ -56,6 +57,7 @@ tag ui-table-base
 	prop maxHeight = null
 	prop label = null
 	prop size = 'md'
+	prop flush = false
 
 	def keyOf row do row[rowKey]
 	def valueOf row, column do column.value ? column.value(row) : row[column.key]
@@ -133,7 +135,7 @@ tag ui-table-base
 
 	get columnCount do columns.length + (selectable ? 1 : 0)
 
-	<self .{size} .loading=(loading and rows.length > 0)>
+	<self .{size} .flush=flush .loading=(loading and rows.length > 0)>
 		<div.scroll .sticky=!!maxHeight style=(maxHeight ? "max-height: {maxHeight}" : undefined)>
 			# Without columns, a <table> written inside is styled the same.
 			if !columns or !columns.length

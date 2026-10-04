@@ -188,7 +188,7 @@ tag playground
 			for page in group.pages
 				return [{ label: 'Imba UI', href: '/' }, { label: group.title }, { label: page.title }] if page.path == router.pathname
 		for block in blocks
-			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.title }] if block.path == router.pathname
+			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.group }, { label: block.title }] if block.path == router.pathname
 		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
 	<self>
@@ -201,8 +201,10 @@ tag playground
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
 				<ui-nav-section heading='Blocks'>
-					for block in blocks
-						<ui-nav-item key=block.path icon=block.icon href=block.path active=(router.pathname == block.path)> block.title
+					for group in ['Sections', 'Pages']
+						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=yes>
+							for block in blocks.filter(do $1.group == group)
+								<ui-nav-item key=block.path href=block.path active=(router.pathname == block.path)> block.title
 				<ui-nav-section heading='Components'>
 					for group in groups
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
@@ -220,6 +222,12 @@ tag playground
 					<appearance-panel>
 			<ui-page width=(router.pathname.startsWith('/blocks/') ? 'wide' : 'default')>
 				<page-home route='/'>
+				<page-block-headings route='/blocks/headings'>
+				<page-block-panels route='/blocks/panels'>
+				<page-block-lists route='/blocks/lists'>
+				<page-block-forms route='/blocks/forms'>
+				<page-block-feeds route='/blocks/feeds'>
+				<page-block-banners route='/blocks/banners'>
 				<page-block-dashboard route='/blocks/dashboard'>
 				<page-block-profile route='/blocks/profile'>
 				<page-block-list route='/blocks/list'>

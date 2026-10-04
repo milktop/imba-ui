@@ -7,11 +7,14 @@
 #
 # - `heading`, `description`: the header, with an `actions` slot beside it
 # - default slot: the body; `footer` slot: a footer strip
+# - `flush`: no padding round the body, for content that runs edge to edge
+#   (a `flush` ui-table, a list with its own dividers)
 tag ui-card-base
 	prop heading = null
 	prop description = null
+	prop flush = false
 
-	<self>
+	<self .flush=flush>
 		if heading or description
 			<header.header>
 				<div.titles>
