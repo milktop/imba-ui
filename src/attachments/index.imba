@@ -4,7 +4,7 @@ import './base.imba'
 
 tag ui-attachments < ui-attachments-base
 	css
-		d:block w:100% c:$ui-text ff:$ui-font fs:sm
+		d:block pos:relative w:100% c:$ui-text ff:$ui-font fs:sm
 		.empty m:0 c:$ui-muted
 		.files m:0 p:0 list-style:none
 		.file pos:relative min-width:0
@@ -37,6 +37,9 @@ tag ui-attachments < ui-attachments-base
 		&.grid .file@hover .actions, &.grid .file@focus-within .actions o:1
 		&.grid .add bd:none bg:transparent shadow:none
 		&.grid .add-tile aspect-ratio:auto min-height:100%
+		# With nothing yet, the add tile is a full-width dropzone.
+		&.empty .add gc:1 / -1
+		&.empty .add-tile min-height:28
 
 		# List: rows with a small preview, the name and size, and the actions.
 		&.list .files d:flex fld:column bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-card-shadow of:hidden
@@ -52,6 +55,11 @@ tag ui-attachments < ui-attachments-base
 			@hover bg:$ui-hover
 		&.list .add bdb:none
 		&.list .add-tile fld:row min-height:12 bd:none rd:0 bdt:1px dashed $ui-border
+
+		.limit fs:xs c:$ui-muted o:0.8
+		.rejected d:flex fld:column g:0.5 m:0 mt:2 p:0 list-style:none fs:xs c:$ui-danger
+		# While files are dragged over: a tinted overlay saying what dropping does.
+		.drop-hint pos:absolute inset:-1.5 zi:5 d:flex fld:column ai:center jc:center g:1.5 rd:calc($ui-radius + 4px) bd:2px dashed $ui-accent bg:color-mix(in srgb, $ui-accent-soft 85%, transparent) c:$ui-accent-soft-text fw:500 pointer-events:none
 
 		.preview d:block max-width:100% max-height:70vh mx:auto rd:$ui-radius
 		.download-link d:inline-flex ai:center h:$ui-control-height-sm px:3 rd:$ui-radius bd:1px solid $ui-border c:$ui-text td:none fs:sm

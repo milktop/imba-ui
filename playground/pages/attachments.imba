@@ -20,6 +20,8 @@ tag page-attachments
 		{ name: 'Revision notes.docx', size: 132000 }
 	]
 	docs = files.slice(3)
+	photos = []
+	rejects = []
 	removed = null
 
 	<self>
@@ -28,7 +30,13 @@ tag page-attachments
 				<ui-attachments bind=files removable addable @remove=(removed = e.detail.name)>
 				<div.out>
 					<json-print data={ count: files.length, removed }>
-					<p.note> "Hover a tile for download and remove; the last tile adds files from your computer (previewed locally)."
+					<p.note> "Hover a tile for download and remove; the last tile adds files from your computer, or drop them anywhere on the attachments (previewed locally)."
+
+			<demo-section heading='Limits and dropping'>
+				<ui-attachments bind=photos removable addable accept='image/*,.pdf' maxFiles=3 maxFileSize=(2 * 1024 * 1024) addLabel='Add photos or PDFs' @reject=(rejects = e.detail.map(do $1.file.name))>
+				<div.out>
+					<json-print data={ photos: photos.map(do $1.name), rejects }>
+					<p.note> "Drag files onto it, or use the tile: images or PDFs, up to 2 MB each, at most 3. Files that don’t fit are listed with the reason."
 
 			<demo-section heading='List'>
 				<ui-attachments layout='list' items=docs removable addable addLabel='Attach a file'>
