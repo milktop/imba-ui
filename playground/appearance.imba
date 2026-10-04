@@ -28,7 +28,7 @@ export const densities = { compact: ['Compact', '2rem', '1.75rem', '2.5rem'], de
 
 export const layouts = { full: ['Full'], inset: ['Inset'] }
 
-export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'full' }
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'inset' }
 
 const storageKey = 'imba-ui-playground-appearance'
 

@@ -26,8 +26,9 @@ tag ui-app-shell < ui-app-shell-base
 		# Inset: the page is a rounded panel on the canvas, and the sidebar and
 		# top bar sit flat on the surface around it.
 		&.inset bg:$ui-surface
-		&.inset >>> [data-ui-page] bg:$ui-canvas mr:2 mb:2 bd:1px solid $ui-border rd:calc($ui-radius + 8px)
-		&.inset.mobile >>> [data-ui-page] ml:2
+		# The panel is set apart by its colour alone, with room around it.
+		&.inset >>> [data-ui-page] bg:$ui-canvas mr:3 mb:3 rd:calc($ui-radius + 10px)
+		&.inset.mobile >>> [data-ui-page] mx:2 mb:2
 		&.inset >>> [data-ui-topbar] bdb:none
 		&.inset >>> [data-ui-sidebar] bdr:none
 		.backdrop pos:fixed inset:0 zi:40 bg:rgba(0,0,0,0.4) animation:ui-backdrop-in 200ms ease-out
