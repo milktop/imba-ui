@@ -97,20 +97,42 @@ tag block-example
 	<self>
 		<block-frame caption=heading code=code> <slot>
 
-# A page block: just the framed preview (its name is in the breadcrumbs, so
-# the only heading is the block's own).
+# A page block: the block alone, filling the main area as it would in an
+# app. A floating pill in the corner switches to its code (and copies it).
 tag block-page
 	prop heading
 	prop intro
 	prop source = ''
+	view = 'preview'
+	copied = no
+	views = [{ value: 'preview', label: 'Preview' }, { value: 'code', label: 'Code' }]
 
 	# The block's file without its imports.
 	get code do source.split('\n').filter(do !$1.startsWith('import ')).join('\n').trim!
 
-	css d:block
+	def copy
+		await globalThis.navigator.clipboard.writeText(code)
+		copied = yes
+		imba.commit!
+		setTimeout(&, 1500) do
+			copied = no
+			imba.commit!
 
+	css
+		d:block
+		.code pre m:0 p:5 ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px)
+		.switch pos:fixed r:4 b:4 zi:40 d:flex ai:center g:1 p:1 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px) shadow:$ui-shadow
+
+	# Both views stay rendered (one hidden), so the slotted block isn't moved.
 	<self>
-		<block-frame caption=intro code=code> <slot>
+		<div hidden=(view != 'preview')> <slot>
+		<div.code hidden=(view != 'code')>
+			<pre> <code> for tok in highlightImba(code)
+				<span .tok-{tok.kind or 'plain'}> tok.text
+		<div.switch>
+			if view == 'code'
+				<ui-button size='sm' variant='ghost' icon=(copied ? 'lucide:check' : 'lucide:copy') @click=copy> copied ? "Copied" : "Copy"
+			<ui-segmented items=views bind=view aria-label="{heading}: preview or code">
 
 import './blocks/dashboard.imba'
 import './blocks/profile.imba'
