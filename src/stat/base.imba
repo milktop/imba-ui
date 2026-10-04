@@ -53,12 +53,12 @@ tag ui-stat-base
 
 # A responsive grid of stats.
 #
-# - `columns`: the most per row (4); fewer on narrower screens
+# - `columns`: the most per row (4); fewer when there isn't room
 # - `variant`: 'plain' (default), 'cards' (each stat a card) or 'divided'
 #   (one card split into cells)
 tag ui-stats-base
 	prop columns = 4
 	prop variant = 'plain'
 
-	<self .{variant} style="--columns: {columns}">
+	<self .{variant} data-ui-stats style="--columns: {columns}">
 		<div.grid> <slot>

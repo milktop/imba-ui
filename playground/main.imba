@@ -48,6 +48,7 @@ import './pages/accordion.imba'
 import './pages/app-shell.imba'
 import './pages/breadcrumbs.imba'
 import './pages/command.imba'
+import { blocks } from './blocks.imba'
 
 global css
 	body m:0 bg:$ui-surface c:$ui-text ff:system-ui
@@ -165,6 +166,8 @@ tag playground
 	commands = [
 		...groups.flatMap do(group) group.pages.map do(page)
 			{ label: page.title, description: page.about, href: page.path, icon: group.icon, group: group.title }
+		...blocks.map do(block)
+			{ label: block.title, description: block.about, href: block.path, icon: block.icon, group: 'Blocks' }
 		{ label: 'Toggle sidebar', value: 'sidebar', icon: 'lucide:panel-left', shortcut: '⌘B', group: 'Playground' }
 		{ label: 'Light theme', value: 'light', icon: 'lucide:sun', group: 'Playground', keywords: ['appearance', 'mode'] }
 		{ label: 'Dark theme', value: 'dark', icon: 'lucide:moon', group: 'Playground', keywords: ['appearance', 'mode'] }
@@ -184,6 +187,8 @@ tag playground
 		for group in groups
 			for page in group.pages
 				return [{ label: 'Imba UI', href: '/' }, { label: group.title }, { label: page.title }] if page.path == router.pathname
+		for block in blocks
+			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.title }] if block.path == router.pathname
 		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
 	<self>
@@ -195,6 +200,9 @@ tag playground
 				<span.mark slot='logo-collapsed'> "UI"
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
+				<ui-nav-section heading='Blocks'>
+					for block in blocks
+						<ui-nav-item key=block.path icon=block.icon href=block.path active=(router.pathname == block.path)> block.title
 				<ui-nav-section heading='Components'>
 					for group in groups
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
@@ -210,8 +218,14 @@ tag playground
 							<span.search-text> "Search"
 							<kbd> $command..hotkeyText
 					<appearance-panel>
-			<ui-page>
+			<ui-page width=(router.pathname.startsWith('/blocks/') ? 'wide' : 'default')>
 				<page-home route='/'>
+				<page-block-dashboard route='/blocks/dashboard'>
+				<page-block-profile route='/blocks/profile'>
+				<page-block-list route='/blocks/list'>
+				<page-block-settings route='/blocks/settings'>
+				<page-block-sign-in route='/blocks/sign-in'>
+				<page-block-empty-states route='/blocks/empty-states'>
 				<page-button route='/button'>
 				<page-copy-button route='/copy-button'>
 				<page-avatar route='/avatar'>

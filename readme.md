@@ -276,6 +276,10 @@ Things learned the hard way:
 
 ## Develop
 
+The playground also has **Blocks**: composed screens (dashboard, profile,
+list page, settings, sign in, empty states) in `playground/blocks/`, each
+with its source a click away. Copy them as a starting point.
+
 ```sh
 npm install
 npm run dev   # playground
