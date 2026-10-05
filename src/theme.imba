@@ -49,7 +49,7 @@ global css
 		$ui-chart-2:#14b8a6
 		$ui-chart-3:#f59e0b
 		$ui-chart-4:#f43f5e
-		$ui-chart-5:#0ea5e9
+		$ui-chart-5:#8b5cf6
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
 		# Cards at rest: a soft lift off the canvas (popups use $ui-shadow).
@@ -85,7 +85,7 @@ global css
 		$ui-chart-2:#2dd4bf
 		$ui-chart-3:#fbbf24
 		$ui-chart-4:#fb7185
-		$ui-chart-5:#38bdf8
+		$ui-chart-5:#a78bfa
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.6)
 		# Shadows don't read on dark; borders do the work.
 		$ui-card-shadow:none
