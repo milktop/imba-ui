@@ -53,7 +53,7 @@ global css
 		$ui-radius:6px
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.25)
 		# Cards at rest: a soft lift off the canvas (popups use $ui-shadow).
-		$ui-card-shadow:0 1px 2px rgba(16,24,40,0.05), 0 1px 3px rgba(16,24,40,0.06)
+		$ui-card-shadow:0 1px 2px rgba(16,24,40,0.04)
 		$ui-font:inherit
 		# One height for buttons and inputs, so they line up in a row.
 		$ui-control-height:2.25rem
