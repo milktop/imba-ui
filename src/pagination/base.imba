@@ -10,9 +10,10 @@ import { icons } from '../icons.imba'
 # - `count`: the number of items; `pageSize` per page (10)
 # - `page`: the current page, from 1; bindable (`bind=` or `bind:page=`)
 # - `siblingCount`: pages shown either side of the current one (1)
-# - `summary`: shows "Showing 11–20 of 95" alongside; `noun` names the
-#   items ("Showing 11–20 of 95 students")
-# - `firstLast`: buttons for the first and last page too
+# - `summary`: shows "Showing 11–20 of 95 items" alongside
+# - `noun`: what the items are called in the summary ('items')
+# - `firstLast`: buttons for the first and last page, shown when some pages
+#   are hidden behind an ellipsis (false to never show them)
 # - `label`: the nav's accessible name
 #
 # Emits `change` with the new page. Slice your rows with `rowsFor(list)`, or
@@ -23,8 +24,8 @@ tag ui-pagination-base
 	prop page = 1
 	prop siblingCount = 1
 	prop summary = false
-	prop noun = null
-	prop firstLast = false
+	prop noun = 'items'
+	prop firstLast = true
 	prop label = 'Pagination'
 
 	zagId = uid('pagination')
@@ -65,13 +66,15 @@ tag ui-pagination-base
 			machine.connect(pagination).setPage(data)
 
 		let api = machine.connect(pagination)
+		# First and last only help when some page numbers are hidden.
+		let edges = firstLast and api.pages.some(do $1.type == 'ellipsis')
 
 		<self>
 			<nav.root zag=api.getRootProps! aria-label=label>
 				if summary
 					<span.summary> "Showing {from}–{to} of {count}{noun ? ' ' + noun : ''}"
 				<div.pages>
-					if firstLast
+					if edges
 						<button.nav-button zag=api.getFirstTriggerProps!> <ui-icon path=icons.firstPage size=16>
 					<button.nav-button zag=api.getPrevTriggerProps!> <ui-icon path=icons.left size=16>
 					for item, i in api.pages
@@ -80,5 +83,5 @@ tag ui-pagination-base
 						else
 							<span.ellipsis zag=api.getEllipsisProps(index: i)> "…"
 					<button.nav-button zag=api.getNextTriggerProps!> <ui-icon path=icons.right size=16>
-					if firstLast
+					if edges
 						<button.nav-button zag=api.getLastTriggerProps!> <ui-icon path=icons.lastPage size=16>

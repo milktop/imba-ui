@@ -68,7 +68,7 @@ tag block-list
 				<div slot='empty'>
 					<ui-empty-state icon='lucide:search-x' heading='No students match' description='Try a different search or clear the filters.'>
 						<ui-button slot='actions' size='sm' @click=(query = '', clearFilters!)> "Clear search and filters"
-			<ui-pagination.pager slot='footer' count=filtered.length pageSize=pageSize summary noun='students' firstLast bind=page>
+			<ui-pagination.pager slot='footer' count=filtered.length pageSize=pageSize summary noun='students' bind=page>
 		<ui-action-bar open=(selected.length > 0) @close=(selected = [])>
 			<span slot='selection'> "{selected.length} selected"
 			<ui-button size='sm' icon='lucide:send'> "Message"

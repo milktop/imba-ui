@@ -137,7 +137,7 @@ tag page-table
 					<div.toolbar>
 						<ui-input.search icon='lucide:search' placeholder='Search students' bind=query @input=(page = 1)>
 					<ui-table$table columns=columns rows=pageRows manualSort selectable bind:selected=selected bind:sort=sort label='Students' @sortchange=(page = 1) @rowclick=toaster.info(title: "Open {e.detail.name}")>
-					<ui-pagination$pager count=filtered.length pageSize=8 summary noun='students' firstLast bind=page>
+					<ui-pagination$pager count=filtered.length pageSize=8 summary noun='students' bind=page>
 					# Floats at the bottom of the screen while rows are ticked.
 					<ui-action-bar open=(selected.length > 0) @close=(selected = [])>
 						<span slot='selection'> "{selected.length} selected"
