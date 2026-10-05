@@ -228,7 +228,7 @@ tag playground
 							<span.search-text> "Search"
 							<kbd> $command..hotkeyText
 					<appearance-panel>
-			<ui-page width=(router.pathname.startsWith('/blocks/') ? 'wide' : 'default')>
+			<ui-page width=(router.pathname.startsWith('/blocks/') ? 'wide' : 'default') align=(document.documentElement.dataset.pageAlign or 'center')>
 				<page-home route='/'>
 				<page-block-headings route='/blocks/headings'>
 				<page-block-panels route='/blocks/panels'>

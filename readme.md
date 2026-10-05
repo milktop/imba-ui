@@ -184,7 +184,8 @@ while there is an error.
   icon, href, active, badge, items }] }]`.
 - `ui-sidebar-user` shows the signed-in user in the footer and opens a menu
   of account actions upwards (to the right in the rail), emitting `select`.
-- `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full') and
+- `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`
+  ('center' or 'start') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
 - `inset` layers it: a grey sidebar, a white frame (the top bar and a gap

@@ -340,13 +340,15 @@ tag ui-topbar-base
 # The page area: an optional header (heading, description, breadcrumbs and
 # actions) above the content.
 #
-# - `width`: 'narrow', 'default', 'wide' or 'full'
+# - `width`: 'narrow', 'default', 'wide' or 'full' (the content's max width)
+# - `align`: 'center' (default) or 'start', where a capped page sits
 tag ui-page-base
 	prop heading = null
 	prop description = null
 	prop width = 'default'
+	prop align = 'center'
 
-	<self data-width=width data-ui-page>
+	<self data-width=width data-align=align data-ui-page>
 		<div.inner>
 			if heading or description
 				<header.header>

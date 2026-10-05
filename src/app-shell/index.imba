@@ -161,6 +161,7 @@ tag ui-page < ui-page-base
 	css
 		grid-area:main d:block min-width:0 box-sizing:border-box p:4 @md:8
 		.inner mx:auto max-width:56rem
+		&[data-align=start] .inner ml:0
 		&[data-width=narrow] .inner max-width:40rem
 		&[data-width=wide] .inner max-width:80rem
 		&[data-width=full] .inner max-width:none
