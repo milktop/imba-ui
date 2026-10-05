@@ -30,9 +30,10 @@ export const layouts = { full: ['Full'], inset: ['Inset'] }
 export const aligns = { center: ['Centred'], start: ['Left'] }
 export const widths = { auto: ['Auto'], default: ['Default'], wide: ['Wide'], full: ['Full'] }
 
-export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'auto' }
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full' }
 
-const storageKey = 'imba-ui-playground-appearance'
+# Versioned, so changed defaults reach browsers that saved older settings.
+const storageKey = 'imba-ui-playground-appearance-v2'
 
 export def loadAppearance
 	let saved = {}

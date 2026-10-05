@@ -32,7 +32,7 @@ tag ui-app-shell < ui-app-shell-base
 		&.inset >>> [data-ui-topbar] bdb:none
 		# The sidebar is grey too, so the white frame (top bar and the gap round
 		# the panel) is a layer of its own; its hover and active items go white.
-		&.inset >>> [data-ui-sidebar] bdr:none bg:$ui-canvas
+		&.inset >>> [data-ui-sidebar] bdr:none bg:$ui-sidebar-bg
 			--ui-sidebar-hover:color-mix(in srgb, $ui-surface 75%, transparent)
 			--ui-sidebar-active:$ui-surface
 			--ui-sidebar-active-shadow:0 1px 2px rgba(0,0,0,0.06)

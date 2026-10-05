@@ -27,8 +27,12 @@ global css
 		$ui-muted:#71717a
 		$ui-surface:white
 		# Behind the content (ui-app-shell's main area), so cards and tables on
-		# $ui-surface stand out from it.
-		$ui-canvas:#f3f4f6
+		# $ui-surface stand out from it: a light neutral with a hint of the
+		# accent, so it follows the theme (a faint blue with indigo).
+		$ui-canvas:color-mix(in oklab, $ui-accent 1.5%, #f4f5f7)
+		# The sidebar in ui-app-shell's inset layout: a warm stone, against the
+		# cooler canvas.
+		$ui-sidebar-bg:#f6f5f2
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
@@ -64,7 +68,8 @@ global css
 		$ui-text:#fafafa
 		$ui-muted:#a1a1aa
 		$ui-surface:#18181b
-		$ui-canvas:#0f0f11
+		$ui-canvas:color-mix(in oklab, $ui-accent 5%, #0f0f11)
+		$ui-sidebar-bg:#121211
 		$ui-border:#27272a
 		$ui-hover:#27272a
 		$ui-skeleton:#2e2e33
