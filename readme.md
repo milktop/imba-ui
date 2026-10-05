@@ -306,19 +306,21 @@ npm run dev   # playground
 ## Deploy the playground
 
 `npm run build` writes a static, client-side site to `playground/dist`, which
-any static host can serve. On **Cloudflare Pages**:
+any static host can serve. On **Cloudflare** (Workers, with `wrangler.jsonc`):
 
-1. In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect
-   to Git**, and pick this repository.
-2. Build command `npm run build`, build output directory `playground/dist`
-   (framework preset: none). `.nvmrc` sets Node 22.
-3. Deploy. Every push to `main` redeploys; other branches get preview URLs.
+1. In the dashboard: **Workers & Pages → Create → Import a repository**, and
+   pick this one. Project name `imba-ui` (it must match `name` in
+   `wrangler.jsonc`).
+2. Build command `npm run build`; deploy command `npx wrangler deploy`;
+   preview command `npx wrangler versions upload`. `.nvmrc` sets Node 22.
+3. Deploy. Every push to `main` redeploys; with preview builds on, other
+   branches get preview URLs.
 
-There's no `404.html`, so Pages serves `index.html` for every path, which the
-playground's router needs. To keep it private, put **Cloudflare Access** (Zero
-Trust → Access → Applications) in front of the site: sign-in by email code or
-Google/GitHub, free for up to 50 users.
+`wrangler.jsonc` serves `playground/dist` and answers unknown paths with
+`index.html` (`not_found_handling: single-page-application`), which the
+playground's router needs. To keep it private, turn on **Cloudflare Access**
+for the project (or add it under Zero Trust → Access → Applications): sign-in
+by email code or Google/GitHub, free for up to 50 users.
 
 Elsewhere (e.g. Netlify), add an SPA fallback: a `playground/public/_redirects`
 file containing `/* /index.html 200`.
-

@@ -1,0 +1,10 @@
+// Cloudflare Workers: serves the playground's static build (npm run build).
+// Unknown paths get index.html, so the playground's client-side router works.
+{
+	"name": "imba-ui",
+	"compatibility_date": "2026-10-01",
+	"assets": {
+		"directory": "./playground/dist",
+		"not_found_handling": "single-page-application"
+	}
+}
