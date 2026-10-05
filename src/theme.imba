@@ -31,6 +31,8 @@ global css
 		$ui-canvas:#f3f4f6
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
+		# Loading placeholders: visible on the canvas and on cards alike.
+		$ui-skeleton:#e4e4e7
 		$ui-accent:#4f46e5
 		$ui-accent-text:white
 		$ui-accent-soft:#e0e7ff
@@ -65,6 +67,7 @@ global css
 		$ui-canvas:#0f0f11
 		$ui-border:#27272a
 		$ui-hover:#27272a
+		$ui-skeleton:#2e2e33
 		$ui-accent:#6366f1
 		$ui-accent-soft:#312e81
 		$ui-accent-soft-text:#c7d2fe
