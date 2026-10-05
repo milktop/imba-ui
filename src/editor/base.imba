@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { Placeholder, CharacterCount } from '@tiptap/extensions'
-import Image from '@tiptap/extension-image'
+import { RichImage } from './image.js'
 import { closestField } from '../control.imba'
 import '../popover/base.imba'
 
@@ -24,7 +24,9 @@ import '../popover/base.imba'
 # - `minHeight`, `maxHeight`: CSS lengths; it scrolls past maxHeight
 # - `disabled`: read only
 # - `uploadImage`: an async function taking a File and returning its URL
-#   (your upload). With it, images can be dropped, pasted or picked with the
+#   (your upload), or an object of attributes: { src, alt, title, and any
+#   data-* to keep on the <img>, e.g. 'data-sgid' for your server to resolve
+#   later }. With it, images can be dropped, pasted or picked with the
 #   toolbar's image button, and are inserted once uploaded; without it,
 #   dropped and pasted files are ignored (rather than opened by the browser).
 #   A failed upload emits `error`.
@@ -77,7 +79,7 @@ tag ui-editor-base < ui-control
 				StarterKit.configure(heading: { levels: [2, 3] }, link: { openOnClick: false, autolink: yes })
 				Placeholder.configure(placeholder: do placeholder)
 				CharacterCount.configure(limit: maxLength)
-				Image
+				RichImage
 			]
 			# Read on every update, so the field's label and messages follow.
 			editorProps:
@@ -158,13 +160,22 @@ tag ui-editor-base < ui-control
 			uploading++
 			render!
 			try
-				let src = await uploadImage(file)
+				let result = await uploadImage(file)
+				let attrs = imageAttrs(result, file)
 				let at = pos ?? editor.state.selection.to
-				editor.chain!.focus!.insertContentAt(at, { type: 'image', attrs: { src: src, alt: file.name } }).run! if src and editor
+				editor.chain!.focus!.insertContentAt(at, { type: 'image', attrs: attrs }).run! if attrs and editor
 			catch error
 				emit('error', error)
 			uploading--
 			render!
+
+	# A URL, or { src, alt, title, data-*… }, as the image node's attributes.
+	def imageAttrs result, file
+		return null unless result
+		return { src: result, alt: file.name } if typeof result == 'string'
+		let data = {}
+		data[key] = value for own key, value of result when key.startsWith('data-')
+		{ src: result.src, alt: result.alt ?? file.name, title: result.title ?? null, data: Object.keys(data).length ? data : null }
 
 	def pickedImages e
 		let files = Array.from(e.target.files or [])

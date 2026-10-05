@@ -35,7 +35,7 @@ package adds Imba markup and an optional theme.
 | Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |
 | File upload | `<ui-file-upload>` | Dropzone and file list with previews and rejections |
 | Attachments | `<ui-attachments>` | Files on a page or form, as tiles (`columns` per row) or a list: image thumbnails with a large preview, file icons, download, remove, an add tile and drag and drop, limits (`accept`, `maxFiles`, `maxFileSize`); takes Files too; bindable |
-| Editor | `<ui-editor>` | Rich text on TipTap: HTML value (bindable), configurable toolbar (marks, headings, lists, quote, link popover, undo), placeholder, character limit, images via `uploadImage` |
+| Editor | `<ui-editor>` | Rich text on TipTap: HTML value (bindable), configurable toolbar (marks, headings, lists, quote, link popover, undo), placeholder, character limit, images via `uploadImage` (a URL, or attributes incl. `data-*` kept on the `<img>`) |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
 | Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked`; `labelHidden` for a label only assistive tech hears |
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range |
