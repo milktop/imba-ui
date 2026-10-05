@@ -44,7 +44,8 @@ code, and some composed screens (blocks).
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range |
 | Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions |
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
-| Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` |
+| Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` (with tooltips) |
+| Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, driving `colorScheme` (saved, follows the OS) |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
@@ -258,6 +259,40 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
+
+### Dark mode
+
+Dark values apply under `html.dark` (or `[data-theme=dark]`). Put a
+`<ui-theme-toggle>` anywhere to let people choose, or set it from code:
+
+```imba
+import { colorScheme } from '@milktop/imba-ui/color-scheme'
+
+colorScheme.value = 'dark'        # 'light', 'dark' or 'system' (the default)
+colorScheme.dark                  # whether dark is showing now
+colorScheme.listen do(scheme, dark) console.log(scheme, dark)
+```
+
+Read it in `render` like any other state: every change re-renders the page,
+including the OS switching and other tabs. `listen` is for code that doesn't
+render.
+
+It toggles `dark` and `color-scheme` on `<html>`, follows the OS setting in
+`system`, and saves the choice in localStorage under `ui-color-scheme` (set
+`colorScheme.storageKey` first to change it). Your bundle loads after the
+first paint, so to avoid a flash of light on dark pages, apply the saved choice
+in the `<head>`:
+
+```html
+<script>
+  try {
+    var s = localStorage.getItem('ui-color-scheme') || 'system'
+    var d = s === 'dark' || (s === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
+    document.documentElement.classList.toggle('dark', d)
+    document.documentElement.style.colorScheme = d ? 'dark' : 'light'
+  } catch (e) {}
+</script>
+```
 
 ### Brand the app
 

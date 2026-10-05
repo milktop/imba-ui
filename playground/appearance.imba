@@ -2,6 +2,7 @@ import '@fontsource-variable/inter'
 import '@fontsource-variable/plus-jakarta-sans'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/dm-sans'
+import { colorScheme } from '../src/color-scheme.imba'
 
 # The playground's appearance switcher: theme, accent, font, radius and
 # density, all by overriding the library's $ui-* tokens on <html>, which is
@@ -46,7 +47,8 @@ export const sidebars = { shaded: ['Shaded'], white: ['White'] }
 export const aligns = { center: ['Centred'], start: ['Left'] }
 export const widths = { auto: ['Auto'], default: ['Default'], wide: ['Wide'], full: ['Full'] }
 
-export const defaults = { scheme: 'system', accent: 'blue', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full', canvas: 'cool', sidebar: 'shaded' }
+# The theme itself is the library's colorScheme (saved on its own); the rest is here.
+export const defaults = { accent: 'blue', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full', canvas: 'cool', sidebar: 'shaded' }
 
 # Versioned, so changed defaults reach browsers that saved older settings.
 const storageKey = 'imba-ui-playground-appearance-v3'
@@ -54,22 +56,14 @@ const storageKey = 'imba-ui-playground-appearance-v3'
 export def loadAppearance
 	let saved = {}
 	try saved = JSON.parse(globalThis.localStorage.getItem(storageKey) or '{}')
-	# Older saves had `dark: true/false`.
-	if saved.dark !== undefined and !saved.scheme
-		saved.scheme = saved.dark ? 'dark' : 'light'
 	Object.assign({}, defaults, saved)
-
-# 'system' follows the OS setting, live.
-const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)')
-export def isDark state do state.scheme == 'dark' or (state.scheme == 'system' and prefersDark.matches)
 
 export def saveAppearance state
 	try globalThis.localStorage.setItem(storageKey, JSON.stringify(state))
 
 export def applyAppearance state
 	let root = document.documentElement
-	let dark = isDark(state)
-	root.classList.toggle('dark', dark)
+	let dark = colorScheme.dark
 	let [accent, accentText, soft, softText, ring] = (accents[state.accent] or accents.indigo)[dark ? 'dark' : 'light']
 	let [_name, md, sm, lg] = densities[state.density] or densities.default
 	let tokens = {
@@ -112,24 +106,23 @@ tag appearance-panel
 	alignItems = options(aligns)
 	widthItems = options(widths)
 	densityItems = options(densities)
-	themeItems = [{ value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }, { value: 'system', label: 'System' }]
 
+	# Accents have light and dark values, so re-apply when the scheme changes.
 	def mount
-		# Re-apply when the OS switches while 'system' is chosen.
-		#onScheme = do
-			return unless state.scheme == 'system'
+		#stop = colorScheme.listen do
 			applyAppearance(state)
 			render!
-		prefersDark.addEventListener('change', #onScheme)
 
-	def unmount do prefersDark.removeEventListener('change', #onScheme)
+	def unmount do #stop!
 
 	def update changes
 		state = Object.assign({}, state, changes)
 		applyAppearance(state)
 		saveAppearance(state)
 
-	def reset do update(defaults)
+	def reset
+		colorScheme.value = 'system'
+		update(defaults)
 
 	css
 		d:block
@@ -151,11 +144,11 @@ tag appearance-panel
 			<ui-button slot='trigger' size='sm' variant='ghost' icon='lucide:palette' aria-label='Appearance'>
 			<div.rows>
 				<ui-field label='Theme'>
-					<ui-segmented items=themeItems value=state.scheme @change=update(scheme: e.detail)>
+					<ui-theme-toggle>
 				<ui-field label='Accent'>
 					<div.swatches role='radiogroup' aria-label='Accent'>
 						for own key, accent of accents
-							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[isDark(state) ? 'dark' : 'light'][0]}] @click=update(accent: key)>
+							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[colorScheme.dark ? 'dark' : 'light'][0]}] @click=update(accent: key)>
 				<ui-field label='Font'>
 					<ui-select size='sm' items=fontItems value=state.font @change=update(font: e.detail)>
 				<ui-field label='Radius'>

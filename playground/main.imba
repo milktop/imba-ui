@@ -2,6 +2,7 @@ import 'imba/preflight.css'
 import 'iconify-icon'
 import '../src/index.imba'
 import { toaster } from '../src/toast/index.imba'
+import { colorScheme } from '../src/color-scheme.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/theming.imba'
@@ -40,6 +41,7 @@ import './pages/checkbox.imba'
 import './pages/radio-group.imba'
 import './pages/switch.imba'
 import './pages/segmented.imba'
+import './pages/theme-toggle.imba'
 import './pages/fields.imba'
 import './pages/tooltip.imba'
 import './pages/popover.imba'
@@ -106,6 +108,7 @@ const groups = [
 		{ path: '/radio-group', title: 'Radio group', about: 'One of a list, with descriptions' }
 		{ path: '/switch', title: 'Switch', about: 'On/off toggles' }
 		{ path: '/segmented', title: 'Segmented', about: 'A compact row of options' }
+		{ path: '/theme-toggle', title: 'Theme toggle', about: 'Light, dark or the OS setting' }
 	] }
 	{ title: 'Forms', icon: 'lucide:clipboard-list', pages: [
 		{ path: '/fields', title: 'Fields', about: 'Grid, labels, hints, errors, fieldsets' }
@@ -193,7 +196,7 @@ tag playground
 		if command == 'sidebar'
 			document.querySelector('ui-app-shell').toggle!
 		elif command == 'light' or command == 'dark'
-			document.querySelector('appearance-panel').update(scheme: command)
+			colorScheme.value = command
 
 	def account action
 		toaster.info(title: "Picked “{action}”")
@@ -301,6 +304,7 @@ tag playground
 				<page-radio-group route='/radio-group'>
 				<page-switch route='/switch'>
 				<page-segmented route='/segmented'>
+				<page-theme-toggle route='/theme-toggle'>
 				<page-fields route='/fields'>
 				<page-tooltip route='/tooltip'>
 				<page-popover route='/popover'>

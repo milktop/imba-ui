@@ -16,6 +16,8 @@ import { Machine, Presence, uid, defined } from '../zag.imba'
 # - `placement`: 'top', 'bottom-start', … (positioned with fixed strategy, so
 #   overflow: hidden ancestors don't clip it)
 # - `interactive`: keeps it open while the pointer is over it
+# - `show!`/`hide!` open and close it from code, e.g. when focus lands on an
+#   element the trigger only wraps
 tag ui-tooltip-base
 	prop content = null
 	prop placement = 'top'
@@ -37,6 +39,9 @@ tag ui-tooltip-base
 
 	def mount do machine.start!
 	def unmount do machine.stop!
+
+	def show do machine.connect(tooltip).setOpen(true)
+	def hide do machine.connect(tooltip).setOpen(false)
 
 	# Applied in render as well, since Machine re-renders without Imba's
 	# `rendered` hook; the trigger only exists after the first render.
