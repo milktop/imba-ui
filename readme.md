@@ -194,10 +194,11 @@ while there is an error.
   round the page), the page as a rounded grey panel, and white cards on it.
   The sidebar's hover and active colours come from `--ui-sidebar-hover`,
   `--ui-sidebar-active` (and `--ui-sidebar-active-shadow`).
-- The main area sits on `$ui-canvas` (a light neutral tinted with 1.5% of the
-  accent), so cards and tables on `$ui-surface` stand out; the inset
-  sidebar uses `$ui-sidebar-bg` (a warm stone). Override either, or set
-  `$ui-canvas` to `$ui-surface` for an all-white app.
+- The main area sits on `$ui-canvas`, so cards and tables on `$ui-surface`
+  stand out; the inset layout's sidebar uses `$ui-sidebar-bg` (a lighter shade
+  of the canvas) and its frame `$ui-frame`. In dark mode the frame is darkest
+  and cards lightest. Override any of them, or set `$ui-canvas` to
+  `$ui-surface` for an all-white app.
 
 ## Command menu
 

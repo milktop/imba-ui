@@ -25,11 +25,11 @@ tag ui-app-shell < ui-app-shell-base
 		&.mobile gtc:1fr grid-template-areas:"topbar" "main"
 		# Inset: the page is a rounded panel on the canvas, and the sidebar and
 		# top bar sit flat on the surface around it.
-		&.inset bg:$ui-surface
+		&.inset bg:$ui-frame
 		# The panel is set apart by its colour alone, with room around it.
 		&.inset >>> [data-ui-page] bg:$ui-canvas mx:3 mb:3 rd:calc($ui-radius + 10px)
 		&.inset.mobile >>> [data-ui-page] mx:2 mb:2
-		&.inset >>> [data-ui-topbar] bdb:none
+		&.inset >>> [data-ui-topbar] bdb:none bg:$ui-frame
 		# The sidebar is grey too, so the white frame (top bar and the gap round
 		# the panel) is a layer of its own; its hover and active items go white.
 		&.inset >>> [data-ui-sidebar] bdr:none bg:$ui-sidebar-bg

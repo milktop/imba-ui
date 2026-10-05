@@ -137,8 +137,8 @@ tag page-home
 		p m:0 mt:1 c:$ui-muted fs:sm
 		h2 fs:xs fw:600 tt:uppercase ls:0.05em c:$ui-muted m:0 mt:8 mb:3
 		.cards d:grid gtc:1fr @sm:1fr 1fr @lg:1fr 1fr 1fr g:3
-		a d:block p:3 bd:1px solid $ui-border rd:lg c:inherit td:none
-			@hover bg:$ui-hover
+		a d:block p:3 bg:$ui-surface bd:1px solid $ui-border rd:lg c:inherit td:none shadow:$ui-card-shadow
+			@hover bc:$ui-muted
 		strong d:block fw:600 fs:sm
 		span d:block mt:0.5 fs:xs c:$ui-muted
 	<self>

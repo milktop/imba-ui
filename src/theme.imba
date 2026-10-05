@@ -26,13 +26,12 @@ global css
 		$ui-text:#18181b
 		$ui-muted:#71717a
 		$ui-surface:white
-		# Behind the content (ui-app-shell's main area), so cards and tables on
-		# $ui-surface stand out from it: a light neutral with a hint of the
-		# accent, so it follows the theme (a faint blue with indigo).
-		$ui-canvas:color-mix(in oklab, $ui-accent 1.5%, #f4f5f7)
-		# The sidebar in ui-app-shell's inset layout: a warm stone, against the
-		# cooler canvas.
-		$ui-sidebar-bg:#f6f5f2
+		# ui-app-shell's layers, one cool-neutral family: the canvas behind the
+		# content (cards and tables on $ui-surface stand out from it), the inset
+		# layout's sidebar a lighter shade of it, and the frame round the panel.
+		$ui-canvas:#f2f4f7
+		$ui-sidebar-bg:#f8f9fb
+		$ui-frame:white
 		$ui-border:#e4e4e7
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
@@ -67,12 +66,15 @@ global css
 	html.dark, [data-theme=dark]
 		$ui-text:#fafafa
 		$ui-muted:#a1a1aa
-		$ui-surface:#18181b
-		$ui-canvas:color-mix(in oklab, $ui-accent 5%, #0f0f11)
-		$ui-sidebar-bg:#121211
-		$ui-border:#27272a
-		$ui-hover:#27272a
-		$ui-skeleton:#2e2e33
+		# Depth runs the other way in the dark: the frame and sidebar darkest,
+		# the canvas a step up, cards and popups a step up again.
+		$ui-surface:#1c1c21
+		$ui-canvas:#141418
+		$ui-sidebar-bg:#0c0c0e
+		$ui-frame:#0c0c0e
+		$ui-border:#2b2b31
+		$ui-hover:#27272d
+		$ui-skeleton:#303036
 		$ui-accent:#6366f1
 		$ui-accent-soft:#312e81
 		$ui-accent-soft-text:#c7d2fe

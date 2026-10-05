@@ -68,7 +68,8 @@ export def sectionSource source, heading
 # buttons that set values) are styled globally under demo-section.
 global css
 	demo-section
-		.out d:vflex g:2 mt:1
+		# Readouts and buttons that set values: the foot of the preview card.
+		.out d:vflex g:2 w:100% box-sizing:border-box mt:1 pt:4 bdt:1px dashed $ui-border
 		# Helper classes must not match the components' own parts (several
 		# use .group), since these rules reach inside them.
 		.row d:hflex flw:wrap g:2 ai:center
@@ -174,18 +175,20 @@ tag demo-section
 			copied = no
 			imba.commit!
 
+	# The example sits in a white preview card (like the blocks), with its
+	# title and Code toggle above it on the canvas.
 	css
-		d:vtl g:4 py:8 bdb:1px solid $ui-border
-		&:last-child bdb:none
+		d:vtl g:3 py:5
 		header d:hcs as:stretch g:4
 		h2 fs:md fw:600 m:0
 		.toggle d:inline-flex ai:center g:1.5 h:7 px:2 bd:1px solid transparent bg:transparent c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
 			@hover c:$ui-text bg:$ui-hover
 			&.on c:$ui-text bc:$ui-border
 		.code pos:relative as:stretch
-			pre m:0 p:4 pr:16 bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
+			pre m:0 p:4 pr:16 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px) ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
 			.copy pos:absolute t:2 r:2 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
 				@hover c:$ui-text
+		.preview d:vtl g:4 w:100% box-sizing:border-box p:5 @md:6 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px) shadow:$ui-card-shadow
 
 	<self>
 		<header>
@@ -198,4 +201,4 @@ tag demo-section
 				<pre> <code> for tok in highlightImba(code)
 					<span .tok-{tok.kind or 'plain'}> tok.text
 				<button.copy @click=copy> copied ? "Copied" : "Copy"
-		<slot>
+		<div.preview> <slot>
