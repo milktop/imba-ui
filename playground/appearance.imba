@@ -28,8 +28,9 @@ export const densities = { compact: ['Compact', '2rem', '1.75rem', '2.5rem'], de
 
 export const layouts = { full: ['Full'], inset: ['Inset'] }
 export const aligns = { center: ['Centred'], start: ['Left'] }
+export const widths = { auto: ['Auto'], default: ['Default'], wide: ['Wide'], full: ['Full'] }
 
-export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'inset', align: 'center' }
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'system', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'auto' }
 
 const storageKey = 'imba-ui-playground-appearance'
 
@@ -71,6 +72,7 @@ export def applyAppearance state
 	# The shell reads this for its `inset` prop.
 	root.dataset.layout = state.layout or 'full'
 	root.dataset.pageAlign = state.align or 'center'
+	root.dataset.pageWidth = state.width or 'auto'
 
 def options map
 	Object.keys(map).map do(key) { value: key, label: Array.isArray(map[key]) ? map[key][0] : map[key].name }
@@ -81,6 +83,7 @@ tag appearance-panel
 	radiusItems = options(radii)
 	layoutItems = options(layouts)
 	alignItems = options(aligns)
+	widthItems = options(widths)
 	densityItems = options(densities)
 	themeItems = [{ value: 'light', label: 'Light' }, { value: 'dark', label: 'Dark' }, { value: 'system', label: 'System' }]
 
@@ -127,6 +130,8 @@ tag appearance-panel
 					<ui-segmented items=radiusItems value=state.radius @change=update(radius: e.detail)>
 				<ui-field label='Layout' hint='ui-app-shell’s inset option'>
 					<ui-segmented items=layoutItems value=state.layout @change=update(layout: e.detail)>
+				<ui-field label='Width' hint='ui-page’s width (Auto: blocks wide)'>
+					<ui-segmented items=widthItems value=state.width @change=update(width: e.detail)>
 				<ui-field label='Page' hint='ui-page’s align, for capped pages'>
 					<ui-segmented items=alignItems value=state.align @change=update(align: e.detail)>
 				<ui-field label='Density' hint='Sets $ui-control-height'>

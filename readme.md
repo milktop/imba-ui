@@ -184,6 +184,8 @@ while there is an error.
   icon, href, active, badge, items }] }]`.
 - `ui-sidebar-user` shows the signed-in user in the footer and opens a menu
   of account actions upwards (to the right in the rail), emitting `select`.
+- `ui-sidebar accordion` keeps one nav group open at a time, and
+  `ui-nav-section collapsible` adds a collapse/expand-all button to a section.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.

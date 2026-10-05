@@ -191,6 +191,12 @@ tag playground
 		toaster.info(title: "Picked “{action}”")
 
 	# Home, then the page's group and the page.
+	# The appearance panel's Width, or by default: blocks wide, components default.
+	get pageWidth
+		let chosen = document.documentElement.dataset.pageWidth
+		return chosen if chosen and chosen != 'auto'
+		router.pathname.startsWith('/blocks/') ? 'wide' : 'default'
+
 	get trail
 		for group in groups
 			for page in group.pages
@@ -201,21 +207,23 @@ tag playground
 
 	<self>
 		<ui-app-shell persist='imba-ui:sidebar' inset=(document.documentElement.dataset.layout == 'inset')>
-			<ui-sidebar>
+			# An accordion: opening a group closes the others; the group holding the
+			# current page opens as you navigate.
+			<ui-sidebar accordion>
 				<a.brand slot='logo' href='/'>
 					<span.mark> "UI"
 					<span> "Imba UI"
 				<span.mark slot='logo-collapsed'> "UI"
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
-				<ui-nav-section heading='Components'>
+				<ui-nav-section heading='Components' collapsible>
 					for group in groups
-						<ui-nav-group key=group.title label=group.title icon=group.icon open=yes>
+						<ui-nav-group key=group.title label=group.title icon=group.icon open=group.pages.some(do $1.path == router.pathname)>
 							for page in group.pages
 								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
-				<ui-nav-section heading='Blocks'>
+				<ui-nav-section heading='Blocks' collapsible>
 					for group in ['Sections', 'Pages']
-						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=yes>
+						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=blocks.some(do $1.group == group and $1.path == router.pathname)>
 							for block in blocks.filter(do $1.group == group)
 								<ui-nav-item key=block.path href=block.path active=(router.pathname == block.path)> block.title
 				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' items=accountItems @select=account(e.detail)>
@@ -228,7 +236,7 @@ tag playground
 							<span.search-text> "Search"
 							<kbd> $command..hotkeyText
 					<appearance-panel>
-			<ui-page width=(router.pathname.startsWith('/blocks/') ? 'wide' : 'default') align=(document.documentElement.dataset.pageAlign or 'center')>
+			<ui-page width=pageWidth align=(document.documentElement.dataset.pageAlign or 'center')>
 				<page-home route='/'>
 				<page-block-headings route='/blocks/headings'>
 				<page-block-panels route='/blocks/panels'>

@@ -84,8 +84,11 @@ tag ui-sidebar < ui-sidebar-base
 tag ui-nav-section < ui-nav-section-base
 	css
 		d:flex fld:column g:0.5
-		.heading h:6 px:3 fs:xs fw:600 c:$ui-muted ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
-			&:empty d:none
+		.heading-row d:flex ai:center jc:space-between g:2 h:6 pr:1
+		.heading flg:1 px:3 fs:xs fw:600 c:$ui-muted ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
+		.collapse-all d:grid place-items:center w:6 h:6 p:0 bd:none rd:calc($ui-radius - 2px) bg:transparent c:$ui-muted fs:14px cursor:pointer o:0.7
+			@hover o:1 c:$ui-text bg:var(--ui-sidebar-hover, $ui-hover)
+			@focus-visible outline:2px solid $ui-ring-soft
 		.items d:flex fld:column g:0.5
 		&.rail .heading o:0
 
@@ -94,7 +97,7 @@ tag ui-nav-section < ui-nav-section-base
 tag ui-nav-item < ui-nav-item-base
 	css
 		d:block
-		.link d:flex ai:center g:3 w:100% h:9 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm ta:left td:none ws:nowrap cursor:pointer
+		.link d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:13px ta:left td:none ws:nowrap cursor:pointer
 			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.active .link bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text fw:500
@@ -107,7 +110,7 @@ tag ui-nav-item < ui-nav-item-base
 tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
-		.toggle d:flex ai:center g:3 w:100% h:9 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm ta:left ws:nowrap cursor:pointer
+		.toggle d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:13px ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.flyout .toggle bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text

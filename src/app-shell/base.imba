@@ -130,6 +130,8 @@ tag ui-sidebar-base
 	prop label = 'Main'
 	# A thin strip along the right edge that collapses or expands it on click.
 	prop edge = true
+	# Opening a nav group closes the others.
+	prop accordion = false
 
 	isUiSidebar = yes
 
@@ -188,13 +190,31 @@ tag ui-sidebar-base
 
 
 # A labelled group of nav items. The heading hides in the rail.
+#
+# - `collapsible`: a button beside the heading that collapses (or expands)
+#   all the section's groups at once
 tag ui-nav-section-base
 	prop heading = null
+	prop collapsible = false
 
 	get rail do !!closestWith(self, 'isUiAppShell')..rail
+	get groups do Array.from(querySelectorAll('[data-ui-nav-group]'))
+	get anyOpen do groups.some(do !!$1.data)
+
+	def toggleAll
+		let open = !anyOpen
+		for group in groups
+			group.data = open
+			group.render!
+		imba.commit!
 
 	<self .rail=rail data-ui-shell-part role='group' aria-label=heading>
-		<div.heading aria-hidden='true'> heading if heading
+		if heading or collapsible
+			<div.heading-row>
+				<div.heading aria-hidden='true'> heading if heading
+				if collapsible and !rail
+					<button.collapse-all type='button' aria-label=(anyOpen ? 'Collapse all' : 'Expand all') title=(anyOpen ? 'Collapse all' : 'Expand all') @click=toggleAll>
+						<iconify-icon icon=(anyOpen ? 'lucide:chevrons-down-up' : 'lucide:chevrons-up-down') aria-hidden='true'>
 		<div.items> <slot>
 
 # A nav link (or a button without `href`). In the rail its label becomes a
@@ -274,6 +294,12 @@ tag ui-nav-group-base
 	def toggleClicked
 		if !rail
 			data = !data
+			# In an accordion sidebar, opening one closes the others.
+			if data and closestWith(self, 'isUiSidebar')..accordion
+				for group in closestWith(self, 'isUiSidebar').querySelectorAll('[data-ui-nav-group]')
+					continue if group == self or !group.data
+					group.data = no
+					group.render!
 		elif flyout
 			hideFlyout!
 		else
@@ -287,7 +313,7 @@ tag ui-nav-group-base
 		hideFlyout!
 		$toggle.focus!
 
-	<self .open=data .rail=rail data-ui-shell-part .flyout=(rail and flyout) @pointerenter=showFlyout @pointerleave=hideFlyout @focusout=focusLeft @keydown.esc=escaped>
+	<self .open=data .rail=rail data-ui-shell-part data-ui-nav-group .flyout=(rail and flyout) @pointerenter=showFlyout @pointerleave=hideFlyout @focusout=focusLeft @keydown.esc=escaped>
 		<button$toggle.toggle type='button' aria-expanded=String(rail ? flyout : !!data) aria-label=(rail ? label : undefined) @click=toggleClicked>
 			<iconify-icon.icon icon=icon aria-hidden='true'> if icon
 			<span.text> label
