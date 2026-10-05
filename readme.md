@@ -318,9 +318,12 @@ any static host can serve. On **Cloudflare** (Workers, with `wrangler.jsonc`):
 
 `wrangler.jsonc` serves `playground/dist` and answers unknown paths with
 `index.html` (`not_found_handling: single-page-application`), which the
-playground's router needs. To keep it private, turn on **Cloudflare Access**
-for the project (or add it under Zero Trust → Access → Applications): sign-in
-by email code or Google/GitHub, free for up to 50 users.
+playground's router needs. It's public but kept out of search results: a
+`noindex` meta tag in `index.html`, and an `X-Robots-Tag` header on every
+file from `playground/public/_headers`. To make it private instead, turn on
+**Cloudflare Access** for the project (scope: all traffic), and add a login
+method under Zero Trust → Settings → Authentication (One-time PIN needs no
+setup); free for up to 50 users.
 
 Elsewhere (e.g. Netlify), add an SPA fallback: a `playground/public/_redirects`
 file containing `/* /index.html 200`.

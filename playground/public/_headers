@@ -1,0 +1,4 @@
+# Keep every page and file out of search results (Cloudflare and Netlify
+# read this file).
+/*
+  X-Robots-Tag: noindex, nofollow
