@@ -309,40 +309,26 @@ npm run dev   # playground
 ## Deploy the playground
 
 `npm run build` writes a static, client-side site to `playground/dist`, which
-any static host can serve. On **Cloudflare** (Workers, with `wrangler.jsonc`):
-
-1. In the dashboard: **Workers & Pages → Create → Import a repository**, and
-   pick this one. Project name `imba-ui` (it must match `name` in
-   `wrangler.jsonc`).
-2. Build command `npm run build`; deploy command `npx wrangler deploy`;
-   preview command `npx wrangler versions upload`. `.nvmrc` sets Node 22.
-3. Deploy. Every push to `main` redeploys; with preview builds on, other
-   branches get preview URLs.
-
-`wrangler.jsonc` serves `playground/dist` and answers unknown paths with
-`index.html` (`not_found_handling: single-page-application`), which the
-playground's router needs. It's public but kept out of search results: a
-`noindex` meta tag in `index.html`, and an `X-Robots-Tag` header on every
-file from `playground/public/_headers`. To make it private instead, turn on
-**Cloudflare Access** for the project (scope: all traffic), and add a login
-method under Zero Trust → Settings → Authentication (One-time PIN needs no
-setup); free for up to 50 users.
-
-**Cloudflare Pages** instead serves a custom subdomain whose DNS is hosted
-elsewhere (Workers custom domains need the zone on Cloudflare):
+any static host can serve. It's on **Cloudflare Pages** at
+https://imba-ui.pages.dev:
 
 1. **Workers & Pages → Create**, then the Pages option ("Looking to deploy
    Pages? Get started") → **Import an existing Git repository**, and pick
    this one.
 2. Framework preset None; build command `npm run build`; build output
    directory `playground/dist`. `.nvmrc` sets Node 22.
-3. Deploy, then **Custom domains → Set up a custom domain** (e.g.
-   `ui.milktop.co.uk`), and add the CNAME it asks for at your DNS host:
-   `ui  CNAME  <project>.pages.dev`.
+3. Deploy. Every push to `main` redeploys; other branches get preview URLs.
+   For a custom subdomain, use **Custom domains** in the project and add the
+   CNAME it asks for at your DNS host (`ui  CNAME  imba-ui.pages.dev`).
 
-Pages needs no extra config: with no top-level `404.html` it serves
-`index.html` for unknown paths, `_headers` applies as above, and it ignores
-`wrangler.jsonc` (which has no `pages_build_output_dir`).
+Pages needs no config file: with no top-level `404.html` it serves
+`index.html` for unknown paths, which the playground's router needs. The site
+is public but kept out of search results: a `noindex` meta tag in
+`index.html`, and an `X-Robots-Tag` header on every file from
+`playground/public/_headers`. To make it private instead, turn on
+**Cloudflare Access** for the project, and add a login method under Zero
+Trust → Settings → Authentication (One-time PIN needs no setup); free for up
+to 50 users.
 
 Elsewhere (e.g. Netlify), add an SPA fallback: a `playground/public/_redirects`
 file containing `/* /index.html 200`.
