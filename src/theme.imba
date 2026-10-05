@@ -36,12 +36,12 @@ global css
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
 		$ui-skeleton:#e4e4e7
-		$ui-accent:#4f46e5
+		$ui-accent:#2563eb
 		$ui-accent-text:white
-		$ui-accent-soft:#e0e7ff
-		$ui-accent-soft-text:#3730a3
-		$ui-ring:#6366f1
-		$ui-ring-soft:#6366f133
+		$ui-accent-soft:#dbeafe
+		$ui-accent-soft-text:#1e40af
+		$ui-ring:#3b82f6
+		$ui-ring-soft:#3b82f633
 		$ui-danger:#dc2626
 		$ui-success:#16a34a
 		# Chart series, in order (the first is the accent).
@@ -75,11 +75,11 @@ global css
 		$ui-border:#2b2b31
 		$ui-hover:#27272d
 		$ui-skeleton:#303036
-		$ui-accent:#6366f1
-		$ui-accent-soft:#312e81
-		$ui-accent-soft-text:#c7d2fe
-		$ui-ring:#818cf8
-		$ui-ring-soft:#818cf833
+		$ui-accent:#3b82f6
+		$ui-accent-soft:#1e3a8a
+		$ui-accent-soft-text:#bfdbfe
+		$ui-ring:#60a5fa
+		$ui-ring-soft:#60a5fa33
 		$ui-danger:#f87171
 		$ui-success:#4ade80
 		$ui-chart-2:#2dd4bf
