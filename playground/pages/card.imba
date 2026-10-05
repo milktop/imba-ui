@@ -6,7 +6,7 @@ tag page-card
 
 	<self>
 		<demo-page source=source heading='Card' intro='ui-card groups related content, with an optional header, actions and footer.'>
-			<demo-section heading='Header, body and footer'>
+			<demo-section heading='Header, body and footer' bare>
 				<div.grid>
 					<ui-card heading='Next lesson' description='Thursday 8 October, 16:00'>
 						<ui-button slot='actions' size='sm' variant='ghost' icon='lucide:ellipsis' aria-label='More'>
@@ -20,6 +20,6 @@ tag page-card
 						<div [fs:3xl fw:700]> "52"
 						<ui-progress showValue value=78 label='Monthly goal'>
 
-			<demo-section heading='Body only'>
+			<demo-section heading='Body only' bare>
 				<ui-card>
 					"A plain card is just a bordered surface; give it any content."

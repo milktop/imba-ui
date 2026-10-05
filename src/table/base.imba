@@ -13,10 +13,12 @@ import '../skeleton/base.imba'
 #     { key: 'actions', label: '', tag: 'student-actions', width: '3rem' }
 #   ]
 #
-# A column shows `row[key]` (or `value(row)`), through `format(value, row)`
-# if given. For richer cells give it a `tag`: that tag is rendered with
-# `row`, `column` and `value`. `align` is 'start' (default), 'center' or 'end'.
-#
+# - `rows`: plain objects, one per row
+# - `columns`: what each column shows. `key`: the row property shown (and
+#   sorted by); `label`: the heading; `sortable`; `align`: 'start', 'center'
+#   or 'end'; `width`: any CSS width; `format(value, row)`: turns the value
+#   into text; `value(row)`: computes it instead of `row[key]`; `tag`: a tag
+#   that renders the cell, given `row`, `column` and `value`
 # - `rowKey`: the property that identifies a row ('id')
 # - `sortable` columns sort when their heading is clicked: ascending,
 #   descending, then off. Bind the state with `bind:sort=` ({ key, dir });

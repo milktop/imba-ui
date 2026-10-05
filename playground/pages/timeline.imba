@@ -7,58 +7,11 @@ const history = [
 	{ title: 'Joined', time: '1 Sep', icon: 'lucide:user-plus' }
 ]
 
-const dataCode = '''
-# Each item is a plain object; only `title` is needed.
-const history = [
-	{
-		title: 'Lesson booked'
-		time: '2 Oct'
-		description: 'Thursday 8 October, 16:00'
-		icon: 'lucide:calendar-plus'
-		color: 'accent'
-	}
-	{ title: 'Invoice paid', time: '1 Oct', icon: 'lucide:receipt', color: 'success' }
-	{ title: 'Joined', time: '1 Sep' }
-]
-
-<ui-timeline items=history>
-'''
-
-const fields = [
-	['title', 'The event', "'Lesson booked'"]
-	['time', 'When, as text (format it first)', "'2 Oct'"]
-	['description', 'A line under the title', "'Thursday, 16:00'"]
-	['icon', 'An Iconify icon in a circle; without one, a dot', "'lucide:receipt'"]
-	['color', "Tints the marker: 'accent', 'success', 'warning' or 'danger'", "'success'"]
-]
-
 tag page-timeline
-	css
-		.code m:0 p:4 w:100% box-sizing:border-box bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
-		code ff:mono fs:xs
-
 	<self>
 		<demo-page source=source heading='Timeline' intro='ui-timeline lists events down a line, each with a marker (an icon or a dot), a title, a time and a description. Give it `items`, or write ui-timeline-item markup: the same fields as attributes, plus anything inside an item.'>
 			<demo-section heading='With icons'>
 				<ui-timeline items=history>
-
-			<demo-section heading='The data'>
-				<p.note> "Items are plain objects. ui-timeline-item takes the same fields as attributes, so markup and data are interchangeable."
-				<pre.code> dataCode
-
-			<demo-section heading='Item fields'>
-				<ui-table>
-					<table>
-						<thead>
-							<tr>
-								<th> "Field"
-								<th> "What it does"
-								<th> "Example"
-						<tbody> for field in fields
-							<tr>
-								<td> <code> field[0]
-								<td> field[1]
-								<td> <code> field[2]
 
 			<demo-section heading='As markup'>
 				<ui-timeline>

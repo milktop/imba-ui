@@ -13,13 +13,13 @@ tag page-stat
 					<ui-stat label='Revenue' value='£1,820' change=-3.2>
 					<ui-stat label='Cancellations' value=3 change=-40 invert help='Fewer is better, so down is green'>
 
-			<demo-section heading='Cards with icons'>
+			<demo-section heading='Cards with icons' bare>
 				<ui-stats variant='cards' columns=3>
 					<ui-stat icon='lucide:users' label='Active students' value=31 change=6.9>
 					<ui-stat icon='lucide:calendar-check' label='Attendance' value='92' unit='%' change=1.2>
 					<ui-stat icon='lucide:clock' label='Hours taught' value='48.5' unit='h' change=-2.1>
 
-			<demo-section heading='One divided card'>
+			<demo-section heading='One divided card' bare>
 				<ui-stats variant='divided' columns=3>
 					<ui-stat label='Invoiced' value='£2,140' help='October so far'>
 					<ui-stat label='Paid' value='£1,820' change=8>

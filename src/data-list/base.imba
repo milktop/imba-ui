@@ -14,6 +14,7 @@ import '../tooltip/base.imba'
 #   <ui-data-list>
 #     <ui-data-item label='Status'> <ui-badge variant='success'> 'Active'
 #
+# - `items`: plain objects, `{ label, value, info }` (value shown as text)
 # - `orientation`: 'horizontal' (default; labels beside values) or
 #   'vertical' (labels above)
 # - `variant`: 'plain' (default), 'divided' (lines between items) or 'card'
@@ -21,7 +22,6 @@ import '../tooltip/base.imba'
 # - `columns`: lays items out in a grid of this many columns (stacking on
 #   narrow screens); best with vertical items
 # - `labelWidth`: the label column's width when horizontal ('10rem')
-# - an item's `info` adds an icon with that text in a tooltip
 tag ui-data-list-base
 	prop items = null
 	prop orientation = 'horizontal'
@@ -42,6 +42,9 @@ tag ui-data-list-base
 			<slot>
 
 # One label and its value (the default slot).
+#
+# - `label`: the term
+# - `info`: adds an icon with this text in a tooltip
 tag ui-data-item-base
 	prop label = ''
 	prop info = null

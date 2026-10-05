@@ -18,13 +18,17 @@ and the Zag/Imba lessons below in more detail.
   `pages/<name>.imba`, shared bits in `demo.imba`. Each example is a
   `demo-section`; its Code toggle shows the section's own markup from the page source (`?raw`); put
   readouts (`json-print`) and value-setting buttons in a `<div.out>` so they're
-  left out of it. Blocks (composed screens) live in `playground/blocks/`, one
+  left out of it. Components that are cards themselves (ui-card, ui-table,
+card variants) get `<demo-section bare>`, so they aren't framed in a second
+card. Blocks (composed screens) live in `playground/blocks/`, one
   tag per file, listed and routed from `blocks.imba` (their Code view shows the
   whole file)
 
 Each component page has a **Props** panel (`playground/api.imba`) read from
-its base file: the `prop` lines (with defaults), `emit(...)` calls, `<slot>`s,
-and the doc comment's bullets. Write those as one bullet per prop (or a few
+its base file: the doc comment's examples (indented blocks after a blank
+comment line), the `prop` lines (with defaults), `emit(...)` calls, `<slot>`s,
+and the doc comment's bullets. Document data shapes (items, columns) there
+rather than in extra page sections. Write those as one bullet per prop (or a few
 related ones), starting with the names: ``- `name`: what it does``.
 
 New components follow the same pattern: add both files, an entry in

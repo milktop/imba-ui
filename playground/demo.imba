@@ -162,6 +162,8 @@ tag demo-page
 
 tag demo-section
 	prop heading
+	# For components that are cards themselves: no preview card around them.
+	prop bare = false
 	showCode = no
 	copied = no
 
@@ -189,6 +191,7 @@ tag demo-section
 			.copy pos:absolute t:2 r:2 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
 				@hover c:$ui-text
 		.preview d:vtl g:4 w:100% box-sizing:border-box p:5 @md:6 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px) shadow:$ui-card-shadow
+			&.bare p:0 @md:0 bg:transparent bd:none shadow:none
 
 	<self>
 		<header>
@@ -201,4 +204,4 @@ tag demo-section
 				<pre> <code> for tok in highlightImba(code)
 					<span .tok-{tok.kind or 'plain'}> tok.text
 				<button.copy @click=copy> copied ? "Copied" : "Copy"
-		<div.preview> <slot>
+		<div.preview .bare=bare> <slot>

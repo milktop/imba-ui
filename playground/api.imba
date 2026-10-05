@@ -1,3 +1,5 @@
+import { highlightImba } from './demo.imba'
+
 # The components' API, read from their base files: each headless tag's props
 # (with defaults), what its doc comment says about them, the events it emits
 # and its slots. Nothing to maintain: it follows the source.
@@ -30,10 +32,25 @@ export def apiOf source
 		out.push
 			tag: m[1]
 			extends: m[2] and m[2] != 'ui-control' ? m[2].replace(/-base$/, '') : null
+			usage: usageOf(doc)
 			props: propsOf(body, describe(doc))
 			events: unique(Array.from(body.join('\n').matchAll(/emit\('([\w-]+)'/g)).map(do $1[1]))
 			slots: unique(Array.from(body.join('\n').matchAll(/<slot(?: name='([\w-]+)')?>/g)).map(do $1[1] or 'default'))
 	out
+
+# The doc comment's examples: indented blocks after a blank line, e.g.
+#
+#   <ui-table columns=columns rows=students>
+def usageOf doc
+	let blocks = []
+	let block = null
+	for line, i in doc
+		if /^\s{2,}\S/.test(line) and (block or doc[i - 1] === '')
+			block ||= blocks[blocks.push([]) - 1]
+			block.push(line.replace(/^  /, ''))
+		else
+			block = null
+	blocks.map(do $1.join('\n')).join('\n\n')
 
 def unique list do Array.from(new Set(list))
 
@@ -79,6 +96,7 @@ tag api-panel
 		.chips d:flex ai:center g:1.5 flw:wrap mt:3 fs:xs c:$ui-muted
 		.chip px:1.5 py:0.5 rd:sm bg:$ui-hover ff:mono c:$ui-text
 		.none m:0 c:$ui-muted fs:sm
+		.usage m:0 mb:4 p:4 bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
 
 	<self>
 		for api in apis
@@ -86,6 +104,9 @@ tag api-panel
 				<div.head>
 					<h3> "<{api.tag}>"
 					<span.extends> "extends {api.extends}" if api.extends
+				if api.usage
+					<pre.usage> <code> for tok in highlightImba(api.usage)
+						<span .tok-{tok.kind or 'plain'}> tok.text
 				if api.props.length
 					<ui-table size='sm'>
 						<table>

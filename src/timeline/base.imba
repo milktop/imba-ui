@@ -12,10 +12,7 @@
 #     <ui-timeline-item title='Note added' time='30 Sep' icon='lucide:notebook-pen'>
 #       <ui-card> …
 #
-# An item has a `title`, `time`, `description` (or content in its slot), and
-# a marker: an Iconify `icon` in a circle, or a dot. `color` tints it:
-# 'accent', 'success', 'warning' or 'danger' (grey by default).
-#
+# - `items`: plain objects with an item's fields (only `title` is needed)
 # - `variant`: 'line' (default) or 'cards' (each item's content in a card)
 # - `size`: 'sm' or 'md' (default)
 tag ui-timeline-base
@@ -32,6 +29,14 @@ tag ui-timeline-base
 					<{itemTag} title=item.title time=item.time icon=item.icon color=item.color description=item.description>
 			<slot>
 
+# One event; content in its slot shows under the title.
+#
+# - `title`: the event
+# - `time`: when, as text (format it first)
+# - `description`: a line under the title
+# - `icon`: an Iconify icon in a circle; without one, a dot
+# - `color`: tints the marker: 'accent', 'success', 'warning' or 'danger'
+#   (grey by default)
 tag ui-timeline-item-base
 	prop title = null
 	prop time = null
