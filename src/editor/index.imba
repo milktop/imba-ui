@@ -18,6 +18,9 @@ tag ui-editor < ui-editor-base
 			@disabled o:0.35 cursor:default bg:transparent
 			&[aria-pressed=true] c:$ui-text bg:$ui-hover
 		.divider w:1px h:5 mx:1 bg:$ui-border
+		.image-input pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0)
+		label.tool @focus-within outline:2px solid $ui-ring-soft
+		.uploading pos:absolute l:3 b:1.5 fs:xs c:$ui-muted
 		.link-form d:flex fld:column g:2 w:64
 		.link-actions d:flex jc:flex-end g:2
 
@@ -34,6 +37,8 @@ tag ui-editor < ui-editor-base
 		.content >>> blockquote pl:3 bdl:3px solid $ui-border c:$ui-muted
 		.content >>> code px:1 py:0.5 rd:sm bg:$ui-hover ff:mono fs:0.9em
 		.content >>> a c:$ui-accent td:underline text-underline-offset:2px
+		.content >>> img d:block max-width:100% h:auto my:2 rd:$ui-radius
+		.content >>> img.ProseMirror-selectednode outline:2px solid $ui-ring
 		# TipTap's placeholder: on the first empty paragraph.
 		.content >>> p.is-editor-empty@first-child@before content:attr(data-placeholder) float:left h:0 c:$ui-muted pointer-events:none
 

@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import { Placeholder, CharacterCount } from '@tiptap/extensions'
+import Image from '@tiptap/extension-image'
 import { closestField } from '../control.imba'
 import '../popover/base.imba'
 
@@ -22,10 +23,15 @@ import '../popover/base.imba'
 # - `maxLength`: a character limit, with a counter
 # - `minHeight`, `maxHeight`: CSS lengths; it scrolls past maxHeight
 # - `disabled`: read only
+# - `uploadImage`: an async function taking a File and returning its URL
+#   (your upload). With it, images can be dropped, pasted or picked with the
+#   toolbar's image button, and are inserted once uploaded; without it,
+#   dropped and pasted files are ignored (rather than opened by the browser).
+#   A failed upload emits `error`.
 #
 # Keyboard shortcuts are TipTap's (⌘B, ⌘I, ⌘U, ⌘⇧7/8 for lists, ⌘Z…).
 # The TipTap editor is `el.editor`, for anything more.
-export const defaultTools = ['bold', 'italic', 'underline', 'strike', '|', 'h2', 'h3', '|', 'bulletList', 'orderedList', 'blockquote', '|', 'link', '|', 'undo', 'redo']
+export const defaultTools = ['bold', 'italic', 'underline', 'strike', '|', 'h2', 'h3', '|', 'bulletList', 'orderedList', 'blockquote', '|', 'link', 'image', '|', 'undo', 'redo']
 
 # Each tool: its icon and label, how it runs, and when it's active.
 const toolDefs = {
@@ -52,8 +58,10 @@ tag ui-editor-base < ui-control
 	prop minHeight = '8rem'
 	prop maxHeight = null
 	prop disabled = false
+	prop uploadImage = null
 
 	editor = null
+	uploading = 0
 	focused = no
 	linkOpen = no
 	linkUrl = ''
@@ -69,9 +77,25 @@ tag ui-editor-base < ui-control
 				StarterKit.configure(heading: { levels: [2, 3] }, link: { openOnClick: false, autolink: yes })
 				Placeholder.configure(placeholder: do placeholder)
 				CharacterCount.configure(limit: maxLength)
+				Image
 			]
 			# Read on every update, so the field's label and messages follow.
 			editorProps:
+				# Files dropped or pasted: images go to `uploadImage`; anything
+				# else (or images without it) is ignored, so the browser doesn't
+				# open the file in the tab.
+				handleDrop: do(view, event, slice, moved)
+					let files = Array.from(event.dataTransfer..files or [])
+					return no if moved or !files.length
+					event.preventDefault!
+					let pos = view.posAtCoords(left: event.clientX, top: event.clientY)..pos
+					insertImages(files, pos)
+					yes
+				handlePaste: do(view, event)
+					let files = Array.from(event.clipboardData..files or [])
+					return no unless files.length
+					insertImages(files)
+					yes
 				attributes: do
 					let field = closestField(self)
 					{
@@ -85,6 +109,9 @@ tag ui-editor-base < ui-control
 				#html = editor.isEmpty ? '' : editor.getHTML!
 				data = #html
 				emit('change', data)
+				# Typing isn't an Imba event, so tell the app to re-render (a bound
+				# readout, a field's error).
+				imba.commit!
 			onTransaction: do render!
 			onFocus: do
 				focused = yes
@@ -123,6 +150,27 @@ tag ui-editor-base < ui-control
 		editor.chain!.focus!.extendMarkRange('link').unsetLink!.run!
 		linkOpen = no
 
+	# Uploads the images among `files` and inserts each at `pos` (or the
+	# cursor) as it arrives.
+	def insertImages files, pos = null
+		return unless uploadImage
+		for file in files.filter(do ($1.type or '').startsWith('image/'))
+			uploading++
+			render!
+			try
+				let src = await uploadImage(file)
+				let at = pos ?? editor.state.selection.to
+				editor.chain!.focus!.insertContentAt(at, { type: 'image', attrs: { src: src, alt: file.name } }).run! if src and editor
+			catch error
+				emit('error', error)
+			uploading--
+			render!
+
+	def pickedImages e
+		let files = Array.from(e.target.files or [])
+		e.target.value = ''
+		insertImages(files)
+
 	get characters do editor ? editor.storage.characterCount.characters! : 0
 
 	def render
@@ -132,6 +180,12 @@ tag ui-editor-base < ui-control
 			#html = data or ''
 			editor.commands.setContent(#html, emitUpdate: no)
 		editor.setEditable(!(disabled or #locked)) if editor and editor.isEditable == !!(disabled or #locked)
+		# ProseMirror reads its attributes on updates; refresh them when the
+		# field's label, messages or error state change.
+		let fieldKey = "{#field..labelledBy}|{#field..describedBy}|{!!#field..invalid}"
+		if editor and fieldKey != #fieldKey
+			#fieldKey = fieldKey
+			editor.view.setProps({})
 
 		<self .focused=focused .disabled=(disabled or #locked)>
 			if toolbar and !(disabled or #locked)
@@ -148,10 +202,17 @@ tag ui-editor-base < ui-control
 									<div.link-actions>
 										<ui-button size='sm' variant='ghost' @click=removeLink> "Remove" if editor..isActive('link')
 										<ui-button size='sm' variant='primary' type='submit'> "Apply"
+						elif name == 'image'
+							if uploadImage
+								<label.tool key='image' aria-label='Image' @mousedown.prevent>
+									<input.image-input type='file' accept='image/*' multiple @change.stop=pickedImages>
+									<iconify-icon icon='lucide:image' aria-hidden='true'>
 						elif toolDefs[name]
 							let tool = toolDefs[name]
 							<button.tool key=name type='button' aria-label=tool.label aria-pressed=(tool.active ? String(isActive(tool)) : undefined) disabled=!canRun(tool) @mousedown.prevent @click=run(tool)>
 								<iconify-icon icon=tool.icon aria-hidden='true'>
 			<div$content.content style="--min-height: {minHeight}; --max-height: {maxHeight or 'none'}">
+			if uploading
+				<div.uploading> "Uploading…"
 			if maxLength
 				<div.count .over=(characters >= maxLength)> "{characters} / {maxLength}"
