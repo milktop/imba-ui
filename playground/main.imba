@@ -5,6 +5,7 @@ import { toaster } from '../src/toast/index.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/theming.imba'
+import { repo } from './pages/installation.imba'
 import './pages/button.imba'
 import './pages/copy-button.imba'
 import './pages/avatar.imba'
@@ -162,6 +163,9 @@ tag playground
 			@focus-visible outline:2px solid $ui-ring-soft
 			.search-text d:none @md:block flg:1 ta:left
 			kbd d:none @md:inline-flex ai:center h:5 px:1.5 bd:1px solid $ui-border rd:sm bg:$ui-hover ff:inherit fs:11px
+		.github d:inline-flex ai:center jc:center w:$ui-control-height-sm h:$ui-control-height-sm rd:$ui-radius c:$ui-muted fs:lg
+			@hover c:$ui-text bg:$ui-hover
+			@focus-visible outline:2px solid $ui-ring-soft
 		.mark d:inline-flex ai:center jc:center w:7 h:7 fls:0 rd:$ui-radius bg:$ui-accent c:$ui-accent-text fs:xs fw:700
 
 	accountItems = [
@@ -178,6 +182,8 @@ tag playground
 		...blocks.map do(block)
 			{ label: block.title, description: block.about, href: block.path, icon: block.icon, group: 'Blocks' }
 		{ label: 'Theming', description: 'Tokens and overrides', href: '/theming', icon: 'lucide:palette', group: 'Guides' }
+		{ label: 'Installation', description: 'Install, configure Vite, import', href: '/installation', icon: 'lucide:download', group: 'Guides' }
+		{ label: 'GitHub', description: 'Source, releases and issues', href: repo, icon: 'mdi:github', group: 'Guides', keywords: ['repo', 'source'] }
 		{ label: 'Toggle sidebar', value: 'sidebar', icon: 'lucide:panel-left', shortcut: '⌘B', group: 'Playground' }
 		{ label: 'Light theme', value: 'light', icon: 'lucide:sun', group: 'Playground', keywords: ['appearance', 'mode'] }
 		{ label: 'Dark theme', value: 'dark', icon: 'lucide:moon', group: 'Playground', keywords: ['appearance', 'mode'] }
@@ -206,6 +212,7 @@ tag playground
 		for block in blocks
 			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.group }, { label: block.title }] if block.path == router.pathname
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Theming' }] if router.pathname == '/theming'
+		return [{ label: 'Imba UI', href: '/' }, { label: 'Installation' }] if router.pathname == '/installation'
 		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
 	<self>
@@ -220,6 +227,7 @@ tag playground
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
 					<ui-nav-item icon='lucide:palette' href='/theming' active=(router.pathname == '/theming')> "Theming"
+					<ui-nav-item icon='lucide:download' href='/installation' active=(router.pathname == '/installation')> "Installation"
 				<ui-nav-section heading='Components'>
 					for group in groups
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=group.pages.some(do $1.path == router.pathname)>
@@ -239,10 +247,13 @@ tag playground
 							<iconify-icon icon='lucide:search' aria-hidden='true'>
 							<span.search-text> "Search"
 							<kbd> $command..hotkeyText
+					<a.github href=repo target='_blank' rel='noopener' aria-label='GitHub repository'>
+						<iconify-icon icon='mdi:github' aria-hidden='true'>
 					<appearance-panel>
 			<ui-page width=pageWidth align=(document.documentElement.dataset.pageAlign or 'center')>
 				<page-home route='/'>
 				<page-theming route='/theming'>
+				<page-installation route='/installation'>
 				<page-block-headings route='/blocks/headings'>
 				<page-block-panels route='/blocks/panels'>
 				<page-block-lists route='/blocks/lists'>

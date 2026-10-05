@@ -205,3 +205,31 @@ tag demo-section
 					<span .tok-{tok.kind or 'plain'}> tok.text
 				<button.copy @click=copy> copied ? "Copied" : "Copy"
 		<div.preview .bare=bare> <slot>
+
+# A code sample with a Copy button, for the guide pages. Imba is highlighted;
+# other languages (`sh`, `js`) show plain.
+tag code-block
+	prop code = ''
+	prop lang = 'imba'
+	copied = no
+
+	get tokens do lang == 'imba' ? highlightImba(code) : [{ text: code }]
+
+	def copy
+		await globalThis.navigator.clipboard.writeText(code)
+		copied = yes
+		imba.commit!
+		setTimeout(&, 1500) do
+			copied = no
+			imba.commit!
+
+	css
+		d:block pos:relative
+		pre m:0 p:4 pr:16 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 6px) ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
+		.copy pos:absolute t:2 r:2 h:7 px:2 bd:1px solid $ui-border bg:$ui-surface c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer
+			@hover c:$ui-text
+
+	<self>
+		<pre> <code> for tok in tokens
+			<span .tok-{tok.kind or 'plain'}> tok.text
+		<button.copy @click=copy> copied ? "Copied" : "Copy"
