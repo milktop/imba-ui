@@ -23,20 +23,29 @@ tag ui-attachments < ui-attachments-base
 			@hover c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
 		.add-input pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0)
-		.add-tile d:flex fld:column ai:center jc:center g:1.5 h:100% min-height:10 box-sizing:border-box bd:1.5px dashed $ui-border rd:calc($ui-radius + 2px) c:$ui-muted fs:sm cursor:pointer
-			@hover c:$ui-text bc:$ui-muted bg:$ui-surface
-			@focus-within outline:2px solid $ui-ring-soft
+		.add-tile d:flex ai:center box-sizing:border-box c:$ui-muted fs:sm cursor:pointer
+			@hover c:$ui-text
+			@focus-within outline:2px solid $ui-ring-soft outline-offset:2px
+		.add-icon d:grid place-items:center fls:0
+		.add-text d:flex fld:column min-width:0
+		.add-label fw:500
 
-		# Grid: tiles with a 4:3 preview and the name under it.
-		&.grid .files d:grid gtc:repeat(auto-fill, minmax(8.5rem, 1fr)) g:3
+		# Grid: tiles with a 4:3 preview and the name under it. Rows share a
+		# height, so the add tile matches the others even on a row of its own.
+		&.grid .files d:grid gtc:repeat(auto-fill, minmax(8.5rem, 1fr)) gar:1fr g:3
+		# With `columns`: at most that many, fewer when tiles would drop below 7rem.
+		&.grid.fixed .files gtc:repeat(auto-fill, minmax(max(7rem, calc((100% - (var(--columns) - 1) * 0.75rem) / var(--columns))), 1fr))
 		&.grid .file bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) of:hidden shadow:$ui-card-shadow
-		&.grid .open fld:column
+		&.grid .open fld:column h:100%
 		&.grid .thumb aspect-ratio:4 / 3 w:100%
 		&.grid .meta p:2 px:2.5
 		&.grid .actions t:1.5 r:1.5 o:0 transition:opacity 120ms
 		&.grid .file@hover .actions, &.grid .file@focus-within .actions o:1
-		&.grid .add bd:none bg:transparent shadow:none
-		&.grid .add-tile aspect-ratio:auto min-height:100%
+		&.grid .add bd:none bg:transparent shadow:none of:visible
+		&.grid .add-tile fld:column jc:center g:2 h:100% min-height:24 p:3 ta:center bd:1.5px dashed $ui-border rd:calc($ui-radius + 2px)
+			@hover bc:$ui-muted bg:$ui-surface
+		&.grid .add-text ai:center g:0.5
+		&.grid .add-icon w:9 h:9 rd:full bg:$ui-hover
 		# With nothing yet, the add tile is a full-width dropzone.
 		&.empty .add gc:1 / -1
 		&.empty .add-tile min-height:28
@@ -53,8 +62,12 @@ tag ui-attachments < ui-attachments-base
 		&.list .actions pos:static pr:3
 		&.list .action bd:none shadow:none bg:transparent
 			@hover bg:$ui-hover
+		# The add row lines its icon up with the files' previews.
 		&.list .add bdb:none
-		&.list .add-tile fld:row min-height:12 bd:none rd:0 bdt:1px dashed $ui-border
+		&.list .add-tile flg:1 g:3 px:3 py:2.5
+			@hover bg:color-mix(in srgb, $ui-hover 60%, transparent)
+		&.list .add-icon w:10 h:10 rd:$ui-radius bd:1.5px dashed $ui-border box-sizing:border-box
+		&.list .add-text fld:row g:2 ai:baseline
 
 		.limit fs:xs c:$ui-muted o:0.8
 		.rejected d:flex fld:column g:0.5 m:0 mt:2 p:0 list-style:none fs:xs c:$ui-danger

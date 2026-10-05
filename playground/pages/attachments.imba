@@ -1,20 +1,15 @@
 import source from './attachments.imba?raw'
 
-# A placeholder image: a gradient with a shape, as an SVG data URL.
-def picture from, to, shape
-	let svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='{from}'/><stop offset='1' stop-color='{to}'/></linearGradient></defs><rect width='400' height='300' fill='url(#g)'/>{shape}</svg>"
-	# Data URLs can't contain a bare #.
-	"data:image/svg+xml;utf8,{svg.replaceAll('#', '%23')}"
-
-const whiteboard = picture('#c7d2fe', '#a5b4fc', "<circle cx='140' cy='150' r='60' fill='white' fill-opacity='0.6'/><rect x='220' y='90' width='110' height='120' rx='12' fill='white' fill-opacity='0.5'/>")
-const worksheet = picture('#bbf7d0', '#5eead4', "<rect x='120' y='60' width='160' height='190' rx='8' fill='white' fill-opacity='0.75'/>")
-const graph = picture('#fde68a', '#fdba74', "<polyline points='60,230 140,170 210,190 290,100 350,80' fill='none' stroke='white' stroke-width='12' stroke-linecap='round'/>")
+# Photos from picsum.photos (Unsplash images, fixed by seed): a small
+# thumbnail for the tile and a larger one for the preview.
+def photo seed
+	{ thumb: "https://picsum.photos/seed/{seed}/400/300", url: "https://picsum.photos/seed/{seed}/1200/900" }
 
 tag page-attachments
 	files = [
-		{ name: 'Whiteboard.jpg', size: 1153024, type: 'image/jpeg', url: whiteboard }
-		{ name: 'Worksheet scan.png', size: 624000, type: 'image/png', url: worksheet }
-		{ name: 'Progress graph.png', size: 210000, type: 'image/png', url: graph }
+		{ name: 'Field trip.jpg', size: 1153024, type: 'image/jpeg', ...photo('tutor-trip') }
+		{ name: 'Study notes.jpg', size: 624000, type: 'image/jpeg', ...photo('tutor-notes') }
+		{ name: 'Library.jpg', size: 810000, type: 'image/jpeg', ...photo('tutor-library') }
 		{ name: 'Lesson slides.pdf', size: 2516582, type: 'application/pdf' }
 		{ name: 'Mock results.xlsx', size: 48000 }
 		{ name: 'Revision notes.docx', size: 132000 }
@@ -41,5 +36,11 @@ tag page-attachments
 			<demo-section heading='List'>
 				<ui-attachments layout='list' items=docs removable addable addLabel='Attach a file'>
 
-			<demo-section heading='Read only'>
-				<ui-attachments items=files.slice(0, 3)>
+			<demo-section heading='Read only, three per row'>
+				<ui-attachments columns=3 items=[
+					{ name: 'Cover 1.jpg', size: 920000, type: 'image/jpeg', ...photo('cover-one') }
+					{ name: 'Cover 2.jpg', size: 870000, type: 'image/jpeg', ...photo('cover-two') }
+					{ name: 'Cover 3.jpg', size: 1010000, type: 'image/jpeg', ...photo('cover-three') }
+				]>
+				<div.out>
+					<p.note> "`columns` sets the most per row (fewer when tiles would get too small). Images can have a small `thumb` for the tile and a full-size `url` for the preview."

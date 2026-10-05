@@ -10,6 +10,8 @@ import '../dialog/base.imba'
 #   (bytes, or text), type (MIME), url, thumb } or File objects (e.g. from
 #   ui-file-upload or an <input type=file>), which are previewed locally
 # - `layout`: 'grid' (default) or 'list'
+# - `columns`: the most tiles per row in the grid; fewer when tiles would get
+#   too small (without it, as many as fit)
 # - `removable`: a remove button on each; removing emits `remove` with the
 #   item and `change` with the new list
 # - `addable`: an "Add files" tile that opens the file picker, and files can
@@ -30,6 +32,7 @@ tag ui-attachments-base
 	prop addLabel = 'Add files'
 	prop emptyText = null
 	prop maxFiles = null
+	prop columns = null
 	prop maxFileSize = null
 
 	previewing = null
@@ -150,7 +153,7 @@ tag ui-attachments-base
 		elif entry.url
 			globalThis.open(entry.url, '_blank', 'noopener')
 
-	<self .{layout} .empty=!list.length .dragging=dragging @dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
+	<self .{layout} .empty=!list.length .dragging=dragging .fixed=!!columns style=(columns ? "--columns: {columns}" : undefined) @dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
 		if !list.length and !addable and emptyText
 			<p.empty> emptyText
 		<ul.files>
@@ -175,10 +178,11 @@ tag ui-attachments-base
 				<li.file.add>
 					<label.add-tile>
 						<input.add-input type='file' multiple=(maxFiles != 1) accept=accept @change.stop=added>
-						<ui-icon path=icons.plus size=18>
-						<span> addLabel
-						<span.limit> "or drop files here" unless list.length
-						<span.limit> "{count} of {maxFiles}" if maxFiles and list.length
+						<span.add-icon> <ui-icon path=icons.plus size=18>
+						<span.add-text>
+							<span.add-label> addLabel
+							<span.limit> "or drop files here" unless list.length
+							<span.limit> "{count} of {maxFiles}" if maxFiles and list.length
 		if rejected.length
 			<ul.rejected role='alert'> for item in rejected
 				<li> "{item.file.name} wasn’t added: {item.reason}."
