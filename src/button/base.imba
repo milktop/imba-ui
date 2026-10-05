@@ -13,8 +13,10 @@
 # - `count`: a badge on the top-right corner (hidden at 0 or null); past `max`
 #   it shows e.g. "99+"
 # - `dot`: a small dot there instead, for "something new"
+# - `pulse`: a ring ripples out from the badge or dot, to draw the eye (not
+#   when the system asks for less motion)
 # - `countColor`: 'danger' (default), 'accent', 'success', 'warning' or
-#   'neutral'; or set `--ui-button-count-bg` and `--ui-button-count-text` in
+#   'neutral', for the dot too; or set `--ui-button-count-bg` and `--ui-button-count-text` in
 #   CSS for any other
 # - `countLabel`: what the count is, for assistive tech ('new': "Inbox, 3
 #   new"); added to the button's aria-label, or read after its text
@@ -32,6 +34,7 @@ tag ui-button-base < button
 	prop count = null
 	prop max = 99
 	prop dot = false
+	prop pulse = false
 	prop countColor = 'danger'
 	prop countLabel = 'new'
 	# What the caller asked for, kept apart from the native property (a `prop`
@@ -75,5 +78,5 @@ tag ui-button-base < button
 			if iconEnd
 				<iconify-icon.icon icon=iconEnd aria-hidden='true'>
 			if badge != null
-				<span.badge .dot=(badge === '') .{countColor} aria-hidden='true'> badge
+				<span.badge .dot=(badge === '') .pulse=pulse .{countColor} data-ui-pulse=(pulse or undefined) aria-hidden='true'> badge
 				<span.spoken [pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap]> ", {spoken}" unless #ownLabel

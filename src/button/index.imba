@@ -4,6 +4,10 @@ import './base.imba'
 global css @keyframes ui-spin
 	to transform:rotate(360deg)
 
+global css @keyframes ui-pulse
+	from transform:scale(1) opacity:0.7
+	75%, to transform:scale(2.2) opacity:0
+
 tag ui-button < ui-button-base
 	css
 		d:inline-flex ai:center jc:center g:2 h:$ui-control-height px:3.5 box-sizing:border-box
@@ -48,13 +52,15 @@ tag ui-button < ui-button-base
 		pos:relative
 		.badge pos:absolute t:0 r:0 transform:translate(45%, -45%) d:grid place-items:center min-width:18px h:18px px:1.25 box-sizing:border-box rd:full
 			bg:var(--ui-button-count-bg, var(--count-bg)) c:var(--ui-button-count-text, var(--count-text)) shadow:0 0 0 2px $ui-surface
-			fs:11px fw:600 lh:1 ff:$ui-font font-variant-numeric:tabular-nums pointer-events:none
+			fs:11px fw:600 lh:1 ff:$ui-font font-variant-numeric:tabular-nums pointer-events:none isolation:isolate
 			--count-bg:$ui-danger --count-text:white
 			&.accent --count-bg:$ui-accent --count-text:$ui-accent-text
 			&.success --count-bg:$ui-success --count-text:white
 			&.warning --count-bg:#f59e0b --count-text:#451a03
 			&.neutral --count-bg:$ui-text --count-text:$ui-surface
 			&.dot min-width:0 w:10px h:10px p:0
+			# A copy of the badge's colour that grows and fades behind it.
+			&.pulse@after content:'' pos:absolute inset:0 zi:-1 rd:full bg:inherit animation:ui-pulse 1.6s cubic-bezier(0, 0, 0.2, 1) infinite
 		&.sm .badge min-width:16px h:16px fs:10px px:1
 			&.dot w:8px h:8px
 		# A dot sits a little inside an icon button's corner.

@@ -18,6 +18,7 @@ if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 		'[data-scope][hidden] { display: none !important; }'
 		'[data-scope]:focus:not(:focus-visible) { outline: none; }'
 		'@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
+		'@media (prefers-reduced-motion: reduce) { [data-ui-pulse]::after { animation: none !important; } }'
 	].join('\n')
 	document.head.appendChild(style)
 
