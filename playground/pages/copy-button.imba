@@ -1,7 +1,7 @@
 import source from './copy-button.imba?raw'
 
 tag page-copy-button
-	link = 'https://tutor.app/book/ada-lovelace'
+	link = 'https://example.com/book/ada-lovelace'
 	code = 'TUT-4821-XQ'
 	copies = 0
 
