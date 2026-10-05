@@ -302,3 +302,23 @@ source a click away, to copy as a starting point:
 npm install
 npm run dev   # playground
 ```
+
+## Deploy the playground
+
+`npm run build` writes a static, client-side site to `playground/dist`, which
+any static host can serve. On **Cloudflare Pages**:
+
+1. In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect
+   to Git**, and pick this repository.
+2. Build command `npm run build`, build output directory `playground/dist`
+   (framework preset: none). `.nvmrc` sets Node 22.
+3. Deploy. Every push to `main` redeploys; other branches get preview URLs.
+
+There's no `404.html`, so Pages serves `index.html` for every path, which the
+playground's router needs. To keep it private, put **Cloudflare Access** (Zero
+Trust → Access → Applications) in front of the site: sign-in by email code or
+Google/GitHub, free for up to 50 users.
+
+Elsewhere (e.g. Netlify), add an SPA fallback: a `playground/public/_redirects`
+file containing `/* /index.html 200`.
+
