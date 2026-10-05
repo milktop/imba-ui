@@ -1,5 +1,7 @@
 import '@fontsource-variable/inter'
 import '@fontsource-variable/plus-jakarta-sans'
+import '@fontsource-variable/geist'
+import '@fontsource-variable/dm-sans'
 
 # The playground's appearance switcher: theme, accent, font, radius and
 # density, all by overriding the library's $ui-* tokens on <html>, which is
@@ -7,7 +9,9 @@ import '@fontsource-variable/plus-jakarta-sans'
 
 # Each accent has light and dark values for the accent tokens and focus ring.
 export const accents = {
+	blue: { name: 'Blue', light: ['#2563eb', 'white', '#dbeafe', '#1e40af', '#3b82f6'], dark: ['#3b82f6', 'white', '#1e3a8a', '#bfdbfe', '#60a5fa'] }
 	indigo: { name: 'Indigo', light: ['#4f46e5', 'white', '#e0e7ff', '#3730a3', '#6366f1'], dark: ['#6366f1', 'white', '#312e81', '#c7d2fe', '#818cf8'] }
+	violet: { name: 'Violet', light: ['#7c3aed', 'white', '#ede9fe', '#5b21b6', '#8b5cf6'], dark: ['#8b5cf6', 'white', '#4c1d95', '#ddd6fe', '#a78bfa'] }
 	teal: { name: 'Teal', light: ['#0d9488', 'white', '#ccfbf1', '#115e59', '#14b8a6'], dark: ['#14b8a6', '#042f2e', '#134e4a', '#99f6e4', '#2dd4bf'] }
 	emerald: { name: 'Emerald', light: ['#059669', 'white', '#d1fae5', '#065f46', '#10b981'], dark: ['#10b981', '#022c22', '#064e3b', '#a7f3d0', '#34d399'] }
 	amber: { name: 'Amber', light: ['#d97706', 'white', '#fef3c7', '#92400e', '#f59e0b'], dark: ['#f59e0b', '#451a03', '#451a03', '#fde68a', '#fbbf24'] }
@@ -19,6 +23,8 @@ export const fonts = {
 	system: { name: 'System', family: 'system-ui, sans-serif' }
 	inter: { name: 'Inter', family: "'Inter Variable', system-ui, sans-serif" }
 	jakarta: { name: 'Jakarta', family: "'Plus Jakarta Sans Variable', system-ui, sans-serif" }
+	geist: { name: 'Geist', family: "'Geist Variable', system-ui, sans-serif" }
+	dm: { name: 'DM Sans', family: "'DM Sans Variable', system-ui, sans-serif" }
 }
 
 export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], round: ['Round', '12px'] }
@@ -27,10 +33,20 @@ export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], rou
 export const densities = { compact: ['Compact', '2rem', '1.75rem', '2.5rem'], default: ['Default', '2.25rem', '2rem', '2.75rem'], comfortable: ['Roomy', '2.5rem', '2.25rem', '3rem'] }
 
 export const layouts = { full: ['Full'], inset: ['Inset'] }
+
+# Light-mode backgrounds (dark mode keeps its own layers): the canvas, and
+# the inset sidebar's shade of it (or white). [label, canvas, sidebar shade]
+export const canvases = {
+	cool: ['Cool', '#f2f4f7', '#f8f9fb']
+	warm: ['Warm', '#f4f3ef', '#faf9f6']
+	tinted: ['Tinted', 'color-mix(in oklab, var(--ui-accent) 4%, #f4f5f7)', 'color-mix(in oklab, var(--ui-accent) 2%, #fafafb)']
+	white: ['White', '#ffffff', '#ffffff']
+}
+export const sidebars = { shaded: ['Shaded'], white: ['White'] }
 export const aligns = { center: ['Centred'], start: ['Left'] }
 export const widths = { auto: ['Auto'], default: ['Default'], wide: ['Wide'], full: ['Full'] }
 
-export const defaults = { scheme: 'system', accent: 'indigo', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full' }
+export const defaults = { scheme: 'system', accent: 'indigo', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full', canvas: 'cool', sidebar: 'shaded' }
 
 # Versioned, so changed defaults reach browsers that saved older settings.
 const storageKey = 'imba-ui-playground-appearance-v2'
@@ -69,6 +85,14 @@ export def applyAppearance state
 		'--ui-control-height-lg': lg
 	}
 	root.style.setProperty(name, value) for own name, value of tokens
+	# Backgrounds: light mode only, so dark mode's own values apply there.
+	let [_label, canvas, shade] = canvases[state.canvas] or canvases.cool
+	if dark
+		root.style.removeProperty('--ui-canvas')
+		root.style.removeProperty('--ui-sidebar-bg')
+	else
+		root.style.setProperty('--ui-canvas', canvas)
+		root.style.setProperty('--ui-sidebar-bg', state.sidebar == 'white' ? '#ffffff' : shade)
 	document.body.style.fontFamily = (fonts[state.font] or fonts.system).family
 	# The shell reads this for its `inset` prop.
 	root.dataset.layout = state.layout or 'full'
@@ -83,6 +107,8 @@ tag appearance-panel
 	fontItems = options(fonts)
 	radiusItems = options(radii)
 	layoutItems = options(layouts)
+	canvasItems = options(canvases)
+	sidebarItems = options(sidebars)
 	alignItems = options(aligns)
 	widthItems = options(widths)
 	densityItems = options(densities)
@@ -107,7 +133,12 @@ tag appearance-panel
 
 	css
 		d:block
-		.rows d:vflex g:4
+		# Two columns of settings in a wider panel (one on phones).
+		>>> .content w:min(40rem, calc(100vw - 32px)) max-height:calc(100vh - 80px) ofy:auto
+		.rows d:grid gtc:1fr @sm:1fr 1fr g:4 cg:6 ai:start
+		# Fields span the 12-column ui-fields grid by default; here, one cell each.
+		.rows > ui-field gc:auto
+		.footer gc:1 / -1
 		.swatches d:flex flw:wrap g:2
 		.swatch w:7 h:7 p:0 rd:full bd:2px solid $ui-surface cursor:pointer outline:1px solid $ui-border
 			@hover outline-color:$ui-muted
@@ -126,11 +157,15 @@ tag appearance-panel
 						for own key, accent of accents
 							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[isDark(state) ? 'dark' : 'light'][0]}] @click=update(accent: key)>
 				<ui-field label='Font'>
-					<ui-segmented items=fontItems value=state.font @change=update(font: e.detail)>
+					<ui-select size='sm' items=fontItems value=state.font @change=update(font: e.detail)>
 				<ui-field label='Radius'>
 					<ui-segmented items=radiusItems value=state.radius @change=update(radius: e.detail)>
 				<ui-field label='Layout' hint='ui-app-shell’s inset option'>
 					<ui-segmented items=layoutItems value=state.layout @change=update(layout: e.detail)>
+				<ui-field label='Background' hint='$ui-canvas, in light mode'>
+					<ui-segmented items=canvasItems value=state.canvas @change=update(canvas: e.detail)>
+				<ui-field label='Sidebar' hint='$ui-sidebar-bg (inset layout)'>
+					<ui-segmented items=sidebarItems value=state.sidebar @change=update(sidebar: e.detail)>
 				<ui-field label='Width' hint='ui-page’s width (Auto: blocks wide)'>
 					<ui-segmented items=widthItems value=state.width @change=update(width: e.detail)>
 				<ui-field label='Page' hint='ui-page’s align, for capped pages'>
