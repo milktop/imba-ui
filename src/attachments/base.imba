@@ -37,6 +37,7 @@ tag ui-attachments-base
 
 	previewing = null
 	dragging = no
+	addWide = no
 	rejected = []
 	previewOpen = no
 	#urls = new WeakMap
@@ -146,6 +147,26 @@ tag ui-attachments-base
 		dragging = no
 		addFiles(Array.from(e.dataTransfer.files or []))
 
+	# The add tile would start a row on its own when the files fill their rows;
+	# then it becomes a slim full-width row instead of a big empty tile. The
+	# column count is read off the grid, so it works for auto-fit grids too.
+	def mount
+		#observer = new ResizeObserver(do checkAddRow!)
+		#observer.observe(self)
+
+	def unmount
+		#observer..disconnect!
+
+	def rendered do checkAddRow!
+
+	def checkAddRow
+		return unless $files
+		let columns = layout == 'grid' ? globalThis.getComputedStyle($files).gridTemplateColumns.split(' ').filter(Boolean).length : 0
+		let wide = !!columns and list.length > 0 and list.length % columns == 0
+		return if wide == addWide
+		addWide = wide
+		render!
+
 	def open entry
 		if entry.image and entry.url
 			previewing = entry
@@ -153,10 +174,10 @@ tag ui-attachments-base
 		elif entry.url
 			globalThis.open(entry.url, '_blank', 'noopener')
 
-	<self .{layout} .empty=!list.length .dragging=dragging .fixed=!!columns style=(columns ? "--columns: {columns}" : undefined) @dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
+	<self .{layout} .empty=!list.length .add-wide=addWide .dragging=dragging .fixed=!!columns style=(columns ? "--columns: {columns}" : undefined) @dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
 		if !list.length and !addable and emptyText
 			<p.empty> emptyText
-		<ul.files>
+		<ul$files.files>
 			for entry in list
 				<li.file>
 					<button.open type='button' aria-label="Open {entry.name}" @click=open(entry)>

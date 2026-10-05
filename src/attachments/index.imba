@@ -46,6 +46,12 @@ tag ui-attachments < ui-attachments-base
 			@hover bc:$ui-muted bg:$ui-surface
 		&.grid .add-text ai:center g:0.5
 		&.grid .add-icon w:9 h:9 rd:full bg:$ui-hover
+		# On a row of its own, the add tile is a slim full-width row.
+		&.grid.add-wide .files gar:auto
+		&.grid.add-wide .add gc:1 / -1
+		&.grid.add-wide .add-tile fld:row min-height:12 h:auto py:2.5 g:3
+		&.grid.add-wide .add-icon w:7 h:7
+		&.grid.add-wide .add-text fld:row g:2 ai:baseline
 		# With nothing yet, the grid's add tile is a full-width dropzone (the list
 		# keeps its usual add row).
 		&.grid.empty .add gc:1 / -1
