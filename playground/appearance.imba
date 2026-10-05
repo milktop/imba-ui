@@ -39,7 +39,7 @@ export const layouts = { full: ['Full'], inset: ['Inset'] }
 export const canvases = {
 	cool: ['Cool', '#f2f4f7', '#f8f9fb']
 	warm: ['Warm', '#f4f3ef', '#faf9f6']
-	tinted: ['Tinted', 'color-mix(in oklab, var(--ui-accent) 4%, #f4f5f7)', 'color-mix(in oklab, var(--ui-accent) 2%, #fafafb)']
+	tinted: ['Tinted', 'color-mix(in oklab, var(--ui-accent) 2.5%, #f6f7f9)', 'color-mix(in oklab, var(--ui-accent) 1.2%, #fbfbfc)']
 	white: ['White', '#ffffff', '#ffffff']
 }
 export const sidebars = { shaded: ['Shaded'], white: ['White'] }
