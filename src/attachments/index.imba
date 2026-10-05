@@ -46,9 +46,10 @@ tag ui-attachments < ui-attachments-base
 			@hover bc:$ui-muted bg:$ui-surface
 		&.grid .add-text ai:center g:0.5
 		&.grid .add-icon w:9 h:9 rd:full bg:$ui-hover
-		# With nothing yet, the add tile is a full-width dropzone.
-		&.empty .add gc:1 / -1
-		&.empty .add-tile min-height:28
+		# With nothing yet, the grid's add tile is a full-width dropzone (the list
+		# keeps its usual add row).
+		&.grid.empty .add gc:1 / -1
+		&.grid.empty .add-tile min-height:28
 
 		# List: rows with a small preview, the name and size, and the actions.
 		&.list .files d:flex fld:column bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-card-shadow of:hidden

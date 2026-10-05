@@ -8,6 +8,8 @@ import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 #
 # - `items`: strings or objects (see `labelKey`, `valueKey`, `disabledKey`)
 # - `name`: the hidden radios also post with plain forms
+# - an item's `icon` (Iconify) shows before its label; `iconOnly` keeps the
+#   labels for assistive tech but shows just the icons
 #
 # Emits `change` with the selected item's original value.
 tag ui-segmented-base < ui-control
@@ -19,6 +21,7 @@ tag ui-segmented-base < ui-control
 	prop disabledKey = 'disabled'
 	prop name = null
 	prop disabled = false
+	prop iconOnly = false
 
 	zagId = uid('segmented')
 
@@ -58,6 +61,8 @@ tag ui-segmented-base < ui-control
 				<span.indicator zag=api.getIndicatorProps!>
 				for item in items
 					let props = { value: itemKey(item, valueKey), disabled: itemDisabled(item, disabledKey) }
-					<label.item zag=api.getItemProps(props)>
-						<span.item-text zag=api.getItemTextProps(props)> itemLabel(item, labelKey)
+					<label.item .icon-only=iconOnly zag=api.getItemProps(props)>
+						<span.item-text zag=api.getItemTextProps(props)>
+							<iconify-icon.item-icon icon=item.icon aria-hidden='true'> if item..icon
+							<span.item-label .visually-hidden=iconOnly> itemLabel(item, labelKey)
 						<input zag=api.getItemHiddenInputProps(props) @change.stop>

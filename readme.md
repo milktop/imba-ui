@@ -40,7 +40,7 @@ package adds Imba markup and an optional theme.
 | Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range |
 | Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions |
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
-| Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection |
+| Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |

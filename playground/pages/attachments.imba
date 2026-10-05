@@ -15,6 +15,8 @@ tag page-attachments
 		{ name: 'Revision notes.docx', size: 132000 }
 	]
 	docs = files.slice(3)
+	view = 'grid'
+	views = [{ value: 'grid', label: 'Grid', icon: 'lucide:layout-grid' }, { value: 'list', label: 'List', icon: 'lucide:list' }]
 	photos = []
 	rejects = []
 	removed = null
@@ -33,8 +35,14 @@ tag page-attachments
 					<json-print data={ photos: photos.map(do $1.name), rejects }>
 					<p.note> "Drag files onto it, or use the tile: images or PDFs, up to 2 MB each, at most 3. Files that don’t fit are listed with the reason."
 
+			<demo-section heading='Switching layout'>
+				<p.note> "The layout is the app’s choice: here a segmented control (icons only) is bound to `layout`."
+				<ui-segmented items=views iconOnly label='Layout' bind=view>
+				<ui-attachments layout=view items=files.slice(0, 5) removable>
+
 			<demo-section heading='List'>
 				<ui-attachments layout='list' items=docs removable addable addLabel='Attach a file'>
+				<ui-attachments layout='list' items=[] addable addLabel='Attach a file'>
 
 			<demo-section heading='Read only, three per row'>
 				<ui-attachments columns=3 items=[
