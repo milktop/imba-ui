@@ -1,4 +1,5 @@
 import { icons } from '../icons.imba'
+import 'iconify-icon'
 
 # Headless stat: a headline number with its label, e.g. on a dashboard.
 #

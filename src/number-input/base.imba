@@ -2,6 +2,7 @@ import * as numberInput from '@zag-js/number-input'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
+import 'iconify-icon'
 
 # Headless number input: a text input with decrement/increment buttons,
 # arrow-key and Shift stepping, clamping to `min`/`max` on blur, and

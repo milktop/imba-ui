@@ -1,5 +1,6 @@
 import { icons } from '../icons.imba'
 import '../dialog/base.imba'
+import 'iconify-icon'
 
 # Headless attachments: the files added to a page or form, as a grid of
 # tiles (image thumbnails, or an icon and the extension) or a compact list.

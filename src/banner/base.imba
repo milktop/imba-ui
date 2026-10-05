@@ -1,4 +1,5 @@
 import { icons } from '../icons.imba'
+import 'iconify-icon'
 
 # Headless banner: a slim, prominent strip for an announcement or a
 # page-wide message, e.g. across the top of the content.

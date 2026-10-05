@@ -1,6 +1,7 @@
 import * as menu from '@zag-js/menu'
 import { Machine, Presence, uid, defined } from '../zag.imba'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
+import 'iconify-icon'
 
 # Headless dropdown menu of actions from a trigger.
 #

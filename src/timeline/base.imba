@@ -1,3 +1,4 @@
+import 'iconify-icon'
 # Headless timeline: events down a line, newest or oldest first, e.g. a
 # student's history.
 #

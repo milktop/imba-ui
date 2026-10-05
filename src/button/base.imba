@@ -1,3 +1,4 @@
+import 'iconify-icon'
 # Headless button. Extending `button` makes the element a real <button>, so
 # aria-label, type, disabled, form attributes and events work natively, and
 # tooltips and popovers can use it as their trigger.

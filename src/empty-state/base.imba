@@ -1,3 +1,4 @@
+import 'iconify-icon'
 # Headless empty state: what to show where a list or page has nothing yet.
 #
 # - `icon`: an Iconify name; `heading`, `description`

@@ -112,6 +112,11 @@ New components follow the same pattern: add both files, an entry in
   Pass `invalid: !!#field..invalid`, `ids: fieldIds(self)` and `disabled: disabled
   or #locked` to Zag, skip the own label when the field has one (checkbox and
   switch keep theirs), and spread `describe(props)` onto the focusable control.
+- **Icons:** a base file that renders `<iconify-icon>` imports `'iconify-icon'`
+  itself (a dependency), so apps never have to.
+- **Tokens:** a new `$ui-*` token goes in `theme.imba` (with a dark value if it
+  needs one) and in the readme's Theming table; the playground's Theming
+  page reads them from `theme.imba`.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 
@@ -139,4 +144,5 @@ won't run while the tab is hidden. The browser tool's `type` inserts a whole
 string as one input event (type a tag and its comma separately); file inputs
 are simulated by setting `input.files` and dispatching `input`.
 
-Build check: `npx vite build playground`.
+Build check: `npx vite build playground` (CI runs `npm run build` on every
+push). Releases: bump `package.json`, add a CHANGELOG entry, tag `vX.Y.Z`.

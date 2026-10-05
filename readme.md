@@ -4,6 +4,9 @@ Imba components built on [Zag](https://zagjs.com) state machines. Zag handles
 state, keyboard navigation, focus, ARIA, positioning and dismissal; this
 package adds Imba markup and an optional theme.
 
+**Playground:** https://imba-ui.pages.dev, with every component, its props and
+code, and some composed screens (blocks).
+
 | Component | Tag | Notes |
 | --- | --- | --- |
 | Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
@@ -62,13 +65,17 @@ package adds Imba markup and an optional theme.
 ## Install
 
 The package ships Imba source, so the consuming app compiles it. That works with
-the Vite plugin from `@milktop/inertia-imba`.
+the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
+GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui
+npm install github:milktop/imba-ui#v0.1.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```
+
+To upgrade, install the newer tag. Until 1.0, a minor version (0.2) may
+change props or markup; patch versions (0.1.1) only fix things.
 
 Keep Vite's dependency optimiser away from the `.imba` source:
 
@@ -80,6 +87,9 @@ export default defineConfig({
 ```
 
 ## Use
+
+Import each component you use (or everything at once, with
+`import '@milktop/imba-ui'`), once, e.g. in the app's entry:
 
 ```imba
 import '@milktop/imba-ui/date-picker'
@@ -124,8 +134,7 @@ the default with any other control.
 
 `ui-input` takes the same props. `attrs` passes any other attributes to the
 input, e.g. `attrs={ inputmode: 'decimal' }`. `icon` is an [Iconify](https://iconify.design)
-name and needs `import 'iconify-icon'` in the app; the built-in components
-don't use it. For anything else before or after the input, use the slots:
+name (see Icons, under Theming). For anything else before or after the input, use the slots:
 
 ```imba
 <ui-input type=(show ? 'text' : 'password') icon='lucide:key' bind=password>
@@ -227,17 +236,93 @@ commands = [
 
 ## Theming
 
-Styled components read `$ui-*` tokens from `src/theme.imba`: colours (`$ui-accent`
-for primary buttons and selections, `$ui-danger`, `$ui-ring`…), `$ui-radius`,
-and `$ui-control-height` (with `-sm`/`-lg`), which buttons and inputs share so
-they line up. Override them globally, e.g. to map onto an app's own tokens:
+Styled components read `$ui-*` tokens, set in `src/theme.imba`. They're
+ordinary CSS custom properties (`$ui-accent` is `--ui-accent`), so you can set
+them from Imba CSS or plain CSS, for the whole app or for part of it. The
+playground's **Theming** page lists every token with its light and dark
+default, and builds an override snippet from a colour you pick.
+
+| Tokens | What they style |
+| --- | --- |
+| `$ui-text`, `$ui-muted` | Text, and secondary text (hints, labels) |
+| `$ui-surface`, `$ui-border`, `$ui-hover` | Cards, inputs and popups; their borders; hovered rows and items |
+| `$ui-canvas`, `$ui-sidebar-bg`, `$ui-frame` | The app shell: the page behind cards, the sidebar, the frame round an inset layout |
+| `$ui-accent`, `$ui-accent-text` | Primary buttons, selections, checked controls; text on them |
+| `$ui-accent-soft`, `$ui-accent-soft-text` | Soft buttons, accent badges, highlighted items |
+| `$ui-ring`, `$ui-ring-soft` | Focus rings and outlines |
+| `$ui-danger`, `$ui-success` | Errors and destructive actions; positive changes |
+| `$ui-chart-1` … `$ui-chart-5` | Chart series, in order (the first follows the accent) |
+| `$ui-skeleton` | Loading placeholders |
+| `$ui-radius` | Corner rounding (cards and popups add a little to it) |
+| `$ui-font` | The components' font (`inherit` by default, so they use the app's) |
+| `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
+| `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
+| `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
+
+### Brand the app
+
+Set tokens in your app's root CSS. An accent comes with four companions:
+a soft tint, text for on the tint, and the focus ring. `color-mix` can derive
+them from one colour:
+
+```imba
+global css
+	@root
+		$ui-accent:#e11d48
+		$ui-accent-soft:color-mix(in srgb, $ui-accent 15%, white)
+		$ui-accent-soft-text:color-mix(in srgb, $ui-accent 70%, black)
+		$ui-ring:$ui-accent
+		$ui-ring-soft:color-mix(in srgb, $ui-accent 25%, transparent)
+		$ui-radius:10px
+		$ui-font:'Inter Variable', system-ui, sans-serif
+	html.dark, [data-theme=dark]
+		$ui-accent-soft:color-mix(in srgb, $ui-accent 30%, black)
+		$ui-accent-soft-text:color-mix(in srgb, $ui-accent 35%, white)
+```
+
+**Set dark values too.** Dark mode applies under `html.dark` or
+`[data-theme=dark]`, and the library's own dark values there are more specific
+than `@root`. So a colour you only set in `@root` is replaced by the library's in
+dark mode. Override it in both places, as above. Radius, font and sizes aren't
+redefined for dark mode, so `@root` alone is enough for them. Your `html.dark`
+rules match the library's exactly, so the later one wins: import the
+components before your own styles.
+
+Or map the tokens onto a design system you already have:
 
 ```imba
 global css @root
-	$ui-accent:$focus $ui-surface:$surface $ui-border:$border
+	$ui-accent:$brand $ui-surface:$card $ui-border:$line $ui-font:$body-font
 ```
 
-Dark values apply under `html.dark` or `[data-theme=dark]`.
+### Theme part of a page
+
+Set tokens on any element and they apply to everything inside it, which is
+useful for a differently branded section or a denser admin panel:
+
+```imba
+css .billing $ui-accent:#059669 $ui-accent-soft:#d1fae5 $ui-accent-soft-text:#065f46
+css .dense $ui-control-height:2rem $ui-radius:4px
+```
+
+One catch: a token derived with `color-mix` at `@root` is resolved there.
+Redefine the derived ones alongside the accent wherever you scope it, as above.
+
+### Beyond tokens
+
+- One component's look: style its parts from your CSS. Parts have classes
+  (`.badge`, `.control`, `.item`) and Zag's `data-part` and state attributes,
+  e.g. `ui-button .badge`. Some components expose their own variables
+  (ui-button's `--ui-button-count-bg`).
+- A different look altogether: subclass the headless tag (next section).
+
+### Icons
+
+Components show [Iconify](https://iconify.design) icons through the
+`iconify-icon` element, which comes with the package. Pass any Iconify name
+(`icon='lucide:calendar'`). Icons load on demand from the Iconify API, so a
+strict Content Security Policy needs to allow `https://api.iconify.design`.
+Offline apps can register icon sets locally (see `iconify-icon`'s docs).
 
 ## Headless use and custom styles
 

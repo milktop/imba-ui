@@ -2,6 +2,7 @@ import * as radio from '@zag-js/radio-group'
 import { Machine, uid } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
+import 'iconify-icon'
 
 # Headless segmented control: a row of options with an indicator that slides
 # to the selected one (Zag's radio group, so arrow keys move the selection).

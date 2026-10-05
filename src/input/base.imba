@@ -1,10 +1,10 @@
 import '../control.imba'
+import 'iconify-icon'
 
 # Headless text input: a box holding a native <input>, with optional content
 # before and after it.
 #
-# - `icon`: an Iconify name (e.g. 'lucide:mail') shown before the input; the
-#   app must import 'iconify-icon' for it to render
+# - `icon`: an Iconify name (e.g. 'lucide:mail') shown before the input
 # - `prefix` / `suffix`: text before or after the input (e.g. '£', 'kg')
 # - `prefix` / `suffix` slots replace those for anything else, like buttons
 # - `min`, `max`, `step`: as on a native input

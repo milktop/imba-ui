@@ -1,5 +1,6 @@
 import { icons } from '../icons.imba'
 import '../popover/base.imba'
+import 'iconify-icon'
 
 # Headless breadcrumbs: where the current page sits, as a trail of links.
 #

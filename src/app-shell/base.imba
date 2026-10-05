@@ -2,6 +2,7 @@ import { icons } from '../icons.imba'
 import '../tooltip/base.imba'
 import '../menu/base.imba'
 import '../avatar/base.imba'
+import 'iconify-icon'
 
 # Headless app layout: a sidebar with the logo and navigation, a top bar and
 # the page.

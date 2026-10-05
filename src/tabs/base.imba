@@ -1,5 +1,6 @@
 import * as zagTabs from '@zag-js/tabs'
 import { Machine, uid, defined } from '../zag.imba'
+import 'iconify-icon'
 
 # Headless tabs: <ui-tab> children are the panels, and the tab list is built
 # from their labels.

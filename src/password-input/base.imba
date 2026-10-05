@@ -1,6 +1,7 @@
 import * as zagPassword from '@zag-js/password-input'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
+import 'iconify-icon'
 
 # Headless password input with a show/hide button.
 #

@@ -4,6 +4,7 @@ import { Placeholder, CharacterCount } from '@tiptap/extensions'
 import { RichImage } from './image.js'
 import { closestField } from '../control.imba'
 import '../popover/base.imba'
+import 'iconify-icon'
 
 # Headless rich text editor on TipTap (ProseMirror): a toolbar over an
 # editable area whose value is HTML.

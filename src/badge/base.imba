@@ -1,3 +1,4 @@
+import 'iconify-icon'
 # Headless badge: a short label like a status or count.
 #
 # - `variant`: 'neutral' (default), 'accent', 'success', 'warning', 'danger'

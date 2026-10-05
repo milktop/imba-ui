@@ -2,6 +2,7 @@ import * as dialog from '@zag-js/dialog'
 import * as listbox from '@zag-js/listbox'
 import { Machine, Presence, uid, defined } from '../zag.imba'
 import { icons } from '../icons.imba'
+import 'iconify-icon'
 
 # Headless command menu (⌘K): a dialog with a search box over a list of
 # commands, filtered as you type.
