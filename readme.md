@@ -328,5 +328,21 @@ file from `playground/public/_headers`. To make it private instead, turn on
 method under Zero Trust → Settings → Authentication (One-time PIN needs no
 setup); free for up to 50 users.
 
+**Cloudflare Pages** instead serves a custom subdomain whose DNS is hosted
+elsewhere (Workers custom domains need the zone on Cloudflare):
+
+1. **Workers & Pages → Create**, then the Pages option ("Looking to deploy
+   Pages? Get started") → **Import an existing Git repository**, and pick
+   this one.
+2. Framework preset None; build command `npm run build`; build output
+   directory `playground/dist`. `.nvmrc` sets Node 22.
+3. Deploy, then **Custom domains → Set up a custom domain** (e.g.
+   `ui.milktop.co.uk`), and add the CNAME it asks for at your DNS host:
+   `ui  CNAME  <project>.pages.dev`.
+
+Pages needs no extra config: with no top-level `404.html` it serves
+`index.html` for unknown paths, `_headers` applies as above, and it ignores
+`wrangler.jsonc` (which has no `pages_build_output_dir`).
+
 Elsewhere (e.g. Netlify), add an SPA fallback: a `playground/public/_redirects`
 file containing `/* /index.html 200`.
