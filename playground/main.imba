@@ -216,12 +216,12 @@ tag playground
 				<span.mark slot='logo-collapsed'> "UI"
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
-				<ui-nav-section heading='Components' collapsible>
+				<ui-nav-section heading='Components'>
 					for group in groups
 						<ui-nav-group key=group.title label=group.title icon=group.icon open=group.pages.some(do $1.path == router.pathname)>
 							for page in group.pages
 								<ui-nav-item key=page.path href=page.path active=(router.pathname == page.path)> page.title
-				<ui-nav-section heading='Blocks' collapsible>
+				<ui-nav-section heading='Blocks'>
 					for group in ['Sections', 'Pages']
 						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=blocks.some(do $1.group == group and $1.path == router.pathname)>
 							for block in blocks.filter(do $1.group == group)
