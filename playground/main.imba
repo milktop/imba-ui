@@ -24,6 +24,7 @@ import './pages/collapsible.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
 import './pages/textarea.imba'
+import './pages/editor.imba'
 import './pages/password-input.imba'
 import './pages/pin-input.imba'
 import './pages/slider.imba'
@@ -86,6 +87,7 @@ const groups = [
 		{ path: '/password-input', title: 'Password input', about: 'Show/hide, new or current password' }
 		{ path: '/number-input', title: 'Number input', about: 'Steppers, clamping, formatting' }
 		{ path: '/textarea', title: 'Textarea', about: 'Grows with its content' }
+		{ path: '/editor', title: 'Editor', about: 'Rich text on TipTap' }
 		{ path: '/tags-input', title: 'Tags input', about: 'Free-form tags' }
 		{ path: '/pin-input', title: 'Pin input', about: 'Codes, one box per character' }
 		{ path: '/slider', title: 'Slider', about: 'Single values and ranges' }
@@ -261,6 +263,7 @@ tag playground
 				<page-input route='/input'>
 				<page-number-input route='/number-input'>
 				<page-textarea route='/textarea'>
+				<page-editor route='/editor'>
 				<page-password-input route='/password-input'>
 				<page-pin-input route='/pin-input'>
 				<page-slider route='/slider'>

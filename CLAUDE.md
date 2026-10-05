@@ -110,6 +110,10 @@ New components follow the same pattern: add both files, an entry in
   maths, measure their width with a ResizeObserver (so text isn't stretched),
   and share their styles through `global css` under `[data-ui-chart]`. Imba's
   CSS has no container queries; inject plain rules like `ui-stats` does.
+- **The editor** (`src/editor/`) wraps TipTap 3 (`@tiptap/core`, StarterKit,
+  `@tiptap/extensions`). ProseMirror owns the editable DOM (an empty `$content`
+  element in the template), so its content is styled through `>>>`; the
+  instance is `el.editor`, and re-renders come from its `onTransaction`.
 - **Layout parts** (ui-sidebar, ui-nav-item, …) find their shell by walking up
   (`closestWith(self, 'isUiAppShell')`) and carry `data-ui-shell-part`; the
   shell re-renders them directly on changes, since they're rendered by the app.
