@@ -13,11 +13,14 @@ import '../popover/base.imba'
 # controls; `change` emits the HTML ('' when empty) as you type. Inside a
 # ui-field it takes the field's label, hint and error.
 #
+# - `value`: the HTML ('' when empty)
 # - `tools`: which toolbar buttons, in order ('|' for a divider): bold,
 #   italic, underline, strike, code, h2, h3, bulletList, orderedList,
-#   blockquote, link, undo, redo; `toolbar` false hides it
-# - `placeholder`; `maxLength`: a character limit, with a counter
-# - `minHeight`, `maxHeight` (CSS lengths; it scrolls past maxHeight)
+#   blockquote, link, undo, redo
+# - `toolbar`: false hides the toolbar
+# - `placeholder`: shown while it's empty
+# - `maxLength`: a character limit, with a counter
+# - `minHeight`, `maxHeight`: CSS lengths; it scrolls past maxHeight
 # - `disabled`: read only
 #
 # Keyboard shortcuts are TipTap's (⌘B, ⌘I, ⌘U, ⌘⇧7/8 for lists, ⌘Z…).

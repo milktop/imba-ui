@@ -1,4 +1,16 @@
 # Shared pieces for the playground pages.
+import './api.imba'
+
+# Pages whose path isn't their component's folder (or covers several).
+const apiAliases = {
+	'/charts': 'chart'
+	'/menu': ['menu', 'context-menu']
+	'/table': ['table', 'pagination']
+	'/checkbox': ['checkbox', 'checkbox-group']
+	'/stat': 'stat'
+	'/fields': ['fields', 'field']
+	'/toast': 'toast'
+}
 
 export const subjects = [
 	{ value: 1, label: 'Maths' }
@@ -121,13 +133,30 @@ tag demo-page
 	# The page's own source (`import source from './x.imba?raw'`), for the
 	# sections' code toggles.
 	prop source = ''
+	# The component folders whose API the Props panel shows; by default the
+	# page's own path (/date-picker → date-picker).
+	prop api = null
+	showApi = no
+
+	get apiNames do [].concat(api ?? (apiAliases[router.pathname] or router.pathname.slice(1)))
+
 	css
 		d:block
+		.title d:flex ai:center jc:space-between g:4
 		h1 fs:xl fw:700 m:0
 		.intro m:0 mt:1 c:$ui-muted fs:sm
+		.api-toggle d:inline-flex ai:center g:1.5 h:7 px:2 bd:1px solid transparent bg:transparent c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer fls:0
+			@hover c:$ui-text bg:$ui-hover
+			&.on c:$ui-text bc:$ui-border bg:$ui-surface
+		api-panel mt:5
 	<self>
-		<h1> heading
+		<div.title>
+			<h1> heading
+			<button.api-toggle .on=showApi aria-pressed=String(showApi) @click=(showApi = !showApi)>
+				<iconify-icon icon='lucide:list-tree'>
+				"Props"
 		<p.intro> intro if intro
+		<api-panel names=apiNames> if showApi
 		<slot>
 
 tag demo-section

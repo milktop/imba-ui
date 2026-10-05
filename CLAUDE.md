@@ -22,6 +22,11 @@ and the Zag/Imba lessons below in more detail.
   tag per file, listed and routed from `blocks.imba` (their Code view shows the
   whole file)
 
+Each component page has a **Props** panel (`playground/api.imba`) read from
+its base file: the `prop` lines (with defaults), `emit(...)` calls, `<slot>`s,
+and the doc comment's bullets. Write those as one bullet per prop (or a few
+related ones), starting with the names: ``- `name`: what it does``.
+
 New components follow the same pattern: add both files, an entry in
 `package.json` `exports` (`./<name>` and `./<name>/base`), an import in
 `src/index.imba`, a playground page (`pages/<name>.imba`, plus an entry in
