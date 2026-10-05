@@ -16,7 +16,7 @@ package adds Imba markup and an optional theme.
 | Charts | `<ui-area-chart>`, `<ui-bar-chart>`, `<ui-sparkline>` | SVG drawn by Imba with d3 for the maths: one or more series, stacked or not, tooltips, legends, theme colours (`$ui-chart-1…5`) |
 | Timeline | `<ui-timeline>` (+ `<ui-timeline-item>`) | Events down a line with icon or dot markers, colours, times; line or cards |
 | Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header, sizes sm/md/lg, `flush` inside cards; or style a `<table>` written inside |
-| Pagination | `<ui-pagination>` | Previous/next and page numbers with ellipses, optional "11–20 of 95" summary; binds `page` |
+| Pagination | `<ui-pagination>` | Previous/next (optionally first/last) and page numbers with ellipses, optional "Showing 11–20 of 95 students" summary; binds `page` |
 | Alert | `<ui-alert>` | In-page message: info, success, warning, danger; actions, dismissible |
 | Banner | `<ui-banner>` | Slim announcement strip: accent, soft, neutral, success, warning, danger; icon, actions, dismissible, edge to edge |
 | Skeleton | `<ui-skeleton>` | Loading placeholders: blocks, circles, text lines |

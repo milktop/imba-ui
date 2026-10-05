@@ -10,7 +10,9 @@ import { icons } from '../icons.imba'
 # - `count`: the number of items; `pageSize` per page (10)
 # - `page`: the current page, from 1; bindable (`bind=` or `bind:page=`)
 # - `siblingCount`: pages shown either side of the current one (1)
-# - `summary`: shows "11–20 of 95" alongside
+# - `summary`: shows "Showing 11–20 of 95" alongside; `noun` names the
+#   items ("Showing 11–20 of 95 students")
+# - `firstLast`: buttons for the first and last page too
 # - `label`: the nav's accessible name
 #
 # Emits `change` with the new page. Slice your rows with `rowsFor(list)`, or
@@ -21,6 +23,8 @@ tag ui-pagination-base
 	prop page = 1
 	prop siblingCount = 1
 	prop summary = false
+	prop noun = null
+	prop firstLast = false
 	prop label = 'Pagination'
 
 	zagId = uid('pagination')
@@ -65,8 +69,10 @@ tag ui-pagination-base
 		<self>
 			<nav.root zag=api.getRootProps! aria-label=label>
 				if summary
-					<span.summary> "{from}–{to} of {count}"
+					<span.summary> "Showing {from}–{to} of {count}{noun ? ' ' + noun : ''}"
 				<div.pages>
+					if firstLast
+						<button.nav-button zag=api.getFirstTriggerProps!> <ui-icon path=icons.firstPage size=16>
 					<button.nav-button zag=api.getPrevTriggerProps!> <ui-icon path=icons.left size=16>
 					for item, i in api.pages
 						if item.type == 'page'
@@ -74,3 +80,5 @@ tag ui-pagination-base
 						else
 							<span.ellipsis zag=api.getEllipsisProps(index: i)> "…"
 					<button.nav-button zag=api.getNextTriggerProps!> <ui-icon path=icons.right size=16>
+					if firstLast
+						<button.nav-button zag=api.getLastTriggerProps!> <ui-icon path=icons.lastPage size=16>
