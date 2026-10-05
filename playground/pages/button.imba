@@ -1,8 +1,12 @@
 import source from './button.imba?raw'
 
 tag page-button
+	css
+		.purple --ui-button-count-bg:#9333ea --ui-button-count-text:white
+
 	saving = no
 	clicks = 0
+	unread = 3
 
 	def save
 		saving = yes
@@ -50,6 +54,24 @@ tag page-button
 					<ui-button round icon='lucide:plus'> "Pill with text"
 				<div.out>
 					<p.note> "With no text a button is square, matching the inputs and the radius setting; `round` makes it a circle (or a pill, with text). Give icon buttons an aria-label, and perhaps a tooltip."
+
+			<demo-section heading='Counts and dots'>
+				<div.row [g:4 rg:5]>
+					<ui-button variant='ghost' icon='lucide:bell' aria-label='Notifications' count=unread>
+					<ui-button icon='lucide:inbox' count=unread> "Inbox"
+					<ui-button variant='primary' icon='lucide:shopping-cart' count=128> "Basket"
+					<ui-button round icon='lucide:message-square' aria-label='Messages' count=unread countColor='accent'>
+					<ui-button variant='ghost' icon='lucide:bell' aria-label='Notifications' dot>
+					<ui-button size='sm' icon='lucide:filter' count=2 countColor='neutral'> "Filters"
+				<div.row [g:4 rg:5]>
+					<ui-button icon='lucide:circle-check' count=4 countColor='success' countLabel='done'> "Tasks"
+					<ui-button icon='lucide:triangle-alert' count=1 countColor='warning' countLabel='to review'> "Reports"
+					<ui-button.purple icon='lucide:sparkles' count=5> "Custom colour"
+				<div.out>
+					<div.set>
+						<button @click=(unread++)> "Add one"
+						<button @click=(unread = 0)> "Mark all read"
+					<p.note> "`count` hides at 0 and caps at `max` (99+). `countColor` picks a preset; for any other colour set `--ui-button-count-bg` (and `-text`) in CSS, as the purple one does. The count joins the button's accessible name (\"Notifications, 3 new\"; `countLabel` sets the word)."
 
 			<demo-section heading='Loading and disabled'>
 				<div.row>

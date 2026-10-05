@@ -42,4 +42,24 @@ tag ui-button < ui-button-base
 
 		.icon d:block w:1em h:1em fs:md fls:0
 		&.sm .icon fs:sm
+		# The count badge, ringed in the page colour so it stands off the button.
+		# --ui-button-count-bg/-text (set on the button or any parent) override
+		# the countColor presets.
+		pos:relative
+		.badge pos:absolute t:0 r:0 transform:translate(45%, -45%) d:grid place-items:center min-width:18px h:18px px:1.25 box-sizing:border-box rd:full
+			bg:var(--ui-button-count-bg, var(--count-bg)) c:var(--ui-button-count-text, var(--count-text)) shadow:0 0 0 2px $ui-surface
+			fs:11px fw:600 lh:1 ff:$ui-font font-variant-numeric:tabular-nums pointer-events:none
+			--count-bg:$ui-danger --count-text:white
+			&.accent --count-bg:$ui-accent --count-text:$ui-accent-text
+			&.success --count-bg:$ui-success --count-text:white
+			&.warning --count-bg:#f59e0b --count-text:#451a03
+			&.neutral --count-bg:$ui-text --count-text:$ui-surface
+			&.dot min-width:0 w:10px h:10px p:0
+		&.sm .badge min-width:16px h:16px fs:10px px:1
+			&.dot w:8px h:8px
+		# A dot sits a little inside an icon button's corner.
+		&.icon-only .badge.dot transform:translate(15%, -15%)
+		&.round.icon-only .badge transform:translate(25%, -25%)
+			&.dot transform:none t:4% r:4%
+
 		.spinner d:block w:1em h:1em fls:0 box-sizing:border-box bd:2px solid currentColor bc:currentColor transparent currentColor currentColor rd:full animation:ui-spin 0.7s linear infinite

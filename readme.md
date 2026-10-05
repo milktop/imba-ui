@@ -6,7 +6,7 @@ package adds Imba markup and an optional theme.
 
 | Component | Tag | Notes |
 | --- | --- | --- |
-| Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading |
+| Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
