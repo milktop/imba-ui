@@ -3,7 +3,7 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
-## Unreleased
+## 0.2.0 (2026-10-05)
 
 - `colorScheme` (`@milktop/imba-ui/color-scheme`): light, dark or system,
   saved and kept in step across tabs; toggles `dark` and `color-scheme` on `<html>`
