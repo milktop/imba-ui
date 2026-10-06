@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.6 (2026-10-06)
+
+- `ui-sidebar-user`: `letters` and `color`, passed to its avatar
+- `ui-avatar`: `data-color` is always set (`accent` by default); switching
+  back to accent left `data-color="undefined"`
+
 ## 0.5.5 (2026-10-06)
 
 - `ui-avatar`: `size` also takes a number in Imba's spacing units

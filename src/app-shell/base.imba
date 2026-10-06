@@ -343,10 +343,15 @@ tag ui-nav-group-base
 #
 # Emits `select` with the chosen item's value, like ui-menu. With child tags,
 # an item's own `@click` works too (Enter clicks the highlighted item).
+#
+# - `letters`, `color`: passed to the avatar (one initial, its colour or
+#   'auto'), like ui-avatar's
 tag ui-sidebar-user-base
 	prop name = ''
 	prop description = null
 	prop src = null
+	prop letters = 2
+	prop color = 'accent'
 	prop items = []
 
 	get shell do closestWith(self, 'isUiAppShell')
@@ -355,7 +360,7 @@ tag ui-sidebar-user-base
 	<self .rail=rail data-ui-shell-part>
 		<ui-menu items=items placement=(rail ? 'right-end' : 'top-start')>
 			<button.user slot='trigger' type='button' aria-label=(rail ? name : undefined)>
-				<ui-avatar.avatar name=name src=src size='sm'>
+				<ui-avatar.avatar name=name src=src size='sm' letters=letters color=color>
 				<span.text>
 					<span.name> name
 					<span.description> description if description

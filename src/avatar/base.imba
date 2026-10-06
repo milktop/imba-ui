@@ -77,7 +77,7 @@ tag ui-avatar-base
 		else
 			style.removeProperty('--avatar-size')
 
-		<self .{custom !== null ? 'custom' : size} .square=square data-color=(tone === 'accent' ? undefined : tone) zag=api.getRootProps!>
+		<self .{custom !== null ? 'custom' : size} .square=square data-color=tone zag=api.getRootProps!>
 			if src
 				<img.image zag=api.getImageProps! src=src alt=(name or '')>
 			<span.fallback zag=api.getFallbackProps! aria-hidden=(name ? undefined : 'true')>
