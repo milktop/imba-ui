@@ -45,7 +45,7 @@ code, and some composed screens (blocks).
 | Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions |
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
 | Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` (with tooltips) |
-| Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, driving `colorScheme` (saved, follows the OS) |
+| Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, a menu or a single toggle button (also just on phones), driving `colorScheme` (saved, follows the OS) |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
@@ -70,7 +70,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.5.0
+npm install github:milktop/imba-ui#v0.5.1
 # or, while developing locally
 npm install file:../../imba/ui
 ```

@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.1 (2026-10-06)
+
+- `ui-theme-toggle`: `variant='menu'` (one button showing the current choice,
+  opening a menu of them all) and `variant='toggle'` (one button flipping
+  light and dark); `mobile` picks the variant below `breakpoint` (768px), e.g.
+  `mobile='menu'`; `iconOnly` lists just the icons in the menu, and
+  `keepOpen` keeps it open after a choice
+
 ## 0.5.0 (2026-10-06)
 
 - `ui-theme-toggle`: System comes first (system, light, dark); `options`
