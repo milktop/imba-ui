@@ -11,7 +11,7 @@ tag ui-select < ui-select-base
 			@focus-visible bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5 cursor:not-allowed
 			&[data-invalid] bc:$ui-danger
-		&.sm .trigger h:$ui-control-height-sm px:2.5 fs:13px
+		&.sm .trigger h:$ui-control-height-sm px:2.5 fs:sm-
 		.value-text ws:nowrap of:hidden text-overflow:ellipsis
 			&.placeholder c:$ui-muted
 		.indicator d:inline-flex c:$ui-muted

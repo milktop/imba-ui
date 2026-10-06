@@ -14,7 +14,7 @@ tag ui-combobox < ui-combobox-base
 		.input fl:1 min-width:16 bd:none bg:transparent outline:none fs:sm c:inherit p:0 h:6.5
 			@placeholder c:$ui-muted
 		# Tags match ui-tags-input: subtle (default), accent or outline.
-		.tag d:hcl g:1 h:6.5 pl:2.5 pr:1 box-sizing:border-box rd:calc($ui-radius - 2px) fs:13px fw:500 lh:1 bd:1px solid transparent
+		.tag d:hcl g:1 h:6.5 pl:2.5 pr:1 box-sizing:border-box rd:calc($ui-radius - 2px) fs:sm- fw:500 lh:1 bd:1px solid transparent
 		.tag-text ws:nowrap of:hidden text-overflow:ellipsis max-width:48
 		.tag-remove d:grid place-items:center w:4.5 h:4.5 p:0 bd:none bg:transparent rd:sm c:inherit o:0.6 cursor:pointer
 			@hover o:1 bg:rgba(0,0,0,0.08)

@@ -12,7 +12,7 @@ tag ui-timeline < ui-timeline-base
 		# Cards: each item's text in a bordered box beside its marker.
 		&.cards >>> .body p:3 mb:3 bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface
 		&.sm >>> .body pb:4
-		&.sm >>> .icon w:6 h:6 fs:13px
+		&.sm >>> .icon w:6 h:6 fs:sm-
 
 tag ui-timeline-item < ui-timeline-item-base
 	css

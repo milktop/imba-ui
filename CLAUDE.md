@@ -94,6 +94,9 @@ New components follow the same pattern: add both files, an entry in
 - **Imba CSS selectors:** a pseudo-class followed by a combinator
   (`.a:empty + .b`, `.a .b:not(:empty)`) fails to parse; use the `@empty`
   modifier form (`.a@empty + .b`).
+- **Font sizes:** use Imba's named sizes (`fs:xs`, `sm-` is 13px, `sm`, `md-`
+  is 15px, `md`, …), not px; they set a matching line height too. Icon sizes
+  can stay in px.
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
   `inset:` also sets `position:absolute`, so write `pos:fixed` after it. There's

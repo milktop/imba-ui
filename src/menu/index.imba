@@ -18,7 +18,7 @@ tag ui-menu < ui-menu-base
 			transform-origin:var(--transform-origin)
 			&[data-state=open] animation:ui-menu-in 120ms ease-out
 			&[data-state=closed] animation:ui-menu-out 100ms ease-in forwards
-		.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:13px cursor:pointer user-select:none
+		.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:sm- cursor:pointer user-select:none
 			&[data-highlighted] bg:$ui-hover
 			&[data-disabled] o:0.4 cursor:not-allowed
 			&.danger c:$ui-danger

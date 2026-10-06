@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.3.1 (2026-10-06)
+
+- `ui-sidebar-user`: 13px text, like the nav items
+- 13px text uses Imba's `fs:sm-`, which also sets a 20px line height:
+  command menu rows are now 32px tall (were 34px), like menu items
+
 ## 0.3.0 (2026-10-06)
 
 - `ui-sidebar`: the edge strip shows only in the rail by default

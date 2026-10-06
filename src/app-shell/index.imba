@@ -97,7 +97,7 @@ tag ui-nav-section < ui-nav-section-base
 tag ui-nav-item < ui-nav-item-base
 	css
 		d:block
-		.link d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:13px ta:left td:none ws:nowrap cursor:pointer
+		.link d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm- ta:left td:none ws:nowrap cursor:pointer
 			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.active .link bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text fw:500
@@ -110,7 +110,7 @@ tag ui-nav-item < ui-nav-item-base
 tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
-		.toggle d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:13px ta:left ws:nowrap cursor:pointer
+		.toggle d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--ui-sidebar-hover, $ui-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.flyout .toggle bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none) c:$ui-text
@@ -133,7 +133,7 @@ tag ui-nav-group < ui-nav-group-base
 tag ui-sidebar-user < ui-sidebar-user-base
 	css
 		d:block w:100%
-		.user d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm ta:left ws:nowrap cursor:pointer
+		.user d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--ui-sidebar-hover, $ui-hover)
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 			&[aria-expanded=true] bg:var(--ui-sidebar-active, $ui-hover) shadow:var(--ui-sidebar-active-shadow, none)

@@ -9,7 +9,7 @@ tag ui-input < ui-input-base
 		&:has([aria-invalid=true]) bc:$ui-danger
 		&:has(:disabled) o:0.5
 		&.round rd:full px:3.5
-		&.sm min-height:$ui-control-height-sm px:2.5 fs:13px
+		&.sm min-height:$ui-control-height-sm px:2.5 fs:sm-
 		&.sm.round px:3
 
 		# The default input or a slotted replacement.

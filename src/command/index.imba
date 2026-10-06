@@ -41,7 +41,7 @@ tag ui-command < ui-command-base
 		.status py:10 ta:center c:$ui-muted
 		.group + .group mt:1
 		.group-label px:2 pt:1.5 pb:1 fs:xs fw:500 c:$ui-muted
-		.item d:flex ai:center g:2.5 px:2 py:1.5 min-height:8 box-sizing:border-box rd:$ui-radius fs:13px cursor:pointer user-select:none
+		.item d:flex ai:center g:2.5 px:2 py:1.5 min-height:8 box-sizing:border-box rd:$ui-radius fs:sm- cursor:pointer user-select:none
 			&[data-highlighted] bg:$ui-hover
 			&[data-disabled] o:0.4 cursor:not-allowed
 		.icon fs:15px w:15px h:15px fls:0 c:$ui-muted
