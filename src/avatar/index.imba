@@ -1,4 +1,5 @@
 import '../theme.imba'
+import '../tooltip/index.imba'
 import './base.imba'
 
 tag ui-avatar < ui-avatar-base
@@ -9,6 +10,8 @@ tag ui-avatar < ui-avatar-base
 		&.sm w:7 h:7 fs:xs
 		&.lg w:14 h:14 fs:lg
 		&.xl w:20 h:20 fs:2xl
+		# Numeric sizes: the initials grow in step with the named sizes.
+		&.custom w:var(--avatar-size) h:var(--avatar-size) fs:calc(6px + 0.2 * var(--avatar-size))
 
 		&[data-color=gray] bg:#f4f4f5 c:#3f3f46
 		&[data-color=red] bg:#fee2e2 c:#991b1b
@@ -32,3 +35,4 @@ tag ui-avatar < ui-avatar-base
 		.image pos:absolute inset:0 w:100% h:100% obj:cover
 		.fallback d:grid place-items:center w:100% h:100% lh:1
 		.person w:55% h:55%
+		.tooltip-target pos:absolute inset:0

@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.5 (2026-10-06)
+
+- `ui-avatar`: `size` also takes a number in Imba's spacing units
+  (`size=8` is 32px, like `w:8`), with the initials scaling to match
+- `ui-avatar`: `tooltip` shows the name in a tooltip on hover (handy for
+  stacks); `tooltip='…'` shows that text instead
+
 ## 0.5.4 (2026-10-06)
 
 - `ui-avatar`: `letters=1` shows one initial instead of two; `color` sets

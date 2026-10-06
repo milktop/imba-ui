@@ -28,6 +28,11 @@ tag page-avatar
 					<ui-avatar name='Ada Lovelace'>
 					<ui-avatar size='lg' name='Ada Lovelace'>
 					<ui-avatar size='xl' name='Ada Lovelace'>
+				<div.row>
+					<ui-avatar size=6 name='Ada Lovelace'>
+					<ui-avatar size=8 name='Ada Lovelace'>
+					<ui-avatar size=12 name='Ada Lovelace'>
+					<ui-avatar size=24 name='Ada Lovelace'>
 
 			<demo-section heading='One letter'>
 				<div.row>
@@ -42,9 +47,9 @@ tag page-avatar
 					for n in ['Ada Lovelace', 'Alan Turing', 'Grace Hopper', 'Katherine Johnson', 'Edsger Dijkstra', 'Barbara Liskov', 'Donald Knuth', 'Margaret Hamilton']
 						<ui-avatar color='auto' name=n>
 
-			<demo-section heading='Stacked'>
+			<demo-section heading='Stacked, with tooltips'>
 				<div.stack>
-					<ui-avatar name='Ada Lovelace'>
-					<ui-avatar name='Alan Turing'>
-					<ui-avatar name='Grace Hopper'>
-					<ui-avatar name='Katherine Johnson'>
+					<ui-avatar tooltip name='Ada Lovelace'>
+					<ui-avatar tooltip name='Alan Turing'>
+					<ui-avatar tooltip name='Grace Hopper'>
+					<ui-avatar tooltip='Katherine Johnson (owner)' name='Katherine Johnson'>
