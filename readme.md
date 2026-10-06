@@ -11,7 +11,7 @@ code, and some composed screens (blocks).
 | --- | --- | --- |
 | Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
-| Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square |
+| Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square, colours (or one picked from the name) |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
 | Card | `<ui-card>` | Surface with heading, description, actions and footer slots; `flush` for edge-to-edge content |
 | Data list | `<ui-data-list>` (+ `<ui-data-item>`) | Labels and values as a `<dl>`: beside or above, plain/divided/card, grid columns, info tooltips |

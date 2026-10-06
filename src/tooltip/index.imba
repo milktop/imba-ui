@@ -13,8 +13,9 @@ tag ui-tooltip < ui-tooltip-base
 		d:contents
 		.trigger-slot d:contents
 
-		# Zag copies the content's z-index onto its positioner.
-		.content zi:60 fw:400 max-width:64 px:2 py:1 bg:$ui-text c:$ui-surface ff:$ui-font fs:xs lh:1.4 rd:calc($ui-radius - 2px) shadow:$ui-shadow
+		# Zag copies the content's z-index onto its positioner. It wraps even
+		# inside a nowrap trigger (ui-segmented's labels).
+		.content zi:60 fw:400 max-width:64 ws:normal px:2 py:1 bg:$ui-text c:$ui-surface ff:$ui-font fs:xs lh:1.4 rd:calc($ui-radius - 2px) shadow:$ui-shadow
 			--arrow-size:8px --arrow-background:$ui-text
 			# Slides in from the trigger's side: opening on the right, it comes
 			# from the left. Each tooltip animates in, also when moving between

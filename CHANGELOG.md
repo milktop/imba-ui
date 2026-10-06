@@ -3,6 +3,15 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.4 (2026-10-06)
+
+- `ui-avatar`: `letters=1` shows one initial instead of two; `color` sets
+  the background ('accent' by default, or 'gray', 'red', 'orange', 'amber',
+  'green', 'teal', 'blue', 'purple', 'pink'), and `color='auto'` picks one
+  from the name, so the same person always gets the same colour
+- `ui-tooltip`: text wraps even inside a nowrap trigger (ui-segmented's
+  labels)
+
 ## 0.5.3 (2026-10-06)
 
 - `size` ('sm', 'md' or 'lg', like ui-button) on `ui-segmented` and

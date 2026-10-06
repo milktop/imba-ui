@@ -29,11 +29,22 @@ tag page-avatar
 					<ui-avatar size='lg' name='Ada Lovelace'>
 					<ui-avatar size='xl' name='Ada Lovelace'>
 
-			<demo-section heading='Square and stacked'>
+			<demo-section heading='One letter'>
 				<div.row>
-					<ui-avatar square name='Maths Club'>
-					<div.stack>
-						<ui-avatar name='Ada Lovelace'>
-						<ui-avatar name='Alan Turing'>
-						<ui-avatar name='Grace Hopper'>
-						<ui-avatar name='Katherine Johnson'>
+					<ui-avatar letters=1 name='Ada Lovelace'>
+					<ui-avatar letters=1 name='Maths Club' square>
+
+			<demo-section heading='Colours'>
+				<div.row>
+					for c in ['accent', 'gray', 'red', 'orange', 'amber', 'green', 'teal', 'blue', 'purple', 'pink']
+						<ui-avatar color=c name=c>
+				<div.row>
+					for n in ['Ada Lovelace', 'Alan Turing', 'Grace Hopper', 'Katherine Johnson', 'Edsger Dijkstra', 'Barbara Liskov', 'Donald Knuth', 'Margaret Hamilton']
+						<ui-avatar color='auto' name=n>
+
+			<demo-section heading='Stacked'>
+				<div.stack>
+					<ui-avatar name='Ada Lovelace'>
+					<ui-avatar name='Alan Turing'>
+					<ui-avatar name='Grace Hopper'>
+					<ui-avatar name='Katherine Johnson'>

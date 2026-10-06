@@ -127,7 +127,7 @@ tag appearance-panel
 	css
 		d:block
 		# Two columns of settings in a wider panel (one on phones).
-		>>> .content w:min(40rem, calc(100vw - 32px)) max-height:calc(100vh - 80px) ofy:auto
+		>>> .content[data-scope=popover] w:min(40rem, calc(100vw - 32px)) max-height:calc(100vh - 80px) ofy:auto
 		.rows d:grid gtc:1fr @sm:1fr 1fr g:4 cg:6 ai:start
 		# Fields span the 12-column ui-fields grid by default; here, one cell each.
 		.rows > ui-field gc:auto
