@@ -3,6 +3,11 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.3.0 (2026-10-06)
+
+- `ui-sidebar`: the edge strip shows only in the rail by default
+  (`edge='rail'`); `edge=true` brings it back when expanded
+
 ## 0.2.0 (2026-10-05)
 
 - `colorScheme` (`@milktop/imba-ui/color-scheme`): light, dark or system,

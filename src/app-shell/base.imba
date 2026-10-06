@@ -129,8 +129,9 @@ tag ui-app-shell-base
 tag ui-sidebar-base
 	prop items = null
 	prop label = 'Main'
-	# A thin strip along the right edge that collapses or expands it on click.
-	prop edge = true
+	# A thin strip along the right edge that collapses or expands it on click:
+	# `'rail'` shows it only while collapsed, `true` always, `false` never.
+	prop edge = 'rail'
 	# Opening a nav group closes the others.
 	prop accordion = false
 
@@ -186,7 +187,7 @@ tag ui-sidebar-base
 					<button.icon-button.expand type='button' aria-label='Expand sidebar' @click=toggle> <ui-icon path=icons.panelOpen size=16>
 		# Mouse only: keyboard users have the buttons above and ⌘B. It never
 		# takes focus (mousedown is prevented), so no focus ring is left behind.
-		if edge and !mobile
+		if !mobile and (edge === 'rail' ? rail : edge)
 			<button.edge type='button' tabIndex=-1 aria-hidden='true' title=(rail ? 'Expand sidebar' : 'Collapse sidebar') @mousedown.prevent @click=toggle>
 
 
