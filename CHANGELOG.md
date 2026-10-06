@@ -3,6 +3,16 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.7 (2026-10-06)
+
+- `ui-sidebar`: theme tokens for its items, so the current page (aria-current)
+  and hovers can be restyled without fighting specificity:
+  `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`,
+  `-active-weight`, `-active-shadow`, and `$ui-sidebar-inset-hover`,
+  `-inset-active`, `-inset-active-shadow` for the inset layout. The inset
+  layout no longer sets `--ui-sidebar-active` on the sidebar (set
+  `$ui-sidebar-inset-active` instead)
+
 ## 0.5.6 (2026-10-06)
 
 - `ui-sidebar-user`: `letters` and `color`, passed to its avatar

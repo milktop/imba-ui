@@ -203,10 +203,11 @@ while there is an error.
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
+- Style the current page's item (and hovers) with `$ui-sidebar-active`,
+  `$ui-sidebar-active-text` and friends (the `-inset-` ones in an `inset`
+  layout); see Theming.
 - `inset` layers it: a grey sidebar, a white frame (the top bar and a gap
   round the page), the page as a rounded grey panel, and white cards on it.
-  The sidebar's hover and active colours come from `--ui-sidebar-hover`,
-  `--ui-sidebar-active` (and `--ui-sidebar-active-shadow`).
 - The main area sits on `$ui-canvas`, so cards and tables on `$ui-surface`
   stand out; the inset layout's sidebar uses `$ui-sidebar-bg` (a lighter shade
   of the canvas) and its frame `$ui-frame`. In dark mode the frame is darkest
@@ -262,6 +263,8 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
+| `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`, `-active-weight`, `-active-shadow` | Sidebar items: hovered, and the current page |
+| `$ui-sidebar-inset-hover`, `-inset-active`, `-inset-active-shadow` | The same in an `inset` layout (white items on the grey sidebar) |
 
 ### Dark mode
 
