@@ -202,10 +202,21 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.
-- Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`.
+- Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`,
+  and its items with `$ui-sidebar-item-height`, `-item-padding`,
+  `-item-radius` and `-item-text`.
 - Style the current page's item (and hovers) with `$ui-sidebar-active`,
   `$ui-sidebar-active-text` and friends (the `-inset-` ones in an `inset`
-  layout); see Theming.
+  layout); see Theming. Set them on `:root` for the whole app, or on
+  `ui-sidebar` from your own component's CSS for just that sidebar; either
+  way, no `@important` or `>>>` needed:
+
+  ```imba
+  css ui-sidebar
+  	$ui-sidebar-item-height:2.5rem
+  	$ui-sidebar-item-text:$ui-text
+  	$ui-sidebar-active:$ui-accent-soft
+  ```
 - `inset` layers it: a grey sidebar, a white frame (the top bar and a gap
   round the page), the page as a rounded grey panel, and white cards on it.
 - The main area sits on `$ui-canvas`, so cards and tables on `$ui-surface`
@@ -263,6 +274,7 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
+| `$ui-sidebar-item-height`, `-item-padding`, `-item-radius`, `-item-text` | Sidebar items and group toggles: size, shape and resting text colour |
 | `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`, `-active-weight`, `-active-shadow` | Sidebar items: hovered, and the current page |
 | `$ui-sidebar-inset-hover`, `-inset-active`, `-inset-active-shadow` | The same in an `inset` layout (white items on the grey sidebar) |
 

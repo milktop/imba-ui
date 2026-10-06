@@ -63,6 +63,11 @@ global css
 		# ui-app-shell's sidebar, open and as an icon rail.
 		$ui-sidebar-width:15rem
 		$ui-sidebar-rail-width:3.5rem
+		# Its nav items (and group toggles): size, shape and resting text.
+		$ui-sidebar-item-height:2.125rem
+		$ui-sidebar-item-padding:0 0.5rem 0 0.75rem
+		$ui-sidebar-item-radius:$ui-radius
+		$ui-sidebar-item-text:$ui-muted
 		# Its nav items: hovered, and the current page (aria-current). The inset
 		# layout, on a grey sidebar, uses the -inset ones (white items).
 		$ui-sidebar-hover:$ui-hover

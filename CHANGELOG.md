@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.8 (2026-10-06)
+
+- `ui-sidebar`: tokens for its items' size and resting text,
+  `$ui-sidebar-item-height`, `-item-padding`, `-item-radius` and
+  `-item-text` (used by `ui-nav-item` and `ui-nav-group`'s toggle). Like the
+  colour tokens, they can be set on `ui-sidebar` from an app component to
+  restyle just that sidebar, without `@important`
+
 ## 0.5.7 (2026-10-06)
 
 - `ui-sidebar`: theme tokens for its items, so the current page (aria-current)

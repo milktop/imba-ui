@@ -96,7 +96,7 @@ tag ui-nav-section < ui-nav-section-base
 tag ui-nav-item < ui-nav-item-base
 	css
 		d:block
-		.link d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm- ta:left td:none ws:nowrap cursor:pointer
+		.link d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left td:none ws:nowrap cursor:pointer
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.active .link bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text fw:$ui-sidebar-active-weight
@@ -109,7 +109,7 @@ tag ui-nav-item < ui-nav-item-base
 tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
-		.toggle d:flex ai:center g:3 w:100% h:8.5 pl:3 pr:2 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-muted ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
+		.toggle d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.flyout .toggle bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text
