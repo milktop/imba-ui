@@ -333,7 +333,16 @@ tag ui-nav-group-base
 #     items=[{ label: 'Profile', value: 'profile', icon: 'lucide:user' }, …]
 #     @select=account(e.detail)>
 #
-# Emits `select` with the chosen item's value, like ui-menu.
+#   <ui-sidebar-user slot='footer' name='Ada Lovelace'>
+#     <ui-menu-item icon='lucide:user' @click=openProfile> 'Profile'
+#     <ui-menu-separator>
+#     <ui-menu-item icon='lucide:log-out' @click=logout> 'Log out'
+#
+# It's a ui-menu with the user as its trigger: give it `items`, ui-menu's
+# child tags (submenus, groups, checkbox and radio items), or both.
+#
+# Emits `select` with the chosen item's value, like ui-menu. With child tags,
+# an item's own `@click` works too (Enter clicks the highlighted item).
 tag ui-sidebar-user-base
 	prop name = ''
 	prop description = null
@@ -351,6 +360,7 @@ tag ui-sidebar-user-base
 					<span.name> name
 					<span.description> description if description
 				<iconify-icon.chevron icon='lucide:chevrons-up-down' aria-hidden='true'>
+			<slot>
 
 # The bar above the page: a menu button on phones, then its content and an
 # `end` slot on the right.

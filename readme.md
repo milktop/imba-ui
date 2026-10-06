@@ -70,7 +70,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.4.0
+npm install github:milktop/imba-ui#v0.4.1
 # or, while developing locally
 npm install file:../../imba/ui
 ```
@@ -171,9 +171,9 @@ while there is an error.
 			<ui-nav-item icon='lucide:users' href='/students' badge=3> "Students"
 			<ui-nav-group icon='lucide:settings' label='Settings'>
 				<ui-nav-item href='/settings/billing'> "Billing"
-		<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com'
-			items=[{ label: 'Profile', value: 'profile' }, { label: 'Log out', value: 'logout' }]
-			@select=account(e.detail)>
+		<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' @select=account(e.detail)>
+			<ui-menu-item value='profile' icon='lucide:user'> "Profile"
+			<ui-menu-item value='logout' icon='lucide:log-out'> "Log out"
 	<ui-topbar>
 		"Search…"
 	<ui-page heading='Students' description='12 active'>
@@ -195,6 +195,8 @@ while there is an error.
   icon, href, active, badge, items }] }]`.
 - `ui-sidebar-user` shows the signed-in user in the footer and opens a menu
   of account actions upwards (to the right in the rail), emitting `select`.
+  It's a ui-menu with the user as its trigger: its content takes ui-menu's
+  child tags (submenus, checkbox and radio items too), or give it `items`.
 - `ui-sidebar accordion` keeps one nav group open at a time, and
   `ui-nav-section collapsible` adds a collapse/expand-all button to a section.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`

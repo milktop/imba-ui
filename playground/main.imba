@@ -171,13 +171,6 @@ tag playground
 			@focus-visible outline:2px solid $ui-ring-soft
 		.mark d:inline-flex ai:center jc:center w:7 h:7 fls:0 rd:$ui-radius bg:$ui-accent c:$ui-accent-text fs:xs fw:700
 
-	accountItems = [
-		{ label: 'Profile', value: 'profile', icon: 'lucide:user' }
-		{ label: 'Settings', value: 'settings', icon: 'lucide:settings', shortcut: '⌘,' }
-		{ separator: true }
-		{ label: 'Log out', value: 'logout', icon: 'lucide:log-out', danger: true }
-	]
-
 	# ⌘K: every page, then a few actions.
 	commands = [
 		...groups.flatMap do(group) group.pages.map do(page)
@@ -241,7 +234,16 @@ tag playground
 						<ui-nav-group key=group label=group icon=(group == 'Pages' ? 'lucide:app-window' : 'lucide:layout-panel-top') open=blocks.some(do $1.group == group and $1.path == router.pathname)>
 							for block in blocks.filter(do $1.group == group)
 								<ui-nav-item key=block.path href=block.path active=(router.pathname == block.path)> block.title
-				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' items=accountItems @select=account(e.detail)>
+				<ui-sidebar-user slot='footer' name='Ada Lovelace' description='ada@example.com' @select=account(e.detail)>
+					<ui-menu-item value='profile' icon='lucide:user'> "Profile"
+					<ui-menu-item value='settings' icon='lucide:settings' shortcut='⌘,'> "Settings"
+					<ui-submenu label='Theme' icon='lucide:palette'>
+						<ui-menu-radio-group bind=colorScheme.value>
+							<ui-menu-radio value='light' icon='lucide:sun'> "Light"
+							<ui-menu-radio value='dark' icon='lucide:moon'> "Dark"
+							<ui-menu-radio value='system' icon='lucide:monitor'> "System"
+					<ui-menu-separator>
+					<ui-menu-item value='logout' icon='lucide:log-out' danger> "Log out"
 			<ui-topbar>
 				<ui-breadcrumbs items=trail>
 				<div slot='end'>

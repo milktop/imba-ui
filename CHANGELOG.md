@@ -3,6 +3,11 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.4.1 (2026-10-06)
+
+- `ui-sidebar-user`: takes ui-menu's child tags (items, submenus, groups,
+  checkbox and radio items) as its content, as well as `items`
+
 ## 0.4.0 (2026-10-06)
 
 - `ui-menu`: child tags as an alternative (or addition) to `items`:
