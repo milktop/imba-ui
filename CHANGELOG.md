@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.3 (2026-10-06)
+
+- `size` ('sm', 'md' or 'lg', like ui-button) on `ui-segmented` and
+  `ui-theme-toggle` (every variant, the icon menu included); 'md' is
+  unchanged
+
 ## 0.5.2 (2026-10-06)
 
 - `ui-theme-toggle`: `iconOnly` styles only apply while the menu shows; with

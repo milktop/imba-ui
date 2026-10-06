@@ -27,6 +27,7 @@ const icons = { light: 'lucide:sun', dark: 'lucide:moon', system: 'lucide:monito
 # - `system`: false leaves out 'system' (follow the OS) whatever `options` says
 # - `labels`: the tooltips and accessible names, `{ light, dark, system }`
 # - `label`: names the group for assistive tech
+# - `size`: 'sm', 'md' (default) or 'lg', for every variant
 # - `placement`: where the menu variant opens (default 'bottom-end', or
 #   'bottom' with `iconOnly`, centring the icons under the button)
 # - `keepOpen`: the menu variant stays open after a choice
@@ -43,6 +44,7 @@ tag ui-theme-toggle-base
 	prop labels = { light: 'Light', dark: 'Dark', system: 'System' }
 	prop label = 'Colour scheme'
 	prop placement = null
+	prop size = 'md'
 	prop keepOpen = null
 	prop iconOnly = false
 
@@ -79,7 +81,7 @@ tag ui-theme-toggle-base
 		# Without the system option, show what the OS currently resolves to.
 		let value = offersSystem ? colorScheme.value : (colorScheme.dark ? 'dark' : 'light')
 		let shown = colorScheme.dark ? 'dark' : 'light'
-		<self .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=label data-variant=mode>
+		<self .{size} .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=label data-variant=mode>
 			if mode === 'menu'
 				<ui-menu.menu placement=(placement or (iconOnly ? 'bottom' : 'bottom-end')) keepOpen=keepOpen>
 					<button.trigger slot='trigger' type='button' aria-label="{label}: {labels[value]}">
@@ -92,4 +94,4 @@ tag ui-theme-toggle-base
 					<button.trigger type='button' aria-label=labels.dark aria-pressed=String(colorScheme.dark) @click=flip>
 						<iconify-icon.trigger-icon icon=icons[shown] aria-hidden='true'>
 			else
-				<ui-segmented.segmented iconOnly items=items value=value @change.stop=pick(e.detail)>
+				<ui-segmented.segmented iconOnly size=size items=items value=value @change.stop=pick(e.detail)>

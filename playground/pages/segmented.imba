@@ -32,3 +32,15 @@ tag page-segmented
 						<ui-segmented items=aligns iconOnly bind=align>
 				<div.out>
 					<json-print data={ align }>
+
+			<demo-section heading='Sizes' uses='views aligns'>
+				<div[d:vtl g:3]>
+					<ui-segmented size='sm' items=views bind=view>
+					<ui-segmented items=views bind=view>
+					<ui-segmented size='lg' items=views bind=view>
+					<div.row>
+						<ui-segmented size='sm' iconOnly items=aligns bind=align>
+						<ui-segmented iconOnly items=aligns bind=align>
+						<ui-segmented size='lg' iconOnly items=aligns bind=align>
+				<div.out>
+					<p.note> "`size` is 'sm', 'md' (the default, matching the inputs) or 'lg', like ui-button."

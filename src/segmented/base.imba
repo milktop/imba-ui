@@ -12,6 +12,7 @@ import 'iconify-icon'
 # - `name`: the hidden radios also post with plain forms
 # - an item's `icon` (Iconify) shows before its label; `iconOnly` keeps the
 #   labels for assistive tech but shows just the icons
+# - `size`: 'sm', 'md' (default, matching the inputs' height) or 'lg'
 # - `tooltips`: shows each item's label (or its `tooltip`) in a tooltip on
 #   hover and keyboard focus; on by default with `iconOnly`
 #
@@ -27,6 +28,7 @@ tag ui-segmented-base < ui-control
 	prop disabled = false
 	prop iconOnly = false
 	prop tooltips = null
+	prop size = 'md'
 
 	zagId = uid('segmented')
 
@@ -69,7 +71,7 @@ tag ui-segmented-base < ui-control
 
 		let api = machine.connect(radio)
 
-		<self>
+		<self .{size}>
 			if label and !#field..label
 				<span.label zag=api.getLabelProps!> label
 			<div.group zag=describe(api.getRootProps!)>

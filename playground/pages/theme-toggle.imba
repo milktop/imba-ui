@@ -31,6 +31,21 @@ tag page-theme-toggle
 				<div.out>
 					<p.note> "One button flipping between light and dark (from System it picks the opposite of what's showing)."
 
+			<demo-section heading='Sizes'>
+				<div.row>
+					<ui-theme-toggle size='sm'>
+					<ui-theme-toggle>
+					<ui-theme-toggle size='lg'>
+				<div.row>
+					<ui-theme-toggle size='sm' variant='menu' iconOnly>
+					<ui-theme-toggle variant='menu' iconOnly>
+					<ui-theme-toggle size='lg' variant='menu' iconOnly>
+					<ui-theme-toggle size='sm' variant='toggle'>
+					<ui-theme-toggle variant='toggle'>
+					<ui-theme-toggle size='lg' variant='toggle'>
+				<div.out>
+					<p.note> "`size` ('sm', 'md' or 'lg') applies to every variant, the menu's icons included."
+
 			<demo-section heading='Order'>
 				<ui-theme-toggle options=['light', 'dark', 'system']>
 				<div.out>
