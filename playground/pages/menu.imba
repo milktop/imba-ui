@@ -55,6 +55,13 @@ tag page-menu
 		{ type: 'radio', name: 'sort', value: 'size', label: 'Size' }
 	]
 	changed = null
+	clicked = null
+	pages = [
+		{ label: 'Buttons', icon: 'lucide:mouse-pointer-click', href: '/button' }
+		{ label: 'Dialogs', icon: 'lucide:app-window', href: '/dialog' }
+		{ separator: true }
+		{ label: 'Copy page link', icon: 'lucide:link' }
+	]
 	showGrid = yes
 	showRulers = no
 	sort = 'name'
@@ -146,6 +153,20 @@ tag page-menu
 				<div.out>
 					<json-print data={ selected }>
 					<p.note> "Child tags follow the `items`. A ui-submenu takes `items` too, and a plain string is both an item's label and its value."
+
+			<demo-section heading='Links and click handlers' uses='pages'>
+				<div.row>
+					<ui-menu items=pages @select=(selected = e.detail)>
+						<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Go to"
+					<ui-menu>
+						<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "More"
+						<ui-menu-item href='/button' icon='lucide:mouse-pointer-click'> "Buttons"
+						<ui-menu-item href='/dialog' icon='lucide:app-window'> "Dialogs"
+						<ui-menu-separator>
+						<ui-menu-item icon='lucide:link' @click=(clicked = 'Copy page link')> "Copy page link"
+				<div.out>
+					<json-print data={ selected: selected, clicked: clicked }>
+					<p.note> 'Items with `href` are links (`<a>`, or `linkTag` for Inertia), so middle-click and "open in new tab" work. Neither needs a `value`: an item without one uses its label. A child tag can take its own `@click` (Enter clicks the highlighted item too).'
 
 			<demo-section heading='Checkbox and radio items' uses='view'>
 				<ui-menu items=view keepOpen @change=(changed = e.detail)>

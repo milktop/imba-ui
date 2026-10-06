@@ -1,6 +1,6 @@
 import * as zagMenu from '@zag-js/menu'
 import { Machine, Presence, uid, defined } from '../zag.imba'
-import { itemLabel, itemKey, itemValue, itemDisabled } from '../items.imba'
+import { itemLabel, itemValue, itemDisabled } from '../items.imba'
 import 'iconify-icon'
 
 # The closest element above `el` with `flag` set, e.g. the menu (or
@@ -34,8 +34,9 @@ def closestMenu el do closestWith(el, 'isUiMenu')
 # closes it, returning focus to the trigger. Items come from `items`, from
 # child tags (after any `items`), or both.
 #
-# - `items`: strings or objects with `labelKey`/`valueKey`/`disabledKey`, plus
-#   optional `icon` (Iconify), `shortcut` text and `danger`; `{ separator: true }`
+# - `items`: strings or objects with `labelKey`/`valueKey`/`disabledKey` (the
+#   label stands in for a missing value), plus optional `icon` (Iconify),
+#   `shortcut` text, `danger` and `href` (a link); `{ separator: true }`
 #   draws a line, `{ group: 'Label' }` a group heading, and `{ label, icon,
 #   items: […] }` a submenu with its own items
 # - Checkbox and radio entries: `{ type: 'checkbox', value, label, checked }`,
@@ -50,6 +51,8 @@ def closestMenu el do closestWith(el, 'isUiMenu')
 # - Child tags: `ui-menu-item`, `ui-menu-separator`, `ui-menu-group`,
 #   `ui-submenu`, `ui-menu-checkbox` and `ui-menu-radio-group` with
 #   `ui-menu-radio`s, which take the same options as props
+# - Links render `<a href>`; for Inertia, subclass ui-menu and set
+#   `linkTag = 'inertia-link'` (its items and submenus follow it)
 #
 # Emits `select` with the chosen action's original value, from any submenu
 # too (checkbox and radio items emit `change` instead).
@@ -66,12 +69,15 @@ tag ui-menu-base
 	isSubmenu = no
 	zagId = uid('menu')
 	presence = new Presence(self, 200)
+	# The element for items with an `href`; submenus use their menu's.
+	linkTag = null
 	# Child tags (items, groups, separators, submenus), re-rendered with the menu.
 	parts = new Set
 
 	get api do machine.connect(zagMenu)
 	get parentMenu do null
 	get keepsOpen do keepOpen ?? parentMenu..keepsOpen ?? no
+	get linkElement do linkTag or parentMenu..linkElement or 'a'
 	get trigger do $triggerSlot..firstElementChild
 
 	# Actions, as opposed to separators, group headings, submenus and checkbox
@@ -80,18 +86,22 @@ tag ui-menu-base
 	def isSubmenuItem item do typeof item == 'object' and !!item..items
 	def isOption item do typeof item == 'object' and !!item and (item.type === 'checkbox' or item.type === 'radio')
 
+	# An entry's value, or its label when it has none, and Zag's string key.
+	def entryValue item do itemValue(item, valueKey) ?? itemLabel(item, labelKey)
+	def entryKey item do String(entryValue(item))
+
 	# The original value of the action with Zag's key `key`: from `items`, or
 	# from a child ui-menu-item (undefined for checkbox and radio items).
 	def valueFor key
-		let item = (items or []).filter(do isAction($1)).find(do itemKey($1, valueKey) === key)
-		return itemValue(item, valueKey) unless item === undefined
+		let item = (items or []).filter(do isAction($1)).find(do entryKey($1) === key)
+		return entryValue(item) unless item === undefined
 		let part = Array.from(parts).find(do $1.isUiMenuItem and !$1.isUiMenuOption and $1.key === key)
 		part ? part.itemValue : undefined
 
 	# Zag's props for a checkbox or radio entry in `items`. Radio keys include
 	# their `name`, so two groups can share values.
 	def optionProps item
-		let key = itemKey(item, valueKey)
+		let key = entryKey(item)
 		{
 			type: item.type
 			value: item.type === 'radio' ? "{item.name ?? ''}/{key}" : key
@@ -111,13 +121,16 @@ tag ui-menu-base
 			for other in items
 				other.checked = no if isOption(other) and other.type === 'radio' and other.name == item.name
 		item.checked = checked
-		emit('change', { type: item.type, name: item.name ?? null, value: itemValue(item, valueKey), checked })
+		emit('change', { type: item.type, name: item.name ?? null, value: entryValue(item), checked })
 
 	def setup
 		machine = new Machine self, zagMenu.machine, do defined({
 			id: zagId
 			positioning: { placement, strategy: 'fixed', gutter: 4 }
 			closeOnSelect: !keepsOpen
+			# Enter on a link: Zag's own click doesn't bubble, so routers
+			# listening on the document (Imba's) would miss it.
+			navigate: do(details) details.node.click!
 			onSelect: do(details)
 				let value = valueFor(details.value)
 				emit('select', value) unless value === undefined
@@ -177,7 +190,7 @@ tag ui-menu-base
 						elif isSubmenuItem(item)
 							<ui-submenu-base items=item.items label=itemLabel(item, labelKey) icon=item.icon labelKey=labelKey valueKey=valueKey disabledKey=disabledKey>
 						else
-							<div.item .danger=!!item..danger zag=api.getItemProps(value: itemKey(item, valueKey), valueText: itemLabel(item, labelKey), disabled: itemDisabled(item, disabledKey), closeOnSelect: closeFor(item..keepOpen))>
+							<{item..href ? linkElement : 'div'}.item .danger=!!item..danger href=(item..href or undefined) zag=api.getItemProps(value: entryKey(item), valueText: itemLabel(item, labelKey), disabled: itemDisabled(item, disabledKey), closeOnSelect: closeFor(item..keepOpen))>
 								if item..icon
 									<iconify-icon.icon icon=item.icon aria-hidden='true'>
 								<span.label> itemLabel(item, labelKey)
@@ -230,9 +243,13 @@ tag ui-submenu-base < ui-menu-base
 #   <ui-menu-item value='edit' icon='lucide:pencil' shortcut='⌘E'> 'Edit'
 #
 # - `value`: what the menu's `select` emits (the label's text if unset)
+# - `href`: makes it a link (the menu's `linkTag`, `<a>` by default)
 # - `icon`, `shortcut`, `danger`, `disabled` and `keepOpen`: as on `items` entries
+#
+# An item's own `@click` runs when it's chosen, by pointer or keyboard.
 tag ui-menu-item-base
 	prop value = null
+	prop href = null
 	prop icon = null
 	prop shortcut = null
 	prop danger = false
@@ -242,7 +259,7 @@ tag ui-menu-item-base
 	isUiMenuItem = yes
 
 	get menu do #menu or closestMenu(self)
-	get text do ($label..textContent or '').trim!
+	get text do (querySelector('.label')..textContent or '').trim!
 	get itemValue do value ?? text
 	# Zag's string key for the item.
 	get key do String(self.itemValue)
@@ -262,19 +279,21 @@ tag ui-menu-item-base
 	def itemProps api
 		optionType ? api.getOptionItemProps(optionProps!) : api.getItemProps(value: key, valueText: text, disabled: !!disabled, closeOnSelect: closeOnSelect)
 
+	# The item is an element inside the tag, so it can be a link.
 	def render
 		let api = menu..machine ? menu.api : null
-		<self.item .danger=!!danger zag=(api ? itemProps(api) : undefined)>
-			if optionType
-				<span.indicator>
-					<span.mark.{optionType} zag=(api ? api.getItemIndicatorProps(optionProps!) : undefined)>
-						if optionType === 'checkbox'
-							<iconify-icon icon='lucide:check' aria-hidden='true'>
-			if icon
-				<iconify-icon.icon icon=icon aria-hidden='true'>
-			<span$label.label> <slot>
-			if shortcut
-				<kbd.shortcut> shortcut
+		<self data-ui-menu-item>
+			<{href ? (menu..linkElement or 'a') : 'div'}.item .danger=!!danger href=(href or undefined) zag=(api ? itemProps(api) : undefined)>
+				if optionType
+					<span.indicator>
+						<span.mark.{optionType} zag=(api ? api.getItemIndicatorProps(optionProps!) : undefined)>
+							if optionType === 'checkbox'
+								<iconify-icon icon='lucide:check' aria-hidden='true'>
+				if icon
+					<iconify-icon.icon icon=icon aria-hidden='true'>
+				<span.label> <slot>
+				if shortcut
+					<kbd.shortcut> shortcut
 
 # A line between items in a ui-menu or ui-submenu.
 tag ui-menu-separator-base

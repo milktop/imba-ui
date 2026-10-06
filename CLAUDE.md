@@ -84,6 +84,8 @@ New components follow the same pattern: add both files, an entry in
   `def` of that name before the tag's own getter (`menu` meant the Zag module
   inside ui-menu-item); rename the import or write `self.x`. `#parent` is
   taken by Imba, so pick another private field name.
+- **Element refs (`$name`) inside a dynamic tag** (`<{tag}>`) are undefined at
+  render; find the element with `querySelector` instead.
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
   `visit`, `setup`, `mount`); overriding `commit` silently breaks rendering.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).

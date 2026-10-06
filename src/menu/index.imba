@@ -12,13 +12,15 @@ global css
 	# The wrappers stay out of layout; the trigger sits where it was written.
 	[data-ui-menu] d:contents
 		.trigger-slot d:contents
+	# Item tags wrap their item, which may be a link.
+	[data-ui-menu-item] d:contents
 
 	# Zag copies the content's z-index onto its positioner.
 	[data-scope=menu][data-part=content] zi:50 fw:400 min-width:48 py:2 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm ta:left bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 		transform-origin:var(--transform-origin)
 		&[data-state=open] animation:ui-menu-in 120ms ease-out
 		&[data-state=closed] animation:ui-menu-out 100ms ease-in forwards
-		.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:sm- cursor:pointer user-select:none outline:none
+		.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:sm- c:inherit td:none cursor:pointer user-select:none outline:none
 			&[data-highlighted] bg:$ui-hover
 			&[data-state=open] bg:$ui-hover
 			&[data-disabled] o:0.4 cursor:not-allowed

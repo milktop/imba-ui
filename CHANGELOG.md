@@ -3,6 +3,17 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.4.2 (2026-10-06)
+
+- Menu links: `href` on `ui-menu-item` and on `items` entries renders the
+  item as `<a href>`; subclass ui-menu with `linkTag = 'inertia-link'` for
+  Inertia. Enter on a link goes through the app's router (Zag's own click
+  doesn't bubble, so it caused a full page load)
+- `items` entries without a `value` use their label, like ui-menu-item
+  (they all shared the key "undefined" and emitted nothing)
+- `ui-menu-item` and the checkbox/radio tags now wrap their item element
+  (`display: contents`), so it can be a link
+
 ## 0.4.1 (2026-10-06)
 
 - `ui-sidebar-user`: takes ui-menu's child tags (items, submenus, groups,
