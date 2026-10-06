@@ -8,11 +8,11 @@ tag ui-alert < ui-alert-base
 		.icon fls:0 mt:0.25
 		.text fl:1 min-width:0
 		.heading fw:600 mb:0.5
-		.message c:$ui-muted
+		.description c:$ui-muted
 		.actions d:flex flw:wrap g:2 mt:3
 			&:not(:has(*)) d:none
 		.actions >>> div[slot=actions] d:contents
-		.dismiss d:grid place-items:center fls:0 w:6 h:6 mt:-1 mr:-1 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer outline:none
+		.close d:grid place-items:center fls:0 w:6 h:6 mt:-1 mr:-1 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer outline:none
 			@hover bg:rgba(0,0,0,0.06) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
 

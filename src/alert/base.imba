@@ -25,7 +25,7 @@ tag ui-alert-base
 			<ui-icon.icon path=iconPath size=18 aria-hidden='true'>
 		<div.text>
 			<div.heading> heading if heading
-			<div.message> <slot>
+			<div.description> <slot>
 			<div.actions> <slot name='actions'>
 		if dismissible
-			<button.dismiss type='button' aria-label='Dismiss' @click=emit('dismiss')> <ui-icon path=icons.x size=14>
+			<button.close type='button' aria-label='Dismiss' @click=emit('dismiss')> <ui-icon path=icons.x size=14>

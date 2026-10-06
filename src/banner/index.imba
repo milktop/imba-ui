@@ -7,9 +7,9 @@ tag ui-banner < ui-banner-base
 		.bar d:flex ai:center g:3 min-height:10 px:4 py:2 box-sizing:border-box rd:calc($ui-radius + 2px)
 		&.full .bar rd:0
 		.icon fls:0 fs:16px
-		.message flg:1 min-width:0
+		.description flg:1 min-width:0
 		# Links in the message take the banner's colour, underlined.
-		.message >>> a c:inherit fw:600 td:underline text-underline-offset:2px
+		.description >>> a c:inherit fw:600 td:underline text-underline-offset:2px
 		.actions d:flex ai:center g:2 fls:0
 			&:not(:has(*)) d:none
 		.actions >>> div[slot=actions] d:contents

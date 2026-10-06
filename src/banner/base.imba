@@ -36,7 +36,7 @@ tag ui-banner-base
 		if data
 			<div.bar role='status'>
 				<iconify-icon.icon icon=icon aria-hidden='true'> if icon
-				<div.message> <slot>
+				<div.description> <slot>
 				<div.actions> <slot name='actions'>
 				if dismissible
 					<button.close type='button' aria-label='Dismiss' @click=dismiss> <ui-icon path=icons.x size=14>

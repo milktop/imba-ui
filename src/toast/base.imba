@@ -49,7 +49,7 @@ tag ui-toast-base
 			elif typeIcons[api.type]
 				<ui-icon.icon path=typeIcons[api.type] size=18 aria-hidden='true'>
 			<div.text>
-				<div.title zag=api.getTitleProps!> api.title if api.title
+				<div.heading zag=api.getTitleProps!> api.title if api.title
 				<div.description zag=api.getDescriptionProps!> api.description if api.description
 			if action
 				# Zag calls action.onClick and dismisses the toast.

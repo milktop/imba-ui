@@ -54,7 +54,7 @@ tag ui-collapsible-base
 
 		<self zag=api.getRootProps!>
 			if heading
-				<button.toggle zag=api.getTriggerProps!>
+				<button.trigger zag=api.getTriggerProps!>
 					<span.heading> heading
 					<span.indicator zag=api.getIndicatorProps!> <ui-icon path=icons.down>
 			else

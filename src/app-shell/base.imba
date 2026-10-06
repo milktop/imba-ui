@@ -316,10 +316,10 @@ tag ui-nav-group-base
 		$toggle.focus!
 
 	<self .open=data .rail=rail data-ui-shell-part data-ui-nav-group .flyout=(rail and flyout) @pointerenter=showFlyout @pointerleave=hideFlyout @focusout=focusLeft @keydown.esc=escaped>
-		<button$toggle.toggle type='button' aria-expanded=String(rail ? flyout : !!data) aria-label=(rail ? label : undefined) @click=toggleClicked>
+		<button$toggle.trigger type='button' aria-expanded=String(rail ? flyout : !!data) aria-label=(rail ? label : undefined) @click=toggleClicked>
 			<iconify-icon.icon icon=icon aria-hidden='true'> if icon
 			<span.text> label
-			<ui-icon.chevron path=icons.down size=14>
+			<ui-icon.indicator path=icons.down size=14>
 		<div.children hidden=(rail ? !flyout : !data) @click=(hideFlyout! if e.target.closest('a'))>
 			<div.panel>
 				<div.flyout-heading aria-hidden='true'> label
@@ -359,12 +359,12 @@ tag ui-sidebar-user-base
 
 	<self .rail=rail data-ui-shell-part>
 		<ui-menu items=items placement=(rail ? 'right-end' : 'top-start')>
-			<button.user slot='trigger' type='button' aria-label=(rail ? name : undefined)>
+			<button.trigger slot='trigger' type='button' aria-label=(rail ? name : undefined)>
 				<ui-avatar.avatar name=name src=src size='sm' letters=letters color=color>
 				<span.text>
 					<span.name> name
 					<span.description> description if description
-				<iconify-icon.chevron icon='lucide:chevrons-up-down' aria-hidden='true'>
+				<iconify-icon.indicator icon='lucide:chevrons-up-down' aria-hidden='true'>
 			<slot>
 
 # The bar above the page: a menu button on phones, then its content and an

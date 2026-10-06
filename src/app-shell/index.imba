@@ -109,15 +109,15 @@ tag ui-nav-item < ui-nav-item-base
 tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
-		.toggle d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
+		.trigger d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
-		&.flyout .toggle bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text
+		&.flyout .trigger bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text
 		.icon fs:16px fls:0 w:4 h:4
 		.text flg:1 min-width:0 of:hidden text-overflow:ellipsis transition:opacity 150ms
-		.chevron c:$ui-muted transition:transform 200ms, opacity 150ms
-		&.open .chevron transform:rotate(180deg)
-		&.rail .text, &.rail .chevron o:0
+		.indicator c:$ui-muted transition:transform 200ms, opacity 150ms
+		&.open .indicator transform:rotate(180deg)
+		&.rail .text, &.rail .indicator o:0
 		# Nested items are indented under the group's label.
 		.panel d:flex fld:column g:0.5 mt:0.5 ml:5 pl:2 bdl:1px solid $ui-border
 		.flyout-heading d:none
@@ -132,7 +132,7 @@ tag ui-nav-group < ui-nav-group-base
 tag ui-sidebar-user < ui-sidebar-user-base
 	css
 		d:block w:100%
-		.user d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
+		.trigger d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--nav-hover, $ui-sidebar-hover)
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 			&[aria-expanded=true] bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow)
@@ -141,8 +141,8 @@ tag ui-sidebar-user < ui-sidebar-user-base
 		.name fw:500 of:hidden text-overflow:ellipsis
 		.description fs:xs c:$ui-muted of:hidden text-overflow:ellipsis
 			&:empty d:none
-		.chevron fls:0 c:$ui-muted fs:14px
-		&.rail .text, &.rail .chevron o:0
+		.indicator fls:0 c:$ui-muted fs:14px
+		&.rail .text, &.rail .indicator o:0
 		# As wide as the trigger when it opens upwards (Zag sets
 		# --reference-width), and never narrower than 13rem.
 		>>> .content min-width:max(13rem, var(--reference-width)) box-sizing:border-box

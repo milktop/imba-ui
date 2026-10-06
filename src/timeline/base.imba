@@ -53,7 +53,7 @@ tag ui-timeline-item-base
 				<span.dot>
 		<div.body>
 			<div.header>
-				<span.title> title if title
+				<span.heading> title if title
 				<time.time> time if time
 			<div.description> description if description
 			<div.content> <slot>

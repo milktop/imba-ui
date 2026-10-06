@@ -3,6 +3,23 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.6.0 (2026-10-06)
+
+Part names made consistent, so the same job has the same class everywhere.
+Renamed (update any app CSS that targets them):
+
+- `ui-toast`, `ui-timeline-item`: `.title` → `.heading`
+- `ui-alert`: `.dismiss` → `.close`, `.message` → `.description`
+- `ui-banner`: `.message` → `.description`
+- `ui-collapsible`, `ui-nav-group`: `.toggle` → `.trigger`
+- `ui-nav-group`, `ui-sidebar-user`: `.chevron` → `.indicator`
+- `ui-sidebar-user`: `.user` (its button) → `.trigger`
+- `ui-accordion-item`: `.content-inner` → `.inner`
+- `ui-button`: `.spoken` → `.sr-only`
+
+Also: the playground's Props panel lists each component's parts, and the
+readme shows styling one instance's parts with `css >>> .part`.
+
 ## 0.5.8 (2026-10-06)
 
 - `ui-sidebar`: tokens for its items' size and resting text,

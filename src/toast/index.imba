@@ -28,9 +28,9 @@ tag ui-toast < ui-toast-base
 		&[data-type=info] .icon c:$ui-accent
 		.spinner d:block w:4 h:4 mt:0.5 box-sizing:border-box bd:2px solid currentColor bc:currentColor transparent currentColor currentColor rd:full animation:ui-spin 0.7s linear infinite
 		.text fl:1 min-width:0
-		.title fw:600
+		.heading fw:600
 		.description c:$ui-muted
-		.title + .description mt:0.5
+		.heading + .description mt:0.5
 		.action as:center fls:0 h:7 px:2.5 bd:1px solid $ui-border bg:$ui-surface c:$ui-text rd:md fs:xs fw:500 ff:inherit cursor:pointer
 			@hover bg:$ui-hover
 		.close pos:absolute t:2 r:2 d:grid place-items:center w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer

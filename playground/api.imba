@@ -1,8 +1,8 @@
 import { highlightImba } from './demo.imba'
 
 # The components' API, read from their base files: each headless tag's props
-# (with defaults), what its doc comment says about them, the events it emits
-# and its slots. Nothing to maintain: it follows the source.
+# (with defaults), what its doc comment says about them, the events it emits,
+# its slots and its parts. Nothing to maintain: it follows the source.
 
 const sources = import.meta.glob('../src/*/base.imba', { query: '?raw', import: 'default', eager: true })
 
@@ -36,7 +36,17 @@ export def apiOf source
 			props: propsOf(body, describe(doc))
 			events: unique(Array.from(body.join('\n').matchAll(/emit\('([\w-]+)'/g)).map(do $1[1]))
 			slots: unique(Array.from(body.join('\n').matchAll(/<slot(?: name='([\w-]+)')?>/g)).map(do $1[1] or 'default'))
+			parts: partsOf(body)
 	out
+
+# The parts an app can style (`css >>> .prev c:pink6`): each element's first
+# class in the markup. Later ones (`.cell.wide`) are modifiers, and
+# conditional (`.open=…`) and dynamic (`.{size}`) ones aren't parts.
+def partsOf body
+	let parts = []
+	for m in Array.from(body.join('\n').matchAll(/<(?!self\b)[\w-]+\.([\w-]+)(?![\w$=-])/g))
+		parts.push(m[1])
+	unique(parts)
 
 # The doc comment's examples: indented blocks after a blank line, e.g.
 #
@@ -134,3 +144,8 @@ tag api-panel
 						<span> "Slots:"
 						for name in api.slots
 							<span.chip> name
+				if api.parts.length
+					<div.chips title="Style one instance's part with css >>> .part inside it">
+						<span> "Parts:"
+						for name in api.parts
+							<span.chip> ".{name}"

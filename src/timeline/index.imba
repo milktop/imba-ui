@@ -35,7 +35,7 @@ tag ui-timeline-item < ui-timeline-item-base
 		&.danger .dot bg:$ui-danger
 		.body flg:1 min-width:0 pb:6 pt:1.5
 		.header d:flex ai:baseline jc:space-between g:3 flw:wrap
-		.title fw:500
+		.heading fw:500
 		.time fs:xs c:$ui-muted ws:nowrap
 		.description mt:0.5 c:$ui-muted
 			&:empty d:none

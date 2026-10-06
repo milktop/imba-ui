@@ -20,4 +20,4 @@ tag ui-accordion-item < ui-accordion-item-base
 			&[data-state=open] transform:rotate(180deg)
 		.content
 			&[data-state=open] animation:ui-accordion-in 180ms ease-out
-		.content-inner pb:4 c:$ui-muted fs:sm
+		.inner pb:4 c:$ui-muted fs:sm

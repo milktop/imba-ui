@@ -91,4 +91,4 @@ tag ui-accordion-item-base
 					<span.heading-text> heading
 					<span.indicator zag=(api ? api.getItemIndicatorProps(props) : {})> <ui-icon path=icons.down>
 			<div.content zag=(api ? api.getItemContentProps(props) : { hidden: true })>
-				<div.content-inner> <slot>
+				<div.inner> <slot>

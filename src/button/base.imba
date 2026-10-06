@@ -80,4 +80,4 @@ tag ui-button-base < button
 				<iconify-icon.icon icon=iconEnd aria-hidden='true'>
 			if badge != null
 				<span.badge .dot=(badge === '') .pulse=pulse .{countColor} data-ui-pulse=(pulse or undefined) aria-hidden='true'> badge
-				<span.spoken [pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap]> ", {spoken}" unless #ownLabel
+				<span.sr-only [pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap]> ", {spoken}" unless #ownLabel

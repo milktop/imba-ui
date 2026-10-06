@@ -363,9 +363,20 @@ Redefine the derived ones alongside the accent wherever you scope it, as above.
 
 ### Beyond tokens
 
-- One component's look: style its parts from your CSS. Parts have classes
-  (`.badge`, `.control`, `.item`) and Zag's `data-part` and state attributes,
-  e.g. `ui-button .badge`. Some components expose their own variables
+- One instance: put a `css` block inside it and reach its parts with `>>>`.
+  It applies to that element only, and Imba ranks it alongside the
+  library's own styles, so no `@important`:
+
+  ```imba
+  <ui-date-picker>
+  	css >>> .prev, >>> .next c:pink6 bg:pink1 rd:full
+  		@hover bg:pink2
+  ```
+
+  Every part has a class (each component's Props panel in the playground
+  lists them) and Zag's parts have `data-part` and state attributes too.
+  Styles on a part also beat its library states (hover, active), so restate
+  the ones you care about. Some components expose their own variables
   (ui-button's `--ui-button-count-bg`).
 - A different look altogether: subclass the headless tag (next section).
 
