@@ -42,7 +42,9 @@ export class Machine
 			owner.render! if owner.isConnected
 			imba.commit!
 
-	def start do service.start!
+	def start
+		service.start!
+		running = yes
 
 	# Re-run Zag's prop watchers and re-render after props it reads lazily
 	# (e.g. a collection) changed outside of a machine event. Deferred so it
@@ -79,6 +81,7 @@ export class Machine
 		[].concat(value ?? []).map(String).join('\n')
 
 	def stop
+		running = no
 		unsubscribe!
 		service.stop!
 

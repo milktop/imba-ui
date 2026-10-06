@@ -44,7 +44,8 @@ export def highlightImba text do tokenize(text, imbaRe, ['comment', 'string', 't
 # demo scaffolding (`.out` blocks with readouts and buttons that set values).
 export def sectionSource source, heading
 	let lines = (source or '').split('\n')
-	let start = lines.findIndex(do $1.includes("<demo-section heading='{heading}'>"))
+	let tag = "<demo-section heading='{heading}'"
+	let start = lines.findIndex(do $1.includes(tag + '>') or $1.includes(tag + ' '))
 	return '' if start < 0
 	let depth = do(line) line.match(/^\t*/)[0].length
 	let base = depth(lines[start])
@@ -63,6 +64,19 @@ export def sectionSource source, heading
 		out.push(line)
 	let min = Math.min(...out.map(depth))
 	out.map(do $1.slice(min)).join('\n')
+
+# The definition of a page tag's field `name` (`actions = [` … `]`), so a
+# section's code can show the data it renders.
+export def fieldSource source, name
+	let lines = (source or '').split('\n')
+	let start = lines.findIndex(do $1.match(new RegExp("^\\t{name} = ")))
+	return '' if start < 0
+	let out = [lines[start].slice(1)]
+	for line in lines.slice(start + 1)
+		break unless line.startsWith('\t\t') or line.match(/^\t[\]\}]/)
+		out.push(line.slice(1))
+		break if line.match(/^\t[\]\}]/)
+	out.join('\n')
 
 # Page content belongs to each page's scope, so demo helpers (readouts,
 # buttons that set values) are styled globally under demo-section.
@@ -164,10 +178,15 @@ tag demo-section
 	prop heading
 	# For components that are cards themselves: no preview card around them.
 	prop bare = false
+	# Page fields the example renders (space-separated), shown above its markup.
+	prop uses = null
 	showCode = no
 	copied = no
 
-	get code do sectionSource(closest('demo-page')..source, heading)
+	get code
+		let source = closest('demo-page')..source
+		let fields = (uses or '').split(' ').filter(Boolean).map(do fieldSource(source, $1))
+		[...fields, sectionSource(source, heading)].filter(Boolean).join('\n\n')
 
 	def copy
 		await globalThis.navigator.clipboard.writeText(code)

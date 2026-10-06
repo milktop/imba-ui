@@ -18,7 +18,7 @@ and the Zag/Imba lessons below in more detail.
   `pages/<name>.imba`, shared bits in `demo.imba`. Each example is a
   `demo-section`; its Code toggle shows the section's own markup from the page source (`?raw`); put
   readouts (`json-print`) and value-setting buttons in a `<div.out>` so they're
-  left out of it. Components that are cards themselves (ui-card, ui-table,
+  left out of it; `uses='actions …'` adds those page fields' definitions above it. Components that are cards themselves (ui-card, ui-table,
 card variants) get `<demo-section bare>`, so they aren't framed in a second
 card. Blocks (composed screens) live in `playground/blocks/`, one
   tag per file, listed and routed from `blocks.imba` (their Code view shows the
@@ -80,6 +80,10 @@ New components follow the same pattern: add both files, an entry in
   when comparing against `''`, `0` or `false`.
 - **No optional assignment:** `a..b = c` compiles to invalid `a?.b = c`; write
   `a.b = c if a`.
+- **Names that shadow:** a bare name in a tag resolves to an import or module
+  `def` of that name before the tag's own getter (`menu` meant the Zag module
+  inside ui-menu-item); rename the import or write `self.x`. `#parent` is
+  taken by Imba, so pick another private field name.
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
   `visit`, `setup`, `mount`); overriding `commit` silently breaks rendering.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).

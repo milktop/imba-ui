@@ -3,6 +3,21 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.4.0 (2026-10-06)
+
+- `ui-menu`: child tags as an alternative (or addition) to `items`:
+  `ui-menu-item`, `ui-menu-separator` and `ui-menu-group` (a labelled group)
+- Nested menus: `ui-submenu`, or an `items` entry with its own `items`;
+  submenu selections reach the outer menu's `select` (ui-context-menu too)
+- Checkbox and radio items: `{ type: 'checkbox' | 'radio', … }` entries
+  (the menu updates their `checked` and emits `change`), or
+  `ui-menu-checkbox` and `ui-menu-radio-group` with `ui-menu-radio`, which
+  take `bind=`
+- `keepOpen`: on a menu, an `items` entry or a child tag, keeps the menu open
+  after an item is chosen
+- Menu styles are now global CSS keyed on Zag's `data-scope=menu` parts, so
+  they reach the child tags and submenus
+
 ## 0.3.2 (2026-10-06)
 
 - Peer range for `imba` is now `>=2.0.0-alpha.253 <2.0.0-alpha- || ^2.0.0`:
