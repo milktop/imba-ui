@@ -11,8 +11,15 @@ tag page-theme-toggle
 				<div.out>
 					<json-print data={ picked, scheme: colorScheme.value, dark: colorScheme.dark }>
 
+			<demo-section heading='Order'>
+				<ui-theme-toggle options=['light', 'dark', 'system']>
+				<div.out>
+					<p.note> "`options` sets which schemes show and their order; the default is system, light, dark."
+
 			<demo-section heading='Light and dark only'>
 				<ui-theme-toggle system=false>
+				<div.out>
+					<p.note> "Or `options=['light', 'dark']`."
 
 			<demo-section heading='Labels'>
 				<ui-theme-toggle labels={ light: 'Clair', dark: 'Sombre', system: 'Système' } label='Thème'>

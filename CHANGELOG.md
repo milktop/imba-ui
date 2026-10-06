@@ -3,6 +3,11 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.0 (2026-10-06)
+
+- `ui-theme-toggle`: System comes first (system, light, dark); `options`
+  sets which schemes show and their order
+
 ## 0.4.2 (2026-10-06)
 
 - Menu links: `href` on `ui-menu-item` and on `items` entries renders the
