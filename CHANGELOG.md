@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.3.2 (2026-10-06)
+
+- Peer range for `imba` is now `>=2.0.0-alpha.253 <2.0.0-alpha- || ^2.0.0`:
+  `^2.0.0-alpha.253` also matched `2.0.0-nightly.0`, which lacks
+  `imba/runtime` and breaks the Vite plugin
+
 ## 0.3.1 (2026-10-06)
 
 - `ui-sidebar-user`: 13px text, like the nav items

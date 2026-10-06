@@ -70,7 +70,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.3.1
+npm install github:milktop/imba-ui#v0.3.2
 # or, while developing locally
 npm install file:../../imba/ui
 ```
