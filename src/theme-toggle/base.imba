@@ -79,7 +79,7 @@ tag ui-theme-toggle-base
 		# Without the system option, show what the OS currently resolves to.
 		let value = offersSystem ? colorScheme.value : (colorScheme.dark ? 'dark' : 'light')
 		let shown = colorScheme.dark ? 'dark' : 'light'
-		<self .icon-only=!!iconOnly role='group' aria-label=label data-variant=mode>
+		<self .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=label data-variant=mode>
 			if mode === 'menu'
 				<ui-menu.menu placement=(placement or (iconOnly ? 'bottom' : 'bottom-end')) keepOpen=keepOpen>
 					<button.trigger slot='trigger' type='button' aria-label="{label}: {labels[value]}">

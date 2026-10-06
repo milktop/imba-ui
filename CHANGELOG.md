@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.5.2 (2026-10-06)
+
+- `ui-theme-toggle`: `iconOnly` styles only apply while the menu shows; with
+  `mobile='menu'` they also hit the segmented control on wide screens,
+  covering the selected scheme's white indicator
+
 ## 0.5.1 (2026-10-06)
 
 - `ui-theme-toggle`: `variant='menu'` (one button showing the current choice,

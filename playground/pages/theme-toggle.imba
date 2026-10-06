@@ -22,9 +22,9 @@ tag page-theme-toggle
 					<p.note> "`iconOnly` lists just the icons, and `keepOpen` keeps the menu open after a choice."
 
 			<demo-section heading='Menu on phones'>
-				<ui-theme-toggle mobile='menu'>
+				<ui-theme-toggle mobile='menu' iconOnly keepOpen>
 				<div.out>
-					<p.note> "Segmented on wide screens and a menu below `breakpoint` (768px by default)."
+					<p.note> "Segmented on wide screens and a menu (here of icons) below `breakpoint` (768px by default)."
 
 			<demo-section heading='Toggle'>
 				<ui-theme-toggle variant='toggle'>
