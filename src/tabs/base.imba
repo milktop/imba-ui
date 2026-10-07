@@ -14,9 +14,12 @@ import 'iconify-icon'
 # with the tab's own value.
 #
 # - `variant`: 'line' (default, an underline) or 'pills' (styling hooks)
+# - `counts`: where the tabs' counts sit: 'inline' (default, after the
+#   label) or 'corner' (top right, like a button's)
 tag ui-tabs-base
 	prop value = null
 	prop variant = 'line'
+	prop counts = 'inline'
 
 	isUiTabs = yes
 	zagId = uid('tabs')
@@ -64,7 +67,7 @@ tag ui-tabs-base
 		let api = machine.connect(zagTabs)
 		tab.render! for tab in tabs
 
-		<self .{variant} zag=api.getRootProps!>
+		<self .{variant} .corner-counts=(counts == 'corner') zag=api.getRootProps!>
 			<div.list zag=api.getListProps!>
 				for tab in tabs
 					<button.trigger zag=api.getTriggerProps(value: String(tab.value), disabled: !!tab.disabled)>

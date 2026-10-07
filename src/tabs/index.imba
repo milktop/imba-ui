@@ -31,6 +31,10 @@ tag ui-tabs < ui-tabs-base
 			# A copy of its colour that grows and fades behind it.
 			&.pulse@after content:'' pos:absolute inset:0 zi:-1 rd:full bg:inherit animation:ui-pulse 1.6s cubic-bezier(0, 0, 0.2, 1) infinite
 		.trigger[data-selected] .count.neutral --count-bg:$ui-accent-soft --count-text:$ui-accent-soft-text
+		# Corner counts: small, raised into the tab's top right, ringed in the
+		# page colour like a button's.
+		&.corner-counts .count pos:absolute t:1 r:0 transform:translateX(25%) min-width:15px h:15px px:1 fs:10px shadow:0 0 0 2px $ui-surface
+			&.dot min-width:0 w:7px h:7px p:0 t:2 r:1.5 transform:none
 		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
 		.indicator transition-property:var(--transition-property) transition-duration:200ms
 		.panels pt:4
