@@ -69,7 +69,7 @@ const groups = [
 		{ path: '/copy-button', title: 'Copy button', about: 'Copy text with feedback' }
 	] }
 	{ title: 'Display', icon: 'lucide:layout-grid', pages: [
-		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback' }
+		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback, and groups' }
 		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
 		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
 		{ path: '/table', title: 'Table', about: 'Sorting, selection, paging' }

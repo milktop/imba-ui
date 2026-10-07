@@ -3,6 +3,7 @@
 import './button/index.imba'
 import './copy-button/index.imba'
 import './avatar/index.imba'
+import './avatar-group/index.imba'
 import './badge/index.imba'
 import './card/index.imba'
 import './data-list/index.imba'

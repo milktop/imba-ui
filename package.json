@@ -67,6 +67,8 @@
     "./progress/base": "./src/progress/base.imba",
     "./avatar": "./src/avatar/index.imba",
     "./avatar/base": "./src/avatar/base.imba",
+    "./avatar-group": "./src/avatar-group/index.imba",
+    "./avatar-group/base": "./src/avatar-group/base.imba",
     "./copy-button": "./src/copy-button/index.imba",
     "./copy-button/base": "./src/copy-button/base.imba",
     "./collapsible": "./src/collapsible/index.imba",
