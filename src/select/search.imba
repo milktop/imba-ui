@@ -33,6 +33,7 @@ tag ui-search-select-base < ui-control
 	prop disabled = false
 	prop placement = 'bottom-start'
 	prop size = 'md'
+	prop quiet = false
 	prop itemTag = null
 	prop createTag = null
 	prop emptyTag = null
@@ -225,7 +226,7 @@ tag ui-search-select-base < ui-control
 		let tags = picked
 		let create = creating
 
-		<self .{size} .{variant} data-ui-select-list zag=api.getRootProps! @focusout=revert(e)>
+		<self .{size} .{variant} .quiet=quiet data-ui-select-list zag=api.getRootProps! @focusout=revert(e)>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps! @mousedown=focusInput(e)>

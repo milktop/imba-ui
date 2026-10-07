@@ -11,6 +11,11 @@ tag ui-input < ui-input-base
 		&.round rd:full px:3.5
 		&.sm min-height:$ui-control-height-sm px:2.5 fs:sm-
 		&.sm.round px:3
+		# Quiet: the box shows on hover and focus; disabled, it's just the value.
+		&.quiet bc:transparent bg:transparent
+		&.quiet@hover bc:$ui-border
+		&.quiet@focus-within bc:$ui-ring bg:$ui-surface
+		&.quiet:has(:disabled) o:1 bc:transparent
 
 		# The default input or a slotted replacement.
 		>>> :is(input, textarea) fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit

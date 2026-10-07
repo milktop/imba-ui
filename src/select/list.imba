@@ -26,6 +26,7 @@ tag ui-list-select-base < ui-control
 	prop disabled = false
 	prop placement = 'bottom-start'
 	prop size = 'md'
+	prop quiet = false
 	prop itemTag = null
 	prop emptyTag = null
 
@@ -109,7 +110,7 @@ tag ui-list-select-base < ui-control
 		let api = machine.connect(select)
 		let list = listed
 
-		<self .{size} .{variant} data-ui-select-list zag=api.getRootProps!>
+		<self .{size} .{variant} .quiet=quiet data-ui-select-list zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>

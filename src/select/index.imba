@@ -44,6 +44,17 @@ tag ui-list-select < ui-list-select-base
 		.clear pos:absolute r:8 d:grid place-items:center w:6 h:6 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text
 			&[hidden] d:none
+		# Quiet: the box and arrow show on hover, focus and while open.
+		&.quiet .trigger bc:transparent bg:transparent
+		# A faint arrow still says it can be changed.
+		&.quiet .indicator o:0.35 transition:opacity 120ms
+		&.quiet .trigger[data-disabled] .indicator o:0
+		&.quiet .trigger@hover bc:$ui-border
+		&.quiet .trigger@hover .indicator o:1
+		&.quiet .trigger@focus-visible bg:$ui-surface
+		&.quiet .trigger[data-state=open] bc:$ui-ring bg:$ui-surface
+		&.quiet .trigger[data-state=open] .indicator o:1
+		&.quiet .trigger[data-disabled] o:1 cursor:default bc:transparent
 
 
 tag ui-search-select < ui-search-select-base
@@ -67,6 +78,10 @@ tag ui-search-select < ui-search-select-base
 			@hover bg:$ui-hover c:$ui-text
 			&[hidden] d:none
 		.trigger[data-state=open] rotate:180deg
+		&.quiet .control bc:transparent bg:transparent
+		&.quiet .control@hover bc:$ui-border
+		&.quiet .control@focus-within bc:$ui-ring bg:$ui-surface
+		&.quiet .control[data-disabled] o:1 bc:transparent
 
 tag ui-select < ui-select-base
 	listTag = 'ui-list-select'

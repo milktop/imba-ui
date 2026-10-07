@@ -28,6 +28,8 @@ import './search.imba'
 # - `placeholder`, `emptyText` (when nothing matches)
 # - `name`: for plain form posts
 # - `size`: 'sm' or 'md'; `placement`: where the list opens ('bottom-start')
+# - `quiet`: no border, fill or arrow until hovered, focused or open, and
+#   plain text when disabled; for selects in table rows
 # - `itemTag`: a tag rendering an option's content, given `item`
 # - `createTag`: a tag rendering the create option's content, given `query`
 # - `emptyTag`: a tag shown when nothing matches, given `query`
@@ -57,6 +59,7 @@ tag ui-select-base < ui-control
 	prop emptyText = 'No matches'
 	prop name = null
 	prop size = 'md'
+	prop quiet = false
 	prop placement = 'bottom-start'
 	prop disabled = false
 	prop itemTag = null
@@ -80,10 +83,10 @@ tag ui-select-base < ui-control
 		if searching
 			<{searchTag}.inner label=label items=items value=data placeholder=placeholder labelKey=labelKey valueKey=valueKey disabledKey=disabledKey
 				multiple=multiple variant=variant hideSelected=hideSelected load=load debounce=debounce loadingText=loadingText oncreate=oncreate
-				closeOnSelect=closeOnSelect clearable=clearable emptyText=emptyText name=name size=size placement=placement disabled=disabled
+				closeOnSelect=closeOnSelect clearable=clearable emptyText=emptyText name=name size=size quiet=quiet placement=placement disabled=disabled
 				itemTag=itemTag createTag=createTag emptyTag=emptyTag @change=changed(e)>
 		else
 			<{listTag}.inner label=label items=items value=data placeholder=placeholder labelKey=labelKey valueKey=valueKey disabledKey=disabledKey
 				multiple=multiple tags=tags variant=variant hideSelected=hideSelected deselectable=deselectable closeOnSelect=closeOnSelect
-				clearable=clearable emptyText=emptyText name=name size=size placement=placement disabled=disabled
+				clearable=clearable emptyText=emptyText name=name size=size quiet=quiet placement=placement disabled=disabled
 				itemTag=itemTag emptyTag=emptyTag @change=changed(e)>
