@@ -3,6 +3,35 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.7.0 (2026-10-07)
+
+One `ui-select` for every pick. **`ui-combobox` is removed**: use
+`<ui-select searchable>` (and `import '@milktop/imba-ui/select'`); its props
+carry over.
+
+- `ui-select`: a button by default, or an input that filters the list with
+  `searchable`, `load` (server search) or `oncreate`
+- `oncreate`: offers "Create …" for typed text that matches nothing and calls
+  it with the text; return the new item (or a promise of it) to select it
+- `multiple` with picks ticked in the list, or as `tags` (always tags when
+  searchable), styled by `variant`; `hideSelected` takes picks out of the list
+- `deselectable`, `closeOnSelect`, `clearable`, `emptyText`
+- `itemTag`, `createTag`, `emptyTag`: tags rendering an option (given
+  `item`), the create option and the empty state (given `query`)
+- Picking several, Enter picks a run (the highlight keeps its place), and
+  Backspace removes the last pick
+- Search ranks labels starting with the text first; stray text reverts to the
+  pick when focus leaves
+
+Also:
+
+- `ui-avatar-group`: avatars in an overlapping stack, ringed in
+  `$ui-avatar-ring`, with `max` and a "+N" whose tooltip lists the rest;
+  `size`, `spacing`, `color`, `square`, `letters`, `tooltip`
+- `ui-card`: `variant` ('elevated', 'outline', 'subtle'), `icon`, `divided`,
+  `href` (the whole card a link, lifting on hover) and `size`; the footer sits
+  on a faint band, and an empty body no longer adds padding
+
 ## 0.6.0 (2026-10-06)
 
 Part names made consistent, so the same job has the same class everywhere.
