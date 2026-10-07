@@ -130,7 +130,7 @@ tag ui-search-select-base < ui-control
 			defaultValue: initial
 			openOnClick: true
 			inputBehavior: 'autohighlight'
-			positioning: { placement, sameWidth: true }
+			positioning: { placement }
 			# Typing filters; a pick resets the filter (the server's results
 			# stay, so the picked item keeps its place). After Zag finishes this
 			# transition, as a framework re-render would.

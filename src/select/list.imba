@@ -68,7 +68,7 @@ tag ui-list-select-base < ui-control
 			ids: fieldIds(self)
 			name: name
 			defaultValue: initial
-			positioning: { placement, sameWidth: true }
+			positioning: { placement }
 			onValueChange: do(details)
 				let values = details.items.map(do itemValue($1, valueKey))
 				keepPlace(details.value) if multiple

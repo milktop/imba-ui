@@ -5,7 +5,8 @@ import './base.imba'
 global css
 	[data-ui-select-list]
 		# Zag copies the content's z-index onto its positioner.
-		.content zi:50 fw:400 list-style:none m:0 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:1 outline:none max-height:min(300px, var(--available-height)) ofy:auto box-sizing:border-box
+		# At least as wide as the trigger, wider when the options need it.
+		.content min-width:var(--reference-width) w:max-content max-width:min(24rem, var(--available-width, 24rem)) zi:50 fw:400 list-style:none m:0 bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow p:1 outline:none max-height:min(300px, var(--available-height)) ofy:auto box-sizing:border-box
 		.item d:hcs g:2 px:2 py:1.5 rd:sm fs:sm cursor:pointer
 			&[data-highlighted] bg:$ui-hover
 			&[data-state=checked] fw:500
