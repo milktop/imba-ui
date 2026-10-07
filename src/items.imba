@@ -1,4 +1,4 @@
-# Helpers for list components (select, combobox). Items may be plain strings
+# Helpers for list components (select, menu). Items may be plain strings
 # or objects; Zag identifies items by string value, so values are stringified
 # going in and mapped back to the original (e.g. numeric Rails ids) coming out.
 

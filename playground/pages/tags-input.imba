@@ -7,7 +7,7 @@ tag page-tags-input
 	def isEmail details do /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(details.inputValue)
 
 	<self>
-		<demo-page source=source heading='Tags input' intro='ui-tags-input adds free-form tags with Enter or a comma. For picking from a fixed list, use a multiple Combobox. Tags are grey by default; variant="accent" or "outline" change that.'>
+		<demo-page source=source heading='Tags input' intro='ui-tags-input adds free-form tags with Enter or a comma. For picking from a fixed list, use a multiple ui-select (with `searchable` and `tags`). Tags are grey by default; variant="accent" or "outline" change that.'>
 			<demo-section heading='Topics'>
 				<ui-fields>
 					<ui-field span=6 label='Topics covered' hint='Double-click a tag to edit it'>

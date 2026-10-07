@@ -35,7 +35,6 @@ import './pages/tags-input.imba'
 import './pages/file-upload.imba'
 import './pages/attachments.imba'
 import './pages/select.imba'
-import './pages/combobox.imba'
 import './pages/date-picker.imba'
 import './pages/checkbox.imba'
 import './pages/radio-group.imba'
@@ -99,8 +98,7 @@ const groups = [
 		{ path: '/attachments', title: 'Attachments', about: 'Files added to a page or form' }
 	] }
 	{ title: 'Pickers', icon: 'lucide:list-checks', pages: [
-		{ path: '/select', title: 'Select', about: 'One or more from a list' }
-		{ path: '/combobox', title: 'Combobox', about: 'Filter as you type, or search a server' }
+		{ path: '/select', title: 'Select', about: 'Pick one or several; search, load or create' }
 		{ path: '/date-picker', title: 'Date picker', about: 'Dates and ranges, keyboard stepping' }
 	] }
 	{ title: 'Choices', icon: 'lucide:circle-check', pages: [
@@ -300,7 +298,6 @@ tag playground
 				<page-file-upload route='/file-upload'>
 				<page-attachments route='/attachments'>
 				<page-select route='/select'>
-				<page-combobox route='/combobox'>
 				<page-date-picker route='/date-picker'>
 				<page-checkbox route='/checkbox'>
 				<page-radio-group route='/radio-group'>

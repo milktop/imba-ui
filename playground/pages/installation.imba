@@ -23,12 +23,12 @@ import '@milktop/imba-ui'
 
 # …or only the components you use
 import '@milktop/imba-ui/date-picker'
-import '@milktop/imba-ui/combobox'
+import '@milktop/imba-ui/select'
 '''
 
 const usage = '''
 <ui-date-picker label='Lesson date' bind=lesson.date>
-<ui-combobox label='Subject' items=subjects labelKey='name' valueKey='id' bind=subjectId>
+<ui-select label='Subject' items=subjects labelKey='name' valueKey='id' searchable bind=subjectId>
 '''
 
 const headless = '''

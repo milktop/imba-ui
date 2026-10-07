@@ -33,7 +33,7 @@ tag page-fields
 						<ui-select items=years bind=student.year>
 				<ui-fields legend='Lessons' disabled=locked>
 					<ui-field span=6 label='Subjects' error=errors.subjects>
-						<ui-combobox items=subjects multiple placeholder='Add…' bind=student.subjects>
+						<ui-select items=subjects searchable multiple placeholder='Add…' bind=student.subjects>
 					<ui-field span=6 label='Start date' hint='Lessons start from this date'>
 						<ui-date-picker bind=student.start>
 					<ui-field span=12>

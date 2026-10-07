@@ -11,8 +11,6 @@
     "./color-scheme": "./src/color-scheme.imba",
     "./date-picker": "./src/date-picker/index.imba",
     "./date-picker/base": "./src/date-picker/base.imba",
-    "./combobox": "./src/combobox/index.imba",
-    "./combobox/base": "./src/combobox/base.imba",
     "./select": "./src/select/index.imba",
     "./select/base": "./src/select/base.imba",
     "./input": "./src/input/index.imba",

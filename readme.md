@@ -28,8 +28,7 @@ code, and some composed screens (blocks).
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
-| Select | `<ui-select>` | Single or multiple, typeahead, optional hidden `<select>` for plain forms; `size='sm'` |
-| Combobox | `<ui-combobox>` | Filtering, multiple selection with tags, async `load` for server search |
+| Select | `<ui-select>` | One component for every pick: a button, or with `searchable` an input that filters; async `load` for server search; `oncreate` to add items; `multiple` with ticks or `tags`, `hideSelected`, `deselectable`, `clearable`; `itemTag` for custom options; Enter picks a run, Backspace removes the last pick; hidden `<select>` for plain forms; `size='sm'` |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots, `round` for a pill, `size='sm'`; slot a textarea to replace it |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
 | Password input | `<ui-password-input>` | Show/hide button; `ui-field type='password'` renders one |
@@ -94,10 +93,10 @@ Import each component you use (or everything at once, with
 
 ```imba
 import '@milktop/imba-ui/date-picker'
-import '@milktop/imba-ui/combobox'
+import '@milktop/imba-ui/select'
 
 <ui-date-picker label='Lesson date' bind=lesson.date>
-<ui-combobox label='Subject' items=subjects labelKey='name' valueKey='id' bind=subjectId>
+<ui-select label='Subject' items=subjects labelKey='name' valueKey='id' searchable bind=subjectId>
 ```
 
 Values work three ways, all two-way:
@@ -107,7 +106,7 @@ Values work three ways, all two-way:
 - `value=x @change=(x = e.detail)`
 
 Values are plain: ISO dates from the date picker, and the items' own values
-(numeric ids stay numbers) from select and combobox. Changing the value from
+(numeric ids stay numbers) from select. Changing the value from
 outside updates the component without emitting `change`, as with native inputs;
 only user changes emit it. With async `load`, an outside value only shows a
 label once its item is among the loaded results.
@@ -428,9 +427,13 @@ Things learned the hard way:
 - **Props are read lazily.** Zag calls the props function repeatedly. Work out
   fixed values (like a parsed `defaultValue`) once, before it. When something it
   reads changes outside a Zag event (e.g. async results), call `machine.refresh!`.
-- **Swap collections after the transition.** Changing a combobox collection
+- **Swap collections after the transition.** Changing a searchable select's collection
   inside `onInputValueChange` runs Zag's watchers from the wrong state. Defer
   the change to a microtask, as a framework re-render would.
+- **One tag over two machines.** `ui-select` renders `ui-list-select` (Zag's
+  select) or `ui-search-select` (Zag's combobox) and passes its props on; the
+  inner one's `change` bubbles through, after updating the outer value (and
+  with it a `bind=`). Keep the props of the three in step.
 - **Use `globalThis.queueMicrotask`.** Inside a tag or class, Imba compiles
   a bare `queueMicrotask` to `self.queueMicrotask`.
 - **Stop native `change` events.** Inner inputs' native `change` events bubble

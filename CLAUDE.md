@@ -12,7 +12,7 @@ and the Zag/Imba lessons below in more detail.
 - `src/<name>/base.imba`: headless tag `ui-<name>-base`, with behaviour and markup only
 - `src/<name>/index.imba`: styled tag `tag ui-<name> < ui-<name>-base`, a `css` block only
 - `src/theme.imba`: `$ui-*` tokens (dark under `html.dark` / `[data-theme=dark]`)
-- `src/items.imba`: item/collection helpers shared by select and combobox
+- `src/items.imba`: item/collection helpers shared by select (both modes) and menu
 - `playground/`: Vite demo app (`npm run dev`), routed with Imba's router: a shell in
   `main.imba` (sidebar `groups` and routes), one page per component in
   `pages/<name>.imba`, shared bits in `demo.imba`. Each example is a
