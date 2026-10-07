@@ -27,8 +27,11 @@ tag ui-card < ui-card-base
 		.description m:0 mt:1 c:$ui-muted
 		.actions d:flex g:2 fls:0
 			&:not(:has(*)) d:none
-		# No empty check here: a body of plain text has no child elements.
+		# :empty, not :has(*): a body of plain text has no child elements.
 		.body p:$card-pad flg:1
+			&:empty d:none
+		# A card that is all header (a link card): padded all round.
+		&:has(> .body:empty) .header pb:$card-pad
 		.header + .body pt:calc($card-pad * 0.8)
 		&.divided .header pb:calc($card-pad * 0.8) bdb:1px solid $ui-border
 		&.flush of:hidden
