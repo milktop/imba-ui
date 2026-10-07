@@ -71,15 +71,37 @@ tag ui-tabs-base
 						if tab.icon
 							<iconify-icon.icon icon=tab.icon aria-hidden='true'>
 						<span> tab.label
+						if tab.badge != null
+							<span.count .dot=(tab.badge === '') .pulse=tab.pulse .{tab.countColor} data-ui-pulse=(tab.pulse or undefined) aria-hidden='true'> tab.badge
+							if tab.spoken
+								<span.sr-only> ", {tab.spoken}"
 				<div.indicator zag=api.getIndicatorProps!>
 			<div$panels.panels> <slot>
 
 # One panel of a ui-tabs; `label` (and optional `icon`) make its tab.
+#
+# - `count`: a small count after the label (hidden at 0 or null); past `max`
+#   it shows e.g. "99+"
+# - `dot`: a dot there instead, for "something to look at"
+# - `pulse`: a ring ripples out from the count or dot (not when the system
+#   asks for less motion)
+# - `countColor`: 'neutral' (default, quiet), 'accent', 'danger', 'success'
+#   or 'warning', for the dot too
+# - `countLabel`: what the count is, for assistive tech ("Envois, 2 issues")
 tag ui-tab-base
 	prop value = null
 	prop label = ''
 	prop icon = null
 	prop disabled = false
+	prop count = null
+	prop max = 99
+	prop dot = false
+	prop pulse = false
+	prop countColor = 'neutral'
+	prop countLabel = ''
+
+	get badge do count > 0 ? (count > max ? "{max}+" : String(count)) : (dot ? '' : null)
+	get spoken do count > 0 ? [count, countLabel].filter(Boolean).join(' ') : (dot ? countLabel : '')
 
 	isUiTab = yes
 
