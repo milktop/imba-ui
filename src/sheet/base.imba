@@ -18,6 +18,8 @@ import '../dialog/base.imba'
 # - `size`: 'sm', 'md' (default) or 'lg': the width (or height for top and
 #   bottom)
 # - `heading`, `description`, `closable`, `alert`: as for ui-dialog
+# - `modal`: false keeps the page usable beside it (no backdrop, no focus
+#   trap), for looking something up while working on the page
 tag ui-sheet-base < ui-dialog-base
 	prop side = 'right'
 
@@ -32,7 +34,8 @@ tag ui-sheet-base < ui-dialog-base
 		<self>
 			<span$triggerSlot.trigger-slot> <slot name='trigger'>
 			<global>
-				<div.backdrop zag=presence.keep(api.getBackdropProps!)>
+				if modal
+					<div.backdrop zag=presence.keep(api.getBackdropProps!)>
 				<div.positioner data-side=side zag=api.getPositionerProps!>
 					<div.content .{size} data-side=side zag=presence.keep(api.getContentProps!) @animationend=presence.done!>
 						if closable

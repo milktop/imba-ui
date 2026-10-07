@@ -19,6 +19,8 @@ import { icons } from '../icons.imba'
 # - `alert`: an alertdialog, for confirmations; the backdrop doesn't close it
 # - `size`: 'sm', 'md' (default) or 'lg'
 # - `closable`: false hides the close button
+# - `modal`: false leaves the page usable behind it: no backdrop, focus isn't
+#   trapped, the page still scrolls, and clicking outside doesn't close it
 tag ui-dialog-base
 	prop open = false
 	prop heading = null
@@ -26,6 +28,7 @@ tag ui-dialog-base
 	prop alert = false
 	prop size = 'md'
 	prop closable = true
+	prop modal = true
 
 	zagId = uid('dialog')
 	presence = new Presence(self)
@@ -42,6 +45,10 @@ tag ui-dialog-base
 			id: zagId
 			role: alert ? 'alertdialog' : 'dialog'
 			defaultOpen: initial
+			modal: !!modal
+			trapFocus: !!modal
+			preventScroll: !!modal
+			closeOnInteractOutside: !!modal
 			onOpenChange: do(details)
 				data = details.open
 				emit('openchange', data) if machine.track(data)
@@ -67,7 +74,8 @@ tag ui-dialog-base
 		<self>
 			<span$triggerSlot.trigger-slot> <slot name='trigger'>
 			<global>
-				<div.backdrop zag=presence.keep(api.getBackdropProps!)>
+				if modal
+					<div.backdrop zag=presence.keep(api.getBackdropProps!)>
 				<div.positioner zag=api.getPositionerProps!>
 					<div.content .{size} zag=presence.keep(api.getContentProps!) @animationend=presence.done!>
 						if closable
