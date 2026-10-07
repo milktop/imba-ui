@@ -137,6 +137,8 @@ tag ui-search-select-base < ui-control
 			onInputValueChange: do(details)
 				globalThis.queueMicrotask do
 					if details.reason == 'input-change'
+						# Emptying the input clears a single pick; partial edits revert on blur.
+						machine.connect(combobox).clearValue! if !details.inputValue and !multiple and selectedKeys.length
 						search(details.inputValue)
 					elif !load or details.reason == 'clear-trigger'
 						query = ''
@@ -199,13 +201,17 @@ tag ui-search-select-base < ui-control
 		$input..focus!
 
 	# Zag reverts stray text only while the list is open; when focus leaves
-	# the whole select, put the selected item's label back (or nothing).
+	# the whole select, put the selected item's label back (or nothing). An
+	# emptied input has already cleared the pick (see onInputValueChange).
 	def revert e
 		return if contains(e.relatedTarget)
 		let text = multiple ? '' : (selectedKeys.length ? labelOf(byKey(selectedKeys[0]) ?? '') : '')
-		globalThis.queueMicrotask do
+		# After Zag has handled the blur (closing the list, if a search left it open).
+		setTimeout(&, 0) do
+			return if contains(globalThis.document.activeElement)
 			let api = machine.connect(combobox)
-			api.setInputValue(text) if !api.open and api.inputValue != text
+			api.setInputValue(text) if api.inputValue != text
+			query = ''
 
 	def render
 		# New items from the parent are filtered like the old ones.

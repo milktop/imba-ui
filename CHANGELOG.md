@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.7.1 (2026-10-07)
+
+- `ui-select` (searchable): emptying the input clears a single pick, so
+  select-all and Backspace clears the value. A partial edit (a deleted
+  letter, an abandoned search) still reverts to the picked item's label on
+  blur, now also when a server search left the list open
+- Playground: the version shows beside the logo
+
 ## 0.7.0 (2026-10-07)
 
 One `ui-select` for every pick. **`ui-combobox` is removed**: use

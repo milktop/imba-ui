@@ -7,6 +7,7 @@ import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/theming.imba'
 import { repo } from './pages/installation.imba'
+import pkg from '../package.json'
 import './pages/button.imba'
 import './pages/copy-button.imba'
 import './pages/avatar.imba'
@@ -158,6 +159,8 @@ tag page-home
 tag playground
 	css
 		.brand d:flex ai:center g:2 c:inherit td:none
+		# The version, as a quiet pill after the name.
+		.version px:1.5 py:0.5 rd:full bg:$ui-hover c:$ui-muted fs:11px fw:500 lh:1 font-variant-numeric:tabular-nums
 		# The ⌘K trigger: a search box on wide screens, an icon on phones.
 		.search d:flex ai:center g:2 h:8 pl:2.5 pr:2.5 @md:1.5 w:auto @md:56 box-sizing:border-box bd:1px solid $ui-border rd:$ui-radius bg:$ui-surface c:$ui-muted ff:inherit fs:sm cursor:pointer
 			@hover c:$ui-text bc:$ui-muted
@@ -217,6 +220,7 @@ tag playground
 				<a.brand slot='logo' href='/'>
 					<span.mark> "UI"
 					<span> "Imba UI"
+					<span.version title='Version'> "v{pkg.version}"
 				<span.mark slot='logo-collapsed'> "UI"
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
