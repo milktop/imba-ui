@@ -13,7 +13,8 @@ tag ui-tabs < ui-tabs-base
 		.list pos:relative d:flex g:1 ofx:auto
 		.trigger pos:relative zi:1 d:inline-flex ai:center g:2 h:$ui-control-height px:3 bd:none bg:transparent c:$ui-muted ff:inherit fs:sm fw:500 ws:nowrap cursor:pointer rd:$ui-radius
 			@hover c:$ui-text
-			@focus-visible outline:2px solid $ui-ring-soft
+			# Inside the tab: the list scrolls sideways, which would clip it.
+			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 			&[data-selected] c:$ui-text
 			&[data-disabled] o:0.4 cursor:not-allowed
 		.icon d:block w:1em h:1em fs:md
