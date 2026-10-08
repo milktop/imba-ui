@@ -7,7 +7,9 @@ tag ui-popover < ui-popover-base
 		d:contents
 		.trigger-slot d:contents
 
-		# Zag copies the content's z-index onto its positioner.
+		# The positioner carries the z-index itself. Zag sets it inline as
+		# var(--z-index) but doesn't always fill in the variable, so set both.
+		.positioner zi:50 --z-index:50
 		.content zi:50 fw:400 pos:relative w:72 max-width:calc(100vw - 32px) p:4 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 			--arrow-size:12px --arrow-background:$ui-surface
 		.arrow-tip bdt:1px solid $ui-border bdl:1px solid $ui-border

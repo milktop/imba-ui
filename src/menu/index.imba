@@ -15,7 +15,9 @@ global css
 	# Item tags wrap their item, which may be a link.
 	[data-ui-menu-item] d:contents
 
-	# Zag copies the content's z-index onto its positioner.
+	# The positioner carries the z-index itself. Zag sets it inline as
+	# var(--z-index) but doesn't always fill in the variable, so set both.
+	[data-scope=menu][data-part=positioner] zi:50 --z-index:50
 	[data-scope=menu][data-part=content] zi:50 fw:400 min-width:48 py:2 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm ta:left bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 		transform-origin:var(--transform-origin)
 		&[data-state=open] animation:ui-menu-in 120ms ease-out

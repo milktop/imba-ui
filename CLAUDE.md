@@ -62,7 +62,8 @@ New components follow the same pattern: add both files, an entry in
   props, so unset ones don't wipe out the defaults.
 - **Inner `<input>`/`<select>` elements get `@change.stop`,** so their native events
   don't reach the host's `change` listeners.
-- **Popups:** put `zi` on `.content`; Zag copies it onto the positioner. Floating
+- **Popups:** set `zi:50 --z-index:50` on `.positioner` (Zag's inline
+  `z-index: var(--z-index)` beats a plain `zi`, and it doesn't always set the variable). Floating
   panels (tooltip, popover) use `strategy: 'fixed'` so overflow can't clip them.
 - **Parent/child components** (tabs, accordion): the parent owns the machine and
   finds its children after the first render (`rendered`, then render again);

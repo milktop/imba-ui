@@ -442,8 +442,10 @@ Things learned the hard way:
   a bare `queueMicrotask` to `self.queueMicrotask`.
 - **Stop native `change` events.** Inner inputs' native `change` events bubble
   to the host and clash with the component's own `change`, so use `@change.stop`.
-- **Popup z-index goes on `.content`.** Zag copies the content's computed
-  z-index onto the positioner.
+- **Popup z-index goes on the positioner.** Zag sets `z-index: var(--z-index)`
+  on it inline and copies the content's z-index into `--z-index`, but not
+  reliably, and an unset variable leaves the positioner at `auto`. Set both
+  in CSS: `.positioner zi:50 --z-index:50`.
 - **Prop names.** Avoid native attribute names such as `dir`, `hidden` and `title` as prop names.
 
 ## Develop
