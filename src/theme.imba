@@ -68,6 +68,14 @@ global css
 		$ui-sidebar-item-padding:0 0.5rem 0 0.75rem
 		$ui-sidebar-item-radius:$ui-radius
 		$ui-sidebar-item-text:$ui-muted
+		# The sidebar itself (outside the inset layout, which uses $ui-sidebar-bg),
+		# its section headings and its own icon buttons (collapse, expand). With
+		# the item tokens, enough for a coloured sidebar:
+		#   ui-sidebar $ui-sidebar-surface:teal $ui-sidebar-item-text:white …
+		$ui-sidebar-surface:$ui-surface
+		$ui-sidebar-heading:$ui-muted
+		$ui-sidebar-icon:$ui-muted
+		$ui-sidebar-hover-text:$ui-text
 		# Its nav items: hovered, and the current page (aria-current). The inset
 		# layout, on a grey sidebar, uses the -inset ones (white items).
 		$ui-sidebar-hover:$ui-hover

@@ -55,7 +55,8 @@ tag ui-button-base < button
 	def rendered
 		let text = Array.from(childNodes).some do(node)
 			node.nodeType == 3 ? !!node.textContent.trim! : (node.nodeType == 1 and !node.classList.contains('badge') and !node.classList.contains('spoken') and !!node.textContent.trim!)
-		classList.toggle('icon-only', !text)
+		# An icon and a trailing one (a menu's chevron) keep their padding.
+		classList.toggle('icon-only', !text and !(icon and iconEnd))
 
 	# An aria-label hides the button's text from assistive tech, so the count
 	# joins the label itself; the caller's own label is kept apart from ours.

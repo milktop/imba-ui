@@ -46,7 +46,7 @@ tag ui-sidebar < ui-sidebar-base
 		grid-area:sidebar d:flex fld:column min-width:0 box-sizing:border-box
 		# Sticky makes it a stacking context, so it needs a z-index to keep its
 		# flyouts above the page (and below the top bar's popups).
-		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-surface bdr:1px solid $ui-border fs:sm
+		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-sidebar-surface bdr:1px solid $ui-border fs:sm
 		&.mobile pos:fixed l:0 t:0 b:0 zi:50 w:min(18rem, 85vw) shadow:$ui-shadow
 			d:none
 		&.mobile.open d:flex animation:ui-drawer-in 200ms ease-out
@@ -62,8 +62,8 @@ tag ui-sidebar < ui-sidebar-base
 		&.rail .logo-collapsed@empty + .logo-full d:flex
 		.logo >>> div[slot] d:contents
 
-		.icon-button d:inline-flex ai:center jc:center w:8 h:8 fls:0 p:0 bd:none rd:$ui-radius bg:transparent c:$ui-muted cursor:pointer
-			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
+		.icon-button d:inline-flex ai:center jc:center w:8 h:8 fls:0 p:0 bd:none rd:$ui-radius bg:transparent c:$ui-sidebar-icon cursor:pointer
+			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft
 		.nav d:flex fld:column g:4 flg:1 min-height:0 ofy:auto ofx:hidden px:2 py:2
 		.footer d:flex fld:column g:1 px:2 py:3 fls:0
@@ -84,8 +84,8 @@ tag ui-nav-section < ui-nav-section-base
 	css
 		d:flex fld:column g:0.5
 		.heading-row d:flex ai:center jc:space-between g:2 h:6 pr:1
-		.heading flg:1 px:3 fs:xs fw:600 c:$ui-muted ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
-		.collapse-all d:grid place-items:center w:6 h:6 p:0 bd:none rd:calc($ui-radius - 2px) bg:transparent c:$ui-muted fs:14px cursor:pointer o:0.7
+		.heading flg:1 px:3 fs:xs fw:600 c:$ui-sidebar-heading ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
+		.collapse-all d:grid place-items:center w:6 h:6 p:0 bd:none rd:calc($ui-radius - 2px) bg:transparent c:$ui-sidebar-icon fs:14px cursor:pointer o:0.7
 			@hover o:1 c:$ui-text bg:var(--nav-hover, $ui-sidebar-hover)
 			@focus-visible outline:2px solid $ui-ring-soft
 		.items d:flex fld:column g:0.5
@@ -97,7 +97,7 @@ tag ui-nav-item < ui-nav-item-base
 	css
 		d:block
 		.link d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left td:none ws:nowrap cursor:pointer
-			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
+			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.active .link bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text fw:$ui-sidebar-active-weight
 		.icon fs:16px fls:0 w:4 h:4
@@ -110,7 +110,7 @@ tag ui-nav-group < ui-nav-group-base
 	css
 		d:block
 		.trigger d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
-			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-text
+			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.flyout .trigger bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text
 		.icon fs:16px fls:0 w:4 h:4
