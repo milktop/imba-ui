@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.11.0 (2026-10-08)
+
+- `ui-alert`: variants tint themselves from `$ui-accent`, `$ui-success`,
+  `$ui-warning` or `$ui-danger`, translucent so they read the same on a card
+  or the canvas, and follow your theme. In dark mode they're no longer
+  near-black, and the message is tinted text instead of grey
+- `$ui-warning` token (amber), for cautions
+
 ## 0.10.0 (2026-10-08)
 
 - Field tokens: `$ui-field-bg`, `$ui-field-border` and
