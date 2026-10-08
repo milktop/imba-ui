@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.7.2 (2026-10-08)
+
+- `ui-button`: an icon button with a `count` or `dot` and no `aria-label`
+  stays square (or round), instead of picking up text padding from its
+  screen-reader count
+
 ## 0.7.1 (2026-10-07)
 
 - `ui-select` (searchable): emptying the input clears a single pick, so
