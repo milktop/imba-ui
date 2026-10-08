@@ -3,7 +3,7 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
-## Unreleased
+## 0.9.0 (2026-10-08)
 
 - `$ui-icon-stroke` sets the line weight of stroke icons such as Lucide's
   (`2` by default), for the whole app or one part of it; icons keep their
