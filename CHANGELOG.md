@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.9.1 (2026-10-08)
+
+- Popups (menu, popover, tooltip, hover card, select, date picker) keep
+  their z-index, so they no longer open under positioned content further
+  down the page, such as a `ui-card`
+
 ## 0.9.0 (2026-10-08)
 
 - `$ui-icon-stroke` sets the line weight of stroke icons such as Lucide's
