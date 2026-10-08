@@ -31,7 +31,8 @@ tag ui-list-select < ui-list-select-base
 
 		.label d:block fs:sm fw:500 mb:1.5
 		.control d:hcl pos:relative
-		.trigger d:hcs g:2 w:100% min-height:$ui-control-height px:3 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm c:inherit ta:left cursor:pointer box-sizing:border-box
+		.trigger d:hcs g:2 w:100% min-height:$ui-control-height px:3 bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm c:inherit ta:left cursor:pointer box-sizing:border-box
+			@hover bc:$ui-field-border-hover
 			@focus-visible bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5 cursor:not-allowed
 			&[data-invalid] bc:$ui-danger
@@ -51,10 +52,10 @@ tag ui-list-select < ui-list-select-base
 		# A faint arrow still says it can be changed.
 		&.quiet .indicator o:0.35 transition:opacity 120ms
 		&.quiet .trigger[data-disabled] .indicator o:0
-		&.quiet .trigger@hover bc:$ui-border
+		&.quiet .trigger@hover bc:$ui-field-border
 		&.quiet .trigger@hover .indicator o:1
-		&.quiet .trigger@focus-visible bg:$ui-surface
-		&.quiet .trigger[data-state=open] bc:$ui-ring bg:$ui-surface
+		&.quiet .trigger@focus-visible bg:$ui-field-bg
+		&.quiet .trigger[data-state=open] bc:$ui-ring bg:$ui-field-bg
 		&.quiet .trigger[data-state=open] .indicator o:1
 		&.quiet .trigger[data-disabled] o:1 cursor:default bc:transparent
 
@@ -64,7 +65,8 @@ tag ui-search-select < ui-search-select-base
 		d:block pos:relative c:$ui-text ff:$ui-font
 
 		.label d:block fs:sm fw:500 mb:1.5
-		.control d:flex ai:center g:1 bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius pl:2 pr:1 py:0.5 min-height:$ui-control-height box-sizing:border-box cursor:text
+		.control d:flex ai:center g:1 bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius pl:2 pr:1 py:0.5 min-height:$ui-control-height box-sizing:border-box cursor:text
+			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger
@@ -81,8 +83,8 @@ tag ui-search-select < ui-search-select-base
 			&[hidden] d:none
 		.trigger[data-state=open] rotate:180deg
 		&.quiet .control bc:transparent bg:transparent
-		&.quiet .control@hover bc:$ui-border
-		&.quiet .control@focus-within bc:$ui-ring bg:$ui-surface
+		&.quiet .control@hover bc:$ui-field-border
+		&.quiet .control@focus-within bc:$ui-ring bg:$ui-field-bg
 		&.quiet .control[data-disabled] o:1 bc:transparent
 
 tag ui-select < ui-select-base

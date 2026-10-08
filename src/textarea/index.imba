@@ -4,7 +4,8 @@ import './base.imba'
 tag ui-textarea < ui-textarea-base
 	css
 		d:block px:3 py:2 box-sizing:border-box min-width:0
-		bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		@hover bc:$ui-field-border-hover
 		@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 		&:has([aria-invalid=true]) bc:$ui-danger
 		&:has(:disabled) o:0.5

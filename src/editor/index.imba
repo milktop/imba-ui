@@ -6,7 +6,8 @@ import './base.imba'
 
 tag ui-editor < ui-editor-base
 	css
-		d:block pos:relative w:100% min-width:0 box-sizing:border-box bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		d:block pos:relative w:100% min-width:0 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		@hover bc:$ui-field-border-hover
 		&.focused bc:$ui-ring outline:2px solid $ui-ring-soft
 		&:has([aria-invalid=true]) bc:$ui-danger
 		&.disabled bg:$ui-hover

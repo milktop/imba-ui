@@ -7,8 +7,9 @@ tag ui-pin-input < ui-pin-input-base
 
 		.label d:block fs:sm fw:500 mb:1.5
 		.control d:flex g:2
-		.box w:$ui-control-height h:$ui-control-height p:0 box-sizing:border-box ta:center bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius c:inherit ff:inherit fs:md fw:500 outline:none
+		.box w:$ui-control-height h:$ui-control-height p:0 box-sizing:border-box ta:center bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius c:inherit ff:inherit fs:md fw:500 outline:none
 			@placeholder c:$ui-muted
+			@hover bc:$ui-field-border-hover
 			@focus bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-invalid] bc:$ui-danger
 			&[data-complete] bc:$ui-accent

@@ -6,7 +6,8 @@ tag ui-number-input < ui-number-input-base
 		d:inline-block c:$ui-text ff:$ui-font min-width:40
 
 		.label d:block fs:sm fw:500 mb:1.5
-		.control d:hcl g:2 h:$ui-control-height pl:3 pr:1 box-sizing:border-box bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm
+		.control d:hcl g:2 h:$ui-control-height pl:3 pr:1 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm
+			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger

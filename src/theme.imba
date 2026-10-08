@@ -42,6 +42,12 @@ global css
 		$ui-sidebar-bg:#f8f9fb
 		$ui-frame:white
 		$ui-border:#e4e4e7
+		# Form controls (inputs, selects, checkboxes, …): their fill and border, and
+		# the border on hover. Light, they match cards; dark, they sit a step below
+		# the card with a stronger edge, so they read as places to type.
+		$ui-field-bg:$ui-surface
+		$ui-field-border:$ui-border
+		$ui-field-border-hover:#d4d4d8
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
 		$ui-skeleton:#e4e4e7
@@ -107,6 +113,9 @@ global css
 		$ui-sidebar-bg:#0c0c0e
 		$ui-frame:#0c0c0e
 		$ui-border:#2b2b31
+		$ui-field-bg:#17171b
+		$ui-field-border:#3a3a42
+		$ui-field-border-hover:#4a4a53
 		$ui-hover:#27272d
 		$ui-skeleton:#303036
 		$ui-accent:#3b82f6

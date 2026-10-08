@@ -6,7 +6,8 @@ tag ui-tags-input < ui-tags-input-base
 		d:block c:$ui-text ff:$ui-font min-width:0
 
 		.label d:block fs:sm fw:500 mb:1.5
-		.control d:flex ai:center g:1 min-height:$ui-control-height pl:1.5 pr:1 py:1 box-sizing:border-box bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius fs:sm cursor:text
+		.control d:flex ai:center g:1 min-height:$ui-control-height pl:1.5 pr:1 py:1 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm cursor:text
+			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 			&[data-invalid] bc:$ui-danger
 			&[data-disabled] o:0.5

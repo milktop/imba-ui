@@ -4,7 +4,8 @@ import './base.imba'
 tag ui-input < ui-input-base
 	css
 		d:hcl g:2 min-height:$ui-control-height px:3 box-sizing:border-box min-width:0
-		bg:$ui-surface bd:1px solid $ui-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
+		@hover bc:$ui-field-border-hover
 		@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
 		&:has([aria-invalid=true]) bc:$ui-danger
 		&:has(:disabled) o:0.5
@@ -13,8 +14,8 @@ tag ui-input < ui-input-base
 		&.sm.round px:3
 		# Quiet: the box shows on hover and focus; disabled, it's just the value.
 		&.quiet bc:transparent bg:transparent
-		&.quiet@hover bc:$ui-border
-		&.quiet@focus-within bc:$ui-ring bg:$ui-surface
+		&.quiet@hover bc:$ui-field-border
+		&.quiet@focus-within bc:$ui-ring bg:$ui-field-bg
 		&.quiet:has(:disabled) o:1 bc:transparent
 
 		# The default input or a slotted replacement.
