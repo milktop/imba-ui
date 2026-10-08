@@ -3,6 +3,7 @@ import '@fontsource-variable/plus-jakarta-sans'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/dm-sans'
 import { colorScheme } from '../src/color-scheme.imba'
+import { highlightImba } from './demo.imba'
 
 # The playground's appearance switcher: theme, accent, font, radius and
 # density, all by overriding the library's $ui-* tokens on <html>, which is
@@ -22,10 +23,10 @@ export const accents = {
 
 export const fonts = {
 	system: { name: 'System', family: 'system-ui, sans-serif' }
-	inter: { name: 'Inter', family: "'Inter Variable', system-ui, sans-serif" }
-	jakarta: { name: 'Jakarta', family: "'Plus Jakarta Sans Variable', system-ui, sans-serif" }
-	geist: { name: 'Geist', family: "'Geist Variable', system-ui, sans-serif" }
-	dm: { name: 'DM Sans', family: "'DM Sans Variable', system-ui, sans-serif" }
+	inter: { name: 'Inter', family: "'Inter Variable', system-ui, sans-serif", pkg: '@fontsource-variable/inter' }
+	jakarta: { name: 'Jakarta', family: "'Plus Jakarta Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/plus-jakarta-sans' }
+	geist: { name: 'Geist', family: "'Geist Variable', system-ui, sans-serif", pkg: '@fontsource-variable/geist' }
+	dm: { name: 'DM Sans', family: "'DM Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/dm-sans' }
 }
 
 export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], round: ['Round', '12px'] }
@@ -61,37 +62,65 @@ export def loadAppearance
 export def saveAppearance state
 	try globalThis.localStorage.setItem(storageKey, JSON.stringify(state))
 
-export def applyAppearance state
-	let root = document.documentElement
-	let dark = colorScheme.dark
+# The tokens a state sets, for light or dark. Backgrounds are light-only, so
+# dark mode keeps its own layers.
+export def appearanceTokens state, dark
 	let [accent, accentText, soft, softText, ring] = (accents[state.accent] or accents.indigo)[dark ? 'dark' : 'light']
 	let [_name, md, sm, lg] = densities[state.density] or densities.default
 	let tokens = {
-		'--ui-accent': accent
-		'--ui-accent-text': accentText
-		'--ui-accent-soft': soft
-		'--ui-accent-soft-text': softText
-		'--ui-ring': ring
-		'--ui-ring-soft': "{ring}33"
-		'--ui-radius': (radii[state.radius] or radii.default)[1]
-		'--ui-control-height': md
-		'--ui-control-height-sm': sm
-		'--ui-control-height-lg': lg
+		'ui-accent': accent
+		'ui-accent-text': accentText
+		'ui-accent-soft': soft
+		'ui-accent-soft-text': softText
+		'ui-ring': ring
+		'ui-ring-soft': "{ring}33"
 	}
-	root.style.setProperty(name, value) for own name, value of tokens
-	# Backgrounds: light mode only, so dark mode's own values apply there.
+	return tokens if dark
 	let [_label, canvas, shade] = canvases[state.canvas] or canvases.cool
+	Object.assign tokens, {
+		'ui-radius': (radii[state.radius] or radii.default)[1]
+		'ui-font': (fonts[state.font] or fonts.system).family
+		'ui-control-height': md
+		'ui-control-height-sm': sm
+		'ui-control-height-lg': lg
+		'ui-canvas': canvas
+		'ui-sidebar-bg': state.sidebar == 'white' ? '#ffffff' : shade
+	}
+
+export def applyAppearance state
+	let root = document.documentElement
+	let dark = colorScheme.dark
+	let tokens = appearanceTokens(state, dark)
+	# Dark mode only overrides the colours; the rest carry over from light.
+	tokens = { ...appearanceTokens(state, no), ...tokens } if dark
+	root.style.setProperty("--{name}", value) for own name, value of tokens
 	if dark
 		root.style.removeProperty('--ui-canvas')
 		root.style.removeProperty('--ui-sidebar-bg')
-	else
-		root.style.setProperty('--ui-canvas', canvas)
-		root.style.setProperty('--ui-sidebar-bg', state.sidebar == 'white' ? '#ffffff' : shade)
-	document.body.style.fontFamily = (fonts[state.font] or fonts.system).family
+	document.body.style.fontFamily = tokens['ui-font']
 	# The shell reads this for its `inset` prop.
 	root.dataset.layout = state.layout or 'full'
 	root.dataset.pageAlign = state.align or 'center'
 	root.dataset.pageWidth = state.width or 'auto'
+
+# The settings as code to paste into an app: its root CSS, the font import
+# and the shell's props.
+export def appearanceSnippet state
+	let lines = do(tokens) Object.entries(tokens).map(do "\t\t${$1[0]}:{$1[1].replace('var(--ui-accent)', '$ui-accent')}")
+	let pkg = fonts[state.font]..pkg
+	let shell = state.layout == 'inset' ? "<ui-app-shell inset>" : "<ui-app-shell>"
+	let page = ['<ui-page']
+	page.push("width='{state.width}'") if state.width and state.width != 'auto'
+	page.push("align='start'") if state.align == 'start'
+	[
+		pkg ? "import '{pkg}'\n\n" : ''
+		"global css\n\t@root\n"
+		lines(appearanceTokens(state, no)).join('\n')
+		"\n\thtml.dark, [data-theme=dark]\n"
+		lines(appearanceTokens(state, yes)).join('\n')
+		"\n\tbody\n\t\tff:$ui-font\n\n"
+		"# In your layout\n{shell}\n\t{page.join(' ')}>"
+	].join('')
 
 def options map
 	Object.keys(map).map do(key) { value: key, label: Array.isArray(map[key]) ? map[key][0] : map[key].name }
@@ -106,6 +135,7 @@ tag appearance-panel
 	alignItems = options(aligns)
 	widthItems = options(widths)
 	densityItems = options(densities)
+	showCode = no
 
 	# Accents have light and dark values, so re-apply when the scheme changes.
 	def mount
@@ -119,6 +149,9 @@ tag appearance-panel
 		state = Object.assign({}, state, changes)
 		applyAppearance(state)
 		saveAppearance(state)
+
+	def toggleCode
+		showCode = !showCode
 
 	def reset
 		colorScheme.value = 'system'
@@ -137,7 +170,10 @@ tag appearance-panel
 			@hover outline-color:$ui-muted
 			@focus-visible outline:2px solid $ui-ring
 			&[aria-checked=true] outline:2px solid $ui-text
-		.footer d:flex jc:flex-end
+		.footer d:flex jc:space-between
+		.code gc:1 / -1 pos:relative
+			pre m:0 p:3 pr:12 bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
+			.copy pos:absolute t:1.5 r:1.5
 
 	<self>
 		<ui-popover heading='Appearance' description='Overrides the $ui-* tokens on <html>.' closable placement='bottom-end'>
@@ -165,5 +201,11 @@ tag appearance-panel
 					<ui-segmented items=alignItems value=state.align @change=update(align: e.detail)>
 				<ui-field label='Density' hint='Sets $ui-control-height'>
 					<ui-segmented items=densityItems value=state.density @change=update(density: e.detail)>
+				if showCode
+					<div.code>
+						<pre> <code> for tok in highlightImba(appearanceSnippet(state))
+							<span .tok-{tok.kind or 'plain'}> tok.text
+						<ui-copy-button.copy value=appearanceSnippet(state) iconOnly>
 				<div.footer>
+					<ui-button variant='ghost' size='sm' icon='lucide:code' @click=toggleCode> showCode ? "Hide code" : "Code"
 					<ui-button variant='link' size='sm' @click=reset> "Reset"
