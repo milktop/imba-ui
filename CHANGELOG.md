@@ -3,6 +3,15 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.10.0 (2026-10-08)
+
+- Field tokens: `$ui-field-bg`, `$ui-field-border` and
+  `$ui-field-border-hover` style form controls (input, textarea, password,
+  number, tags, pin, select, date picker, checkbox, radio, editor). In dark
+  mode fields sit a step below the card with a stronger border, so they no
+  longer blend into it; light mode is unchanged apart from the hover border
+- Form controls darken their border on hover
+
 ## 0.9.1 (2026-10-08)
 
 - Popups (menu, popover, tooltip, hover card, select, date picker) keep
