@@ -266,7 +266,7 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-accent`, `$ui-accent-text` | Primary buttons, selections, checked controls; text on them |
 | `$ui-accent-soft`, `$ui-accent-soft-text` | Soft buttons, accent badges, highlighted items |
 | `$ui-ring`, `$ui-ring-soft` | Focus rings and outlines |
-| `$ui-danger`, `$ui-success` | Errors and destructive actions; positive changes |
+| `$ui-danger`, `$ui-success`, `$ui-warning` | Errors and destructive actions; positive changes; cautions (alerts tint themselves from these and `$ui-accent`) |
 | `$ui-chart-1` … `$ui-chart-5` | Chart series, in order (the first follows the accent) |
 | `$ui-skeleton` | Loading placeholders |
 | `$ui-radius` | Corner rounding (cards and popups add a little to it) |

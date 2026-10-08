@@ -16,17 +16,14 @@ tag ui-alert < ui-alert-base
 			@hover bg:rgba(0,0,0,0.06) c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
 
-		&.info bg:$ui-accent-soft bc:transparent
-			.icon, .heading c:$ui-accent-soft-text
-		&.success bg:#f0fdf4 bc:#bbf7d0
-			.icon, .heading c:#166534
-		&.warning bg:#fffbeb bc:#fde68a
-			.icon, .heading c:#92400e
-		&.danger bg:#fef2f2 bc:#fecaca
-			.icon, .heading c:#991b1b
-		html.dark &.success bg:#052e16 bc:#14532d
-			.icon, .heading c:#86efac
-		html.dark &.warning bg:#1c1004 bc:#451a03
-			.icon, .heading c:#fcd34d
-		html.dark &.danger bg:#1f0505 bc:#450a0a
-			.icon, .heading c:#fca5a5
+		# Each variant tints itself from one theme colour, translucent so it reads
+		# the same on a card or the canvas, in light and dark
+		&.info $tone:$ui-accent
+		&.success $tone:$ui-success
+		&.warning $tone:$ui-warning
+		&.danger $tone:$ui-danger
+		&.info, &.success, &.warning, &.danger
+			bg:color-mix(in srgb, $tone 10%, transparent) bc:color-mix(in srgb, $tone 30%, transparent)
+			.icon c:$tone
+			.heading c:color-mix(in srgb, $tone 70%, $ui-text)
+			.description c:color-mix(in srgb, $tone 25%, $ui-text)

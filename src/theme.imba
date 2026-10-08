@@ -59,6 +59,7 @@ global css
 		$ui-ring-soft:#3b82f633
 		$ui-danger:#dc2626
 		$ui-success:#16a34a
+		$ui-warning:#d97706
 		# Chart series, in order (the first is the accent).
 		$ui-chart-1:$ui-accent
 		$ui-chart-2:#14b8a6
@@ -125,6 +126,7 @@ global css
 		$ui-ring-soft:#60a5fa33
 		$ui-danger:#f87171
 		$ui-success:#4ade80
+		$ui-warning:#fbbf24
 		$ui-chart-2:#2dd4bf
 		$ui-chart-3:#fbbf24
 		$ui-chart-4:#fb7185
