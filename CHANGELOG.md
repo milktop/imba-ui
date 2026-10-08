@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## Unreleased
+
+- `$ui-icon-stroke` sets the line weight of stroke icons such as Lucide's
+  (`2` by default), for the whole app or one part of it; icons keep their
+  string names
+- Playground: the Theming page has an icon weight control
+
 ## 0.8.0 (2026-10-08)
 
 - `ui-tabs`: tabs take a `count` or `dot`, like a button's (with `max`,

@@ -28,7 +28,7 @@ def readTokens
 const tokens = readTokens!
 
 # Which tokens are colours (and get a swatch).
-def isColour token do !/radius|font|height|width|shadow/.test(token.name)
+def isColour token do !/radius|font|height|width|shadow|stroke/.test(token.name)
 
 const fonts = [
 	{ value: 'inherit', label: 'Inherit' }
@@ -36,11 +36,13 @@ const fonts = [
 	{ value: 'ui-monospace, monospace', label: 'Mono' }
 ]
 const radii = [{ value: '2px', label: 'Sharp' }, { value: '6px', label: 'Default' }, { value: '12px', label: 'Round' }]
+const strokes = [{ value: '1.5', label: 'Light' }, { value: '2', label: 'Default' }, { value: '2.5', label: 'Bold' }]
 
 tag page-theming
 	accent = '#e11d48'
 	radius = '12px'
 	font = 'inherit'
+	stroke = '2'
 	copied = no
 	agree = yes
 
@@ -58,7 +60,7 @@ tag page-theming
 		}
 
 	get overrides
-		{ ...accentTokens(accent, dark), 'ui-radius': radius, 'ui-font': font }
+		{ ...accentTokens(accent, dark), 'ui-radius': radius, 'ui-font': font, 'ui-icon-stroke': stroke }
 
 	get style do Object.entries(overrides).map(do "--{$1[0]}:{$1[1]}").join(';')
 
@@ -68,6 +70,7 @@ tag page-theming
 			unless dark
 				all['ui-radius'] = radius
 				all['ui-font'] = font unless font == 'inherit'
+				all['ui-icon-stroke'] = stroke unless stroke == '2'
 			Object.entries(all).map(do "\t\t${$1[0]}:{$1[1]}").join('\n')
 		"global css\n\t@root\n{block(no)}\n\thtml.dark, [data-theme=dark]\n{block(yes)}"
 
@@ -101,6 +104,8 @@ tag page-theming
 						<ui-segmented items=radii bind=radius>
 					<ui-field label='Font'>
 						<ui-segmented items=fonts bind=font>
+					<ui-field label='Icons'>
+						<ui-segmented items=strokes bind=stroke>
 				# The overrides apply to this box only.
 				<div.sample style=style>
 					<div.row>

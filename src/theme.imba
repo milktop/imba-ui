@@ -6,6 +6,14 @@
 #
 # Dark values apply under `html.dark` or `[data-theme=dark]`.
 
+import { appendCustomStyle } from 'iconify-icon'
+
+# Icons draw inside iconify-icon's shadow root, out of reach of page CSS, but
+# custom properties inherit into it: this rule there gives Lucide-style icons
+# (a stroke width of 2 in their markup) the $ui-icon-stroke weight. Icons with
+# any other stroke, or none, are left alone.
+appendCustomStyle('[stroke-width="2"] { stroke-width: var(--ui-icon-stroke, 2); }')
+
 # Plain rules Imba's CSS can't express: Zag's `hidden` on closed parts beats
 # any component display (e.g. d:flex on a dialog panel, which would otherwise
 # stay on screen, invisible but clickable); the browser's focus outline only
@@ -60,6 +68,8 @@ global css
 		$ui-control-height:2.25rem
 		$ui-control-height-sm:2rem
 		$ui-control-height-lg:2.75rem
+		# Stroke icons' line weight (Lucide's own is 2, in a 24-unit grid).
+		$ui-icon-stroke:2
 		# ui-app-shell's sidebar, open and as an icon rail.
 		$ui-sidebar-width:15rem
 		$ui-sidebar-rail-width:3.5rem

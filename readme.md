@@ -271,6 +271,7 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-radius` | Corner rounding (cards and popups add a little to it) |
 | `$ui-font` | The components' font (`inherit` by default, so they use the app's) |
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
+| `$ui-icon-stroke` | Line weight of stroke icons such as Lucide's (`2`, in their 24-unit grid; try `1.5` or `2.5`) |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
 | `$ui-sidebar-surface`, `-heading`, `-icon`, `-hover-text` | The sidebar's background (outside the inset layout), section headings, its own icon buttons, and hovered text |
@@ -387,6 +388,8 @@ Components show [Iconify](https://iconify.design) icons through the
 (`icon='lucide:calendar'`). Icons load on demand from the Iconify API, so a
 strict Content Security Policy needs to allow `https://api.iconify.design`.
 Offline apps can register icon sets locally (see `iconify-icon`'s docs).
+`$ui-icon-stroke` sets the weight of stroke icons (Lucide's are drawn at `2`),
+for the whole app or one part of it: `css .toolbar $ui-icon-stroke:2.5`.
 
 ## Headless use and custom styles
 
