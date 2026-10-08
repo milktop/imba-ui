@@ -3,6 +3,32 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.8.0 (2026-10-08)
+
+- `ui-tabs`: tabs take a `count` or `dot`, like a button's (with `max`,
+  `pulse`, `countColor` and `countLabel`); `counts='corner'` puts them top
+  right. The focus ring is drawn inside the tab, so the scrolling list can't
+  clip it
+- `ui-dialog`, `ui-sheet`: `modal=false` leaves the page usable: no
+  backdrop, no focus trap, the page still scrolls and clicking outside
+  doesn't close it
+- `ui-input`, `ui-select`: `quiet` hides the border and fill until hovered
+  or focused (and shows plain text when disabled), for dense editable rows
+- `ui-select`: the list is at least as wide as the trigger, and grows to fit
+  its options (up to 24rem)
+- Sidebar tokens: `$ui-sidebar-surface`, `$ui-sidebar-heading`,
+  `$ui-sidebar-icon` and `$ui-sidebar-hover-text`, enough for a coloured
+  sidebar
+- `ui-button`: an icon with a trailing icon (a menu's chevron) keeps its
+  padding instead of turning square
+- Playground: the Appearance panel shows its settings as code to paste
+
+## 0.7.2 (2026-10-08)
+
+- `ui-button`: an icon button with a `count` or `dot` and no `aria-label`
+  stays square (or round), instead of picking up text padding from its
+  screen-reader count
+
 ## 0.7.1 (2026-10-07)
 
 - `ui-select` (searchable): emptying the input clears a single pick, so
