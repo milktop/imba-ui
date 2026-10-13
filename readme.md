@@ -288,8 +288,10 @@ same locale.
 Styled components read `$ui-*` tokens, set in `src/theme.imba`. They're
 ordinary CSS custom properties (`$ui-accent` is `--ui-accent`), so you can set
 them from Imba CSS or plain CSS, for the whole app or for part of it. The
-playground's **Theming** page lists every token with its light and dark
-default, and builds an override snippet from a colour you pick.
+playground's **Theming** page shows each way to restyle (the whole app, part
+of a page, one component, its parts, every instance, your own look) and builds
+an override snippet from a colour you pick; **Tokens** lists every token with
+what it styles and its light and dark values.
 
 | Tokens | What they style |
 | --- | --- |

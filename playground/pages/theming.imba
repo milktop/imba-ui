@@ -1,34 +1,5 @@
 import source from './theming.imba?raw'
-import themeSource from '../../src/theme.imba?raw'
 import { highlightImba } from '../demo.imba'
-
-# The tokens and their defaults, read from theme.imba: the @root block, then
-# the dark block's overrides.
-def readTokens
-	let tokens = []
-	let byName = {}
-	let mode = null
-	for line in themeSource.split('\n')
-		if /^\t@root/.test(line)
-			mode = 'light'
-		elif /^\thtml\.dark/.test(line)
-			mode = 'dark'
-		elif /^\t\S/.test(line) or /^\S/.test(line)
-			mode = null
-		elif mode and /^\t\t\$ui-/.test(line)
-			let m = line.match(/^\t\t\$(ui-[\w-]+):(.+)$/)
-			let name = m[1]
-			let value = m[2]
-			unless byName[name]
-				byName[name] = { name, light: '', dark: '' }
-				tokens.push(byName[name])
-			byName[name][mode] = value.trim!
-	tokens
-
-const tokens = readTokens!
-
-# Which tokens are colours (and get a swatch).
-def isColour token do !/radius|font|height|width|shadow|stroke/.test(token.name)
 
 const fonts = [
 	{ value: 'inherit', label: 'Inherit' }
@@ -38,6 +9,25 @@ const fonts = [
 const radii = [{ value: '2px', label: 'Sharp' }, { value: '6px', label: 'Default' }, { value: '12px', label: 'Round' }]
 const strokes = [{ value: '1.5', label: 'Light' }, { value: '2', label: 'Default' }, { value: '2.5', label: 'Bold' }]
 
+# Every instance, restyled: a subclass with its own css. Its rules match the
+# markup it inherits, and rank alongside the library's (it's how ui-input
+# itself styles ui-input-base).
+tag pill-input < ui-input
+	css rd:full px:4 bg:$ui-hover bc:transparent
+		@focus-within bg:$ui-field-bg
+
+# Your own look: the headless tag (behaviour, markup, Zag's states), styled
+# from scratch.
+tag square-switch < ui-switch-base
+	css d:inline-flex
+		.root d:inline-flex ai:center g:2 cursor:pointer fs:sm
+		.control d:inline-flex w:10 h:5 p:0.5 box-sizing:border-box bd:2px solid $ui-text rd:0
+			&[data-state=checked] bg:$ui-text
+			&[data-focus-visible] outline:2px solid $ui-ring-soft outline-offset:2px
+		.thumb w:3 h:3 bg:$ui-text transition:transform 120ms
+			&[data-state=checked] bg:$ui-surface transform:translateX(1.25rem)
+		.visually-hidden pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0)
+
 tag page-theming
 	accent = '#e11d48'
 	radius = '12px'
@@ -45,6 +35,7 @@ tag page-theming
 	stroke = '2'
 	copied = no
 	agree = yes
+	when = '2026-10-14'
 
 	get dark do document.documentElement.classList.contains('dark')
 
@@ -89,13 +80,14 @@ tag page-theming
 		.snippet pos:relative w:100%
 			pre m:0 p:4 bg:$ui-hover rd:$ui-radius ff:mono fs:xs lh:1.6 tab-size:2 ofx:auto
 			.copy pos:absolute t:2 r:2
-		.swatch d:inline-block w:5 h:5 mr:2 rd:sm bd:1px solid $ui-border va:middle
+		.panel d:flex fld:column g:3 w:100% box-sizing:border-box p:4 bd:1px solid $ui-border rd:calc($ui-radius + 2px)
+		.panel h4 m:0 fs:sm fw:600
+		.wins w:100%
 		code ff:mono fs:xs
-		.value ff:mono fs:xs c:$ui-muted ws:normal word-break:break-word
 
 	<self>
-		<demo-page source=source heading='Theming' intro='Styled components read $ui-* tokens. Override them globally to brand the app, or on any element to restyle just what is inside it. Tokens are CSS custom properties ($ui-accent is --ui-accent), so plain CSS can set them too.'>
-			<demo-section heading='Brand a section'>
+		<demo-page source=source heading='Theming' intro="Ways to change how the components look, from the broadest to the narrowest. Start with tokens (the $ui-* variables; Tokens lists them all): they reach every component at once. Reach for a component's parts only for what tokens don't cover.">
+			<demo-section heading='The whole app'>
 				<div.controls>
 					<label.colour>
 						"Accent"
@@ -106,7 +98,6 @@ tag page-theming
 						<ui-segmented items=fonts bind=font>
 					<ui-field label='Icons'>
 						<ui-segmented items=strokes bind=stroke>
-				# The overrides apply to this box only.
 				<div.sample style=style>
 					<div.row>
 						<ui-button variant='primary' icon='lucide:calendar-plus'> "Book a lesson"
@@ -119,24 +110,90 @@ tag page-theming
 						<ui-checkbox label='Agree' checked=agree>
 					<ui-progress value=64 label='Monthly goal' showValue>
 				<div.out>
-					<p.note> "The snippet sets these for the whole app, with dark values (a deeper tint) for dark mode. Paste it into your app's root CSS."
+					<p.note> "Set tokens in your app's root CSS. Colours need their dark values too: the library's own, under html.dark, are more specific than @root (radius, font and sizes aren't redefined for dark mode). Import the components before your own styles, so yours come later. The Appearance panel (top right) does this for the whole playground."
 					<div.snippet>
 						<pre> <code> for tok in highlightImba(snippet)
 							<span .tok-{tok.kind or 'plain'}> tok.text
 						<ui-button.copy size='sm' @click=copy> copied ? "Copied" : "Copy"
 
-			<demo-section heading='Tokens' bare>
-				<ui-table>
+			<demo-section heading='Part of a page'>
+				<div.panel [$ui-accent:#059669 $ui-accent-soft:#d1fae5 $ui-accent-soft-text:#065f46 $ui-ring:#059669 $ui-ring-soft:#05966940 $ui-radius:4px $ui-control-height:2rem]>
+					<h4> "Billing (green, square and dense)"
+					<div.row>
+						<ui-button variant='primary'> "Pay invoice"
+						<ui-button variant='soft'> "Download"
+						<ui-badge variant='accent'> "Paid"
+						<ui-switch label='Autopay' checked=agree>
+					<ui-input placeholder='Card holder'>
+				<div.out>
+					<p.note> "Tokens set on any element apply to everything inside it: here inline with [ ], or in a css block (css .billing $ui-accent:#059669 …). A token derived with color-mix at @root is worked out there, so set the derived ones too wherever you scope the accent."
+
+			<demo-section heading='One component'>
+				<div.row>
+					<ui-button variant='primary' [$ui-accent:#7c3aed]> "Purple, just this one"
+					<ui-input placeholder='Wider, rounder' [w:72 $ui-radius:9999px]>
+					<ui-badge variant='accent' [rd:sm px:3 tt:uppercase ls:0.05em]> "Square badge"
+				<div.out>
+					<p.note> "[ ] on a component styles that one element: tokens (which reach its parts) or its own properties (width, margins, shape). Inline styles outrank the component's own."
+
+			<demo-section heading="A component's parts">
+				<ui-date-picker bind=when>
+					css >>> .control rd:full px:3
+						>>> .trigger c:$ui-accent
+						>>> .clear d:none
+				<div.out>
+					<p.note> "A css block inside one instance reaches its parts with >>>, and outranks the library's styles. Each component's Props panel lists its parts (the class on each element); Zag's parts also carry data-part and state attributes ([data-state=open]). A part's own states (hover, focus) are rules too, so restate the ones you change."
+
+			<demo-section heading='Every instance of a component' uses='pill-input'>
+				<div.row>
+					<pill-input icon='lucide:search' placeholder='Search'>
+					<pill-input icon='lucide:mail' placeholder='Email'>
+				<div.out>
+					<p.note> "For a look you want everywhere, subclass the styled tag and use yours. Its css applies to the markup it inherits, as the library's own does. (global css can't do this: the library's rules rank above a selector like ui-input .affix.)"
+
+			<demo-section heading="A component's own variables">
+				<div.row>
+					<ui-button icon='lucide:inbox' count=12 [--ui-button-count-bg:#0f172a --ui-button-count-text:#fde047]> "Inbox"
+					<ui-avatar-group items=['Ada Lovelace', 'Alan Turing', 'Grace Hopper'] [$ui-avatar-ring:$ui-accent-soft]>
+				<div.out>
+					<p.note> "Some components read variables of their own, for things no shared token covers: ui-button's --ui-button-count-bg and --ui-button-count-text, ui-avatar-group's $ui-avatar-ring. Their docs (the Props panel) name them. Set them like tokens: on the component or any element around it."
+
+			<demo-section heading='Your own look' uses='square-switch'>
+				<div.row>
+					<square-switch label='Square switch' checked=agree>
+				<div.out>
+					<p.note> "Every component has a headless tag (ui-switch-base): its behaviour, markup and Zag's states, with no styles. Subclass it to style it from scratch."
+
+			<demo-section heading='Which wins' bare>
+				<ui-table.wins>
 					<table>
 						<thead>
 							<tr>
-								<th> "Token"
-								<th> "Light"
-								<th> "Dark"
-						<tbody> for token in tokens
+								<th> "Where"
+								<th> "How"
+								<th> "Reaches"
+						<tbody>
 							<tr>
-								<td>
-									<span.swatch style="background:var(--{token.name})"> if isColour(token)
-									<code> "${token.name}"
-								<td.value> token.light
-								<td.value> token.dark or "same"
+								<td> "The whole app"
+								<td> <code> "global css @root $ui-accent:…"
+								<td> "Every component, through tokens"
+							<tr>
+								<td> "Part of a page"
+								<td> <code> "<div [$ui-accent:…]>"
+								<td> "Everything inside it; overrides @root"
+							<tr>
+								<td> "One component"
+								<td> <code> "<ui-button [$ui-accent:… w:40]>"
+								<td> "That element, and its parts through tokens"
+							<tr>
+								<td> "Its parts"
+								<td> <code> "css >>> .trigger c:…"
+								<td> "The parts of that instance; outranks the library"
+							<tr>
+								<td> "Every instance"
+								<td> <code> "tag my-input < ui-input"
+								<td> "Its parts, wherever you use yours"
+							<tr>
+								<td> "Your own look"
+								<td> <code> "tag my-switch < ui-switch-base"
+								<td> "Everything: no styles to fight"

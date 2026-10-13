@@ -1,5 +1,5 @@
 # Shared pieces for the playground pages.
-import './api.imba'
+import { baseSource } from './api.imba'
 
 # Pages whose path isn't their component's folder (or covers several).
 const apiAliases = {
@@ -71,7 +71,7 @@ export def sectionSource source, heading
 export def fieldSource source, name
 	let lines = (source or '').split('\n')
 	let start = lines.findIndex(do $1.match(new RegExp("^\\t(def )?{name}( = |\\b)")))
-	return constSource(lines, name) if start < 0
+	return constSource(lines, name) or tagSource(source, name) if start < 0
 	let out = [lines[start].slice(1)]
 	for line in lines.slice(start + 1)
 		break unless line.startsWith('\t\t') or line.match(/^\t[\]\}]/)
@@ -93,7 +93,7 @@ def constSource lines, name
 # A tag defined in the page (`tag name`), with the comment above it.
 export def tagSource source, name
 	let lines = (source or '').split('\n')
-	let start = lines.findIndex(do $1 == "tag {name}")
+	let start = lines.findIndex(do $1 == "tag {name}" or $1.startsWith("tag {name} <"))
 	return '' if start < 0
 	let first = start
 	first-- while first > 0 and lines[first - 1].startsWith('#')
@@ -199,9 +199,11 @@ tag demo-page
 	<self>
 		<div.title>
 			<h1> heading
-			<button.api-toggle .on=showApi aria-pressed=String(showApi) @click=(showApi = !showApi)>
-				<iconify-icon icon='lucide:list-tree'>
-				"Props"
+			# Guides (Theming, Tokens…) have no component, so no Props.
+			if apiNames.some(do baseSource($1))
+				<button.api-toggle .on=showApi aria-pressed=String(showApi) @click=(showApi = !showApi)>
+					<iconify-icon icon='lucide:list-tree'>
+					"Props"
 		<p.intro> intro if intro
 		<api-panel names=apiNames> if showApi
 		<slot>
