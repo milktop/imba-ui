@@ -10,7 +10,7 @@ import '../skeleton/base.imba'
 #     { key: 'name', label: 'Name', sortable: yes }
 #     { key: 'year', label: 'Year', align: 'end', sortable: yes }
 #     { key: 'fee', label: 'Fee', format: do(v) "£{v}" }
-#     { key: 'actions', label: '', tag: 'student-actions', width: '3rem' }
+#     { key: 'actions', label: '', tag: StudentActions, width: '3rem' }
 #   ]
 #
 # - `rows`: plain objects, one per row
@@ -18,7 +18,8 @@ import '../skeleton/base.imba'
 #   sorted by); `label`: the heading; `sortable`; `align`: 'start', 'center'
 #   or 'end'; `width`: any CSS width; `format(value, row)`: turns the value
 #   into text; `value(row)`: computes it instead of `row[key]`; `tag`: a tag
-#   that renders the cell, given `row`, `column` and `value`
+#   that renders the cell, given `row`, `column` and `value` (a tag class,
+#   e.g. a local `tag StudentActions`, or a global tag's name)
 # - `rowKey`: the property that identifies a row ('id')
 # - `sortable` columns sort when their heading is clicked: ascending,
 #   descending, then off. Bind the state with `bind:sort=` ({ key, dir });

@@ -14,10 +14,10 @@ tag block-list
 	pageSize = 8
 
 	columns = [
-		{ key: 'name', label: 'Student', sortable: yes, tag: 'list-student' }
+		{ key: 'name', label: 'Student', sortable: yes, tag: ListStudent }
 		{ key: 'subject', label: 'Subject', sortable: yes }
 		{ key: 'year', label: 'Year', sortable: yes, align: 'end' }
-		{ key: 'status', label: 'Status', sortable: yes, tag: 'list-status' }
+		{ key: 'status', label: 'Status', sortable: yes, tag: ListStatus }
 		{ key: 'lessons', label: 'Lessons', sortable: yes, align: 'end' }
 	]
 	statusItems = ['Active', 'Paused', 'New'].map do(s) { value: s, label: s }
@@ -75,7 +75,7 @@ tag block-list
 			<ui-button size='sm' icon='lucide:download'> "Export"
 			<ui-button size='sm' variant='danger' icon='lucide:archive' @click=(selected = [])> "Archive"
 
-tag list-student
+tag ListStudent
 	prop row
 	css d:flex ai:center g:2.5
 		.email c:$ui-muted fs:xs
@@ -85,6 +85,6 @@ tag list-student
 			<div> row.name
 			<div.email> row.email
 
-tag list-status
+tag ListStatus
 	prop value
 	<self> <ui-badge variant=({ Active: 'success', Paused: 'warning', New: 'accent' }[value])> value

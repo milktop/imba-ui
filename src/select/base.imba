@@ -30,7 +30,9 @@ import './search.imba'
 # - `size`: 'sm' or 'md'; `placement`: where the list opens ('bottom-start')
 # - `quiet`: no border, fill or arrow until hovered, focused or open, and
 #   plain text when disabled; for selects in table rows
-# - `itemTag`: a tag rendering an option's content, given `item`
+# - `itemTag`: a tag rendering an option's content, given `item`. These tag
+#   props take a tag class (a local `tag ColourOption`, so a typo fails to
+#   compile) or a global tag's name ('colour-option')
 # - `valueTag`: a tag rendering the chosen item in the closed select (and
 #   each tag's, picking several), given `item`; with search the box holds
 #   typed text, so use `startTag` there

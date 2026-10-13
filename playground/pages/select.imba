@@ -19,7 +19,7 @@ def searchCities query
 	cities.filter(do $1.name.toLowerCase!.includes(query.toLowerCase!)).slice(0, 6)
 
 # An option's content: name and level.
-tag student-option
+tag StudentOption
 	prop item
 	css d:flex fld:column
 		.level fs:xs c:$ui-muted
@@ -28,13 +28,13 @@ tag student-option
 		<span.level> item.level
 
 # A colour's dot (empty while none is chosen), before the value.
-tag colour-dot
+tag ColourDot
 	prop item
 	css d:block w:3 h:3 rd:full shadow:inset 0 0 0 1px rgba(0,0,0,0.12)
 	<self [bg:{item ? swatches[item.value] : 'transparent'}]>
 
 # A colour option: its dot and name.
-tag colour-option
+tag ColourOption
 	prop item
 	css d:inline-flex ai:center g:2
 		.dot w:3 h:3 rd:full
@@ -43,7 +43,7 @@ tag colour-option
 		<span> item.label
 
 # A chosen student in the box: an avatar and the name.
-tag student-value
+tag StudentValue
 	prop item
 	css d:inline-flex ai:center g:1.5
 	<self>
@@ -51,7 +51,7 @@ tag student-value
 		<span> item.name
 
 # The create option's content.
-tag room-create
+tag RoomCreate
 	prop query
 	<self>
 		<span [c:$ui-muted]> "Add room "
@@ -128,29 +128,29 @@ tag page-select
 			<demo-section heading='Creating'>
 				<div.grid>
 					<ui-select label='Topics' items=topics multiple oncreate=(do(name) addTopic(name)) placeholder='Add a topic…' bind=pickedTopics>
-					<ui-select label='Room' items=rooms labelKey='name' valueKey='id' oncreate=(do(name) saveRoom(name)) createTag='room-create' bind=roomId>
+					<ui-select label='Room' items=rooms labelKey='name' valueKey='id' oncreate=(do(name) saveRoom(name)) createTag=RoomCreate bind=roomId>
 				<div.out>
 					<json-print data={ pickedTopics, roomId, rooms: rooms.length }>
 					<p.note> "`oncreate` offers “Create …” for text that matches nothing, and hands you the text. Return the new item to select it (or a promise of it, after saving); `createTag` changes the option’s content."
 
 			<demo-section heading='Custom items'>
 				<div.grid>
-					<ui-select label='Student' items=students labelKey='name' valueKey='id' value=1 itemTag='student-option'>
+					<ui-select label='Student' items=students labelKey='name' valueKey='id' value=1 itemTag=StudentOption>
 				<div.out>
 					<p.note> "`itemTag` renders each option, given `item`."
 
 			<demo-section heading='Colours' uses='colours'>
 				<div.grid>
-					<ui-select label='Calendar colour' items=colours itemTag='colour-option' startTag='colour-dot' bind=colour>
-					<ui-select label='Tutor colour' items=colours itemTag='colour-option' startTag='colour-dot' searchable placeholder='Search colours…' bind=tutorColour>
+					<ui-select label='Calendar colour' items=colours itemTag=ColourOption startTag=ColourDot bind=colour>
+					<ui-select label='Tutor colour' items=colours itemTag=ColourOption startTag=ColourDot searchable placeholder='Search colours…' bind=tutorColour>
 				<div.out>
 					<json-print data={ colour, tutorColour }>
 					<p.note> "`startTag` renders before the value (or the search box), given the chosen `item` (null when none is). For a grid of swatches, see Swatch picker."
 
 			<demo-section heading='Custom value'>
 				<div.grid>
-					<ui-select label='Tutor' items=students labelKey='name' valueKey='id' value=4 valueTag='student-value' itemTag='student-option'>
-					<ui-select label='Tutors' items=students labelKey='name' valueKey='id' multiple tags valueTag='student-value' bind=tutorIds>
+					<ui-select label='Tutor' items=students labelKey='name' valueKey='id' value=4 valueTag=StudentValue itemTag=StudentOption>
+					<ui-select label='Tutors' items=students labelKey='name' valueKey='id' multiple tags valueTag=StudentValue bind=tutorIds>
 				<div.out>
 					<json-print data={ tutorIds }>
 					<p.note> "`valueTag` renders the chosen item in the closed select, and each tag's content, given `item`."

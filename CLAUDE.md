@@ -27,7 +27,9 @@ card. Blocks (composed screens) live in `playground/blocks/`, one
 Each component page has a **Props** panel (`playground/api.imba`) read from
 its base file: the doc comment's examples (indented blocks after a blank
 comment line), the `prop` lines (with defaults), `emit(...)` calls, `<slot>`s,
-and the doc comment's bullets. Document data shapes (items, columns) there
+and the doc comment's bullets. Pass tags to components (`itemTag`, a column's `tag`) as local tag classes
+(`tag ColourOption`, `itemTag=ColourOption`), not global names; the Code view
+picks their definitions up. Document data shapes (items, columns) there
 rather than in extra page sections. Write those as one bullet per prop (or a few
 related ones), starting with the names: ``- `name`: what it does``.
 

@@ -21,7 +21,7 @@ const students = Array.from(length: 36) do(_, i)
 	}
 
 # Cells with more than text: a tag gets the row (and column and value).
-tag student-cell
+tag StudentCell
 	prop row
 	css d:flex ai:center g:2.5
 		.email c:$ui-muted fs:xs
@@ -31,11 +31,11 @@ tag student-cell
 			<div> row.name
 			<div.email> row.email
 
-tag status-badge
+tag StatusBadge
 	prop value
 	<self> <ui-badge variant=({ Active: 'success', Paused: 'warning', New: 'accent' }[value])> value
 
-tag row-actions
+tag RowActions
 	prop row
 	items = [
 		{ value: 'message', label: 'Message', icon: 'lucide:message-square' }
@@ -61,13 +61,13 @@ tag page-table
 	empty = no
 
 	columns = [
-		{ key: 'name', label: 'Student', sortable: yes, tag: 'student-cell' }
+		{ key: 'name', label: 'Student', sortable: yes, tag: StudentCell }
 		{ key: 'year', label: 'Year', sortable: yes, align: 'end' }
 		{ key: 'subject', label: 'Subject', sortable: yes }
-		{ key: 'status', label: 'Status', sortable: yes, tag: 'status-badge' }
+		{ key: 'status', label: 'Status', sortable: yes, tag: StatusBadge }
 		{ key: 'lessons', label: 'Lessons', sortable: yes, align: 'end' }
 		{ key: 'fee', label: 'Fee', align: 'end', format: do(v) "£{v}" }
-		{ key: 'actions', label: '', tag: 'row-actions', width: '3rem' }
+		{ key: 'actions', label: '', tag: RowActions, width: '3rem' }
 	]
 	compactColumns = [
 		{ key: 'name', label: 'Student', sortable: yes }
@@ -92,7 +92,7 @@ tag page-table
 
 	<self>
 		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all (Shift-click a checkbox to tick a run of rows, and an action bar appears), custom cells, loading and empty states. ui-pagination pages through them.'>
-			<demo-section heading='Students' bare>
+			<demo-section heading='Students' uses='columns' bare>
 				<div.stack>
 					<div.toolbar>
 						<ui-input.search icon='lucide:search' placeholder='Search students' bind=query @input=(page = 1)>

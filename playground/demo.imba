@@ -102,9 +102,12 @@ export def tagSource source, name
 		out.push(line)
 	out.join('\n').trimEnd!
 
-# Tags an example names in `…Tag='name'` attributes (itemTag, valueTag, …).
-export def namedTags markup
-	Array.from(new Set(Array.from((markup or '').matchAll(/\w+Tag='([\w-]+)'/g)).map(do $1[1])))
+# Tags an example passes to a component: `itemTag=ColourOption` (or a
+# global tag's name, `itemTag='colour-option'`), or `tag: StudentCell` in
+# a table's columns.
+export def namedTags text
+	let found = Array.from((text or '').matchAll(/(?:\w+Tag=|\btag: )(?:'([\w-]+)'|([A-Z]\w*))/g))
+	Array.from(new Set(found.map(do $1[1] or $1[2])))
 
 # Page content belongs to each page's scope, so demo helpers (readouts,
 # buttons that set values) are styled globally under demo-section.
@@ -215,8 +218,8 @@ tag demo-section
 		let source = closest('demo-page')..source
 		let markup = sectionSource(source, heading)
 		# Tags the markup names (itemTag='…'), then page fields and constants.
-		let tags = namedTags(markup).map(do tagSource(source, $1))
 		let fields = (uses or '').split(' ').filter(Boolean).map(do fieldSource(source, $1))
+		let tags = namedTags([...fields, markup].join('\n')).map(do tagSource(source, $1))
 		[...tags, ...fields, markup].filter(Boolean).join('\n\n')
 
 	def copy

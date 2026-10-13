@@ -12,7 +12,7 @@ tag block-profile
 	lessonColumns = [
 		{ key: 'date', label: 'Date' }
 		{ key: 'topic', label: 'Topic' }
-		{ key: 'status', label: 'Status', tag: 'profile-status', align: 'end' }
+		{ key: 'status', label: 'Status', tag: ProfileStatus, align: 'end' }
 	]
 	actions = [
 		{ value: 'edit', label: 'Edit details', icon: 'lucide:pencil' }
@@ -80,6 +80,6 @@ tag block-profile
 							<ui-timeline-item title='Homework set' time='24 Sep' icon='lucide:book-open' color='accent' description='Worksheet 4, due 1 October.'>
 							<ui-timeline-item title='First lesson' time='10 Sep' icon='lucide:sparkles' color='success' description='Assessment and goals for the year.'>
 
-tag profile-status
+tag ProfileStatus
 	prop value
 	<self> <ui-badge variant=({ Booked: 'accent', Done: 'success', Cancelled: 'danger' }[value])> value

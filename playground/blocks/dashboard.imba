@@ -6,7 +6,7 @@ tag block-dashboard
 	range = 7
 	ranges = [{ value: 3, label: '3m' }, { value: 7, label: '7m' }]
 	columns = [
-		{ key: 'student', label: 'Student', tag: 'dashboard-student' }
+		{ key: 'student', label: 'Student', tag: DashboardStudent }
 		{ key: 'subject', label: 'Subject' }
 		{ key: 'when', label: 'When' }
 		{ key: 'length', label: 'Length', align: 'end' }
@@ -51,7 +51,7 @@ tag block-dashboard
 				<ui-timeline size='sm' items=activity>
 
 # The student column: avatar and name.
-tag dashboard-student
+tag DashboardStudent
 	prop row
 	css d:flex ai:center g:2.5
 	<self>
