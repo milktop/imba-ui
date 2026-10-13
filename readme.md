@@ -33,6 +33,7 @@ code, and some composed screens (blocks).
 | Empty state | `<ui-empty-state>` | Icon, heading, description and actions for empty views |
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
 | Tree view | `<ui-tree-view>` | Nested items that open and close: keyboard navigation, single or multiple selection, checkboxes that tick a branch's children; bind the selection, `expanded` and `checked` |
+| Sortable list | `<ui-sortable-list>` | Rows put in order by dragging a grip (or the whole row), or with the keyboard (Space, arrows, Space; Escape cancels), announced to screen readers; `itemTag` for row content; card or plain; bindable |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today; separators typed for you; a typed date it can't take stays, marked invalid with the reason (`invalidchange`); `inline` calendar |
 | Native select | `<ui-native-select>` | The browser's own `<select>` styled like the inputs: groups, a placeholder, the items' own values, field wiring |

@@ -73,6 +73,10 @@ New components follow the same pattern: add both files, an entry in
   finds its children after the first render (`rendered`, then render again);
   children walk up to it, render through `parent.api`, and the parent calls
   `child.render!` on each of its own renders.
+- **Pointer-heavy components** (dragging, hovering): give `pointermove`
+  handlers `.silent` and call `render!` on the component, so each move doesn't
+  re-render the whole app. A `render!` of your own skips the `rendered` hook,
+  so do anything that must follow it (restoring focus) yourself.
 - **Exit animations:** Zag hides closing popups at once; use `Presence` from
   `zag.imba` (`update(open)` in render, `keep(props)` on hidden parts, `done` on
   animationend) to keep them shown while they animate out.

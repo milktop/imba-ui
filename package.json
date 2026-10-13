@@ -139,7 +139,9 @@
     "./confirm/base": "./src/confirm/base.imba",
     "./locale": "./src/locale.imba",
     "./format": "./src/format/index.imba",
-    "./format/base": "./src/format/base.imba"
+    "./format/base": "./src/format/base.imba",
+    "./sortable-list": "./src/sortable-list/index.imba",
+    "./sortable-list/base": "./src/sortable-list/base.imba"
   },
   "files": [
     "src",

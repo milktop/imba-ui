@@ -13,6 +13,8 @@ fix things.
   rather than 'en-GB'
 - Text props that had English defaults (`emptyText`, `loadingText`,
   `placeholder`, `label`…) now default to null and take the list's words
+- `ui-sortable-list`: drag (or keyboard) to reorder, with announcements; no
+  dependency (react-ui's is on dnd-kit)
 - `formatNumber`, `formatBytes`, `formatRelative` and `ui-format-number`,
   `ui-format-bytes`, `ui-format-relative` (kept up to date); charts, stats,
   sliders and attachments format with them

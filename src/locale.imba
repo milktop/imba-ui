@@ -61,6 +61,15 @@ export const en = {
 		count: (do(count, max) "{count} of {max}"), limit: (do(max) "The limit is {max} files")
 		notType: 'not an accepted type', over: (do(size) "over {size}"), notAdded: (do(name, reason) "{name} wasn’t added: {reason}.")
 	}
+	sortableList: {
+		handle: 'Drag to reorder'
+		instructions: 'Press Space to pick this up. While it’s picked up, use the arrow keys to move it, Space to drop it, or Escape to cancel.'
+		position: (do(index, count) "position {index} of {count}")
+		pickedUp: (do(name, place) "Picked up {name}, at {place}.")
+		movedTo: (do(name, place) "{name} moved to {place}.")
+		dropped: (do(name, place) "{name} dropped at {place}.")
+		cancelled: (do(name, place) "Reordering cancelled: {name} is back at {place}.")
+	}
 	editor: {
 		toolbar: 'Formatting', link: 'Link', image: 'Image', remove: 'Remove', apply: 'Apply', uploading: 'Uploading…'
 		tools: {
@@ -118,6 +127,15 @@ export const fr = {
 		open: (do(name) "Ouvrir {name}"), downloadFile: (do(name) "Télécharger {name}")
 		count: (do(count, max) "{count} sur {max}"), limit: (do(max) "La limite est de {max} fichiers")
 		notType: 'type non accepté', over: (do(size) "plus de {size}"), notAdded: (do(name, reason) "{name} n’a pas été ajouté : {reason}.")
+	}
+	sortableList: {
+		handle: 'Glisser pour réordonner'
+		instructions: 'Appuyez sur Espace pour saisir cet élément. Déplacez-le ensuite avec les flèches, déposez-le avec Espace, ou appuyez sur Échap pour annuler.'
+		position: (do(index, count) "position {index} sur {count}")
+		pickedUp: (do(name, place) "{name} saisi, en {place}.")
+		movedTo: (do(name, place) "{name} déplacé en {place}.")
+		dropped: (do(name, place) "{name} déposé en {place}.")
+		cancelled: (do(name, place) "Déplacement annulé : {name} est revenu en {place}.")
 	}
 	editor: {
 		toolbar: 'Mise en forme', link: 'Lien', image: 'Image', remove: 'Retirer', apply: 'Appliquer', uploading: 'Envoi…'

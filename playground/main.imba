@@ -32,6 +32,7 @@ import './pages/empty-state.imba'
 import './pages/progress.imba'
 import './pages/collapsible.imba'
 import './pages/tree-view.imba'
+import './pages/sortable-list.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
 import './pages/time-input.imba'
@@ -154,6 +155,7 @@ const groups = [
 		{ path: '/accordion', title: 'Accordion', about: 'Expandable sections' }
 		{ path: '/collapsible', title: 'Collapsible', about: 'A section that opens and closes' }
 		{ path: '/tree-view', title: 'Tree view', about: 'Nested items that open and close' }
+		{ path: '/sortable-list', title: 'Sortable list', about: 'Rows put in order by dragging' }
 	] }
 ]
 
@@ -324,6 +326,7 @@ tag playground
 				<page-progress route='/progress'>
 				<page-collapsible route='/collapsible'>
 				<page-tree-view route='/tree-view'>
+				<page-sortable-list route='/sortable-list'>
 				<page-input route='/input'>
 				<page-number-input route='/number-input'>
 				<page-time-input route='/time-input'>
