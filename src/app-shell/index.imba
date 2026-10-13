@@ -45,8 +45,13 @@ tag ui-sidebar < ui-sidebar-base
 	css
 		grid-area:sidebar d:flex fld:column min-width:0 box-sizing:border-box
 		# Sticky makes it a stacking context, so it needs a z-index to keep its
-		# flyouts above the page (and below the top bar's popups).
+		# flyouts above the page (and below the top bar's popups). Its tooltips
+		# and flyouts can't rise out of it, so while it's in use it goes over
+		# the top bar, which would otherwise cover those near the top (the
+		# collapse button's tooltip). They're its children, so hovering one
+		# still counts.
 		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-sidebar-surface bdr:1px solid $ui-border fs:sm
+		@hover, @focus-within zi:37
 		&.mobile pos:fixed l:0 t:0 b:0 zi:50 w:min(18rem, 85vw) shadow:$ui-shadow
 			d:none
 		&.mobile.open d:flex animation:ui-drawer-in 200ms ease-out
