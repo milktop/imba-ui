@@ -60,6 +60,22 @@ const hours = {
 	nurse: { from: 8 * 60, to: 16 * 60, lunch: [12 * 60, 12 * 60 + 30], note: 'Nurse Kim works 8:00 to 16:00' }
 }
 
+# A day's header in the views without vet columns: the day, and who's
+# working (the vets with appointments that day).
+tag ClinicDay
+	prop date
+	prop events
+	prop resources
+	css d:flex fld:column ai:center g:1
+		.day c:$ui-muted fs:xs
+		.day strong c:$ui-text fs:md- fw:600 ml:1
+	get working do (resources or []).filter(do(vet) (events or []).some(do $1.resourceId == vet.id and !$1.blocked))
+	<self>
+		<span.day>
+			date.toLocaleDateString('en-GB', weekday: 'short')
+			<strong> date.getDate!
+		<ui-avatar-group size='sm' max=3 tooltip items=working.map(do { name: $1.title.replace('Dr ', ''), color: $1.color })>
+
 # A vet's header: avatar, name and role.
 tag VetHeader
 	prop resource
@@ -127,19 +143,20 @@ tag PresenceVet
 	# props don't change isn't rendered again.
 	get page do closest('page-event-calendar')
 	get period do resource.period
+	get menuItems
+		[
+			{ type: 'radio', name: "period-{resource.id}", value: 'am', label: 'Morning', checked: period == 'am' }
+			{ type: 'radio', name: "period-{resource.id}", value: 'pm', label: 'Afternoon', checked: period == 'pm' }
+			{ type: 'radio', name: "period-{resource.id}", value: 'day', label: 'All day', checked: period == 'day' }
+			{ separator: yes }
+			{ label: 'Remove from this day', value: 'remove', icon: 'lucide:user-minus', danger: yes }
+		]
 	<self>
 		<ui-avatar size='sm' name=resource.title.replace(/^(Dr|Nurse) /, '') color='auto'>
 		<span.text>
 			<span.name> resource.title
 			<span.when> periodName[period]
-		<ui-menu placement='bottom-end' @select.stop=(e.detail == 'remove' and page.removeVet(resource)) @change.stop=page.changePeriod(resource, e.detail.value)
-			items=[
-				{ type: 'radio', name: "period-{resource.id}", value: 'am', label: 'Morning', checked: period == 'am' }
-				{ type: 'radio', name: "period-{resource.id}", value: 'pm', label: 'Afternoon', checked: period == 'pm' }
-				{ type: 'radio', name: "period-{resource.id}", value: 'day', label: 'All day', checked: period == 'day' }
-				{ separator: yes }
-				{ label: 'Remove from this day', value: 'remove', icon: 'lucide:user-minus', danger: yes }
-			]>
+		<ui-menu placement='bottom-end' items=menuItems @select.stop=(e.detail == 'remove' and page.removeVet(resource)) @change.stop=page.changePeriod(resource, e.detail.value)>
 			<ui-button slot='trigger' size='sm' variant='ghost' icon='lucide:ellipsis' aria-label="{resource.title}'s day">
 
 # A lesson in the work week: the student's avatar, name and subject.
@@ -341,7 +358,7 @@ tag page-event-calendar
 					<json-print data={ view, date, range }>
 
 			<demo-section heading='A vet clinic’s day' uses='available updateAppointment bookVet appointmentMenu slotActions addMessage'>
-				<ui-event-calendar events=appointments resources=vets view='day' views=['day', 3] slotMinutes=15 hourHeight='5rem'
+				<ui-event-calendar events=appointments resources=vets view='day' views=['day', 'week'] resourceViews=['day'] dayHeaderTag=ClinicDay slotMinutes=15 hourHeight='5rem'
 					startHour=8 endHour=18 height='34rem' scrollToTime='now' selectable editable clickableResources
 					isAvailable=(do(q) available(q)) bind:pinned=pinned eventMenu=(do(a) appointmentMenu(a)) slotMenu=(do(slot) slotActions(slot)) rows=clinicRows
 					eventTag=AppointmentBlock resourceTag=VetHeader eventLabel=(do(a) "{a.pet or a.title}, {a.kind or ''}")
@@ -350,7 +367,7 @@ tag page-event-calendar
 					@resourceclick=toaster.info(title: e.detail.resource.title, description: e.detail.resource.role)
 					@eventclick=(e.detail.blocked or toaster.info(title: "{e.detail.pet} ({e.detail.owner})", description: e.detail.kind, action: { label: 'Move…', onClick: (do pinned = e.detail) }))>
 				<div.out>
-					<p.note> "A column per vet, 15-minute slots, inside a fixed height that opens at the current time. Hours, lunch and clashes come from isAvailable (hatched, the reason on hover; bookings and drops there are refused). Hold Shift while selecting to block time; select in the all-day strip to mark a vet away. Moves save for a moment (pending). Right-click an appointment or an empty time for a menu; Move… places it anywhere (pinned). Click the messages row to add one."
+					<p.note> "Day view has a column per vet; Week puts everyone together (`resourceViews=['day']`), in each vet's colour, with who's working in each day's header (`dayHeaderTag`, given the day's events). 15-minute slots, inside a fixed height that opens at the current time. Hours, lunch and clashes come from isAvailable (hatched, the reason on hover; bookings and drops there are refused). Hold Shift while selecting to block time; select in the all-day strip to mark a vet away. Moves save for a moment (pending). Right-click an appointment or an empty time for a menu; Move… places it anywhere (pinned). Click the messages row to add one."
 
 			<demo-section heading='Presences, colours and saving' uses='visitClash saveVisit bookVisit removeVet changePeriod'>
 				<ui-event-calendar events=visits resources=presentVets view='day' views=[] bind:date=presenceDate slotMinutes=15 hourHeight='4rem'

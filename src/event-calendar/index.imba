@@ -30,7 +30,8 @@ tag ui-event-calendar < ui-event-calendar-base
 
 		# A time gutter, then a column per day (or per resource within each
 		# day); it scrolls sideways when narrow.
-		.grid d:grid gtc:minmax(3.5rem, max-content) repeat(var(--columns), minmax(6.5rem, 1fr)) ofx:auto
+		# The gutter is as wide as its widest label, however many columns there are.
+		.grid d:grid gtc:max-content repeat(var(--columns), minmax(6.5rem, 1fr)) ofx:auto
 			bg:$ui-surface bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-card-shadow
 		.corner, .day-header, .resource-header bg:$ui-surface bdb:1px solid $ui-border
 		.day-header d:flex ai:baseline jc:center g:1.5 p:2 bdl:1px solid $ui-border c:$ui-muted fs:xs
@@ -69,7 +70,7 @@ tag ui-event-calendar < ui-event-calendar-base
 		.more pos:absolute h:5.5 px:2 box-sizing:border-box bd:none bg:transparent c:$ui-muted font:inherit fs:11px fw:500 ta:left cursor:pointer
 			@hover c:$ui-text td:underline
 
-		.gutter pos:relative h:calc(var(--hour-height) * var(--hours))
+		.gutter pos:relative min-width:14 h:calc(var(--hour-height) * var(--hours))
 		.hour pos:absolute r:2 transform:translateY(-50%) c:$ui-muted fs:11px ws:nowrap
 			@first-child transform:translateY(2px)
 		# Hour lines, with a fainter one at the half hour.
@@ -79,6 +80,8 @@ tag ui-event-calendar < ui-event-calendar-base
 			background-position:0 0, 0 calc(var(--hour-height) / 2)
 		.day.today bgc:color-mix(in srgb, $ui-accent 5%, transparent)
 		.day.selectable cursor:cell touch-action:none
+		# Pressing and dragging selects times, not the text on them.
+		.day, .all-day, .event us:none
 		&.placing .day cursor:copy
 		# With resources over several days, a stronger line where each day starts.
 		.two-rows > .day.first, .two-rows > .day-header bdl:1px solid $ui-muted
@@ -89,7 +92,7 @@ tag ui-event-calendar < ui-event-calendar-base
 			&[data-color=danger] --event-color:$ui-danger
 			&[data-color=neutral] --event-color:$ui-muted
 		.event --event-color:$ui-accent pos:absolute zi:1 d:flex fld:column g:0.5 box-sizing:border-box of:hidden py:1 px:1.5
-			bd:2px solid $ui-surface bdl:3px solid var(--event-color) rd:calc($ui-radius + 2px)
+			bd:2px solid $ui-surface bdl:3px solid var(--event-color) rd:0 calc($ui-radius + 2px) calc($ui-radius + 2px) 0
 			bg:color-mix(in srgb, var(--event-color) 16%, var(--ui-surface)) c:$ui-text font:inherit fs:xs ta:left cursor:pointer
 			@hover bg:color-mix(in srgb, var(--event-color) 24%, var(--ui-surface))
 			@focus-visible outline:2px solid $ui-ring outline-offset:1px zi:3
@@ -141,6 +144,8 @@ tag ui-event-calendar < ui-event-calendar-base
 		.grid.scroll > .sticky pos:sticky zi:5 bgc:$ui-surface
 		.grid.scroll > .corner, .grid.scroll > .all-day-label, .grid.scroll > .row-label l:0 zi:6
 		.grid.scroll > .gutter pos:sticky l:0 zi:4 bg:$ui-surface
+		# A header with its menu open (focus is in it) sits above the rows below.
+		.grid.scroll > .sticky@focus-within zi:7
 
 		.menu-anchor pos:fixed t:0 l:0 w:0 h:0 of:hidden pointer-events:none
 		.status pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap

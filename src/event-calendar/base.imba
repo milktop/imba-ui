@@ -29,6 +29,9 @@ import 'iconify-icon'
 #   their own. `hours`: when it's available on each day shown, as
 #   `[{ start: '08:00', end: '13:00' }]` (`[]` for not at all): the rest is
 #   shaded and refused, with `offLabel` as the reason
+# - `resourceViews`: the views split into a column per resource (all of
+#   them by default), e.g. ['day']: the other views show everyone's events
+#   together, in their resource's colour
 # - `view`: 'day', 'week' (default), 'workweek', or a number of days from
 #   `date`; `bind:view=` works. On a narrow screen it shows a day
 # - `views`: the toolbar's choices (['day', 'week']; [] for none)
@@ -68,7 +71,9 @@ import 'iconify-icon'
 # - `eventTag`: a tag rendering an event's content, given `event`, `start`,
 #   `end`, `resource` and `compact`
 # - `resourceTag`: a resource header's content, given `resource`
-# - `dayHeaderTag`: a day header's content, given `date`
+# - `dayHeaderTag`: a day header's content, given `date`, that day's `events`
+#   and the `resources` (e.g. who's in, in a view without their columns).
+#   These tags re-render when their props change, so they render from them
 # - `eventLabel`: a function giving what screen readers call an event (its
 #   title by default)
 # - `translations`: its words, over the app's (uiLocale)
@@ -146,6 +151,7 @@ def formatter locale, options
 tag ui-event-calendar-base
 	prop events = []
 	prop resources = null
+	prop resourceViews = null
 	prop view = 'week'
 	prop views = ['day', 'week']
 	prop date = null
@@ -241,7 +247,9 @@ tag ui-event-calendar-base
 		let v = shownView
 		v == 'day' ? 1 : (v == 'week' ? 7 : (v == 'workweek' ? 5 : Math.max(1, Number(v) or 1)))
 	get step do (shownView == 'week' or shownView == 'workweek') ? 7 : dayCount
-	get lanes do resources..length ? resources : [null]
+	# A column per resource in this view, or everyone's events together.
+	get split do !!resources..length and (!resourceViews or resourceViews.includes(shownView))
+	get lanes do split ? resources : [null]
 	get span do (endHour - startHour) * 60
 
 	def viewLabel v
@@ -253,7 +261,7 @@ tag ui-event-calendar-base
 	def nameOf event do eventLabel ? eventLabel(event) : (typeof event.title == 'string' ? event.title : t.event)
 	def resourceName column do column..resource and typeof column.resource.title == 'string' ? ", {column.resource.title}" : ''
 	def resourceOf id do id === undefined or id === null ? null : (resources or []).find(do $1.id == id)
-	def columnOf event, iso do columns.findIndex(do $1.iso == iso and (!resources..length or $1.resource..id == event.resourceId))
+	def columnOf event, iso do columns.findIndex(do $1.iso == iso and (!split or $1.resource..id == event.resourceId))
 	def canEdit event do editable and event.editable !== false and !event.pending
 	def colorKey color do named.includes(color) ? color : 'custom'
 
@@ -317,7 +325,7 @@ tag ui-event-calendar-base
 			#timedEvents = events
 			let list = (events or []).filter(do !isAllDay($1))
 			#timed = columns.map do(column)
-				layoutDay(list.filter(do String($1.start).startsWith(column.iso) and (!resources..length or $1.resourceId == column.resource..id)))
+				layoutDay(list.filter(do String($1.start).startsWith(column.iso) and (!column.resource or $1.resourceId == column.resource.id)))
 		#timed
 
 	def refuse reason, attempt
@@ -361,7 +369,9 @@ tag ui-event-calendar-base
 
 	def queryFor event, next
 		let query = { start: toISODateTime(next.start), end: toISODateTime(next.end), allDay: false, event }
-		query.resourceId = next.column.resource.id if next.column.resource
+		# Its new column's resource, or (in a view without their columns) its own.
+		let resourceId = next.column.resource ? next.column.resource.id : event.resourceId
+		query.resourceId = resourceId if resourceId != null
 		query
 
 	def timeText date do formatter(currentLocale, { hour: 'numeric', minute: '2-digit' }).format(date)
@@ -402,7 +412,7 @@ tag ui-event-calendar-base
 			#gesture = { kind, column: at, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, strip: e.currentTarget, width, from: at, moved: no, keys: keysOf(e), scroll }
 			preview = { kind: 'all-day', columns: [at] }
 			return render!
-		let day = e.currentTarget.closest('.day')
+		let day = e.currentTarget.closest('.day[role=gridcell]')
 		let box = day.getBoundingClientRect!
 		let from = minuteAt(e.clientY, box)
 		#gesture = { kind, column, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, day, width: box.width, from, exact: exactMinute(e.clientY, box), moved: no, keys: keysOf(e), event, scroll }
@@ -678,7 +688,7 @@ tag ui-event-calendar-base
 				offset += cell.getBoundingClientRect!.height
 			grid.style.setProperty('--sticky-total', "{offset}px")
 			if scrollToTime and !#scrolled
-				let day = grid.querySelector('.day')
+				let day = grid.querySelector('.day[role=gridcell]')
 				if day and day.offsetHeight
 					#scrolled = yes
 					let [h, m] = scrollToTime == 'now' ? [now.getHours! - 1, 0] : scrollToTime.split(':').map(Number)
@@ -688,7 +698,7 @@ tag ui-event-calendar-base
 			let id = String(#refocus)
 			#refocus = null
 			globalThis.queueMicrotask do
-				Array.from(querySelectorAll('.event')).find(do $1.dataset.eventId == id)..focus!
+				Array.from(querySelectorAll('[data-event-id]')).find(do $1.dataset.eventId == id)..focus!
 
 	def rendered do afterRender!
 
@@ -712,7 +722,7 @@ tag ui-event-calendar-base
 		let hours = Array.from({ length: endHour - startHour }, do(_, i) startHour + i)
 		let shading = shadingFor(columns)
 		let timedByColumn = timedFor(columns)
-		let hasResources = !!resources..length
+		let hasResources = split
 		let twoRows = hasResources and count > 1
 		let dayFormat = formatter(currentLocale, { weekday: 'short' })
 		let hourFormat = formatter(currentLocale, { hour: 'numeric' })
@@ -762,6 +772,7 @@ tag ui-event-calendar-base
 					i++
 
 		let barColor = do(event) event.color or resourceOf(event.resourceId)..color or 'accent'
+		let eventsOn = do(d) (events or []).filter(do String($1.start).slice(0, 10) <= toISODate(d) and String($1.end).slice(0, 10) >= toISODate(d))
 		let pinnedMinutes = pinned ? (minutesBetween(parseLocal(pinned.start), parseLocal(pinned.end)) or slotMinutes) : 0
 		# The header rows, numbered for sticking: days, resources, extra rows, all-day.
 		let rowNumber = 0
@@ -824,12 +835,12 @@ tag ui-event-calendar-base
 							if clickableDays
 								<button.header-button type='button' aria-label=longDayText(d) @click=emit('dayclick', toISODate(d))>
 									if dayHeaderTag
-										<{dayHeaderTag} date=d>
+										<{dayHeaderTag} date=d events=eventsOn(d) resources=resources>
 									else
 										<span> dayFormat.format(d)
 										<strong> d.getDate!
 							elif dayHeaderTag
-								<{dayHeaderTag} date=d>
+								<{dayHeaderTag} date=d events=eventsOn(d) resources=resources>
 							else
 								<span> dayFormat.format(d)
 								<strong> d.getDate!
@@ -911,7 +922,7 @@ tag ui-event-calendar-base
 							let resizing = p..kind == 'resize' and p.id == event.id ? p : null
 							let shownEnd = resizing ? addMinutes(item.end, resizing.minutes) : item.end
 							let minutes = minutesBetween(item.start, shownEnd)
-							let color = event.color or column.resource..color or 'accent'
+							let color = event.color or (column.resource or resourceOf(event.resourceId))..color or 'accent'
 							let time = "{timeText(item.start)} – {timeText(shownEnd)}"
 							let box = "top: {top(minutesOfDay(item.start))}; left: {(item.column / item.columns) * 100}%; width: {100 / item.columns}%"
 							# Where it was, while it's dragged.
