@@ -49,7 +49,8 @@ import 'iconify-icon'
 # - `editable`: events can be moved and resized: drag one to another time,
 #   day or resource, or its bottom edge to change its length; or focus it and
 #   use ↑↓ (a slot), ←→ (a column), Shift+↑↓ (its length). Emits
-#   `eventchange`; update your events in response (or don't, and it stays)
+#   `eventchange`; update your events in response (or don't, and it stays).
+#   Dragging (or selecting) near an edge scrolls the grid, or the page
 # - `clickableDays`, `clickableResources`: their headers are buttons, emitting
 #   `dayclick` and `resourceclick`
 # - `isAvailable`: a function given `{ start, end, resourceId, allDay, event,
@@ -389,20 +390,28 @@ tag ui-event-calendar-base
 		return unless e.button == 0
 		e.stopPropagation!
 		try e.currentTarget.setPointerCapture(e.pointerId)
+		let grid = querySelector('.grid')
+		# Where things are scrolled at the start: a drag near an edge scrolls
+		# the grid (or the page), and positions are measured again as it does.
+		let scroll = { left: grid.scrollLeft, x: globalThis.scrollX }
 		if kind == 'all-day'
 			# The strip spans every column: which one is under the pointer.
 			let box = e.currentTarget.getBoundingClientRect!
 			let width = box.width / columns.length
 			let at = Math.max(0, Math.min(columns.length - 1, Math.floor((e.clientX - box.left) / width)))
-			#gesture = { kind, column: at, x: e.clientX, y: e.clientY, top: box.top, height: box.height, width, left: box.left, from: at, moved: no, keys: keysOf(e) }
+			#gesture = { kind, column: at, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, strip: e.currentTarget, width, from: at, moved: no, keys: keysOf(e), scroll }
 			preview = { kind: 'all-day', columns: [at] }
 			return render!
-		let box = e.currentTarget.closest('.day').getBoundingClientRect!
+		let day = e.currentTarget.closest('.day')
+		let box = day.getBoundingClientRect!
 		let from = minuteAt(e.clientY, box)
-		#gesture = { kind, column, x: e.clientX, y: e.clientY, top: box.top, height: box.height, width: box.width, left: box.left, from, moved: no, keys: keysOf(e), event }
+		#gesture = { kind, column, x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, day, width: box.width, from, exact: exactMinute(e.clientY, box), moved: no, keys: keysOf(e), event, scroll }
 		preview = { kind: 'select', column, from, to: from + slotMinutes } if kind == 'select'
 		preview = { kind: 'place', column, from: placeAt(from) } if kind == 'place'
 		render!
+
+	# The minute of the day at a height in a day column (not snapped).
+	def exactMinute y, box do startHour * 60 + Math.max(0, Math.min(span - 1, ((y - box.top) / box.height) * span))
 
 	# The columns from one to another (with resources, only the first one's resource).
 	def columnRange a, b
@@ -413,30 +422,102 @@ tag ui-event-calendar-base
 	def track e
 		let g = #gesture
 		return unless g
-		let dx = e.clientX - g.x
-		let dy = e.clientY - g.y
-		return if !g.moved and Math.hypot(dx, dy) < 4
+		g.lastX = e.clientX
+		g.lastY = e.clientY
+		return if !g.moved and Math.hypot(e.clientX - g.x, e.clientY - g.y) < 4
 		g.moved = yes
-		let perMinute = g.height / span
+		updatePreview!
+		autoScroll!
+
+	# The preview from the pointer's last position, measured afresh, so it
+	# stays right while the grid or the page scrolls under it.
+	def updatePreview
+		let g = #gesture
+		return unless g
+		let grid = querySelector('.grid')
+		let scrolledX = grid.scrollLeft - g.scroll.left + globalThis.scrollX - g.scroll.x
 		if g.kind == 'all-day'
-			let at = Math.max(0, Math.min(columns.length - 1, Math.floor((e.clientX - g.left) / g.width)))
+			let box = g.strip.getBoundingClientRect!
+			let at = Math.max(0, Math.min(columns.length - 1, Math.floor((g.lastX - box.left) / g.width)))
 			preview = { kind: 'all-day', columns: columnRange(g.from, at) }
-		elif g.kind == 'select'
-			let at = minuteAt(e.clientY, g)
+			return render!
+		let box = g.day.getBoundingClientRect!
+		let perMinute = box.height / span
+		if g.kind == 'select'
+			let at = minuteAt(g.lastY, box)
 			preview = { kind: 'select', column: g.column, from: Math.min(g.from, at), to: Math.max(g.from, at) + slotMinutes }
 		elif g.kind == 'place'
-			preview = { kind: 'place', column: g.column, from: placeAt(minuteAt(e.clientY, g)) }
-		elif g.kind == 'move'
-			let byColumns = Math.round(dx / g.width)
-			let byMinutes = withinHours(g.event, 'move', Math.round(dy / perMinute / slotMinutes) * slotMinutes)
-			preview = { kind: 'move', id: g.event.id, columns: byColumns, minutes: byMinutes, x: byColumns * g.width, y: byMinutes * perMinute }
+			preview = { kind: 'place', column: g.column, from: placeAt(minuteAt(g.lastY, box)) }
 		else
-			preview = { kind: 'resize', id: g.event.id, minutes: withinHours(g.event, 'resize', Math.round(dy / perMinute / slotMinutes) * slotMinutes) }
+			let byMinutes = Math.round((exactMinute(g.lastY, box) - g.exact) / slotMinutes) * slotMinutes
+			if g.kind == 'move'
+				let byColumns = Math.round((g.lastX - g.x + scrolledX) / g.width)
+				byMinutes = withinHours(g.event, 'move', byMinutes)
+				preview = { kind: 'move', id: g.event.id, columns: byColumns, minutes: byMinutes, x: byColumns * g.width, y: byMinutes * perMinute }
+			else
+				preview = { kind: 'resize', id: g.event.id, minutes: withinHours(g.event, 'resize', byMinutes) }
 		render!
+
+	# The nearest ancestor that scrolls up and down, or the document.
+	def scrollParent
+		let el = parentElement
+		while el and el != document.body
+			let overflow = globalThis.getComputedStyle(el).overflowY
+			return el if (overflow == 'auto' or overflow == 'scroll') and el.scrollHeight > el.clientHeight + 1
+			el = el.parentElement
+		document.scrollingElement
+
+	# Near an edge while dragging: scroll that way, faster the closer it is,
+	# each frame until the pointer moves away or lets go. Up and down scrolls
+	# the grid when it has a `height` (below its sticky headers), or else the
+	# page; sideways, the grid when it's wider than its box.
+	def autoScroll
+		return if #scrolling
+		#scrolling = yes
+		# Each loop belongs to one gesture: one left over from the last drag stops.
+		let gesture = #gesture
+		let step = do
+			let g = #gesture
+			return #scrolling = no unless g and g == gesture and g.moved
+			let grid = querySelector('.grid')
+			let box = grid.getBoundingClientRect!
+			let edge = 48
+			let speed = do(near) Math.ceil(Math.min(1, Math.max(0, (edge - near) / edge)) * 18)
+			let vy = 0
+			let vx = 0
+			if g.kind != 'all-day'
+				if grid.scrollHeight > grid.clientHeight + 1
+					let top = box.top + (parseFloat(grid.style.getPropertyValue('--sticky-total')) or 0)
+					vy = g.lastY < top + edge ? -speed(g.lastY - top) : (g.lastY > box.bottom - edge ? speed(box.bottom - g.lastY) : 0)
+					let before = grid.scrollTop
+					grid.scrollTop += vy
+					vy = 0 if grid.scrollTop == before
+				else
+					# Whatever scrolls the page: an app shell's content area, or the
+					# document (whose top can sit under a fixed top bar).
+					let scroller = scrollParent!
+					let page = scroller == document.scrollingElement
+					let area = page ? { top: 64, bottom: globalThis.innerHeight } : scroller.getBoundingClientRect!
+					vy = g.lastY < area.top + edge ? -speed(g.lastY - area.top) : (g.lastY > area.bottom - edge ? speed(area.bottom - g.lastY) : 0)
+					let before = scroller.scrollTop
+					scroller.scrollTop += vy
+					# Already at the end: nothing more to scroll.
+					vy = 0 if scroller.scrollTop == before
+			if grid.scrollWidth > grid.clientWidth + 1
+				let left = box.left + (querySelector('.gutter')..offsetWidth or 0)
+				vx = g.lastX < left + edge ? -speed(g.lastX - left) : (g.lastX > box.right - edge ? speed(box.right - g.lastX) : 0)
+				let before = grid.scrollLeft
+				grid.scrollLeft += vx
+				vx = 0 if grid.scrollLeft == before
+			return #scrolling = no unless vx or vy
+			updatePreview!
+			globalThis.requestAnimationFrame(step)
+		globalThis.requestAnimationFrame(step)
 
 	def finish e
 		let g = #gesture
 		#gesture = null
+		#scrolling = no
 		let p = preview
 		preview = null
 		return render! unless g
@@ -471,6 +552,7 @@ tag ui-event-calendar-base
 
 	def cancelGesture
 		#gesture = null
+		#scrolling = no
 		preview = null
 		render!
 

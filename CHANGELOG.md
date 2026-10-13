@@ -17,7 +17,8 @@ fix things.
   resources as columns, select to book (`slotselect`), drag or keyboard to
   move and resize (`eventchange`), all-day events, `isAvailable` shading and
   refusals, pinned placing, event and slot menus, extra rows, a toolbar with
-  views and a date jump; English and French words
+  views and a date jump; English and French words; dragging near an edge
+  scrolls the grid (with a `height`) or the page
 - `ui-sortable-list`: drag (or keyboard) to reorder, with announcements; no
   dependency (react-ui's is on dnd-kit)
 - `formatNumber`, `formatBytes`, `formatRelative` and `ui-format-number`,
