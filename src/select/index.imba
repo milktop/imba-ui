@@ -49,6 +49,7 @@ tag ui-list-select < ui-list-select-base
 			&.placeholder c:$ui-muted
 		# After a start, the value fills the space up to the arrow.
 		.start + .value-text, .start + .tags flg:1
+		.trigger > .start mr:0.5
 		.indicator d:inline-flex c:$ui-muted fls:0
 			&[data-state=open] rotate:180deg
 		.clear pos:absolute r:8 d:grid place-items:center w:6 h:6 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
@@ -79,7 +80,7 @@ tag ui-search-select < ui-search-select-base
 			&[data-invalid] bc:$ui-danger
 		&.sm .control min-height:$ui-control-height-sm
 		.tags d:flex flw:wrap ai:center fl:1 min-width:0 g:1.5 py:0.5
-		.start ml:0.5
+		.start ml:0.5 mr:1.5
 		.input fl:1 min-width:16 bd:none bg:transparent outline:none fs:sm c:inherit p:0 h:6.5
 			@placeholder c:$ui-muted
 		.tag pl:2.5 pr:1

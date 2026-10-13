@@ -139,7 +139,7 @@ tag page-select
 				<div.out>
 					<p.note> "`itemTag` renders each option, given `item`."
 
-			<demo-section heading='Colours'>
+			<demo-section heading='Colours' uses='colours'>
 				<div.grid>
 					<ui-select label='Calendar colour' items=colours itemTag='colour-option' startTag='colour-dot' bind=colour>
 					<ui-select label='Tutor colour' items=colours itemTag='colour-option' startTag='colour-dot' searchable placeholder='Search colours…' bind=tutorColour>

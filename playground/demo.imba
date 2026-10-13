@@ -70,13 +70,41 @@ export def sectionSource source, heading
 export def fieldSource source, name
 	let lines = (source or '').split('\n')
 	let start = lines.findIndex(do $1.match(new RegExp("^\\t{name} = ")))
-	return '' if start < 0
+	return constSource(lines, name) if start < 0
 	let out = [lines[start].slice(1)]
 	for line in lines.slice(start + 1)
 		break unless line.startsWith('\t\t') or line.match(/^\t[\]\}]/)
 		out.push(line.slice(1))
 		break if line.match(/^\t[\]\}]/)
 	out.join('\n')
+
+# A module constant (`const name = …` and its indented lines).
+def constSource lines, name
+	let start = lines.findIndex(do $1.startsWith("const {name} = "))
+	return '' if start < 0
+	let out = [lines[start]]
+	for line in lines.slice(start + 1)
+		break unless line.startsWith('\t') or line.match(/^[\]\}]/)
+		out.push(line)
+		break if line.match(/^[\]\}]/)
+	out.join('\n')
+
+# A tag defined in the page (`tag name`), with the comment above it.
+export def tagSource source, name
+	let lines = (source or '').split('\n')
+	let start = lines.findIndex(do $1 == "tag {name}")
+	return '' if start < 0
+	let first = start
+	first-- while first > 0 and lines[first - 1].startsWith('#')
+	let out = lines.slice(first, start + 1)
+	for line in lines.slice(start + 1)
+		break if line.trim! and !line.startsWith('\t')
+		out.push(line)
+	out.join('\n').trimEnd!
+
+# Tags an example names in `…Tag='name'` attributes (itemTag, valueTag, …).
+export def namedTags markup
+	Array.from(new Set(Array.from((markup or '').matchAll(/\w+Tag='([\w-]+)'/g)).map(do $1[1])))
 
 # Page content belongs to each page's scope, so demo helpers (readouts,
 # buttons that set values) are styled globally under demo-section.
@@ -185,8 +213,11 @@ tag demo-section
 
 	get code
 		let source = closest('demo-page')..source
+		let markup = sectionSource(source, heading)
+		# Tags the markup names (itemTag='…'), then page fields and constants.
+		let tags = namedTags(markup).map(do tagSource(source, $1))
 		let fields = (uses or '').split(' ').filter(Boolean).map(do fieldSource(source, $1))
-		[...fields, sectionSource(source, heading)].filter(Boolean).join('\n\n')
+		[...tags, ...fields, markup].filter(Boolean).join('\n\n')
 
 	def copy
 		await globalThis.navigator.clipboard.writeText(code)
