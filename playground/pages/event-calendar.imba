@@ -100,6 +100,64 @@ tag DayMessages
 		for message in (closest('page-event-calendar')..messages or []).filter(do $1.date == date.toLocaleDateString('sv'))
 			<button .urgent=message.urgent type='button' @click.stop=toaster.info(title: message.text)> message.text
 
+# Presences: who's in each day, and when.
+const staff = [
+	{ id: 'jones', title: 'Dr Jones', color: '#0d9488', surgery: yes }
+	{ id: 'patel', title: 'Dr Patel', color: '#7c3aed', surgery: yes }
+	{ id: 'okafor', title: 'Dr Okafor', color: '#d97706', surgery: no }
+	{ id: 'nurse', title: 'Nurse Kim', color: '#2563eb', surgery: no }
+]
+const periodHours = {
+	day: [{ start: '08:00', end: '12:30' }, { start: '13:30', end: '18:00' }]
+	am: [{ start: '08:00', end: '13:00' }]
+	pm: [{ start: '13:00', end: '18:00' }]
+}
+const periodName = { day: 'all day', am: 'mornings', pm: 'afternoons' }
+def visit_ id, vet, from, to, pet, owner, kind
+	{ id, resourceId: vet, start: "{todayIso}T{from}", end: "{todayIso}T{to}", title: pet, pet, owner, kind }
+
+# A present vet's header: who, when, and a menu to change their day.
+tag PresenceVet
+	prop resource
+	css d:flex ai:center g:2 w:100% min-width:0 ta:left
+		.text flg:1 min-width:0
+		.name d:block of:hidden text-overflow:ellipsis ws:nowrap
+		.when d:block fs:xs fw:400 c:$ui-muted
+	# It renders from its props (the period is on the resource): a tag whose
+	# props don't change isn't rendered again.
+	get page do closest('page-event-calendar')
+	get period do resource.period
+	<self>
+		<ui-avatar size='sm' name=resource.title.replace(/^(Dr|Nurse) /, '') color='auto'>
+		<span.text>
+			<span.name> resource.title
+			<span.when> periodName[period]
+		<ui-menu placement='bottom-end' @select.stop=(e.detail == 'remove' and page.removeVet(resource)) @change.stop=page.changePeriod(resource, e.detail.value)
+			items=[
+				{ type: 'radio', name: "period-{resource.id}", value: 'am', label: 'Morning', checked: period == 'am' }
+				{ type: 'radio', name: "period-{resource.id}", value: 'pm', label: 'Afternoon', checked: period == 'pm' }
+				{ type: 'radio', name: "period-{resource.id}", value: 'day', label: 'All day', checked: period == 'day' }
+				{ separator: yes }
+				{ label: 'Remove from this day', value: 'remove', icon: 'lucide:user-minus', danger: yes }
+			]>
+			<ui-button slot='trigger' size='sm' variant='ghost' icon='lucide:ellipsis' aria-label="{resource.title}'s day">
+
+# A lesson in the work week: the student's avatar, name and subject.
+tag LessonCard
+	prop event
+	css d:flex ai:flex-start g:1.5 min-width:0
+		.name d:block fw:600 of:hidden text-overflow:ellipsis ws:nowrap
+		.subject d:block c:$ui-muted of:hidden text-overflow:ellipsis ws:nowrap
+	<self>
+		<ui-avatar size=5 name=event.title color='auto'>
+		<span [min-width:0]>
+			<span.name> event.title
+			<span.subject> event.subject
+
+# French: busy all-day events, enough to fold the strip.
+const busy = [0, 1, 2, 3].map do(n)
+	{ id: "fete-{n}", title: ['Formation', 'Inventaire', 'Congrès', 'Portes ouvertes'][n], start: dayOf(n % 2), end: dayOf(2 + (n % 2)), allDay: yes, color: ['accent', 'success', 'warning', 'neutral'][n] }
+
 tag page-event-calendar
 	# A tutor's week.
 	lessons = initialLessons
@@ -189,7 +247,86 @@ tag page-event-calendar
 		messages = [...messages, { id: Date.now!, date: detail.date, text }] if text
 
 	# The same week, in French: its words and dates.
-	frenchLessons = initialLessons
+	# Presences: the vets in each day (other days: Dr Jones and Nurse Kim).
+	presenceDate = todayIso
+	presences = { [todayIso]: { jones: 'day', patel: 'am', nurse: 'day' } }
+	visits = [
+		visit_('a1', 'jones', '09:00', '09:30', 'Biscuit', 'A. Lovelace', 'Consult')
+		visit_('a2', 'jones', '14:00', '15:30', 'Luna', 'K. Johnson', 'Surgery')
+		visit_('a3', 'patel', '10:00', '10:30', 'Mittens', 'A. Turing', 'Consult')
+		visit_('a4', 'nurse', '09:15', '09:30', 'Poppy', 'D. Knuth', 'Vaccination')
+		Object.assign(visit_('a5', 'nurse', '11:00', '11:30', 'Kiwi', 'B. Liskov', 'Consult'), { color: 'danger' })
+	]
+
+	get presentToday do presences[presenceDate] or { jones: 'day', nurse: 'day' }
+
+	def setPresent next
+		presences = Object.assign({}, presences, { [presenceDate]: next })
+
+	# The columns: the vets in that day, available for their period. Kept
+	# while they don't change, so the calendar's shading stays cached.
+	get presentVets
+		let present = presentToday
+		let key = JSON.stringify(present)
+		unless #vetsKey == key
+			#vetsKey = key
+			#vets = staff.filter(do present[$1.id]).map do(v)
+				Object.assign({}, v, { period: present[v.id], hours: periodHours[present[v.id]], offLabel: (present[v.id] == 'day' ? 'Lunch break' : "{v.title} works {periodName[present[v.id]]}") })
+		#vets
+
+	get absentVets do staff.filter(do !presentToday[$1.id]).map(do { label: $1.title, value: $1.id })
+
+	def visitClash q
+		return yes if q.shading
+		let clash = visits.find(do $1 != q.event and $1.resourceId == q.resourceId and $1.start < q.end and $1.end > q.start)
+		clash ? "Clashes with {clash.pet}" : yes
+
+	# Saved by a pretend server: pending meanwhile; surgery can't go to a vet who doesn't operate.
+	def saveVisit detail
+		let before = detail.event
+		visits = visits.map(do $1.id == before.id ? Object.assign({}, $1, detail.change, { pending: yes }) : $1)
+		setTimeout(&, 900) do
+			let vet = staff.find(do $1.id == (detail.change.resourceId ?? before.resourceId))
+			let refused = before.kind == 'Surgery' and !vet.surgery
+			visits = visits.map(do $1.id == before.id ? (refused ? before : Object.assign({}, $1, { pending: no })) : $1)
+			toaster.error(title: "{vet.title} doesn't do surgery", description: "{before.pet} stays with its vet.") if refused
+			imba.commit!
+
+	def bookVisit slot
+		visits = [...visits, { id: "n{Date.now!}", resourceId: slot.resourceId, start: slot.start, end: slot.end, title: 'New patient', pet: 'New patient', owner: '—', kind: 'Consult' }]
+
+	def removeVet vet
+		let theirs = visits.filter(do $1.resourceId == vet.id and $1.start.startsWith(presenceDate)).length
+		return toaster.error(title: "{vet.title} has {theirs} appointment{theirs > 1 ? 's' : ''} today", description: 'Move them to another vet first.') if theirs
+		let rest = Object.assign({}, presentToday)
+		delete rest[vet.id]
+		setPresent(rest)
+
+	# A vet's period changed: say which of their appointments are now outside it.
+	def changePeriod vet, period
+		setPresent(Object.assign({}, presentToday, { [vet.id]: period }))
+		let clock = do(time) Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5))
+		let outside = visits.filter do(v)
+			v.resourceId == vet.id and v.start.startsWith(presenceDate) and !periodHours[period].some(do(h) minutesOf(v.start) >= clock(h.start) and minutesOf(v.end) <= clock(h.end))
+		toaster.warning(title: "{vet.title} now works {periodName[period]}", description: "Outside those hours: {outside.map(do "{$1.pet} at {$1.start.slice(11)}").join(', ')}") if outside.length
+
+	# French, with a full all-day strip.
+	frenchEvents = [...initialLessons, ...busy]
+
+	def addFrench slot
+		frenchEvents = [...frenchEvents, { id: Date.now!, title: (slot.allDay ? 'Journée bloquée' : 'Nouveau cours'), start: slot.start, end: slot.end, allDay: slot.allDay, color: (slot.allDay ? 'neutral' : 'accent') }]
+
+	# Selecting asks first (choosing it from the menu already says so).
+	def askFrench slot
+		let when = slot.allDay ? (slot.start == slot.end ? slot.start : "du {slot.start} au {slot.end}") : "{slot.start.slice(0, 10)}, de {slot.start.slice(11)} à {slot.end.slice(11)}"
+		addFrench(slot) if await confirm(heading: (slot.allDay ? 'Bloquer ces journées ?' : 'Ajouter un cours ?'), description: when, confirmLabel: (slot.allDay ? 'Bloquer' : 'Ajouter'), cancelLabel: 'Annuler')
+
+	def frenchMenu event
+		[
+			{ label: 'Ouvrir', icon: 'lucide:file-text', onSelect: (do toaster.info(title: event.title)) }
+			{ separator: yes }
+			{ label: 'Supprimer', icon: 'lucide:trash-2', danger: yes, onSelect: (do frenchEvents = frenchEvents.filter(do $1.id != event.id)) }
+		]
 
 	<self>
 		<demo-page source=source heading='Event calendar' intro="ui-event-calendar shows events by the hour: a day, a few days or a week across, hours down, and optionally a column per resource. Select a time to book it, drag events to move or resize them (or use the keyboard), and shade what isn't available.">
@@ -215,8 +352,28 @@ tag page-event-calendar
 				<div.out>
 					<p.note> "A column per vet, 15-minute slots, inside a fixed height that opens at the current time. Hours, lunch and clashes come from isAvailable (hatched, the reason on hover; bookings and drops there are refused). Hold Shift while selecting to block time; select in the all-day strip to mark a vet away. Moves save for a moment (pending). Right-click an appointment or an empty time for a menu; Move… places it anywhere (pinned). Click the messages row to add one."
 
-			<demo-section heading='In French'>
-				<ui-event-calendar events=frenchLessons locale='fr-FR' translations=fr.calendar views=['day', 'week'] selectable editable
-					@eventchange=(frenchLessons = frenchLessons.map(do $1.id == e.detail.event.id ? Object.assign({}, $1, e.detail.change) : $1))>
+			<demo-section heading='Presences, colours and saving' uses='visitClash saveVisit bookVisit removeVet changePeriod'>
+				<ui-event-calendar events=visits resources=presentVets view='day' views=[] bind:date=presenceDate slotMinutes=15 hourHeight='4rem'
+					startHour=8 endHour=18 height='30rem' scrollToTime='08:00' selectable editable resourceTag=PresenceVet eventTag=AppointmentBlock
+					isAvailable=(do(q) visitClash(q)) eventLabel=(do(a) "{a.pet}, {a.kind}")
+					@eventchange=saveVisit(e.detail) @slotselect=bookVisit(e.detail) @unavailable=toaster.error(title: e.detail.reason)>
+					<div slot='actions' [d:contents]>
+						if absentVets.length
+							<ui-menu placement='bottom-end' items=absentVets @select.stop=setPresent(Object.assign({}, presentToday, { [e.detail]: 'day' }))>
+								<ui-button slot='trigger' size='sm' icon='lucide:user-plus'> "Add a vet"
 				<div.out>
-					<p.note> "`locale` sets its dates and times and `translations` its words; with uiLocale.set('fr-FR') the whole app follows instead."
+					<p.note> "Who's in each day is managed here: Add a vet (toolbar), or a vet's ⋯ for morning, afternoon, all day or remove. A presence becomes the column's `hours` (with lunch on full days), so the rest of the day is shaded and refused with the reason. Appointments take their vet's colour unless they set one. Moves save through a pretend server: pending meanwhile, and moving surgery to Dr Okafor or Nurse Kim fails and rolls back."
+
+			<demo-section heading='Weekdays, your own content'>
+				<ui-event-calendar events=initialLessons.filter(do !$1.allDay) view='workweek' views=[] startHour=9 endHour=19 eventTag=LessonCard>
+					<ui-button slot='actions' size='sm' variant='primary' icon='lucide:calendar-plus'> "Book"
+				<div.out>
+					<p.note> "`view='workweek'` and the hours you teach; `eventTag` draws each lesson; the `actions` slot sits in the toolbar. Without `selectable` or `editable` it's read only."
+
+			<demo-section heading='In French, with a full all-day strip' uses='askFrench addFrench frenchMenu'>
+				<ui-event-calendar events=frenchEvents locale='fr-FR' translations=fr.calendar views=['day', 'week'] allDayMax=3 startHour=8 endHour=20 selectable editable
+					eventMenu=(do(event) frenchMenu(event)) slotMenu=(do(slot) [{ label: (slot.allDay ? 'Bloquer la journée' : "Ajouter un cours à {slot.start.slice(11)}"), icon: 'lucide:plus', onSelect: (do addFrench(slot)) }])
+					@slotselect=askFrench(e.detail) @eventclick=toaster.info(title: e.detail.title)
+					@eventchange=(frenchEvents = frenchEvents.map(do $1.id == e.detail.event.id ? Object.assign({}, $1, e.detail.change) : $1))>
+				<div.out>
+					<p.note> "`locale` sets its dates and times and `translations` its words (with uiLocale.set('fr-FR') the whole app follows instead). Past `allDayMax` lanes the all-day strip folds into “+2 de plus”; the label opens it. Editable like the others: select, move, resize, right-click."

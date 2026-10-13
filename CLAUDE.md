@@ -27,7 +27,10 @@ card. Blocks (composed screens) live in `playground/blocks/`, one
 Each component page has a **Props** panel (`playground/api.imba`) read from
 its base file: the doc comment's examples (indented blocks after a blank
 comment line), the `prop` lines (with defaults), `emit(...)` calls, `<slot>`s,
-and the doc comment's bullets. Pass tags to components (`itemTag`, a column's `tag`) as local tag classes
+and the doc comment's bullets. A tag rendered inside a component re-renders only when one of its props
+changes (Imba skips the rest), so such tags (and the ones apps pass in) must
+render from their props, not from state they look up elsewhere.
+Pass tags to components (`itemTag`, a column's `tag`) as local tag classes
 (`tag ColourOption`, `itemTag=ColourOption`), not global names; the Code view
 picks their definitions up. Document data shapes (items, columns) there
 rather than in extra page sections. Write those as one bullet per prop (or a few
@@ -111,6 +114,9 @@ New components follow the same pattern: add both files, an entry in
   use a get/set accessor. Imba sets `autocomplete`, `inputmode`, `autofocus` and
   `spellcheck` through `set$`, which needs a setter too (else they land as
   attributes). `tag x < button` makes the element a real <button>.
+- **Slotted content inside an `if` isn't slotted** (`<x> if a <b slot='s'>`
+  never reaches slot `s`): wrap it in an element that's always there
+  (`<div slot='s' [d:contents]>` with the `if` inside).
 - **Slotted content can't move between `if`/`else` branches** (Imba throws in
   `moveBefore`). Render a `<slot>` once and restyle its wrapper instead (see
   ui-nav-group's rail flyout).
