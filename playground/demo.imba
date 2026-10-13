@@ -45,8 +45,9 @@ export def highlightImba text do tokenize(text, imbaRe, ['comment', 'string', 't
 # demo scaffolding (`.out` blocks with readouts and buttons that set values).
 export def sectionSource source, heading
 	let lines = (source or '').split('\n')
-	let tag = "<demo-section heading='{heading}'"
-	let start = lines.findIndex(do $1.includes(tag + '>') or $1.includes(tag + ' '))
+	# Headings with an apostrophe are written in double quotes.
+	let tags = ["<demo-section heading='{heading}'", "<demo-section heading=\"{heading}\""]
+	let start = lines.findIndex(do(line) tags.some(do(tag) line.includes(tag + '>') or line.includes(tag + ' ')))
 	return '' if start < 0
 	let depth = do(line) line.match(/^\t*/)[0].length
 	let base = depth(lines[start])

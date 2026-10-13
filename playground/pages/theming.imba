@@ -11,13 +11,18 @@ const strokes = [{ value: '1.5', label: 'Light' }, { value: '2', label: 'Default
 
 # Every instance, restyled: a subclass with its own css. Its rules match the
 # markup it inherits, and rank alongside the library's (it's how ui-input
-# itself styles ui-input-base).
+# itself styles ui-input-base). Import what it extends first, so the tag is
+# defined when yours is:
+#
+#   import '@milktop/imba-ui/input'    # or the whole library: '@milktop/imba-ui'
 tag pill-input < ui-input
 	css rd:full px:4 bg:$ui-hover bc:transparent
 		@focus-within bg:$ui-field-bg
 
 # Your own look: the headless tag (behaviour, markup, Zag's states), styled
-# from scratch.
+# from scratch. Import the headless tag (it brings no styles):
+#
+#   import '@milktop/imba-ui/switch/base'
 tag square-switch < ui-switch-base
 	css d:inline-flex
 		.root d:inline-flex ai:center g:2 cursor:pointer fs:sm
@@ -149,7 +154,7 @@ tag page-theming
 					<pill-input icon='lucide:search' placeholder='Search'>
 					<pill-input icon='lucide:mail' placeholder='Email'>
 				<div.out>
-					<p.note> "For a look you want everywhere, subclass the styled tag and use yours. Its css applies to the markup it inherits, as the library's own does. (global css can't do this: the library's rules rank above a selector like ui-input .affix.)"
+					<p.note> "For a look you want everywhere, subclass the styled tag (import it first) and use yours. Its css applies to the markup it inherits, as the library's own does. (global css can't do this: the library's rules rank above a selector like ui-input .affix.)"
 
 			<demo-section heading="A component's own variables">
 				<div.row>
@@ -162,7 +167,7 @@ tag page-theming
 				<div.row>
 					<square-switch label='Square switch' checked=agree>
 				<div.out>
-					<p.note> "Every component has a headless tag (ui-switch-base): its behaviour, markup and Zag's states, with no styles. Subclass it to style it from scratch."
+					<p.note> "Every component has a headless tag (ui-switch-base, imported from '@milktop/imba-ui/switch/base'): its behaviour, markup and Zag's states, with no styles. Subclass it to style it from scratch."
 
 			<demo-section heading='Which wins' bare>
 				<ui-table.wins>

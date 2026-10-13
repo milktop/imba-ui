@@ -31,15 +31,6 @@ const usage = '''
 <ui-select label='Subject' items=subjects labelKey='name' valueKey='id' searchable bind=subjectId>
 '''
 
-const headless = '''
-import '@milktop/imba-ui/date-picker/base'
-
-tag lesson-date-picker < ui-date-picker-base
-	css
-		.cell rd:full
-			&[data-selected] bg:$brand
-'''
-
 tag page-installation
 	css
 		d:block
@@ -99,16 +90,6 @@ tag page-installation
 				<code> "@change"
 				". They're plain values: ISO dates, and the items' own values."
 			<code-block code=usage>
-
-		<section>
-			<h2> "Style"
-			<p>
-				"Brand the components with the "
-				<a route-to='/theming'> "$ui-* tokens"
-				". For a different look altogether, subclass a headless "
-				<code> "ui-<name>-base"
-				" tag and style its parts:"
-			<code-block code=headless>
 
 		<section>
 			<h2> "Upgrade"
