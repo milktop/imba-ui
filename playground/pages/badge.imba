@@ -1,6 +1,8 @@
 import source from './badge.imba?raw'
 
 tag page-badge
+	filters = ['Maths', 'GCSE', 'Online', 'This week']
+
 	<self>
 		<demo-page source=source heading='Badge' intro='ui-badge is a short label for a status or count.'>
 			<demo-section heading='Variants'>
@@ -25,3 +27,11 @@ tag page-badge
 					<ui-badge size='sm' variant='accent'> "3"
 					<span> "Maths with Ada"
 					<ui-badge size='sm'> "GCSE"
+
+			<demo-section heading='Tags'>
+				<div.row>
+					for filter in filters
+						<ui-badge key=filter variant='accent' removable @remove=(filters = filters.filter(do $1 != filter))> filter
+				<div.out>
+					<div.set>
+						<button @click=(filters = ['Maths', 'GCSE', 'Online', 'This week'])> "Reset"

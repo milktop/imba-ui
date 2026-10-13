@@ -12,6 +12,11 @@ import './pages/button.imba'
 import './pages/copy-button.imba'
 import './pages/avatar.imba'
 import './pages/badge.imba'
+import './pages/kbd.imba'
+import './pages/divider.imba'
+import './pages/prose.imba'
+import './pages/highlight.imba'
+import './pages/rolling-number.imba'
 import './pages/card.imba'
 import './pages/table.imba'
 import './pages/data-list.imba'
@@ -25,9 +30,12 @@ import './pages/spinner.imba'
 import './pages/empty-state.imba'
 import './pages/progress.imba'
 import './pages/collapsible.imba'
+import './pages/tree-view.imba'
 import './pages/input.imba'
 import './pages/number-input.imba'
+import './pages/time-input.imba'
 import './pages/textarea.imba'
+import './pages/editable.imba'
 import './pages/editor.imba'
 import './pages/password-input.imba'
 import './pages/pin-input.imba'
@@ -37,6 +45,8 @@ import './pages/file-upload.imba'
 import './pages/attachments.imba'
 import './pages/select.imba'
 import './pages/date-picker.imba'
+import './pages/native-select.imba'
+import './pages/swatch-picker.imba'
 import './pages/checkbox.imba'
 import './pages/radio-group.imba'
 import './pages/switch.imba'
@@ -47,6 +57,7 @@ import './pages/tooltip.imba'
 import './pages/popover.imba'
 import './pages/hover-card.imba'
 import './pages/dialog.imba'
+import './pages/confirm.imba'
 import './pages/sheet.imba'
 import './pages/action-bar.imba'
 import './pages/menu.imba'
@@ -70,12 +81,17 @@ const groups = [
 	] }
 	{ title: 'Display', icon: 'lucide:layout-grid', pages: [
 		{ path: '/avatar', title: 'Avatar', about: 'Images with initials fallback, and groups' }
-		{ path: '/badge', title: 'Badge', about: 'Statuses and counts' }
+		{ path: '/badge', title: 'Badge', about: 'Statuses, counts and tags' }
+		{ path: '/kbd', title: 'Kbd', about: 'Keys and shortcuts' }
+		{ path: '/divider', title: 'Divider', about: 'Lines between things, with labels' }
+		{ path: '/prose', title: 'Prose', about: 'Rich text, as the editor saved it' }
+		{ path: '/highlight', title: 'Highlight', about: 'Search matches marked in text' }
+		{ path: '/rolling-number', title: 'Rolling number', about: 'Digits that roll to a new value' }
 		{ path: '/card', title: 'Card', about: 'Grouped content on a surface' }
 		{ path: '/table', title: 'Table', about: 'Sorting, selection, paging' }
 		{ path: '/data-list', title: 'Data list', about: 'Labels and values' }
 		{ path: '/stat', title: 'Stat', about: 'Headline numbers and trends' }
-		{ path: '/charts', title: 'Charts', about: 'Area, bar and sparklines' }
+		{ path: '/charts', title: 'Charts', about: 'Area, bar, donut and sparklines' }
 		{ path: '/timeline', title: 'Timeline', about: 'Events down a line' }
 	] }
 	{ title: 'Feedback', icon: 'lucide:bell', pages: [
@@ -90,7 +106,9 @@ const groups = [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
 		{ path: '/password-input', title: 'Password input', about: 'Show/hide, new or current password' }
 		{ path: '/number-input', title: 'Number input', about: 'Steppers, clamping, formatting' }
+		{ path: '/time-input', title: 'Time input', about: 'A time of day, typed or picked' }
 		{ path: '/textarea', title: 'Textarea', about: 'Grows with its content' }
+		{ path: '/editable', title: 'Editable', about: 'Text you click to edit in place' }
 		{ path: '/editor', title: 'Editor', about: 'Rich text on TipTap' }
 		{ path: '/tags-input', title: 'Tags input', about: 'Free-form tags' }
 		{ path: '/pin-input', title: 'Pin input', about: 'Codes, one box per character' }
@@ -101,6 +119,8 @@ const groups = [
 	{ title: 'Pickers', icon: 'lucide:list-checks', pages: [
 		{ path: '/select', title: 'Select', about: 'Pick one or several; search, load or create' }
 		{ path: '/date-picker', title: 'Date picker', about: 'Dates and ranges, keyboard stepping' }
+		{ path: '/native-select', title: 'Native select', about: "The browser's own select, styled" }
+		{ path: '/swatch-picker', title: 'Swatch picker', about: 'A colour from a few swatches' }
 	] }
 	{ title: 'Choices', icon: 'lucide:circle-check', pages: [
 		{ path: '/checkbox', title: 'Checkbox', about: 'Single, groups and select-all' }
@@ -122,6 +142,7 @@ const groups = [
 		{ path: '/popover', title: 'Popover', about: 'Floating panels' }
 		{ path: '/hover-card', title: 'Hover card', about: 'Previews on hover' }
 		{ path: '/dialog', title: 'Dialog', about: 'Modals and confirmations' }
+		{ path: '/confirm', title: 'Confirm', about: 'Await a yes or no from anywhere' }
 		{ path: '/sheet', title: 'Sheet', about: 'Panels that slide in from an edge' }
 		{ path: '/action-bar', title: 'Action bar', about: 'Actions for a selection' }
 		{ path: '/menu', title: 'Menu', about: 'Dropdowns and context menus' }
@@ -131,6 +152,7 @@ const groups = [
 		{ path: '/tabs', title: 'Tabs', about: 'Panels behind tabs' }
 		{ path: '/accordion', title: 'Accordion', about: 'Expandable sections' }
 		{ path: '/collapsible', title: 'Collapsible', about: 'A section that opens and closes' }
+		{ path: '/tree-view', title: 'Tree view', about: 'Nested items that open and close' }
 	] }
 ]
 
@@ -278,6 +300,11 @@ tag playground
 				<page-copy-button route='/copy-button'>
 				<page-avatar route='/avatar'>
 				<page-badge route='/badge'>
+				<page-kbd route='/kbd'>
+				<page-divider route='/divider'>
+				<page-prose route='/prose'>
+				<page-highlight route='/highlight'>
+				<page-rolling-number route='/rolling-number'>
 				<page-card route='/card'>
 				<page-table route='/table'>
 				<page-data-list route='/data-list'>
@@ -291,9 +318,12 @@ tag playground
 				<page-empty-state route='/empty-state'>
 				<page-progress route='/progress'>
 				<page-collapsible route='/collapsible'>
+				<page-tree-view route='/tree-view'>
 				<page-input route='/input'>
 				<page-number-input route='/number-input'>
+				<page-time-input route='/time-input'>
 				<page-textarea route='/textarea'>
+				<page-editable route='/editable'>
 				<page-editor route='/editor'>
 				<page-password-input route='/password-input'>
 				<page-pin-input route='/pin-input'>
@@ -303,6 +333,8 @@ tag playground
 				<page-attachments route='/attachments'>
 				<page-select route='/select'>
 				<page-date-picker route='/date-picker'>
+				<page-native-select route='/native-select'>
+				<page-swatch-picker route='/swatch-picker'>
 				<page-checkbox route='/checkbox'>
 				<page-radio-group route='/radio-group'>
 				<page-switch route='/switch'>
@@ -313,6 +345,7 @@ tag playground
 				<page-popover route='/popover'>
 				<page-hover-card route='/hover-card'>
 				<page-dialog route='/dialog'>
+				<page-confirm route='/confirm'>
 				<page-sheet route='/sheet'>
 				<page-action-bar route='/action-bar'>
 				<page-menu route='/menu'>

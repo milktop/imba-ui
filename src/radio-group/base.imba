@@ -1,6 +1,7 @@
 import * as radio from '@zag-js/radio-group'
 import { Machine, uid } from '../zag.imba'
 import { fieldIds } from '../control.imba'
+import 'iconify-icon'
 import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 
 # Headless radio group: one choice from a list of options, each with an
@@ -9,6 +10,8 @@ import { itemLabel, itemKey, valueForKey, itemDisabled } from '../items.imba'
 # - `items`: strings or objects (see `labelKey`, `valueKey`, `disabledKey`,
 #   `descriptionKey`)
 # - `orientation`: 'vertical' (default) or 'horizontal'
+# - `variant`: 'list' (default), or 'cards': each option a bordered card
+#   (with its description, and an `icon` from the item), the chosen one outlined
 # - `name`: the hidden radios also post with plain forms
 #
 # Emits `change` with the selected item's original value. For a compact row
@@ -22,6 +25,7 @@ tag ui-radio-group-base < ui-control
 	prop disabledKey = 'disabled'
 	prop descriptionKey = 'description'
 	prop orientation = 'vertical'
+	prop variant = 'list'
 	prop name = null
 	prop disabled = false
 
@@ -60,7 +64,7 @@ tag ui-radio-group-base < ui-control
 
 		let api = machine.connect(radio)
 
-		<self>
+		<self .{variant}>
 			if label and !#field..label
 				<span.label zag=api.getLabelProps!> label
 			<div.group zag=describe(api.getRootProps!)>
@@ -69,6 +73,8 @@ tag ui-radio-group-base < ui-control
 					let about = description(item)
 					<label.item zag=api.getItemProps(props)>
 						<span.control zag=api.getItemControlProps(props)>
+						if item..icon
+							<iconify-icon.icon icon=item.icon aria-hidden='true'>
 						<span.text>
 							<span.item-text zag=api.getItemTextProps(props)> itemLabel(item, labelKey)
 							if about

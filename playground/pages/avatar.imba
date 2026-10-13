@@ -59,3 +59,12 @@ tag page-avatar
 						<ui-avatar tooltip='Katherine Johnson (owner)' name='Katherine Johnson' color='teal'>
 				<div.out>
 					<p.note> "`size` and `spacing` ('tight', 'normal' or 'loose'); or put ui-avatars in it yourself."
+
+			<demo-section heading='Status'>
+				<div.row>
+					<ui-avatar name='Ada Lovelace' color='auto' status='online'>
+					<ui-avatar name='Alan Turing' color='auto' status='away'>
+					<ui-avatar name='Grace Hopper' color='auto' status='busy' statusLabel='In a lesson'>
+					<ui-avatar name='Katherine Johnson' color='auto' status='offline'>
+					<ui-avatar name='Hedy Lamarr' color='auto' size='lg' status='#8b5cf6' statusLabel='On holiday'>
+					<ui-avatar name='Mary Somerville' color='auto' size='sm' square status='online'>

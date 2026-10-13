@@ -30,3 +30,11 @@ tag page-stat
 					<ui-stat size='sm' label='Small' value='1,204'>
 					<ui-stat label='Medium' value='1,204'>
 					<ui-stat size='lg' label='Large' value='1,204'>
+
+			<demo-section heading='Formatted numbers'>
+				<ui-stats columns=3>
+					<ui-stat label='Students' value=1204>
+					<ui-stat label='Revenue' value=18420.5 format={ style: 'currency', currency: 'GBP' }>
+					<ui-stat label='Attendance' value=0.923 format={ style: 'percent', maximumFractionDigits: 1 }>
+				<div.out>
+					<p.note> "A number is formatted with `format` (Intl's options); add `animate` for digits that roll, as on the Rolling number page."

@@ -3,6 +3,24 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## Unreleased
+
+Ported from react-ui:
+
+- New components: `ui-kbd`, `ui-divider`, `ui-prose`, `ui-highlight`,
+  `ui-rolling-number`, `ui-native-select`, `ui-time-input`, `ui-editable`,
+  `ui-tree-view`, `ui-swatch-picker`, `ui-donut-chart`, and `confirm()`
+  (`@milktop/imba-ui/confirm`)
+- `ui-badge`: `removable` tags (an ✕ that emits `remove`)
+- `ui-avatar`: `status` dot ('online', 'away', 'busy', 'offline' or a colour)
+- `ui-radio-group`: `variant='cards'` (with item icons);
+  `ui-checkbox-group`: `variant='cards'` or `'chips'`; `ui-checkbox`:
+  `description` and `icon`
+- `ui-stat`: numbers are formatted (`format`, Intl's options) and can roll
+  (`animate`)
+- `ui-dialog` emits `exitcomplete` once it has closed and animated out
+- `$ui-selection` (selected text) and `$ui-highlight` tokens
+
 ## 0.11.0 (2026-10-08)
 
 - `ui-alert`: variants tint themselves from `$ui-accent`, `$ui-success`,

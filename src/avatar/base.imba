@@ -15,6 +15,8 @@ import '../tooltip/base.imba'
 # - `color`: 'accent' (default), 'gray', 'red', 'orange', 'amber', 'green',
 #   'teal', 'blue', 'purple' or 'pink'; 'auto' picks one from the name, so the
 #   same person always gets the same colour
+# - `status`: a dot on its corner: 'online', 'away', 'busy' or 'offline'
+#   (or any CSS colour); `statusLabel` says it for assistive tech
 # - `tooltip`: shows the name in a tooltip on hover (handy in a stack);
 #   `tooltip='…'` shows that text instead. Avatars can't take focus, so it's
 #   mouse-only; screen readers already get the name
@@ -32,6 +34,8 @@ tag ui-avatar-base
 	prop square = false
 	prop color = 'accent'
 	prop tooltip = null
+	prop status = null
+	prop statusLabel = null
 
 	zagId = uid('avatar')
 
@@ -77,7 +81,9 @@ tag ui-avatar-base
 		else
 			style.removeProperty('--avatar-size')
 
-		<self .{custom !== null ? 'custom' : size} .square=square data-color=tone zag=api.getRootProps!>
+		let preset = ['online', 'away', 'busy', 'offline'].includes(status)
+
+		<self .{custom !== null ? 'custom' : size} .square=square .has-status=!!status data-color=tone zag=api.getRootProps!>
 			if src
 				<img.image zag=api.getImageProps! src=src alt=(name or '')>
 			<span.fallback zag=api.getFallbackProps! aria-hidden=(name ? undefined : 'true')>
@@ -91,3 +97,5 @@ tag ui-avatar-base
 			if tooltipText
 				<ui-tooltip content=tooltipText>
 					<span.tooltip-target>
+			if status
+				<span.status data-status=(preset ? status : 'custom') role='img' aria-label=(statusLabel or status) style=(preset ? undefined : "background: {status}")>

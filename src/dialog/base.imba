@@ -13,7 +13,8 @@ import { icons } from '../icons.imba'
 # Focus moves in and is trapped while it is open, the page behind doesn't
 # scroll, Escape or a click on the backdrop closes it, and focus returns to
 # the trigger. The `trigger` slot is optional; open it with `bind=` (or
-# `bind:open=`) instead. `openchange` is emitted with the new state.
+# `bind:open=`) instead. `openchange` is emitted with the new state, and
+# `exitcomplete` once it has closed and finished animating out.
 #
 # - `heading`, `description`: label and describe it for assistive tech
 # - `alert`: an alertdialog, for confirmations; the backdrop doesn't close it
@@ -31,7 +32,7 @@ tag ui-dialog-base
 	prop modal = true
 
 	zagId = uid('dialog')
-	presence = new Presence(self)
+	presence = new Presence(self, 300, do emit('exitcomplete'))
 
 	# `bind=` targets `data`, which aliases `open` here.
 	get data do open

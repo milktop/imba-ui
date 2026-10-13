@@ -1,5 +1,6 @@
 import '../theme.imba'
 import './base.imba'
+import '../rolling-number/index.imba'
 
 # ui-stats responds to its own width (not the screen's): one column, then two,
 # then `columns`, so four stats go 1, 2 by 2, then a row. Imba's CSS has no
@@ -16,6 +17,8 @@ if typeof document != 'undefined' and !document.getElementById('ui-stats-rules')
 	document.head.appendChild(style)
 
 tag ui-stat < ui-stat-base
+	rollingTag = 'ui-rolling-number'
+
 	css
 		d:flex fld:column g:1 min-width:0 c:$ui-text ff:$ui-font fs:sm
 		&.card p:5 bd:1px solid $ui-border rd:calc($ui-radius + 4px) bg:$ui-surface shadow:$ui-card-shadow

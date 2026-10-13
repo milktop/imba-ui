@@ -2,11 +2,14 @@ import * as checkbox from '@zag-js/checkbox'
 import { Machine, uid } from '../zag.imba'
 import '../control.imba'
 import { icons } from '../icons.imba'
+import 'iconify-icon'
 
 # Headless checkbox: a box and its label, with a visually hidden native input
 # for keyboard, forms (`name`, `value`) and assistive tech.
 #
 # - `checked`: true, false or 'indeterminate'
+# - `description`: a line of muted text under the label; `icon`: an Iconify
+#   name before it (ui-checkbox-group's cards use both)
 # - `labelHidden`: keeps the label for assistive tech but doesn't show it
 #   (e.g. row checkboxes in ui-table)
 #
@@ -21,6 +24,8 @@ tag ui-checkbox-base < ui-control
 	prop required = false
 	prop disabled = false
 	prop labelHidden = false
+	prop description = null
+	prop icon = null
 
 	zagId = uid('checkbox')
 
@@ -61,6 +66,12 @@ tag ui-checkbox-base < ui-control
 				<span.control zag=api.getControlProps!>
 					<span.indicator zag=api.getIndicatorProps!>
 						<ui-icon path=(api.indeterminate ? icons.minus : icons.check) size=12>
-				if label
+				if icon
+					<iconify-icon.icon icon=icon aria-hidden='true'>
+				if description
+					<span.text>
+						<span.label zag=api.getLabelProps!> label
+						<span.description> description
+				elif label
 					<span.label .visually-hidden=labelHidden zag=api.getLabelProps!> label
 				<input zag=describe(api.getHiddenInputProps!) @change.stop>

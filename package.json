@@ -114,7 +114,29 @@
     "./app-shell": "./src/app-shell/index.imba",
     "./app-shell/base": "./src/app-shell/base.imba",
     "./fields": "./src/fields/index.imba",
-    "./fields/base": "./src/fields/base.imba"
+    "./fields/base": "./src/fields/base.imba",
+    "./kbd": "./src/kbd/index.imba",
+    "./kbd/base": "./src/kbd/base.imba",
+    "./divider": "./src/divider/index.imba",
+    "./divider/base": "./src/divider/base.imba",
+    "./prose": "./src/prose/index.imba",
+    "./prose/base": "./src/prose/base.imba",
+    "./highlight": "./src/highlight/index.imba",
+    "./highlight/base": "./src/highlight/base.imba",
+    "./native-select": "./src/native-select/index.imba",
+    "./native-select/base": "./src/native-select/base.imba",
+    "./time-input": "./src/time-input/index.imba",
+    "./time-input/base": "./src/time-input/base.imba",
+    "./rolling-number": "./src/rolling-number/index.imba",
+    "./rolling-number/base": "./src/rolling-number/base.imba",
+    "./editable": "./src/editable/index.imba",
+    "./editable/base": "./src/editable/base.imba",
+    "./tree-view": "./src/tree-view/index.imba",
+    "./tree-view/base": "./src/tree-view/base.imba",
+    "./swatch-picker": "./src/swatch-picker/index.imba",
+    "./swatch-picker/base": "./src/swatch-picker/base.imba",
+    "./confirm": "./src/confirm/index.imba",
+    "./confirm/base": "./src/confirm/base.imba"
   },
   "files": [
     "src",
@@ -136,7 +158,6 @@
     "vite": "^8.3.2"
   },
   "dependencies": {
-    "iconify-icon": "^3.0.3",
     "@internationalized/date": "^3.12.4",
     "@tiptap/core": "^3.31.4",
     "@tiptap/extension-image": "^3.31.4",
@@ -151,7 +172,9 @@
     "@zag-js/combobox": "^1.44.0",
     "@zag-js/date-picker": "^1.44.0",
     "@zag-js/dialog": "^1.44.0",
+    "@zag-js/editable": "^1.44.0",
     "@zag-js/file-upload": "^1.44.0",
+    "@zag-js/highlight-word": "^1.44.0",
     "@zag-js/hover-card": "^1.44.0",
     "@zag-js/listbox": "^1.44.0",
     "@zag-js/menu": "^1.44.0",
@@ -169,8 +192,10 @@
     "@zag-js/tags-input": "^1.44.0",
     "@zag-js/toast": "^1.44.0",
     "@zag-js/tooltip": "^1.44.0",
+    "@zag-js/tree-view": "^1.44.0",
     "@zag-js/vanilla": "^1.44.0",
     "d3-scale": "^4.0.2",
-    "d3-shape": "^3.2.0"
+    "d3-shape": "^3.2.0",
+    "iconify-icon": "^3.0.3"
   }
 }

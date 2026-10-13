@@ -36,3 +36,14 @@ tag ui-avatar < ui-avatar-base
 		.fallback d:grid place-items:center w:100% h:100% lh:1
 		.person w:55% h:55%
 		.tooltip-target pos:absolute inset:0
+
+		# A status dot on the corner: the avatar stops clipping (the image and
+		# initials round themselves), so the dot can sit over the edge.
+		&.has-status of:visible
+			.image, .fallback rd:inherit of:hidden
+		.status pos:absolute r:0 b:0 w:28% h:28% min-width:2 min-height:2 box-sizing:border-box rd:full
+			box-shadow:0 0 0 2px var(--ui-avatar-ring, var(--ui-surface))
+			&[data-status=online] bg:#22c55e
+			&[data-status=away] bg:#f59e0b
+			&[data-status=busy] bg:$ui-danger
+			&[data-status=offline] bg:$ui-muted

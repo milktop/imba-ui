@@ -92,10 +92,12 @@ export class Machine
 # it shown while its exit animation runs: call `update` from render with the
 # open state, spread `keep(props)` onto the parts it hides, and call `done`
 # on animationend (a timeout covers popups without an exit animation).
+# `onDone` runs once a popup has finished leaving.
 export class Presence
-	constructor owner, timeout = 300
+	constructor owner, timeout = 300, onDone = null
 		#owner = owner
 		#timeout = timeout
+		#onDone = onDone
 
 	# `instant` closes at once, e.g. a tooltip handing over to the next one.
 	def update open, instant = no
@@ -115,3 +117,4 @@ export class Presence
 		return unless #leaving
 		#leaving = no
 		#owner.render! if #owner.isConnected
+		#onDone..call(#owner)

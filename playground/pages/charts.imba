@@ -18,6 +18,13 @@ const subjects = [
 
 const pounds = do(v) "£{v.toLocaleString!}"
 
+const kinds = [
+	{ label: 'Maths', value: 42 }
+	{ label: 'English', value: 23 }
+	{ label: 'Physics', value: 12 }
+	{ label: 'Chemistry', value: 9 }
+]
+
 tag page-charts
 	data = months
 
@@ -32,7 +39,7 @@ tag page-charts
 		.wide w:100%
 
 	<self>
-		<demo-page source=source heading='Charts' intro='ui-area-chart, ui-bar-chart and ui-sparkline draw SVG in Imba, with d3 for the maths. Colours come from the theme ($ui-chart-1…5, the first being the accent), so they follow dark mode and the accent picker. Hover for a tooltip.'>
+		<demo-page source=source heading='Charts' intro='ui-area-chart, ui-bar-chart, ui-donut-chart and ui-sparkline draw SVG in Imba, with d3 for the maths. Colours come from the theme ($ui-chart-1…5, the first being the accent), so they follow dark mode and the accent picker. Hover for a tooltip.'>
 			<demo-section heading='Sparklines'>
 				<div.cards>
 					<div.mini>
@@ -67,3 +74,8 @@ tag page-charts
 			<demo-section heading='Grouped and stacked bars'>
 				<ui-bar-chart.wide data=months x='month' series=subjects height=220 label='Lessons by subject'>
 				<ui-bar-chart.wide data=months x='month' series=subjects stacked height=220 label='Lessons by subject, stacked'>
+
+			<demo-section heading='Donut and pie'>
+				<div.row>
+					<ui-donut-chart data=kinds center='Lessons' label='Lessons by subject'>
+					<ui-donut-chart data=kinds size=120 thickness=1 legend='bottom' label='Lessons by subject, as a pie'>

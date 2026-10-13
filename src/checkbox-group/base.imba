@@ -10,6 +10,9 @@ import '../checkbox/base.imba'
 # - `selectAll`: label for a parent checkbox that selects all or none, and is
 #   indeterminate when only some are selected (disabled items keep their state)
 # - `orientation`: 'vertical' (default) or 'horizontal'
+# - `variant`: 'list' (default); 'cards': each a bordered card (with the
+#   item's `description` and `icon`), ticked ones outlined; 'chips': pills
+#   that toggle, e.g. quick filters above a table
 # - `name`: each checkbox posts its value with plain forms
 #
 # Shift-clicking a checkbox ticks (or clears) every item between it and the
@@ -27,6 +30,7 @@ tag ui-checkbox-group-base
 	prop disabledKey = 'disabled'
 	prop selectAll = null
 	prop orientation = 'vertical'
+	prop variant = 'list'
 	prop name = null
 	prop disabled = false
 
@@ -87,7 +91,9 @@ tag ui-checkbox-group-base
 		#field = closestField(self)
 		let labelledBy = #field..labelledBy or (label ? labelId : undefined)
 
-		<self>
+		let cards = variant == 'cards'
+
+		<self .{variant}>
 			if label and !#field..label
 				<span.label id=labelId> label
 			<div.group role='group' zag={ 'aria-labelledby': labelledBy, 'aria-describedby': #field..describedBy ?? undefined }>
@@ -95,4 +101,4 @@ tag ui-checkbox-group-base
 					<{checkboxTag}.select-all label=selectAll checked=allState disabled=disabled @change.stop=toggleAll(e.detail)>
 				<div.items .horizontal=(orientation == 'horizontal') .indented=!!selectAll @pointerdown.capture=noteShift @mousedown.capture=noteShift @keydown.capture=noteShift>
 					for item in items
-						<{checkboxTag}.item label=itemLabel(item, labelKey) checked=isSelected(item) disabled=isLocked(item) name=name value=itemKey(item, valueKey) @change.stop=toggle(item, e.detail)>
+						<{checkboxTag}.item label=itemLabel(item, labelKey) description=(cards ? item..description : null) icon=(cards ? item..icon : null) checked=isSelected(item) disabled=isLocked(item) name=name value=itemKey(item, valueKey) @change.stop=toggle(item, e.detail)>

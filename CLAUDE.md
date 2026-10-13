@@ -61,7 +61,9 @@ New components follow the same pattern: add both files, an entry in
 - **Machines that spread props over defaults** (number-input) get `defined(...)`
   props, so unset ones don't wipe out the defaults.
 - **Inner `<input>`/`<select>` elements get `@change.stop`,** so their native events
-  don't reach the host's `change` listeners.
+  don't reach the host's `change` listeners. Imba's `.stop` is
+  `stopImmediatePropagation`: never put it on an event Zag handles on the same
+  element (`@click.stop` on a tree checkbox swallowed Zag's own click).
 - **Popups:** set `zi:50 --z-index:50` on `.positioner` (Zag's inline
   `z-index: var(--z-index)` beats a plain `zi`, and it doesn't always set the variable). Floating
   panels (tooltip, popover) use `strategy: 'fixed'` so overflow can't clip them.
@@ -85,6 +87,9 @@ New components follow the same pattern: add both files, an entry in
   `def` of that name before the tag's own getter (`menu` meant the Zag module
   inside ui-menu-item); rename the import or write `self.x`. `#parent` is
   taken by Imba, so pick another private field name.
+- **Creating a tag from code:** `imba.mount <{name} request=r>`, not
+  `document.createElement` and then setting props: the props' defaults are
+  applied later and overwrite them (see `confirm()`).
 - **Element refs (`$name`) inside a dynamic tag** (`<{tag}>`) are undefined at
   render; find the element with `querySelector` instead.
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
@@ -104,6 +109,9 @@ New components follow the same pattern: add both files, an entry in
 - **Font sizes:** use Imba's named sizes (`fs:xs`, `sm-` is 13px, `sm`, `md-`
   is 15px, `md`, …), not px; they set a matching line height too. Icon sizes
   can stay in px.
+- **The `lh` unit:** Imba rewrites `1lh` to `var(--u_lh,1lh)`, which font-size
+  utilities around it may set to a plain number; set a line height and use `em`
+  (see ui-rolling-number).
 - **Imba CSS shorthands:** `size:` and `pi:` don't exist; use `w`/`h` and `place-items`.
   `x:`/`y:` emit unitless values (`x:4` is invalid); use `transform` with units.
   `inset:` also sets `position:absolute`, so write `pos:fixed` after it. There's

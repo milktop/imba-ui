@@ -7,6 +7,14 @@ tag page-checkbox
 	days = [2, 4]
 	dayItems = [{ value: 1, label: 'Mon' }, { value: 2, label: 'Tue' }, { value: 3, label: 'Wed' }, { value: 4, label: 'Thu' }, { value: 5, label: 'Fri' }]
 	reminders = { email: yes, sms: no, push: no }
+	extras = ['notes']
+	extraItems = [
+		{ value: 'notes', label: 'Lesson notes', description: 'Written up after each lesson', icon: 'lucide:notebook-pen' }
+		{ value: 'recording', label: 'Recording', description: 'Watch it again for a week', icon: 'lucide:video' }
+		{ value: 'reports', label: 'Monthly report', description: 'Progress for parents', icon: 'lucide:file-chart-column' }
+	]
+	quick = ['maths']
+	quickItems = [{ value: 'maths', label: 'Maths' }, { value: 'english', label: 'English' }, { value: 'science', label: 'Science' }, { value: 'online', label: 'Online only' }, { value: 'free', label: 'Free today' }]
 
 	get allReminders
 		let on = Object.values(reminders).filter(Boolean).length
@@ -52,3 +60,15 @@ tag page-checkbox
 							<ui-checkbox label='Push notification' bind=reminders.push>
 				<div.out>
 					<json-print data={ reminders }>
+
+			<demo-section heading='Cards'>
+				<ui-fields>
+					<ui-field label='Extras'>
+						<ui-checkbox-group variant='cards' items=extraItems bind=extras>
+				<div.out>
+					<json-print data={ extras }>
+
+			<demo-section heading='Chips'>
+				<ui-checkbox-group variant='chips' label='Filter tutors' items=quickItems bind=quick>
+				<div.out>
+					<json-print data={ quick }>

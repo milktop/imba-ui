@@ -32,6 +32,28 @@ global css
 		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
 
 tag ui-area-chart < ui-area-chart-base
+
+tag ui-donut-chart < ui-donut-chart-base
+	css
+		d:inline-flex ai:center g:6 max-width:100% c:$ui-text ff:$ui-font fs:sm-
+		&[data-legend=bottom] fld:column g:4
+		.frame pos:relative fls:0
+		.svg d:block of:visible
+		.slice transition:opacity 120ms cursor:default
+			&.dim o:0.45
+		.center pos:absolute inset:0 d:flex fld:column ai:center jc:center pointer-events:none ta:center
+		.center-total d:contents
+		.center strong fs:xl fw:700 lh:1.1
+		.center span c:$ui-muted fs:xs
+		.legend d:flex fld:column g:1.5 m:0 p:0 list-style:none min-width:0
+		&[data-legend=bottom] .legend fld:row flw:wrap jc:center g:1.5 4
+		.legend-item d:flex ai:center g:2 transition:opacity 120ms
+			&.dim o:0.45
+		.swatch w:2.5 h:2.5 rd:full fls:0
+		.legend-label flg:1 c:$ui-muted
+		.legend-value fw:600 font-variant-numeric:tabular-nums
+			small c:$ui-muted fw:400 fs:11px
+		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
 tag ui-bar-chart < ui-bar-chart-base
 
 tag ui-sparkline < ui-sparkline-base

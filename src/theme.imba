@@ -17,16 +17,18 @@ appendCustomStyle('[stroke-width="2"] { stroke-width: var(--ui-icon-stroke, 2); 
 # Plain rules Imba's CSS can't express: Zag's `hidden` on closed parts beats
 # any component display (e.g. d:flex on a dialog panel, which would otherwise
 # stay on screen, invisible but clickable); the browser's focus outline only
-# shows for keyboard focus, not after a click; and animations stop when the
-# system asks for less motion.
+# shows for keyboard focus, not after a click; selected text takes
+# $ui-selection; and animations stop when the system asks for less motion.
 if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 	let style = document.createElement('style')
 	style.id = 'ui-base-rules'
 	style.textContent = [
 		'[data-scope][hidden] { display: none !important; }'
+		'::selection { background: var(--ui-selection); }'
 		'[data-scope]:focus:not(:focus-visible) { outline: none; }'
 		'@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
 		'@media (prefers-reduced-motion: reduce) { [data-ui-pulse]::after { animation: none !important; } }'
+		'@media (prefers-reduced-motion: reduce) { [data-ui-rolling] * { transition: none !important; } }'
 	].join('\n')
 	document.head.appendChild(style)
 
@@ -55,6 +57,9 @@ global css
 		$ui-accent-text:white
 		$ui-accent-soft:#dbeafe
 		$ui-accent-soft-text:#1e40af
+		# Selected text, and ui-highlight's marks.
+		$ui-selection:color-mix(in srgb, $ui-accent 24%, transparent)
+		$ui-highlight:color-mix(in srgb, $ui-accent 22%, transparent)
 		$ui-ring:#3b82f6
 		$ui-ring-soft:#3b82f633
 		$ui-danger:#dc2626
@@ -122,6 +127,8 @@ global css
 		$ui-accent:#3b82f6
 		$ui-accent-soft:#1e3a8a
 		$ui-accent-soft-text:#bfdbfe
+		$ui-selection:color-mix(in srgb, $ui-accent 40%, transparent)
+		$ui-highlight:color-mix(in srgb, $ui-accent 35%, transparent)
 		$ui-ring:#60a5fa
 		$ui-ring-soft:#60a5fa33
 		$ui-danger:#f87171

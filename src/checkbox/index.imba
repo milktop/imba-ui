@@ -14,4 +14,7 @@ tag ui-checkbox < ui-checkbox-base
 			&[data-invalid] bc:$ui-danger
 		.indicator d:none
 			&[data-state=checked], &[data-state=indeterminate] d:grid
+		.icon d:block fls:0 c:$ui-muted fs:lg
+		.text d:vflex g:0.5
+		.description c:$ui-muted fs:xs fw:400
 		.visually-hidden pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap m:-1px p:0

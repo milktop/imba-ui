@@ -1,5 +1,5 @@
 import { scaleLinear, scalePoint, scaleBand } from 'd3-scale'
-import { line, area, curveMonotoneX, curveLinear } from 'd3-shape'
+import { line, area, curveMonotoneX, curveLinear, pie, arc } from 'd3-shape'
 import { uid } from '../zag.imba'
 
 # Headless charts: SVG drawn by Imba, with d3 for the maths (scales and
@@ -10,6 +10,7 @@ import { uid } from '../zag.imba'
 #   <ui-sparkline data=[3, 5, 4, 8, 6, 9]>
 #   <ui-area-chart data=months x='month' y='revenue' format=(do(v) "£{v}")>
 #   <ui-bar-chart data=weeks x='week' series=[{ key: 'maths', label: 'Maths' }, { key: 'english', label: 'English' }]>
+#   <ui-donut-chart data=[{ label: 'Consults', value: 42 }, { label: 'Surgery', value: 9 }]>
 #
 # Area and bar charts take rows of objects: `x` names the label property and
 # `y` the value (or `series` for several, each { key, label, color }). They
@@ -272,3 +273,70 @@ tag ui-sparkline-base
 								<stop offset='100%' stop-color=colour stop-opacity='0'>
 						<path d=fill(values) fill="url(#{chartId})">
 					<path.line d=path(values) fill='none' stroke=colour>
+
+# Parts of a whole as a ring (or a pie), with the total (or your text) in
+# the middle, a legend, and the value on hover.
+#
+# - `data`: `{ label, value, color }` (colours from $ui-chart-1…5 by default)
+# - `size` (160 px), `thickness` (a share of the radius, 0.32; 1 for a pie)
+# - `center`: the middle's caption under the total ('Total'); `false` for an
+#   empty middle; the `center` slot replaces it all
+# - `legend`: beside it ('right', default), 'bottom' or false
+# - `format(value)`, for the total, legend and tooltip
+# - `label`: what it shows, for assistive tech (a hidden table of the data)
+tag ui-donut-chart-base
+	prop data = []
+	prop size = 160
+	prop thickness = 0.32
+	prop center = 'Total'
+	prop legend = 'right'
+	prop format = null
+	prop label = 'Chart'
+
+	hover = null
+
+	def fmt value
+		return format(value) if format
+		typeof value == 'number' ? value.toLocaleString! : String(value ?? '')
+
+	def render
+		let rows = data or []
+		let px = Number(size)
+		let total = rows.reduce((do(sum, d) sum + Math.max(0, +d.value or 0)), 0)
+		let radius = px / 2
+		let inner = thickness >= 1 ? 0 : radius * (1 - thickness)
+		let slices = pie!.value(do Math.max(0, +$1.value or 0)).sort(null).padAngle(rows.length > 1 and inner > 0 ? 0.012 : 0)(rows)
+		let shape = arc!.innerRadius(inner).outerRadius(radius).cornerRadius(inner > 0 ? 2 : 0)
+		let grown = arc!.innerRadius(inner).outerRadius(radius + 4).cornerRadius(inner > 0 ? 2 : 0)
+		let shown = hover != null ? rows[hover] : null
+
+		<self data-legend=(legend or undefined)>
+			<div.frame style="width: {px}px; height: {px}px">
+				<svg.svg width=px height=px viewBox="{-radius - 4} {-radius - 4} {px + 8} {px + 8}" aria-hidden='true'>
+					for s, i in slices
+						<path.slice d=(hover == i ? grown : shape)(s) fill=seriesColor(rows[i].color, i) .dim=(hover != null and hover != i) @pointerenter=(hover = i) @pointerleave=(hover = null)>
+				# The middle: the hovered slice, or the total (or your own).
+				if inner > 0 and center !== false
+					<div.center>
+						if shown
+							<strong> fmt(shown.value)
+							<span> shown.label
+						else
+							<slot name='center'>
+								<div.center-total>
+									<strong> fmt(total)
+									<span> center if center
+			if legend
+				<ul.legend> for d, i in rows
+					<li.legend-item .dim=(hover != null and hover != i) @pointerenter=(hover = i) @pointerleave=(hover = null)>
+						<span.swatch style="background: {seriesColor(d.color, i)}">
+						<span.legend-label> d.label
+						<span.legend-value>
+							fmt(d.value)
+							<small> " {Math.round((d.value / total) * 100)}%" if total > 0
+			<table.sr-only>
+				<caption> label
+				for d in rows
+					<tr>
+						<td> d.label
+						<td> fmt(d.value)

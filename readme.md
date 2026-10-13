@@ -11,12 +11,17 @@ code, and some composed screens (blocks).
 | --- | --- | --- |
 | Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
-| Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square, colours (or one picked from the name) |
-| Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline |
+| Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square, colours (or one picked from the name), a `status` dot |
+| Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline; `removable` tags that emit `remove` |
+| Kbd | `<ui-kbd>` | A key, or a shortcut of several (`keys`) |
+| Divider | `<ui-divider>` | A line across or up, with an optional label; solid, dashed or dotted |
+| Prose | `<ui-prose>` | Rich text (an `html` string or children) styled like the editor's content |
+| Highlight | `<ui-highlight>` | Text with the parts matching a `query` marked; named tints or any colour (`$ui-highlight`) |
+| Rolling number | `<ui-rolling-number>` | A number whose digits roll to a new value; Intl `format`; still for reduced motion |
 | Card | `<ui-card>` | Surface with heading, description, actions and footer slots; `flush` for edge-to-edge content |
 | Data list | `<ui-data-list>` (+ `<ui-data-item>`) | Labels and values as a `<dl>`: beside or above, plain/divided/card, grid columns, info tooltips |
-| Stat | `<ui-stat>`, `<ui-stats>` | Headline numbers with unit, coloured change, help and icon; grids that are plain, cards or one divided card |
-| Charts | `<ui-area-chart>`, `<ui-bar-chart>`, `<ui-sparkline>` | SVG drawn by Imba with d3 for the maths: one or more series, stacked or not, tooltips, legends, theme colours (`$ui-chart-1…5`) |
+| Stat | `<ui-stat>`, `<ui-stats>` | Headline numbers with unit, coloured change, help and icon; numbers formatted (`format`) or rolling (`animate`); grids that are plain, cards or one divided card |
+| Charts | `<ui-area-chart>`, `<ui-bar-chart>`, `<ui-donut-chart>`, `<ui-sparkline>` | SVG drawn by Imba with d3 for the maths: one or more series, stacked or not, tooltips, legends, theme colours (`$ui-chart-1…5`); donuts and pies with a total in the middle |
 | Timeline | `<ui-timeline>` (+ `<ui-timeline-item>`) | Events down a line with icon or dot markers, colours, times; line or cards |
 | Table | `<ui-table>` | Rows by `columns`: sortable headings, row selection with select-all and Shift-click ranges, custom cell tags, formats, loading/empty states, sticky header, sizes sm/md/lg, `flush` inside cards; or style a `<table>` written inside |
 | Pagination | `<ui-pagination>` | Previous/next, page numbers with ellipses and first/last once pages are hidden, optional "Showing 11–20 of 95 items" summary (`noun` renames them); binds `page` |
@@ -26,10 +31,14 @@ code, and some composed screens (blocks).
 | Spinner | `<ui-spinner>` | Small loading indicator with an accessible label |
 | Empty state | `<ui-empty-state>` | Icon, heading, description and actions for empty views |
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
+| Tree view | `<ui-tree-view>` | Nested items that open and close: keyboard navigation, single or multiple selection, checkboxes that tick a branch's children; bind the selection, `expanded` and `checked` |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
+| Native select | `<ui-native-select>` | The browser's own `<select>` styled like the inputs: groups, a placeholder, the items' own values, field wiring |
+| Swatch picker | `<ui-swatch-picker>` | A colour from swatches (Tailwind's by name, or your own), arrow keys like radios; inline or in a popover field |
 | Select | `<ui-select>` | One component for every pick: a button, or with `searchable` an input that filters; async `load` for server search; `oncreate` to add items; `multiple` with ticks or `tags`, `hideSelected`, `deselectable`, `clearable`; `itemTag` for custom options; Enter picks a run, Backspace removes the last pick; hidden `<select>` for plain forms; `size='sm'` |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots, `round` for a pill, `size='sm'`; slot a textarea to replace it |
+| Time input | `<ui-time-input>` | A time of day as 'HH:mm' (or null), with `step` in minutes, `min`/`max`; the browser's own picker |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
 | Password input | `<ui-password-input>` | Show/hide button; `ui-field type='password'` renders one |
 | Pin input | `<ui-pin-input>` | One box per character for codes; emits `complete` when filled |
@@ -39,16 +48,18 @@ code, and some composed screens (blocks).
 | Attachments | `<ui-attachments>` | Files on a page or form, as tiles (`columns` per row) or a list: image thumbnails with a large preview, file icons, download, remove, an add tile and drag and drop, limits (`accept`, `maxFiles`, `maxFileSize`); takes Files too; bindable |
 | Editor | `<ui-editor>` | Rich text on TipTap: HTML value (bindable), configurable toolbar (marks, headings, lists, quote, link popover, undo), placeholder, character limit, images via `uploadImage` (a URL, or attributes incl. `data-*` kept on the `<img>`) |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
+| Editable | `<ui-editable>` | Text you click to edit in place: Enter or leaving saves, Escape cancels; ✓/✕ and pencil buttons; emits `change` once saved |
 | Checkbox | `<ui-checkbox>` | Checked, unchecked or indeterminate; binds `checked`; `labelHidden` for a label only assistive tech hears |
-| Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range |
-| Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions |
+| Checkbox group | `<ui-checkbox-group>` | Checkboxes for a list of items, bound to an array; optional select-all; Shift-click fills a range; `cards` (icon, description) or `chips` |
+| Radio group | `<ui-radio-group>` | One of a list of options, with optional descriptions; `cards` (with an icon) |
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
 | Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` (with tooltips) |
 | Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, a menu or a single toggle button (also just on phones), driving `colorScheme` (saved, follows the OS) |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
-| Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open` |
+| Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open`; `exitcomplete` once it has animated out |
+| Confirm | `confirm(options)` | Await a yes or no from anywhere: danger, type-to-confirm, async `onConfirm` (the button spins; errors show in the dialog), queued calls |
 | Sheet | `<ui-sheet>` | Panel sliding in from any edge (`side`), sized sm/md/lg; a modal dialog underneath, with scrolling body and pinned footer |
 | Action bar | `<ui-action-bar>` | Floating toolbar at the bottom while something is selected: count, actions, close; not modal |
 | Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups, separators and nested submenus, links and checkbox/radio items, from `items` or child tags (`ui-menu-item`, `ui-menu-group`, `ui-menu-separator`, `ui-submenu`, `ui-menu-checkbox`, `ui-menu-radio-group`); emits `select` and `change` |
@@ -266,6 +277,7 @@ default, and builds an override snippet from a colour you pick.
 | `$ui-accent`, `$ui-accent-text` | Primary buttons, selections, checked controls; text on them |
 | `$ui-accent-soft`, `$ui-accent-soft-text` | Soft buttons, accent badges, highlighted items |
 | `$ui-ring`, `$ui-ring-soft` | Focus rings and outlines |
+| `$ui-selection`, `$ui-highlight` | Selected text; ui-highlight's marks (both a tint of the accent) |
 | `$ui-danger`, `$ui-success`, `$ui-warning` | Errors and destructive actions; positive changes; cautions (alerts tint themselves from these and `$ui-accent`) |
 | `$ui-chart-1` … `$ui-chart-5` | Chart series, in order (the first follows the accent) |
 | `$ui-skeleton` | Loading placeholders |

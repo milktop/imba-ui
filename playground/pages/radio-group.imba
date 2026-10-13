@@ -10,6 +10,12 @@ tag page-radio-group
 	]
 	level = null
 	levels = ['GCSE', 'A level', 'University']
+	where = 'online'
+	places = [
+		{ value: 'online', label: 'Online', description: 'On video, from anywhere', icon: 'lucide:video' }
+		{ value: 'home', label: 'At home', description: 'The tutor comes to you', icon: 'lucide:house' }
+		{ value: 'centre', label: 'At the centre', description: 'Our rooms in town', icon: 'lucide:building-2' }
+	]
 
 	<self>
 		<demo-page source=source heading='Radio group' intro='ui-radio-group picks one of a list of options; arrow keys move the selection. For a compact row of short options see Segmented.'>
@@ -30,3 +36,10 @@ tag page-radio-group
 					<json-print data={ level }>
 					<div.set>
 						<button @click=(level = null)> "Clear"
+
+			<demo-section heading='Cards'>
+				<ui-fields>
+					<ui-field label='Where'>
+						<ui-radio-group variant='cards' items=places bind=where>
+				<div.out>
+					<json-print data={ where }>

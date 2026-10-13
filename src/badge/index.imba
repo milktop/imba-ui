@@ -8,6 +8,10 @@ tag ui-badge < ui-badge-base
 		&.sm h:4.5 px:1.5 fs:11px
 		.icon d:block w:1em h:1em
 		.dot w:1.5 h:1.5 rd:full bg:currentColor
+		# A tag's ✕: a small round button at the end.
+		.remove d:inline-grid place-items:center w:4 h:4 mr:-1 p:0 bd:none rd:full bg:transparent c:inherit fs:11px cursor:pointer o:0.65
+			@hover o:1 bg:color-mix(in srgb, currentColor 14%, transparent)
+			@focus-visible outline:2px solid $ui-ring-soft o:1
 
 		&.neutral bg:$ui-hover c:$ui-text
 		&.accent bg:$ui-accent-soft c:$ui-accent-soft-text

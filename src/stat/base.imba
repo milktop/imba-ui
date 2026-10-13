@@ -1,11 +1,16 @@
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import '../rolling-number/base.imba'
 
 # Headless stat: a headline number with its label, e.g. on a dashboard.
 #
 #   <ui-stat label='Lessons this month' value=52 change=12.5 changeLabel='vs September'>
 #
-# - `value` (shown as given, so format it first) and an optional `unit`
+# - `value` and an optional `unit`: text is shown as given; a number is
+#   formatted (grouped digits), with `format` (Intl's options:
+#   `{ style: 'currency', currency: 'GBP' }`)
+# - `animate`: a number's digits roll to a new value when it changes
+#   (ui-rolling-number)
 # - `change`: a number, shown as "+12.5%" with an arrow, green when up and red
 #   when down; `invert` swaps the colours (for things like cancellations);
 #   `changeUnit` replaces the '%'
@@ -18,6 +23,8 @@ import 'iconify-icon'
 tag ui-stat-base
 	prop label = ''
 	prop value = null
+	prop format = null
+	prop animate = false
 	prop unit = null
 	prop change = null
 	prop changeUnit = '%'
@@ -31,6 +38,11 @@ tag ui-stat-base
 	get direction do change > 0 ? 'up' : (change < 0 ? 'down' : 'flat')
 	get good do direction == 'flat' ? null : ((direction == 'up') != !!invert)
 	get changeText do "{change > 0 ? '+' : ''}{change}{changeUnit}"
+	get isNumber do typeof value == 'number' and Number.isFinite(value)
+	get valueText do isNumber ? new Intl.NumberFormat(undefined, format or {}).format(value) : String(value ?? '')
+
+	# The tag of the rolling number; the styled stat uses ui-rolling-number.
+	rollingTag = 'ui-rolling-number-base'
 
 	# The icon shares the label's row, at the end, so the text keeps one left
 	# edge and the rows line up from stat to stat.
@@ -40,7 +52,10 @@ tag ui-stat-base
 			if icon
 				<span.icon aria-hidden='true'> <iconify-icon icon=icon>
 		<div.value>
-			<span> String(value ?? '')
+			if animate and isNumber
+				<{rollingTag} value=value format=format>
+			else
+				<span> valueText
 			<span.unit> unit if unit
 		if change != null or changeLabel
 			<div.footer>
