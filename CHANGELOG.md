@@ -3,16 +3,25 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
-## Unreleased
+## 0.12.0 (2026-10-13)
+
+To check when upgrading:
+
+- Components with a `locale` prop (date picker, number input, slider,
+  progress) now default to `uiLocale.locale`, which is the browser's locale
+  until set, rather than 'en-GB': call `uiLocale.set('en-GB')` at startup to
+  keep UK dates and numbers for every visitor
+- Text props that had English defaults (`emptyText`, `loadingText`,
+  `placeholder`, `label`…) now default to null and take uiLocale's words;
+  text you pass still wins
+- A numeric `ui-stat` value is now formatted (1204 shows as "1,204")
+- Selected text takes `$ui-selection` (a tint of the accent)
+
+New:
 
 - `uiLocale` (`@milktop/imba-ui/locale`): the app's locale and the
   components' words in one list, English and French built in, with
-  overrides merged over it; Zag's screen-reader labels follow it too.
-  Components with a `locale` prop (date picker, number input, slider,
-  progress) now default to it, which is the browser's locale until set,
-  rather than 'en-GB'
-- Text props that had English defaults (`emptyText`, `loadingText`,
-  `placeholder`, `label`…) now default to null and take the list's words
+  overrides merged over it; Zag's screen-reader labels follow it too
 - `ui-event-calendar`: events by the hour (day, n days, work week, week),
   resources as columns, select to book (`slotselect`), drag or keyboard to
   move and resize (`eventchange`), all-day events, `isAvailable` shading and
