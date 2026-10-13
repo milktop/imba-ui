@@ -47,6 +47,7 @@ import './pages/file-upload.imba'
 import './pages/attachments.imba'
 import './pages/select.imba'
 import './pages/date-picker.imba'
+import './pages/event-calendar.imba'
 import './pages/native-select.imba'
 import './pages/swatch-picker.imba'
 import './pages/checkbox.imba'
@@ -121,6 +122,7 @@ const groups = [
 	{ title: 'Pickers', icon: 'lucide:list-checks', pages: [
 		{ path: '/select', title: 'Select', about: 'Pick one or several; search, load or create' }
 		{ path: '/date-picker', title: 'Date picker', about: 'Dates and ranges, keyboard stepping' }
+		{ path: '/event-calendar', title: 'Event calendar', about: 'Events by the hour: book, move, resize' }
 		{ path: '/native-select', title: 'Native select', about: "The browser's own select, styled" }
 		{ path: '/swatch-picker', title: 'Swatch picker', about: 'A colour from a few swatches' }
 	] }
@@ -341,6 +343,7 @@ tag playground
 				<page-attachments route='/attachments'>
 				<page-select route='/select'>
 				<page-date-picker route='/date-picker'>
+				<page-event-calendar route='/event-calendar'>
 				<page-native-select route='/native-select'>
 				<page-swatch-picker route='/swatch-picker'>
 				<page-checkbox route='/checkbox'>

@@ -98,6 +98,11 @@ New components follow the same pattern: add both files, an entry in
   applied later and overwrite them (see `confirm()`).
 - **Element refs (`$name`) inside a dynamic tag** (`<{tag}>`) are undefined at
   render; find the element with `querySelector` instead.
+- **Function fields use the caller's `this`:** `check = do(q) items` in a tag
+  compiles to a plain function, so a component calling it (`isAvailable(q)`)
+  runs it against itself. Pass `(do(q) check(q))` from the template, or a
+  `def`. In the library, take function props as given and call them.
+- **`begin` is reserved** in Imba (a method named it won't compile).
 - **Method names:** don't reuse Imba's component methods (`commit`, `render`,
   `visit`, `setup`, `mount`); overriding `commit` silently breaks rendering.
 - **Prop names:** don't use native attribute names (`dir`, `hidden`, `title`).

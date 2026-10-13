@@ -70,7 +70,7 @@ export def sectionSource source, heading
 # section's code can show the data it renders.
 export def fieldSource source, name
 	let lines = (source or '').split('\n')
-	let start = lines.findIndex(do $1.match(new RegExp("^\\t{name} = ")))
+	let start = lines.findIndex(do $1.match(new RegExp("^\\t(def )?{name}( = |\\b)")))
 	return constSource(lines, name) if start < 0
 	let out = [lines[start].slice(1)]
 	for line in lines.slice(start + 1)

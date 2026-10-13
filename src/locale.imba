@@ -70,6 +70,13 @@ export const en = {
 		dropped: (do(name, place) "{name} dropped at {place}.")
 		cancelled: (do(name, place) "Reordering cancelled: {name} is back at {place}.")
 	}
+	calendar: {
+		today: 'Today', previous: 'Previous', next: 'Next', allDay: 'All day', view: 'View', pickDate: 'pick a date'
+		day: 'Day', week: 'Week', workweek: 'Work week', days: (do(count) "{count} days")
+		more: (do(count) "+{count} more"), unavailable: 'Not available', cancel: 'Cancel', event: 'Event'
+		placing: (do(name) "Placing {name}: click a time, or press Escape to cancel.")
+		selected: (do(when) "Selected {when}."), moved: (do(name, when) "{name} moved to {when}."), resized: (do(name, time) "{name} now ends at {time}.")
+	}
 	editor: {
 		toolbar: 'Formatting', link: 'Link', image: 'Image', remove: 'Remove', apply: 'Apply', uploading: 'Uploading…'
 		tools: {
@@ -136,6 +143,13 @@ export const fr = {
 		movedTo: (do(name, place) "{name} déplacé en {place}.")
 		dropped: (do(name, place) "{name} déposé en {place}.")
 		cancelled: (do(name, place) "Déplacement annulé : {name} est revenu en {place}.")
+	}
+	calendar: {
+		today: 'Aujourd’hui', previous: 'Précédent', next: 'Suivant', allDay: 'Journée', view: 'Vue', pickDate: 'choisir une date'
+		day: 'Jour', week: 'Semaine', workweek: 'Semaine de travail', days: (do(count) "{count} jours")
+		more: (do(count) "+{count} de plus"), unavailable: 'Indisponible', cancel: 'Annuler', event: 'Événement'
+		placing: (do(name) "Placement de {name} : cliquez sur un créneau, ou Échap pour annuler.")
+		selected: (do(when) "{when} sélectionné."), moved: (do(name, when) "{name} déplacé au {when}."), resized: (do(name, time) "{name} finit maintenant à {time}.")
 	}
 	editor: {
 		toolbar: 'Mise en forme', link: 'Lien', image: 'Image', remove: 'Retirer', apply: 'Appliquer', uploading: 'Envoi…'

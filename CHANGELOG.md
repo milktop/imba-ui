@@ -13,6 +13,11 @@ fix things.
   rather than 'en-GB'
 - Text props that had English defaults (`emptyText`, `loadingText`,
   `placeholder`, `label`…) now default to null and take the list's words
+- `ui-event-calendar`: events by the hour (day, n days, work week, week),
+  resources as columns, select to book (`slotselect`), drag or keyboard to
+  move and resize (`eventchange`), all-day events, `isAvailable` shading and
+  refusals, pinned placing, event and slot menus, extra rows, a toolbar with
+  views and a date jump; English and French words
 - `ui-sortable-list`: drag (or keyboard) to reorder, with announcements; no
   dependency (react-ui's is on dnd-kit)
 - `formatNumber`, `formatBytes`, `formatRelative` and `ui-format-number`,
