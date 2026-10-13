@@ -35,6 +35,8 @@ tag ui-search-select-base < ui-control
 	prop size = 'md'
 	prop quiet = false
 	prop itemTag = null
+	prop valueTag = null
+	prop startTag = null
 	prop createTag = null
 	prop emptyTag = null
 
@@ -230,11 +232,17 @@ tag ui-search-select-base < ui-control
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps! @mousedown=focusInput(e)>
+				if startTag
+					<span.start> <{startTag} item=(selectedKeys.length ? (byKey(selectedKeys[0]) ?? null) : null)>
 				# Tags and the input wrap together; the buttons keep their own column.
 				<div.tags>
 					for item in tags
 						<span.tag key=keyOf(item)>
-							<span.tag-text> labelOf(item)
+							<span.tag-text>
+								if valueTag
+									<{valueTag} item=item>
+								else
+									labelOf(item)
 							<button.tag-remove type='button' tabIndex=-1 aria-label="Remove {labelOf(item)}" @click.stop=api.clearValue(keyOf(item))>
 								<ui-icon path=icons.x size=12>
 					<input$input.input zag=describe(api.getInputProps!) placeholder=(tags.length ? '' : (placeholder ?? 'Search…')) @keydown=removeLast(e) @change.stop>

@@ -31,6 +31,12 @@ import './search.imba'
 # - `quiet`: no border, fill or arrow until hovered, focused or open, and
 #   plain text when disabled; for selects in table rows
 # - `itemTag`: a tag rendering an option's content, given `item`
+# - `valueTag`: a tag rendering the chosen item in the closed select (and
+#   each tag's, picking several), given `item`; with search the box holds
+#   typed text, so use `startTag` there
+# - `startTag`: a tag shown before the value (or the search box), given the
+#   chosen `item` (the first, picking several; null if none), e.g. a
+#   colour's dot or a person's avatar
 # - `createTag`: a tag rendering the create option's content, given `query`
 # - `emptyTag`: a tag shown when nothing matches, given `query`
 #
@@ -63,6 +69,8 @@ tag ui-select-base < ui-control
 	prop placement = 'bottom-start'
 	prop disabled = false
 	prop itemTag = null
+	prop valueTag = null
+	prop startTag = null
 	prop createTag = null
 	prop emptyTag = null
 
@@ -84,9 +92,9 @@ tag ui-select-base < ui-control
 			<{searchTag}.inner label=label items=items value=data placeholder=placeholder labelKey=labelKey valueKey=valueKey disabledKey=disabledKey
 				multiple=multiple variant=variant hideSelected=hideSelected load=load debounce=debounce loadingText=loadingText oncreate=oncreate
 				closeOnSelect=closeOnSelect clearable=clearable emptyText=emptyText name=name size=size quiet=quiet placement=placement disabled=disabled
-				itemTag=itemTag createTag=createTag emptyTag=emptyTag @change=changed(e)>
+				itemTag=itemTag valueTag=valueTag startTag=startTag createTag=createTag emptyTag=emptyTag @change=changed(e)>
 		else
 			<{listTag}.inner label=label items=items value=data placeholder=placeholder labelKey=labelKey valueKey=valueKey disabledKey=disabledKey
 				multiple=multiple tags=tags variant=variant hideSelected=hideSelected deselectable=deselectable closeOnSelect=closeOnSelect
 				clearable=clearable emptyText=emptyText name=name size=size quiet=quiet placement=placement disabled=disabled
-				itemTag=itemTag emptyTag=emptyTag @change=changed(e)>
+				itemTag=itemTag valueTag=valueTag startTag=startTag emptyTag=emptyTag @change=changed(e)>

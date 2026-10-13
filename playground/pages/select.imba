@@ -1,4 +1,7 @@
 import source from './select.imba?raw'
+import { swatches } from '../../src/swatch-picker/base.imba'
+
+const colours = Object.keys(swatches).map do(name) { value: name, label: name.charAt(0).toUpperCase! + name.slice(1) }
 
 const students = [
 	{ id: 1, name: 'Ada Lovelace', level: 'A Level' }
@@ -24,6 +27,29 @@ tag student-option
 		<span> item.name
 		<span.level> item.level
 
+# A colour's dot (empty while none is chosen), before the value.
+tag colour-dot
+	prop item
+	css d:block w:3 h:3 rd:full shadow:inset 0 0 0 1px rgba(0,0,0,0.12)
+	<self [bg:{item ? swatches[item.value] : 'transparent'}]>
+
+# A colour option: its dot and name.
+tag colour-option
+	prop item
+	css d:inline-flex ai:center g:2
+		.dot w:3 h:3 rd:full
+	<self>
+		<span.dot [bg:{swatches[item.value]}]>
+		<span> item.label
+
+# A chosen student in the box: an avatar and the name.
+tag student-value
+	prop item
+	css d:inline-flex ai:center g:1.5
+	<self>
+		<ui-avatar name=item.name size=5 color='auto'>
+		<span> item.name
+
 # The create option's content.
 tag room-create
 	prop query
@@ -45,6 +71,9 @@ tag page-select
 	pickedTopics = ['Algebra']
 	rooms = [{ id: 1, name: 'Library' }, { id: 2, name: 'Lab' }]
 	roomId = null
+	colour = 'teal'
+	tutorColour = null
+	tutorIds = [1, 4]
 
 	# Add it to the list and return it, so it's picked too.
 	def addTopic name
@@ -109,3 +138,19 @@ tag page-select
 					<ui-select label='Student' items=students labelKey='name' valueKey='id' value=1 itemTag='student-option'>
 				<div.out>
 					<p.note> "`itemTag` renders each option, given `item`."
+
+			<demo-section heading='Colours'>
+				<div.grid>
+					<ui-select label='Calendar colour' items=colours itemTag='colour-option' startTag='colour-dot' bind=colour>
+					<ui-select label='Tutor colour' items=colours itemTag='colour-option' startTag='colour-dot' searchable placeholder='Search colours…' bind=tutorColour>
+				<div.out>
+					<json-print data={ colour, tutorColour }>
+					<p.note> "`startTag` renders before the value (or the search box), given the chosen `item` (null when none is). For a grid of swatches, see Swatch picker."
+
+			<demo-section heading='Custom value'>
+				<div.grid>
+					<ui-select label='Tutor' items=students labelKey='name' valueKey='id' value=4 valueTag='student-value' itemTag='student-option'>
+					<ui-select label='Tutors' items=students labelKey='name' valueKey='id' multiple tags valueTag='student-value' bind=tutorIds>
+				<div.out>
+					<json-print data={ tutorIds }>
+					<p.note> "`valueTag` renders the chosen item in the closed select, and each tag's content, given `item`."

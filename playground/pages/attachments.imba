@@ -21,7 +21,14 @@ tag page-attachments
 		{ name: 'Cover 3.jpg', size: 1010000, type: 'image/jpeg', ...photo('cover-three') }
 	]
 	view = 'grid'
-	views = [{ value: 'grid', label: 'Grid', icon: 'lucide:layout-grid' }, { value: 'list', label: 'List', icon: 'lucide:list' }]
+	saved = files.slice(3).map(do(file, i) Object.assign({ id: i + 1 }, file))
+	posted = null
+	readOnly = no
+
+	# What a plain form post would send.
+	def submit e
+		let data = new FormData(e.target)
+		posted = { files: data.getAll('files').map(do $1.name), kept: data.getAll('kept') }
 	photos = []
 	rejects = []
 	removed = null
@@ -47,10 +54,22 @@ tag page-attachments
 					<p.note> "Drag files onto it, or use the tile: images or PDFs, up to 2 MB each, at most 3. Files that don’t fit are listed with the reason."
 
 			<demo-section heading='Switching layout'>
-				<p.note> "The layout is the app’s choice: here a segmented control (icons only) is bound to `layout`."
-				<ui-segmented items=views iconOnly label='Layout' bind=view>
-				<ui-attachments layout=view items=files.slice(0, 5) removable>
+				<ui-attachments switchable persist='imba-ui:attachments-layout' label='Lesson files' items=files.slice(0, 5) removable bind:layout=view>
+				<div.out>
+					<json-print data={ view }>
+					<p.note> "`switchable` adds a grid/list switch; with `persist` the choice is remembered (reload to see)."
 
 			<demo-section heading='List'>
 				<ui-attachments layout='list' items=docs removable addable addLabel='Attach a file'>
 				<ui-attachments layout='list' items=[] addable addLabel='Attach a file'>
+
+			<demo-section heading='In a form'>
+				<form @submit.prevent=submit(e)>
+					<ui-fields disabled=readOnly>
+						<ui-field label='Homework' hint='New files post as `files`; the ids of saved ones still here as `kept`'>
+							<ui-attachments name='files' keptName='kept' layout='list' removable addable bind=saved>
+					<ui-button type='submit' variant='primary'> "Save"
+				<div.out>
+					<json-print data={ posted }>
+					<div.set>
+						<button @click=(readOnly = !readOnly)> readOnly ? "Make editable" : "Make read only"

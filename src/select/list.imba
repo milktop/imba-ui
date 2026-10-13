@@ -28,6 +28,8 @@ tag ui-list-select-base < ui-control
 	prop size = 'md'
 	prop quiet = false
 	prop itemTag = null
+	prop valueTag = null
+	prop startTag = null
 	prop emptyTag = null
 
 	zagId = uid('select')
@@ -115,10 +117,22 @@ tag ui-list-select-base < ui-control
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>
 				<button.trigger zag=describe(api.getTriggerProps!) @keydown=removeLast(e)>
+					if startTag
+						<span.start> <{startTag} item=(api.selectedItems[0] ?? null)>
 					if multiple and tags and api.hasSelectedItems
 						# Chips, not buttons (a button can't hold buttons): untick an item to remove it.
 						<span.tags> for picked in api.selectedItems
-							<span.tag> <span.tag-text> itemLabel(picked, labelKey)
+							<span.tag> <span.tag-text>
+								if valueTag
+									<{valueTag} item=picked>
+								else
+									itemLabel(picked, labelKey)
+					elif valueTag and api.hasSelectedItems
+						# Your rendering of the chosen item(s), in place of the text.
+						<span.value-text.custom>
+							for picked, i in api.selectedItems
+								<span.value-sep> ', ' if i > 0
+								<{valueTag} item=picked>
 					else
 						<span.value-text .placeholder=api.empty zag=api.getValueTextProps!>
 							api.empty ? (placeholder ?? 'Select…') : api.valueAsString

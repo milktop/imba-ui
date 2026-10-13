@@ -5,8 +5,9 @@ import { uid } from '../zag.imba'
 #
 # With a `legend` (and optional `description`) or `disabled`, it is a real
 # <fieldset>: assistive tech announces it as a named group, and `disabled`
-# disables every control inside. Without them it is a plain wrapper, so a
-# simple form needs just one.
+# disables every control inside. Without them it is a plain wrapper (still a
+# <fieldset>, with no role, so `disabled` can be toggled without moving the
+# fields), so a simple form needs just one.
 tag ui-fields-base
 	prop legend = null
 	prop description = null
@@ -17,7 +18,7 @@ tag ui-fields-base
 	get grouped do !!(legend or disabled)
 
 	<self>
-		<{grouped ? 'fieldset' : 'div'}.group disabled=(grouped and disabled) zag={ 'aria-describedby': description ? "{fieldsId}-description" : undefined }>
+		<fieldset.group role=(grouped ? undefined : 'presentation') disabled=!!disabled zag={ 'aria-describedby': description ? "{fieldsId}-description" : undefined }>
 			if legend
 				<legend.legend> legend
 			if description

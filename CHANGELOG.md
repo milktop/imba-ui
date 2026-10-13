@@ -20,6 +20,17 @@ Ported from react-ui:
   (`animate`)
 - `ui-dialog` emits `exitcomplete` once it has closed and animated out
 - `$ui-selection` (selected text) and `$ui-highlight` tokens
+- `ui-select`: `valueTag` (the chosen item in the box, and in tags) and
+  `startTag` (before the value or search box, given the chosen item)
+- `ui-date-picker`: `inline`; typing puts in the locale's separators; a
+  typed date it can't take (past min/max, unavailable, not whole) stays,
+  marked invalid with the reason and the input's validity, and emits
+  `invalidchange`
+- `ui-attachments`: `label` and ui-field wiring, `disabled` (read only),
+  `switchable` and `persist` (a grid/list switch, remembered),
+  `layoutchange`, and `name`/`keptName` for plain form posts
+- `ui-fields` is always a `<fieldset>` (no role unless it has a legend or is
+  disabled), so toggling `disabled` no longer throws
 
 ## 0.11.0 (2026-10-08)
 

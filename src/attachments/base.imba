@@ -1,5 +1,8 @@
 import { icons } from '../icons.imba'
 import '../dialog/base.imba'
+import '../segmented/base.imba'
+import { uid } from '../zag.imba'
+import '../control.imba'
 import 'iconify-icon'
 
 # Headless attachments: the files added to a page or form, as a grid of
@@ -10,7 +13,16 @@ import 'iconify-icon'
 # - items (`bind=`, `bind:items=` or `items`): plain objects { name, size
 #   (bytes, or text), type (MIME), url, thumb } or File objects (e.g. from
 #   ui-file-upload or an <input type=file>), which are previewed locally
-# - `layout`: 'grid' (default) or 'list'
+# - `layout`: 'grid' (default) or 'list'; `bind:layout=` works, and
+#   `layoutchange` is emitted when the switch changes it
+# - `switchable`: a grid/list switch above the files, so people pick; with
+#   `persist` (a localStorage key) their choice is remembered
+# - `label`: a label above it (skipped inside a ui-field, whose label, hint
+#   and error it takes, as the other controls do)
+# - `name`: posts the new Files with a plain <form> (a hidden file input);
+#   `keptName` also posts the `id` of each saved item still in the list, so
+#   the server can tell what was removed
+# - `disabled`: read only (no adding or removing); a disabled fieldset's too
 # - `columns`: the most tiles per row in the grid; fewer when tiles would get
 #   too small (without it, as many as fit)
 # - `removable`: a remove button on each; removing emits `remove` with the
@@ -24,9 +36,20 @@ import 'iconify-icon'
 #   [{ file, reason }]
 # - clicking an image opens it large; other files open their `url`, if any,
 #   in a new tab. Files with a `url` get a download button.
-tag ui-attachments-base
+#
+# In a new-record form, start with no items; in an edit form, with the
+# record's saved files as plain objects (with an `id`). Files added are Files,
+# so on submit: new = items that are Files, kept = the rest, removed = the
+# saved ones no longer there.
+tag ui-attachments-base < ui-control
 	prop items = []
 	prop layout = 'grid'
+	prop switchable = false
+	prop persist = null
+	prop label = null
+	prop name = null
+	prop keptName = null
+	prop disabled = false
 	prop removable = false
 	prop addable = false
 	prop accept = null
@@ -42,6 +65,48 @@ tag ui-attachments-base
 	rejected = []
 	previewOpen = no
 	#urls = new WeakMap
+	labelId = "{uid('attachments')}-label"
+
+	# The layout switch; the styled attachments use ui-segmented.
+	segmentedTag = 'ui-segmented-base'
+	layouts = [
+		{ value: 'grid', label: 'Grid', icon: 'lucide:layout-grid' }
+		{ value: 'list', label: 'List', icon: 'lucide:list' }
+	]
+
+	# A layout remembered under `persist` wins over the one given.
+	def setup
+		return unless persist
+		try
+			let saved = globalThis.localStorage.getItem(persist)
+			layout = saved if saved == 'grid' or saved == 'list'
+
+	def setLayout next
+		return unless next and next != layout
+		layout = next
+		try globalThis.localStorage.setItem(persist, next) if persist
+		emit('layoutchange', next)
+
+	# Read only: no adding or removing.
+	get locked do disabled or #locked
+	get canAdd do addable and !locked
+	get canRemove do removable and !locked
+
+	def isFile item do typeof File != 'undefined' and item instanceof File
+
+	# For a plain <form>: the new Files, in a hidden file input. A
+	# DataTransfer is the only way to set an input's files.
+	def syncPosted
+		return unless name and $posted
+		let files = (data or []).filter(do isFile($1))
+		let key = files.map(do "{$1.name}|{$1.size}|{$1.lastModified}").join('\n')
+		return if key == #postedKey
+		#postedKey = key
+		let transfer = new DataTransfer
+		transfer.items.add(file) for file in files
+		$posted.files = transfer.files
+
+	get keptIds do (data or []).filter(do !isFile($1)).map(do $1.id).filter(do $1 != null)
 
 	# `bind=` targets `data`, which aliases `items` here.
 	get data do items
@@ -86,7 +151,7 @@ tag ui-attachments-base
 		return 'lucide:file-text' if /\.(pdf|docx?|txt|md|pages|rtf)$/.test(n)
 		'lucide:file'
 
-	def remove entry
+	def removeItem entry
 		data = (data or []).filter(do $1 != entry.item)
 		emit('remove', entry.item)
 		emit('change', data)
@@ -131,7 +196,7 @@ tag ui-attachments-base
 		addFiles(files) if files.length
 
 	# Dropping files: only while addable, and only for files (not text).
-	def hasFiles e do addable and Array.from(e.dataTransfer..types or []).includes('Files')
+	def hasFiles e do canAdd and Array.from(e.dataTransfer..types or []).includes('Files')
 
 	def dragOver e
 		return unless hasFiles(e)
@@ -158,7 +223,12 @@ tag ui-attachments-base
 	def unmount
 		#observer..disconnect!
 
-	def rendered do checkAddRow!
+	def rendered
+		checkAddRow!
+		syncPosted!
+		# A fieldset around it renders after it (it's slotted there), so a
+		# change to its disabled state shows on the next pass.
+		globalThis.queueMicrotask do render! if isConnected and !!closest('fieldset:disabled') != #locked
 
 	def checkAddRow
 		return unless $files
@@ -175,45 +245,64 @@ tag ui-attachments-base
 		elif entry.url
 			globalThis.open(entry.url, '_blank', 'noopener')
 
-	<self .{layout} .empty=!list.length .add-wide=addWide .dragging=dragging .fixed=!!columns style=(columns ? "--columns: {columns}" : undefined) @dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
-		if !list.length and !addable and emptyText
-			<p.empty> emptyText
-		<ul$files.files>
-			for entry in list
-				<li.file>
-					<button.open type='button' aria-label="Open {entry.name}" @click=open(entry)>
-						<span.thumb .has-image=!!entry.thumb>
-							if entry.thumb
-								<img src=entry.thumb alt='' loading='lazy'>
-							else
-								<iconify-icon.icon icon=entry.icon aria-hidden='true'>
-								<span.ext> entry.ext if entry.ext
-						<span.meta>
-							<span.name> entry.name
-							<span.size> entry.size if entry.size
-					<span.actions>
-						if entry.url
-							<a.action href=entry.url download=entry.name aria-label="Download {entry.name}"> <ui-icon path=icons.download size=14>
-						if removable
-							<button.action type='button' aria-label="Remove {entry.name}" @click=remove(entry)> <ui-icon path=icons.x size=14>
-			if addable and !atMax
-				<li.file.add>
-					<label.add-tile>
-						<input.add-input type='file' multiple=(maxFiles != 1) accept=accept @change.stop=added>
-						<span.add-icon> <ui-icon path=icons.plus size=18>
-						<span.add-text>
-							<span.add-label> addLabel
-							<span.limit> "or drop files here" unless list.length
-							<span.limit> "{count} of {maxFiles}" if maxFiles and list.length
-		if rejected.length
-			<ul.rejected role='alert'> for item in rejected
-				<li> "{item.file.name} wasn’t added: {item.reason}."
-		if dragging
-			<div.drop-hint aria-hidden='true'>
-				<ui-icon path=icons.upload size=20>
-				<span> atMax ? "The limit is {maxFiles} files" : "Drop to add"
+	def render
+		connectField!
+		let labelledBy = #field..labelledBy or (label ? labelId : undefined)
+		let invalid = !!#field..invalid
 
-		<ui-dialog size='lg' heading=(previewing..name) bind=previewOpen>
-			<img.preview src=(previewing..url) alt=(previewing..name or '')> if previewing
-			<div slot='footer'>
-				<a.download-link href=(previewing..url) download=(previewing..name)> "Download" if previewing
+		<self .{layout} .empty=!list.length .add-wide=addWide .dragging=dragging .fixed=!!columns .invalid=invalid .disabled=locked style=(columns ? "--columns: {columns}" : undefined)
+			role='group' zag={ 'aria-labelledby': labelledBy, 'aria-describedby': #field..describedBy ?? undefined, 'aria-invalid': invalid ? 'true' : undefined }
+			@dragenter=dragOver @dragover=dragOver @dragleave=dragLeave @drop=dropped>
+			if (label and !#field..label) or switchable
+				<div.header>
+					if label and !#field..label
+						<span.label id=labelId> label
+					if switchable
+						<{segmentedTag}.switch size='sm' iconOnly items=layouts value=layout aria-label='Layout' @change.stop=setLayout(e.detail)>
+			if !list.length and !canAdd and emptyText
+				<p.empty> emptyText
+			<ul$files.files>
+				for entry in list
+					<li.file>
+						<button.open type='button' aria-label="Open {entry.name}" @click=open(entry)>
+							<span.thumb .has-image=!!entry.thumb>
+								if entry.thumb
+									<img src=entry.thumb alt='' loading='lazy'>
+								else
+									<iconify-icon.icon icon=entry.icon aria-hidden='true'>
+									<span.ext> entry.ext if entry.ext
+							<span.meta>
+								<span.name> entry.name
+								<span.size> entry.size if entry.size
+						<span.actions>
+							if entry.url
+								<a.action href=entry.url download=entry.name aria-label="Download {entry.name}"> <ui-icon path=icons.download size=14>
+							if canRemove
+								<button.action type='button' aria-label="Remove {entry.name}" @click=removeItem(entry)> <ui-icon path=icons.x size=14>
+				if canAdd and !atMax
+					<li.file.add>
+						<label.add-tile>
+							<input.add-input type='file' multiple=(maxFiles != 1) accept=accept @change.stop=added>
+							<span.add-icon> <ui-icon path=icons.plus size=18>
+							<span.add-text>
+								<span.add-label> addLabel
+								<span.limit> "or drop files here" unless list.length
+								<span.limit> "{count} of {maxFiles}" if maxFiles and list.length
+			if rejected.length
+				<ul.rejected role='alert'> for item in rejected
+					<li> "{item.file.name} wasn’t added: {item.reason}."
+			if dragging
+				<div.drop-hint aria-hidden='true'>
+					<ui-icon path=icons.upload size=20>
+					<span> atMax ? "The limit is {maxFiles} files" : "Drop to add"
+
+			<ui-dialog size='lg' heading=(previewing..name) bind=previewOpen>
+				<img.preview src=(previewing..url) alt=(previewing..name or '')> if previewing
+				<div slot='footer'>
+					<a.download-link href=(previewing..url) download=(previewing..name)> "Download" if previewing
+			# Last, so a ui-field's label points at the add input, not these.
+			if name
+				<input$posted type='file' name=name multiple hidden aria-hidden='true' tabIndex=-1>
+			if keptName
+				for kept in keptIds
+					<input type='hidden' name=keptName value=String(kept)>

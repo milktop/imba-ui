@@ -1,11 +1,18 @@
 import '../theme.imba'
 import '../dialog/index.imba'
 import './base.imba'
+import '../segmented/index.imba'
 
 tag ui-attachments < ui-attachments-base
+	segmentedTag = 'ui-segmented'
+
 	css
 		d:block pos:relative w:100% c:$ui-text ff:$ui-font fs:sm
 		.empty m:0 c:$ui-muted
+		# The label and the layout switch, above the files: the switch on the right.
+		.header d:flex ai:center jc:space-between g:3 mb:2
+		.label fs:sm fw:500
+		.header >>> ui-segmented ml:auto
 		.files m:0 p:0 list-style:none
 		.file pos:relative min-width:0
 		.open d:flex w:100% p:0 bd:none bg:transparent c:inherit ff:inherit fs:inherit ta:left cursor:pointer rd:inherit
@@ -84,3 +91,5 @@ tag ui-attachments < ui-attachments-base
 		.preview d:block max-width:100% max-height:70vh mx:auto rd:$ui-radius
 		.download-link d:inline-flex ai:center h:$ui-control-height-sm px:3 rd:$ui-radius bd:1px solid $ui-border c:$ui-text td:none fs:sm
 			@hover bg:$ui-hover
+		# In an invalid field, the add tile's dashed border turns red.
+		&.invalid.grid .add-tile, &.invalid.list .add-tile bc:$ui-danger

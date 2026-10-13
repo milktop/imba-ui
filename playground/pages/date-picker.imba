@@ -4,6 +4,10 @@ tag page-date-picker
 	lesson = '2026-10-02'
 	away = []
 	start = null
+	booking = null
+	reason = null
+	visitDate = '2026-10-14'
+	german = null
 
 	<self>
 		<demo-page source=source heading='Date picker' intro='ui-date-picker binds ISO dates. Type a date, pick from the calendar, or step with ↑/↓ (⇧ for a week).'>
@@ -32,3 +36,18 @@ tag page-date-picker
 						<ui-date-picker unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0) bind=start>
 				<div.out>
 					<json-print data={ start }>
+
+			<demo-section heading='Typed dates it can’t take'>
+				<ui-fields>
+					<ui-field span=6 label='Booking' hint='October and November, weekdays'>
+						<ui-date-picker min='2026-10-01' max='2026-11-30' unavailable=(do(d) d.toDate('UTC').getUTCDay! % 6 == 0) bind=booking @invalidchange=(reason = e.detail)>
+					<ui-field span=6 label='Termin (de-DE)' hint='Type 11102026'>
+						<ui-date-picker locale='de-DE' bind=german>
+				<div.out>
+					<json-print data={ booking, reason, german }>
+					<p.note> "Type 12/12/2026, a Saturday, or 11/1 and press Enter: the text stays, marked invalid with the reason, and the value doesn't change. Digits get the locale's separators as you type."
+
+			<demo-section heading='Inline'>
+				<ui-date-picker inline bind=visitDate>
+				<div.out>
+					<json-print data={ visitDate }>

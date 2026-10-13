@@ -24,6 +24,11 @@ global css
 		&.accent .tag bg:$ui-accent-soft c:$ui-accent-soft-text
 		&.outline .tag bg:$ui-surface bc:$ui-border
 		.tag-text ws:nowrap of:hidden text-overflow:ellipsis max-width:48
+		# `startTag`: before the value (a colour's dot, an avatar).
+		.start d:inline-flex ai:center fls:0 c:$ui-muted
+		# `valueTag`: the chosen item(s) as rendered, laid out in a row.
+		.value-text.custom d:inline-flex ai:center g:1.5 min-width:0
+		.tag-text d:inline-flex ai:center g:1
 
 tag ui-list-select < ui-list-select-base
 	css
@@ -42,6 +47,8 @@ tag ui-list-select < ui-list-select-base
 		.tag h:6 pr:2.5
 		.value-text ws:nowrap of:hidden text-overflow:ellipsis
 			&.placeholder c:$ui-muted
+		# After a start, the value fills the space up to the arrow.
+		.start + .value-text, .start + .tags flg:1
 		.indicator d:inline-flex c:$ui-muted fls:0
 			&[data-state=open] rotate:180deg
 		.clear pos:absolute r:8 d:grid place-items:center w:6 h:6 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
@@ -72,6 +79,7 @@ tag ui-search-select < ui-search-select-base
 			&[data-invalid] bc:$ui-danger
 		&.sm .control min-height:$ui-control-height-sm
 		.tags d:flex flw:wrap ai:center fl:1 min-width:0 g:1.5 py:0.5
+		.start ml:0.5
 		.input fl:1 min-width:16 bd:none bg:transparent outline:none fs:sm c:inherit p:0 h:6.5
 			@placeholder c:$ui-muted
 		.tag pl:2.5 pr:1

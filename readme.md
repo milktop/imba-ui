@@ -33,10 +33,10 @@ code, and some composed screens (blocks).
 | Progress | `<ui-progress>` | Bar or circle, determinate or indeterminate, formatted value |
 | Tree view | `<ui-tree-view>` | Nested items that open and close: keyboard navigation, single or multiple selection, checkboxes that tick a branch's children; bind the selection, `expanded` and `checked` |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
-| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today |
+| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today; separators typed for you; a typed date it can't take stays, marked invalid with the reason (`invalidchange`); `inline` calendar |
 | Native select | `<ui-native-select>` | The browser's own `<select>` styled like the inputs: groups, a placeholder, the items' own values, field wiring |
 | Swatch picker | `<ui-swatch-picker>` | A colour from swatches (Tailwind's by name, or your own), arrow keys like radios; inline or in a popover field |
-| Select | `<ui-select>` | One component for every pick: a button, or with `searchable` an input that filters; async `load` for server search; `oncreate` to add items; `multiple` with ticks or `tags`, `hideSelected`, `deselectable`, `clearable`; `itemTag` for custom options; Enter picks a run, Backspace removes the last pick; hidden `<select>` for plain forms; `size='sm'` |
+| Select | `<ui-select>` | One component for every pick: a button, or with `searchable` an input that filters; async `load` for server search; `oncreate` to add items; `multiple` with ticks or `tags`, `hideSelected`, `deselectable`, `clearable`; `itemTag` for custom options, `valueTag` for the chosen item in the box and `startTag` before it (a colour's dot, an avatar); Enter picks a run, Backspace removes the last pick; hidden `<select>` for plain forms; `size='sm'` |
 | Input | `<ui-input>` | Text input with icon, prefix/suffix text or slots, `round` for a pill, `size='sm'`; slot a textarea to replace it |
 | Time input | `<ui-time-input>` | A time of day as 'HH:mm' (or null), with `step` in minutes, `min`/`max`; the browser's own picker |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
@@ -45,7 +45,7 @@ code, and some composed screens (blocks).
 | Slider | `<ui-slider>` | Single or range (array value), marks, formatted value |
 | Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |
 | File upload | `<ui-file-upload>` | Dropzone and file list with previews and rejections |
-| Attachments | `<ui-attachments>` | Files on a page or form, as tiles (`columns` per row) or a list: image thumbnails with a large preview, file icons, download, remove, an add tile and drag and drop, limits (`accept`, `maxFiles`, `maxFileSize`); takes Files too; bindable |
+| Attachments | `<ui-attachments>` | Files on a page or form, as tiles (`columns` per row) or a list: image thumbnails with a large preview, file icons, download, remove, an add tile and drag and drop, limits (`accept`, `maxFiles`, `maxFileSize`); takes Files too; bindable; `label` and field wiring, read only when `disabled`; a grid/list switch (`switchable`, remembered with `persist`); posts with plain forms (`name`, `keptName`) |
 | Editor | `<ui-editor>` | Rich text on TipTap: HTML value (bindable), configurable toolbar (marks, headings, lists, quote, link popover, undo), placeholder, character limit, images via `uploadImage` (a URL, or attributes incl. `data-*` kept on the `<img>`) |
 | Textarea | `<ui-textarea>` | Grows with its content from `rows` to `maxRows` |
 | Editable | `<ui-editable>` | Text you click to edit in place: Enter or leaving saves, Escape cancels; ✓/✕ and pencil buttons; emits `change` once saved |

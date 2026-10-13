@@ -21,6 +21,12 @@ tag ui-date-picker < ui-date-picker-base
 			&:last-of-type flg:1
 			@placeholder c:$ui-muted
 		.separator c:$ui-muted fs:sm px:1
+		# A typed date it can't take: the box in red, the reason under it.
+		&.has-problem .control bc:$ui-danger
+		.error mt:1.5 fs:xs c:$ui-danger
+		# Inline: the calendar's own width, even in a grid or flex column.
+		&.inline w:fit-content
+		&.inline .content shadow:$ui-card-shadow
 		.clear, .trigger, .prev, .next
 			d:grid place-items:center w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text
