@@ -14,11 +14,11 @@ import { uiLocale } from '../locale.imba'
 # - `items`: `{ value, label, icon, children, disabled }`; a node with
 #   `children` is a branch (an empty array still opens and closes). Branches
 #   without an icon get a folder.
-# - `value`: the selected values (what `bind=` targets); `selectionMode`:
-#   'single' (default) or 'multiple'
+# - `value`: the selected values (what `bind=` targets)
+# - `selectionMode`: 'single' (default) or 'multiple'
 # - `expanded`: the open branches' values
-# - `checkable`: a checkbox on each (ticking a branch ticks its children);
-#   `checked`: the ticked values
+# - `checkable`: a checkbox on each (ticking a branch ticks its children)
+# - `checked`: the ticked values
 # - `label`: the tree's name, shown above it and for assistive tech
 #
 # Emits `change` (the selected values), `select` (an item, not a branch, was

@@ -5,8 +5,8 @@
 #   <ui-divider label='or'>
 #   <ui-divider orientation='vertical'>
 #
-# - `label`: text in the line (or the default slot); `align`: 'center'
-#   (default), 'start' or 'end'
+# - `label`: text in the line (or the default slot)
+# - `align`: where the label sits: 'center' (default), 'start' or 'end'
 # - `orientation`: 'horizontal' (default) or 'vertical' (as tall as its row)
 # - `variant`: 'solid' (default), 'dashed' or 'dotted'
 # - `spacing`: the room either side, a CSS length (0.75rem across, 0.5rem up)

@@ -280,11 +280,13 @@ tag ui-sparkline-base
 # the middle, a legend, and the value on hover.
 #
 # - `data`: `{ label, value, color }` (colours from $ui-chart-1…5 by default)
-# - `size` (160 px), `thickness` (a share of the radius, 0.32; 1 for a pie)
+# - `size`: its width and height in px (160)
+# - `thickness`: the ring's width, a share of the radius (0.32; 1 for a pie)
 # - `center`: the middle's caption under the total ('Total'); `false` for an
 #   empty middle; the `center` slot replaces it all
 # - `legend`: beside it ('right', default), 'bottom' or false
-# - `format(value)`, for the total, legend and tooltip
+# - `format`: a function turning a value into text, for the total, legend
+#   and tooltip
 # - `label`: what it shows, for assistive tech (a hidden table of the data)
 tag ui-donut-chart-base
 	prop data = []

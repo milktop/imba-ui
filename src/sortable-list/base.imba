@@ -10,19 +10,20 @@ import 'iconify-icon'
 #   <ui-sortable-list bind=topics itemTag=TopicRow>
 #   <ui-sortable-list items=['Warm-up', 'Reading', 'Quiz'] @change=save(e.detail)>
 #
-# - `items` (`bind=` works): the rows, in order
+# - `items`: the rows, in order (`bind=` works)
 # - `itemKey`: the property that identifies an item ('id'), or a function;
 #   strings and numbers are their own key
 # - `itemTag`: a tag rendering a row's content, given `item`, `index` and
 #   `dragging`; by default its label (see `itemLabel`)
-# - `itemLabel(item)`: what screen readers call an item as it moves ("Picked
-#   up Worksheet 4… moved to position 3 of 5"); by default a string item
-#   itself, or its `label`, `title` or `name`
+# - `itemLabel`: a function giving what screen readers call an item as it
+#   moves ("Picked up Worksheet 4… moved to position 3 of 5"); by default a
+#   string item itself, or its `label`, `title` or `name`
 # - `handle`: drag by the grip only (default), or false for the whole row
 #   (keyboard users then use the row itself, focused)
 # - `variant`: 'card' (default: rows in a bordered box) or 'plain' (separate,
 #   spaced rows)
-# - `disabled`: no reordering; `label`: the list's accessible name
+# - `disabled`: no reordering
+# - `label`: the list's accessible name
 #
 # Emits `change` with the reordered items, and `move` with { item, from, to }.
 tag ui-sortable-list-base

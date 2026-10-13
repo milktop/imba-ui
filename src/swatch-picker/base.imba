@@ -27,7 +27,8 @@ export const swatches = {
 # - `size`: 'sm', 'md' (default) or 'lg'
 # - `variant`: 'inline' (default: the swatches in the page) or 'popover': a
 #   field showing the chosen colour and its name, opening the swatches
-#   (closed once one's chosen); `placeholder` shows while none is
+#   (closed once one's chosen)
+# - `placeholder`: what the popover's field shows while none is chosen
 # - `name`: the hidden radios post with plain forms
 #
 # Emits `change` with the chosen value.

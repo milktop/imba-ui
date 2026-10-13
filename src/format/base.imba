@@ -67,7 +67,9 @@ export def formatRelative date, options = {}
 #
 #   <ui-format-number value=1820 format={ style: 'currency', currency: 'GBP' }>
 #
-# - `value`; `format`: Intl.NumberFormat's options; `locale`: the app's by default
+# - `value`: the number
+# - `format`: Intl.NumberFormat's options
+# - `locale`: the app's (uiLocale) by default
 tag ui-format-number-base
 	prop value = null
 	prop format = null
@@ -77,7 +79,10 @@ tag ui-format-number-base
 
 # A size in bytes: '2.4 MB'.
 #
-# - `value`: bytes; `binary`: KiB, MiB…; `maximumFractionDigits` (1)
+# - `value`: the size in bytes
+# - `binary`: KiB, MiB… instead of KB, MB
+# - `maximumFractionDigits`: digits after the point (1)
+# - `locale`: the app's by default
 tag ui-format-bytes-base
 	prop value = null
 	prop binary = false
@@ -90,9 +95,10 @@ tag ui-format-bytes-base
 # and time on hover.
 #
 # - `value`: a Date, ISO string or timestamp
-# - `numeric`: 'auto' (default) or 'always'; `format`: Intl's style, 'long'
-#   (default), 'short' or 'narrow'
+# - `numeric`: 'auto' (default: 'yesterday') or 'always' ('1 day ago')
+# - `format`: Intl's style: 'long' (default), 'short' or 'narrow'
 # - `live`: updates every 30 seconds (true)
+# - `locale`: the app's by default
 tag ui-format-relative-base
 	prop value = null
 	prop numeric = 'auto'

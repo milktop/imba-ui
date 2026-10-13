@@ -6,8 +6,10 @@ import { highlightWord } from '@zag-js/highlight-word'
 #   <ui-highlight text=student.name query=search>
 #   <ui-highlight text=note query=search color='yellow'>
 #
-# - `text`: the text; `query`: what to mark (a string, or several)
-# - `ignoreCase` (true), `matchAll` (true: every match, not just the first)
+# - `text`: the text
+# - `query`: what to mark (a string, or several)
+# - `ignoreCase`: matches whatever the case (true)
+# - `matchAll`: marks every match, not just the first (true)
 # - `color`: the marks' background: 'accent' (default, the $ui-highlight
 #   token), 'yellow', 'amber', 'orange', 'red', 'green', 'teal', 'blue',
 #   'purple', 'pink' or 'gray' (tints that keep the text readable, deeper in

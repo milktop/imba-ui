@@ -16,7 +16,8 @@ import '../tooltip/base.imba'
 #   'teal', 'blue', 'purple' or 'pink'; 'auto' picks one from the name, so the
 #   same person always gets the same colour
 # - `status`: a dot on its corner: 'online', 'away', 'busy' or 'offline'
-#   (or any CSS colour); `statusLabel` says it for assistive tech
+#   (or any CSS colour)
+# - `statusLabel`: what the dot says to assistive tech (the status by default)
 # - `tooltip`: shows the name in a tooltip on hover (handy in a stack);
 #   `tooltip='…'` shows that text instead. Avatars can't take focus, so it's
 #   mouse-only; screen readers already get the name
