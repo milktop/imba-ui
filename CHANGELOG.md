@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.12.2 (2026-10-13)
+
+- The sidebar goes over the top bar while it's hovered or focused, so its
+  tooltips and flyouts near the top (the collapse button's tooltip) are no
+  longer hidden under the top bar; the rest of the time the top bar's popups
+  stay above it
+
 ## 0.12.1 (2026-10-13)
 
 - Autofilled text inputs (input, password, number and tags inputs) no
