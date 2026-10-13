@@ -28,7 +28,7 @@ def readTokens
 const groups = [
 	{ title: 'Text', about: 'Text, and secondary text (hints, labels, placeholders)', test: /^ui-(text|muted)$/ }
 	{ title: 'Surfaces', about: 'Cards and popups, their borders, and hovered rows and items', test: /^ui-(surface|border|hover)$/ }
-	{ title: 'Form controls', about: 'Inputs, selects, checkboxes and the editor: fill, border, border on hover. Light, they follow the surface; dark, a darker fill and a stronger border', test: /^ui-field-/ }
+	{ title: 'Form controls', about: 'Inputs, selects, checkboxes and the editor: fill, border, border on hover, and the fill of an autofilled text input. Light, they follow the surface; dark, a darker fill and a stronger border', test: /^ui-field-/ }
 	{ title: 'App shell', about: 'The page behind cards, the inset layout’s sidebar shade and the frame round it', test: /^ui-(canvas|sidebar-bg|frame)$/ }
 	{ title: 'Accent', about: 'Primary buttons, selections, checked controls and soft tints; the text on them; focus rings; selected text and ui-highlight’s marks', test: /^ui-(accent|ring|selection|highlight)/ }
 	{ title: 'Status', about: 'Errors and destructive actions, positive changes, cautions (alerts tint themselves from these and the accent)', test: /^ui-(danger|success|warning)$/ }

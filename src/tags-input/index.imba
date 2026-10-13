@@ -9,6 +9,7 @@ tag ui-tags-input < ui-tags-input-base
 		.control d:flex ai:center g:1 min-height:$ui-control-height pl:1.5 pr:1 py:1 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm cursor:text
 			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
+			@has(input@autofill) bg:$ui-field-autofill-bg
 			&[data-invalid] bc:$ui-danger
 			&[data-disabled] o:0.5
 		.tags d:flex flw:wrap ai:center fl:1 min-width:0 g:1.5
@@ -20,6 +21,7 @@ tag ui-tags-input < ui-tags-input-base
 		.edit h:6.5 px:2 w:28 box-sizing:border-box bd:1px solid $ui-ring rd:calc($ui-radius - 2px) bg:$ui-surface c:inherit ff:inherit fs:sm- outline:none
 		.input fl:1 min-width:16 h:6.5 px:1 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
 			@placeholder c:$ui-muted
+			@autofill transition-property:background-color, color transition-delay:600000s -webkit-text-fill-color:$ui-text caret-color:$ui-text
 		.clear d:grid place-items:center fls:0 as:center w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text
 			&[hidden] d:none

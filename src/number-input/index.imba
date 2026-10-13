@@ -9,10 +9,12 @@ tag ui-number-input < ui-number-input-base
 		.control d:hcl g:2 h:$ui-control-height pl:3 pr:1 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm
 			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
+			@has(input@autofill) bg:$ui-field-autofill-bg
 			&[data-disabled] o:0.5
 			&[data-invalid] bc:$ui-danger
 		.input fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
 			@placeholder c:$ui-muted
+			@autofill transition-property:background-color, color transition-delay:600000s -webkit-text-fill-color:$ui-text caret-color:$ui-text
 		.affix d:hcc fls:0 c:$ui-muted ws:nowrap
 			&.start mr:1
 		.end d:hcl fls:0 g:0.5

@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## Unreleased
+
+- Autofilled text inputs (input, password, number and tags inputs) no
+  longer show the browser's own fill as a patch inside the box: the box
+  takes `$ui-field-autofill-bg` (a faint accent tint; set it to
+  `$ui-field-bg` for none) and the text stays `$ui-text`
+
 ## 0.12.0 (2026-10-13)
 
 To check when upgrading:

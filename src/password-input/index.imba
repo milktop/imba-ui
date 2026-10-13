@@ -9,10 +9,12 @@ tag ui-password-input < ui-password-input-base
 		.control d:hcl g:2 h:$ui-control-height pl:3 pr:1 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius fs:sm
 			@hover bc:$ui-field-border-hover
 			@focus-within bc:$ui-ring outline:2px solid $ui-ring-soft
+			@has(input@autofill) bg:$ui-field-autofill-bg
 			&[data-invalid] bc:$ui-danger
 			&[data-disabled] o:0.5
 		.input fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
 			@placeholder c:$ui-muted
+			@autofill transition-property:background-color, color transition-delay:600000s -webkit-text-fill-color:$ui-text caret-color:$ui-text
 		.affix d:hcc fls:0 c:$ui-muted mr:1
 		iconify-icon d:block w:1em h:1em fs:md
 		.toggle d:grid place-items:center fls:0 w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer

@@ -298,6 +298,7 @@ what it styles and its light and dark values.
 | `$ui-text`, `$ui-muted` | Text, and secondary text (hints, labels) |
 | `$ui-surface`, `$ui-border`, `$ui-hover` | Cards and popups; their borders; hovered rows and items |
 | `$ui-field-bg`, `$ui-field-border`, `$ui-field-border-hover` | Form controls (inputs, selects, checkboxes, the editor): fill, border, border on hover. Light, they follow `$ui-surface` and `$ui-border`; dark, a darker fill and a stronger border |
+| `$ui-field-autofill-bg` | Text inputs the browser autofilled: a faint accent tint in place of the browser's own colour. Set it to `$ui-field-bg` for no tint |
 | `$ui-canvas`, `$ui-sidebar-bg`, `$ui-frame` | The app shell: the page behind cards, the sidebar, the frame round an inset layout |
 | `$ui-accent`, `$ui-accent-text` | Primary buttons, selections, checked controls; text on them |
 | `$ui-accent-soft`, `$ui-accent-soft-text` | Soft buttons, accent badges, highlighted items |

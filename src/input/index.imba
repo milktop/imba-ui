@@ -22,6 +22,11 @@ tag ui-input < ui-input-base
 		>>> :is(input, textarea) fl:1 min-width:0 p:0 bd:none bg:transparent outline:none c:inherit fs:inherit ff:inherit
 		>>> input::placeholder c:$ui-muted
 		>>> textarea::placeholder c:$ui-muted
+		# Browsers paint autofilled inputs their own colour, with !important, which
+		# shows as a patch inside the box. Delaying that change indefinitely keeps
+		# the input transparent; the box takes $ui-field-autofill-bg instead.
+		>>> input@autofill transition-property:background-color, color transition-delay:600000s -webkit-text-fill-color:$ui-text caret-color:$ui-text
+		&@has(input@autofill) bg:$ui-field-autofill-bg
 		# A slotted textarea fills the box, which pads it like the input.
 		&:has(textarea) ai:stretch py:2
 		>>> textarea resize:vertical lh:1.5

@@ -50,6 +50,9 @@ global css
 		$ui-field-bg:$ui-surface
 		$ui-field-border:$ui-border
 		$ui-field-border-hover:#d4d4d8
+		# Text inputs the browser autofilled: a faint accent tint in place of its
+		# own colour ($ui-field-bg hides it).
+		$ui-field-autofill-bg:color-mix(in srgb, $ui-accent 8%, $ui-field-bg)
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
 		$ui-skeleton:#e4e4e7
