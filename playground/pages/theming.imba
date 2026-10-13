@@ -91,7 +91,7 @@ tag page-theming
 		code ff:mono fs:xs
 
 	<self>
-		<demo-page source=source heading='Theming' intro="Ways to change how the components look, from the broadest to the narrowest. Start with tokens (the $ui-* variables; Tokens lists them all): they reach every component at once. Reach for a component's parts only for what tokens don't cover.">
+		<demo-page source=source heading='Theming' intro="Ways to change how the components look, from the broadest to the narrowest. Start with tokens (the $ui-* variables; Tokens lists them all): they reach every component at once. Reach for a component's parts only for what tokens don't cover. Each component page's Styling panel lists the tokens, variables and parts it uses. ($ui-accent in Imba is the CSS variable --ui-accent: write --ui-accent in plain CSS or a style attribute.)">
 			<demo-section heading='The whole app'>
 				<div.controls>
 					<label.colour>
@@ -158,10 +158,10 @@ tag page-theming
 
 			<demo-section heading="A component's own variables">
 				<div.row>
-					<ui-button icon='lucide:inbox' count=12 [--ui-button-count-bg:#0f172a --ui-button-count-text:#fde047]> "Inbox"
+					<ui-button icon='lucide:inbox' count=12 [$ui-button-count-bg:#0f172a $ui-button-count-text:#fde047]> "Inbox"
 					<ui-avatar-group items=['Ada Lovelace', 'Alan Turing', 'Grace Hopper'] [$ui-avatar-ring:$ui-accent-soft]>
 				<div.out>
-					<p.note> "Some components read variables of their own, for things no shared token covers: ui-button's --ui-button-count-bg and --ui-button-count-text, ui-avatar-group's $ui-avatar-ring. Their docs (the Props panel) name them. Set them like tokens: on the component or any element around it."
+					<p.note> "Some components read variables of their own, for things no shared token covers: ui-button's $ui-button-count-bg and $ui-button-count-text, ui-avatar-group's $ui-avatar-ring. Each page's Styling panel lists them. Set them like tokens: on the component or any element around it."
 
 			<demo-section heading='Your own look' uses='square-switch'>
 				<div.row>

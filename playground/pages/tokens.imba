@@ -56,6 +56,14 @@ def isColour token do !/radius|font|height|width|shadow|stroke|padding|weight/.t
 tag page-tokens
 	query = ''
 
+	# A link from a component's Styling panel (/tokens?q=ui-accent) opens
+	# filtered, each time one is followed.
+	def syncQuery
+		let q = new URLSearchParams(globalThis.location.search).get('q') or ''
+		return if q == #linked
+		#linked = q
+		query = q
+
 	def shown group
 		let q = query.trim!.toLowerCase!
 		return group.tokens unless q
@@ -70,27 +78,29 @@ tag page-tokens
 		code ff:mono fs:xs
 		.value ff:mono fs:xs c:$ui-muted ws:normal word-break:break-word
 
-	<self>
-		<demo-page source=source heading='Tokens' intro="Every $ui-* token, with what it styles and its light and dark values (read from theme.imba). Tokens are CSS custom properties ($ui-accent is --ui-accent): set them in your app's root CSS to brand it, or on any element to restyle what's inside it. Theming shows how.">
-			<demo-section heading='Find a token'>
-				<ui-input.search icon='lucide:search' placeholder='accent, sidebar, radius…' bind=query>
-			for group in grouped
-				let tokens = shown(group)
-				if tokens.length
-					<demo-section key=group.title heading=group.title bare>
-						<div.group>
-							<p.about> group.about if group.about
-							<ui-table>
-								<table>
-									<thead>
-										<tr>
-											<th> "Token"
-											<th> "Light"
-											<th> "Dark"
-									<tbody> for token in tokens
-										<tr>
-											<td>
-												<span.swatch style="background:var(--{token.name})"> if isColour(token)
-												<code> "${token.name}"
-											<td.value> token.light
-											<td.value> token.dark or "same"
+	def render
+		syncQuery!
+		<self>
+			<demo-page source=source heading='Tokens' intro="Every $ui-* token, with what it styles and its light and dark values (read from theme.imba). Tokens are CSS custom properties ($ui-accent is --ui-accent): set them in your app's root CSS to brand it, or on any element to restyle what's inside it. Theming shows how.">
+				<demo-section heading='Find a token'>
+					<ui-input.search icon='lucide:search' placeholder='accent, sidebar, radius…' bind=query>
+				for group in grouped
+					let tokens = shown(group)
+					if tokens.length
+						<demo-section key=group.title heading=group.title bare>
+							<div.group>
+								<p.about> group.about if group.about
+								<ui-table>
+									<table>
+										<thead>
+											<tr>
+												<th> "Token"
+												<th> "Light"
+												<th> "Dark"
+										<tbody> for token in tokens
+											<tr>
+												<td>
+													<span.swatch style="background:var(--{token.name})"> if isColour(token)
+													<code> "${token.name}"
+												<td.value> token.light
+												<td.value> token.dark or "same"

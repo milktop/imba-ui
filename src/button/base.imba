@@ -17,7 +17,7 @@ import 'iconify-icon'
 # - `pulse`: a ring ripples out from the badge or dot, to draw the eye (not
 #   when the system asks for less motion)
 # - `countColor`: 'danger' (default), 'accent', 'success', 'warning' or
-#   'neutral', for the dot too; or set `--ui-button-count-bg` and `--ui-button-count-text` in
+#   'neutral', for the dot too; or set `$ui-button-count-bg` and `$ui-button-count-text` in
 #   CSS for any other
 # - `countLabel`: what the count is, for assistive tech ('new': "Inbox, 3
 #   new"); added to the button's aria-label, or read after its text

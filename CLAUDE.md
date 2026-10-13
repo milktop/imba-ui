@@ -149,6 +149,10 @@ New components follow the same pattern: add both files, an entry in
   switch keep theirs), and spread `describe(props)` onto the focusable control.
 - **Icons:** a base file that renders `<iconify-icon>` imports `'iconify-icon'`
   itself (a dependency), so apps never have to.
+- **Variables:** write them `$ui-…` in Imba (docs and examples too; `--ui-…`
+  only where CSS needs `var()` itself, e.g. a fallback). A component's own
+  variable is named after it (`$ui-button-count-bg`) and named in its doc
+  comment, which is how the playground's Styling panel finds it.
 - **Tokens:** a new `$ui-*` token goes in `theme.imba` (with a dark value if it
   needs one) and in the readme's Theming table; the playground's Theming
   page reads them from `theme.imba`.

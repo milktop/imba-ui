@@ -1,5 +1,6 @@
 # Shared pieces for the playground pages.
 import { baseSource } from './api.imba'
+import './styling.imba'
 
 # Pages whose path isn't their component's folder (or covers several).
 const apiAliases = {
@@ -185,6 +186,7 @@ tag demo-page
 	# page's own path (/date-picker → date-picker).
 	prop api = null
 	showApi = no
+	showStyling = no
 
 	get apiNames do [].concat(api ?? (apiAliases[router.pathname] or router.pathname.slice(1)))
 
@@ -196,17 +198,23 @@ tag demo-page
 		.api-toggle d:inline-flex ai:center g:1.5 h:7 px:2 bd:1px solid transparent bg:transparent c:$ui-muted rd:md fs:xs ff:inherit cursor:pointer fls:0
 			@hover c:$ui-text bg:$ui-hover
 			&.on c:$ui-text bc:$ui-border bg:$ui-surface
-		api-panel mt:5
+		api-panel, style-panel mt:5
+		.toggles d:flex g:1 fls:0
 	<self>
 		<div.title>
 			<h1> heading
 			# Guides (Theming, Tokens…) have no component, so no Props.
 			if apiNames.some(do baseSource($1))
-				<button.api-toggle .on=showApi aria-pressed=String(showApi) @click=(showApi = !showApi)>
-					<iconify-icon icon='lucide:list-tree'>
-					"Props"
+				<div.toggles>
+					<button.api-toggle .on=showApi aria-pressed=String(showApi) @click=(showApi = !showApi)>
+						<iconify-icon icon='lucide:list-tree'>
+						"Props"
+					<button.api-toggle .on=showStyling aria-pressed=String(showStyling) @click=(showStyling = !showStyling)>
+						<iconify-icon icon='lucide:paintbrush'>
+						"Styling"
 		<p.intro> intro if intro
 		<api-panel names=apiNames> if showApi
+		<style-panel names=apiNames> if showStyling
 		<slot>
 
 tag demo-section

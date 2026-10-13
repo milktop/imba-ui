@@ -47,7 +47,7 @@ tag ui-button < ui-button-base
 		.icon d:block w:1em h:1em fs:md fls:0
 		&.sm .icon fs:sm
 		# The count badge, ringed in the page colour so it stands off the button.
-		# --ui-button-count-bg/-text (set on the button or any parent) override
+		# $ui-button-count-bg/-text (set on the button or any parent) override
 		# the countColor presets.
 		pos:relative
 		.badge pos:absolute t:0 r:0 transform:translate(45%, -45%) d:grid place-items:center min-width:18px h:18px px:1.25 box-sizing:border-box rd:full

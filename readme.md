@@ -416,7 +416,8 @@ Redefine the derived ones alongside the accent wherever you scope it, as above.
   lists them) and Zag's parts have `data-part` and state attributes too.
   Styles on a part also beat its library states (hover, active), so restate
   the ones you care about. Some components expose their own variables
-  (ui-button's `--ui-button-count-bg`).
+  (ui-button's `$ui-button-count-bg`); each component page's Styling panel
+  lists the tokens, variables and parts it uses.
 - A different look altogether: subclass the headless tag (next section).
 
 ### Icons

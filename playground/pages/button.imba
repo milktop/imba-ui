@@ -2,7 +2,7 @@ import source from './button.imba?raw'
 
 tag page-button
 	css
-		.purple --ui-button-count-bg:#9333ea --ui-button-count-text:white
+		.purple $ui-button-count-bg:#9333ea $ui-button-count-text:white
 
 	saving = no
 	clicks = 0
@@ -73,7 +73,7 @@ tag page-button
 					<div.set>
 						<button @click=(unread++)> "Add one"
 						<button @click=(unread = 0)> "Mark all read"
-					<p.note> "`count` hides at 0 and caps at `max` (99+). `countColor` picks a preset (for dots too) and `pulse` ripples a ring out; for any other colour set `--ui-button-count-bg` (and `-text`) in CSS, as the purple one does. The count joins the button's accessible name (\"Notifications, 3 new\"; `countLabel` sets the word)."
+					<p.note> "`count` hides at 0 and caps at `max` (99+). `countColor` picks a preset (for dots too) and `pulse` ripples a ring out; for any other colour set `$ui-button-count-bg` (and `-text`), as the purple one does. The count joins the button's accessible name (\"Notifications, 3 new\"; `countLabel` sets the word)."
 
 			<demo-section heading='Loading and disabled'>
 				<div.row>
