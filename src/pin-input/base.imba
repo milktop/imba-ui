@@ -1,6 +1,7 @@
 import * as zagPin from '@zag-js/pin-input'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless pin input: one box per character, for verification and booking
 # codes. Typing moves to the next box, Backspace to the previous one, and
@@ -32,6 +33,7 @@ tag ui-pin-input-base < ui-control
 		let initial = chars(data)
 		machine = new Machine self, zagPin.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('pinInput')
 			ids: fieldIds(self)
 			count: length
 			type: type

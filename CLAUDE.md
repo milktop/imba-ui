@@ -137,6 +137,13 @@ New components follow the same pattern: add both files, an entry in
 - **Tokens:** a new `$ui-*` token goes in `theme.imba` (with a dark value if it
   needs one) and in the readme's Theming table; the playground's Theming
   page reads them from `theme.imba`.
+- **Words and locale:** no English in components. Words come from
+  `uiLocale.messages` (`src/locale.imba`; add new ones to both `en` and `fr`),
+  with a prop that defaults to null winning over them (`emptyText ?? …`).
+  Formatting uses `formatNumber`/`formatBytes`/`formatRelative`, and a `locale`
+  prop defaults to `uiLocale.locale`; pass Zag's words as
+  `translations: uiLocale.zag('name')`, and watch the locale (`connectField(locale)`)
+  where Zag caches it.
 - **Emitted values:** `change` emits plain values (ISO dates, the items' original
   values), never Zag's internal strings.
 

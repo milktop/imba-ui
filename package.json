@@ -136,7 +136,10 @@
     "./swatch-picker": "./src/swatch-picker/index.imba",
     "./swatch-picker/base": "./src/swatch-picker/base.imba",
     "./confirm": "./src/confirm/index.imba",
-    "./confirm/base": "./src/confirm/base.imba"
+    "./confirm/base": "./src/confirm/base.imba",
+    "./locale": "./src/locale.imba",
+    "./format": "./src/format/index.imba",
+    "./format/base": "./src/format/base.imba"
   },
   "files": [
     "src",

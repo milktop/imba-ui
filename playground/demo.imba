@@ -10,6 +10,7 @@ const apiAliases = {
 	'/stat': 'stat'
 	'/fields': ['fields', 'field']
 	'/toast': 'toast'
+	'/locale': 'format'
 }
 
 export const subjects = [

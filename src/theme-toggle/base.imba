@@ -5,6 +5,7 @@ import '../segmented/base.imba'
 import '../menu/base.imba'
 import '../tooltip/base.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 const icons = { light: 'lucide:sun', dark: 'lucide:moon', system: 'lucide:monitor' }
 
@@ -41,8 +42,12 @@ tag ui-theme-toggle-base
 	prop breakpoint = 768
 	prop options = ['system', 'light', 'dark']
 	prop system = true
-	prop labels = { light: 'Light', dark: 'Dark', system: 'System' }
-	prop label = 'Colour scheme'
+	prop labels = null
+	prop label = null
+
+	# The words: the app's (uiLocale), with `labels` and `label` over them.
+	get names do Object.assign({}, uiLocale.messages.themeToggle, labels)
+	get groupLabel do label ?? uiLocale.messages.themeToggle.label
 	prop placement = null
 	prop size = 'md'
 	prop keepOpen = null
@@ -75,23 +80,23 @@ tag ui-theme-toggle-base
 
 	get items
 		(options or []).filter(do icons[$1] and ($1 !== 'system' or system)).map do(scheme)
-			{ value: scheme, label: labels[scheme], icon: icons[scheme] }
+			{ value: scheme, label: names[scheme], icon: icons[scheme] }
 
 	def render
 		# Without the system option, show what the OS currently resolves to.
 		let value = offersSystem ? colorScheme.value : (colorScheme.dark ? 'dark' : 'light')
 		let shown = colorScheme.dark ? 'dark' : 'light'
-		<self .{size} .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=label data-variant=mode>
+		<self .{size} .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=groupLabel data-variant=mode>
 			if mode === 'menu'
 				<ui-menu.menu placement=(placement or (iconOnly ? 'bottom' : 'bottom-end')) keepOpen=keepOpen>
-					<button.trigger slot='trigger' type='button' aria-label="{label}: {labels[value]}">
+					<button.trigger slot='trigger' type='button' aria-label="{groupLabel}: {names[value]}">
 						<iconify-icon.trigger-icon icon=icons[value] aria-hidden='true'>
 					<ui-menu-radio-group value=value @change=pick(e.detail)>
 						for item in items
 							<ui-menu-radio key=item.value value=item.value icon=item.icon> item.label
 			elif mode === 'toggle'
-				<ui-tooltip content=labels[shown]>
-					<button.trigger type='button' aria-label=labels.dark aria-pressed=String(colorScheme.dark) @click=flip>
+				<ui-tooltip content=names[shown]>
+					<button.trigger type='button' aria-label=names.dark aria-pressed=String(colorScheme.dark) @click=flip>
 						<iconify-icon.trigger-icon icon=icons[shown] aria-hidden='true'>
 			else
 				<ui-segmented.segmented iconOnly size=size items=items value=value @change.stop=pick(e.detail)>

@@ -2,6 +2,7 @@ import * as zagTags from '@zag-js/tags-input'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless tags input: type and press Enter (or the delimiter, a comma by
 # default) to add a tag. Backspace on an empty input selects the last tag and
@@ -35,6 +36,7 @@ tag ui-tags-input-base < ui-control
 		let initial = list(data)
 		machine = new Machine self, zagTags.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('tagsInput')
 			ids: fieldIds(self)
 			max: max
 			delimiter: delimiter

@@ -1,6 +1,7 @@
 import { icons } from '../icons.imba'
 import '../popover/base.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless breadcrumbs: where the current page sits, as a trail of links.
 #
@@ -40,7 +41,7 @@ tag ui-breadcrumbs-base
 	prop items = null
 	prop separator = null
 	prop max = null
-	prop label = 'Breadcrumb'
+	prop label = null
 
 	isUiBreadcrumbs = yes
 	linkTag = 'a'
@@ -87,7 +88,7 @@ tag ui-breadcrumbs-base
 	def isLast item do item == items[items.length - 1]
 
 	<self>
-		<nav aria-label=label>
+		<nav aria-label=(label ?? uiLocale.messages.breadcrumbs.label)>
 			<ol$list.list>
 				for entry, i in entries
 					<li.crumb>
@@ -99,7 +100,7 @@ tag ui-breadcrumbs-base
 									<ui-icon path=icons.right size=14>
 						if entry == MORE
 							<ui-popover bind=folded placement='bottom-start'>
-								<button.more slot='trigger' type='button' aria-label="Show {foldedItems.length} more"> "…"
+								<button.more slot='trigger' type='button' aria-label=uiLocale.messages.breadcrumbs.more(foldedItems.length)> "…"
 								<ol.folded>
 									for item in foldedItems
 										<li>

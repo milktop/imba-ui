@@ -1,6 +1,8 @@
 import { scaleLinear, scalePoint, scaleBand } from 'd3-scale'
 import { line, area, curveMonotoneX, curveLinear, pie, arc } from 'd3-shape'
 import { uid } from '../zag.imba'
+import { formatNumber } from '../format/base.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless charts: SVG drawn by Imba, with d3 for the maths (scales and
 # shapes). Colours come from the theme: series take $ui-chart-1…5 in turn,
@@ -31,7 +33,7 @@ tag ui-chart-base
 	prop series = null
 	prop height = 240
 	prop format = null
-	prop label = 'Chart'
+	prop label = null
 	prop grid = true
 
 	hover = null
@@ -43,7 +45,7 @@ tag ui-chart-base
 
 	def fmt value
 		return format(value) if format
-		typeof value == 'number' ? value.toLocaleString! : String(value ?? '')
+		typeof value == 'number' ? formatNumber(value) : String(value ?? '')
 
 	def mount
 		#observer = new ResizeObserver do(entries)
@@ -148,7 +150,7 @@ tag ui-area-chart-base < ui-chart-base
 						<span.swatch style="background: {s.color}">
 						s.label
 			<table.sr-only>
-				<caption> label
+				<caption> label ?? uiLocale.messages.chart.label
 				<tr>
 					<th> x
 					for s in list
@@ -219,7 +221,7 @@ tag ui-bar-chart-base < ui-chart-base
 						<span.swatch style="background: {s.color}">
 						s.label
 			<table.sr-only>
-				<caption> label
+				<caption> label ?? uiLocale.messages.chart.label
 				<tr>
 					<th> x
 					for s in list
@@ -260,7 +262,7 @@ tag ui-sparkline-base
 		let fill = area!.x(do(_, i) xs(i)).y0(height).y1(do ys($1)).curve(curveMonotoneX)
 		let band = scaleBand!.domain(values.map(do(_, i) i)).range([0, 100]).padding(0.25)
 
-		<self role='img' aria-label=(label or "Trend: {values.join(', ')}") style="height: {height}px">
+		<self role='img' aria-label=(label or uiLocale.messages.chart.trend(values.map(do formatNumber($1)).join(', '))) style="height: {height}px">
 			<svg.svg viewBox="0 0 100 {height}" preserveAspectRatio='none' aria-hidden='true'>
 				if variant == 'bar'
 					for value, i in values
@@ -288,16 +290,16 @@ tag ui-donut-chart-base
 	prop data = []
 	prop size = 160
 	prop thickness = 0.32
-	prop center = 'Total'
+	prop center = null
 	prop legend = 'right'
 	prop format = null
-	prop label = 'Chart'
+	prop label = null
 
 	hover = null
 
 	def fmt value
 		return format(value) if format
-		typeof value == 'number' ? value.toLocaleString! : String(value ?? '')
+		typeof value == 'number' ? formatNumber(value) : String(value ?? '')
 
 	def render
 		let rows = data or []
@@ -325,7 +327,7 @@ tag ui-donut-chart-base
 							<slot name='center'>
 								<div.center-total>
 									<strong> fmt(total)
-									<span> center if center
+									<span> center ?? uiLocale.messages.chart.total
 			if legend
 				<ul.legend> for d, i in rows
 					<li.legend-item .dim=(hover != null and hover != i) @pointerenter=(hover = i) @pointerleave=(hover = null)>
@@ -335,7 +337,7 @@ tag ui-donut-chart-base
 							fmt(d.value)
 							<small> " {Math.round((d.value / total) * 100)}%" if total > 0
 			<table.sr-only>
-				<caption> label
+				<caption> label ?? uiLocale.messages.chart.label
 				for d in rows
 					<tr>
 						<td> d.label

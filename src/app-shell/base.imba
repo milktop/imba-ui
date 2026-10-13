@@ -3,6 +3,7 @@ import '../tooltip/base.imba'
 import '../menu/base.imba'
 import '../avatar/base.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless app layout: a sidebar with the logo and navigation, a top bar and
 # the page.
@@ -128,7 +129,7 @@ tag ui-app-shell-base
 #   [{ heading: 'Menu', items: [{ label, icon, href, active, badge, items }] }]
 tag ui-sidebar-base
 	prop items = null
-	prop label = 'Main'
+	prop label = null
 	# A thin strip along the right edge that collapses or expands it on click:
 	# `'rail'` shows it only while collapsed, `true` always, `false` never.
 	prop edge = 'rail'
@@ -164,11 +165,11 @@ tag ui-sidebar-base
 				<div.logo-collapsed> <slot name='logo-collapsed'>
 				<div.logo-full> <slot name='logo'>
 			if mobile
-				<button.icon-button type='button' aria-label='Close menu' @click=close> <ui-icon path=icons.x size=16>
+				<button.icon-button type='button' aria-label=uiLocale.messages.shell.closeMenu @click=close> <ui-icon path=icons.x size=16>
 			elif !rail
-				<ui-tooltip content='Collapse sidebar (⌘B)' placement='right'>
-					<button.icon-button type='button' aria-label='Collapse sidebar' @click=toggle> <ui-icon path=icons.panelClose size=16>
-		<nav.nav aria-label=label>
+				<ui-tooltip content="{uiLocale.messages.shell.collapseSidebar} (⌘B)" placement='right'>
+					<button.icon-button type='button' aria-label=uiLocale.messages.shell.collapseSidebar @click=toggle> <ui-icon path=icons.panelClose size=16>
+		<nav.nav aria-label=(label ?? uiLocale.messages.shell.nav)>
 			if items
 				for section in items
 					<{sectionTag} heading=section.heading>
@@ -183,12 +184,12 @@ tag ui-sidebar-base
 		<div.footer>
 			<slot name='footer'>
 			if rail
-				<ui-tooltip content='Expand sidebar (⌘B)' placement='right'>
-					<button.icon-button.expand type='button' aria-label='Expand sidebar' @click=toggle> <ui-icon path=icons.panelOpen size=16>
+				<ui-tooltip content="{uiLocale.messages.shell.expandSidebar} (⌘B)" placement='right'>
+					<button.icon-button.expand type='button' aria-label=uiLocale.messages.shell.expandSidebar @click=toggle> <ui-icon path=icons.panelOpen size=16>
 		# Mouse only: keyboard users have the buttons above and ⌘B. It never
 		# takes focus (mousedown is prevented), so no focus ring is left behind.
 		if !mobile and (edge === 'rail' ? rail : edge)
-			<button.edge type='button' tabIndex=-1 aria-hidden='true' title=(rail ? 'Expand sidebar' : 'Collapse sidebar') @mousedown.prevent @click=toggle>
+			<button.edge type='button' tabIndex=-1 aria-hidden='true' title=(rail ? uiLocale.messages.shell.expandSidebar : uiLocale.messages.shell.collapseSidebar) @mousedown.prevent @click=toggle>
 
 
 # A labelled group of nav items. The heading hides in the rail.
@@ -215,7 +216,7 @@ tag ui-nav-section-base
 			<div.heading-row>
 				<div.heading aria-hidden='true'> heading if heading
 				if collapsible and !rail
-					<button.collapse-all type='button' aria-label=(anyOpen ? 'Collapse all' : 'Expand all') title=(anyOpen ? 'Collapse all' : 'Expand all') @click=toggleAll>
+					<button.collapse-all type='button' aria-label=(anyOpen ? uiLocale.messages.shell.collapseAll : uiLocale.messages.shell.expandAll) title=(anyOpen ? uiLocale.messages.shell.collapseAll : uiLocale.messages.shell.expandAll) @click=toggleAll>
 						<iconify-icon icon=(anyOpen ? 'lucide:chevrons-down-up' : 'lucide:chevrons-up-down') aria-hidden='true'>
 		<div.items> <slot>
 
@@ -376,7 +377,7 @@ tag ui-topbar-base
 
 	<self data-ui-shell-part data-ui-topbar>
 		if shell..mobile
-			<button.menu type='button' aria-label='Open menu' aria-expanded=String(!!shell.drawerOpen) @click=openMenu> <ui-icon path=icons.menu size=18>
+			<button.menu type='button' aria-label=uiLocale.messages.shell.openMenu aria-expanded=String(!!shell.drawerOpen) @click=openMenu> <ui-icon path=icons.menu size=18>
 		<div.start> <slot>
 		<div.end> <slot name='end'>
 

@@ -2,6 +2,7 @@ import * as editable from '@zag-js/editable'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless editable: text you click to edit in place, e.g. a pet's name or a
 # price on a details page. It reads as text until clicked; Enter saves and
@@ -36,6 +37,7 @@ tag ui-editable-base < ui-control
 		let initial = String(data ?? '')
 		machine = new Machine self, editable.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('editable')
 			ids: fieldIds(self)
 			defaultValue: initial
 			placeholder: placeholder ?? undefined

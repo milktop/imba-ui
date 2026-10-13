@@ -3,6 +3,7 @@ import '@fontsource-variable/plus-jakarta-sans'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/dm-sans'
 import { colorScheme } from '../src/color-scheme.imba'
+import { uiLocale } from '../src/locale.imba'
 import { highlightImba } from './demo.imba'
 
 # The playground's appearance switcher: theme, accent, font, radius and
@@ -47,9 +48,11 @@ export const canvases = {
 export const sidebars = { shaded: ['Shaded'], white: ['White'] }
 export const aligns = { center: ['Centred'], start: ['Left'] }
 export const widths = { auto: ['Auto'], default: ['Default'], wide: ['Wide'], full: ['Full'] }
+# The components' locale (dates, numbers) and words: uiLocale.set(…).
+export const languages = { 'en-GB': ['English (UK)'], 'en-US': ['English (US)'], 'fr-FR': ['Français'] }
 
 # The theme itself is the library's colorScheme (saved on its own); the rest is here.
-export const defaults = { accent: 'blue', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full', canvas: 'cool', sidebar: 'shaded' }
+export const defaults = { accent: 'blue', font: 'jakarta', radius: 'default', density: 'default', layout: 'inset', align: 'center', width: 'full', canvas: 'cool', sidebar: 'shaded', language: 'en-GB' }
 
 # Versioned, so changed defaults reach browsers that saved older settings.
 const storageKey = 'imba-ui-playground-appearance-v3'
@@ -102,6 +105,8 @@ export def applyAppearance state
 	root.dataset.layout = state.layout or 'full'
 	root.dataset.pageAlign = state.align or 'center'
 	root.dataset.pageWidth = state.width or 'auto'
+	let language = state.language or 'en-GB'
+	uiLocale.set(language) unless uiLocale.locale == language
 
 # The settings as code to paste into an app: its root CSS, the font import
 # and the shell's props.
@@ -120,6 +125,7 @@ export def appearanceSnippet state
 		lines(appearanceTokens(state, yes)).join('\n')
 		"\n\tbody\n\t\tff:$ui-font\n\n"
 		"# In your layout\n{shell}\n\t{page.join(' ')}>"
+		"\n\n# Once, at startup\nimport \{ uiLocale \} from '@milktop/imba-ui/locale'\nuiLocale.set('{state.language or 'en-GB'}')"
 	].join('')
 
 def options map
@@ -135,6 +141,7 @@ tag appearance-panel
 	alignItems = options(aligns)
 	widthItems = options(widths)
 	densityItems = options(densities)
+	languageItems = options(languages)
 	showCode = no
 
 	# Accents have light and dark values, so re-apply when the scheme changes.
@@ -185,6 +192,8 @@ tag appearance-panel
 					<div.swatches role='radiogroup' aria-label='Accent'>
 						for own key, accent of accents
 							<button.swatch type='button' role='radio' aria-checked=String(state.accent == key) aria-label=accent.name [bg:{accent[colorScheme.dark ? 'dark' : 'light'][0]}] @click=update(accent: key)>
+				<ui-field label='Language' hint='uiLocale.set(…): dates, numbers, words'>
+					<ui-select size='sm' items=languageItems value=state.language @change=update(language: e.detail)>
 				<ui-field label='Font'>
 					<ui-select size='sm' items=fontItems value=state.font @change=update(font: e.detail)>
 				<ui-field label='Radius'>

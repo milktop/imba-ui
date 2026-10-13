@@ -1,6 +1,8 @@
 import * as zagSlider from '@zag-js/slider'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
+import { uiLocale } from '../locale.imba'
+import { formatNumber } from '../format/base.imba'
 
 # Headless slider. Give it an array value for a range (two thumbs).
 #
@@ -20,7 +22,10 @@ tag ui-slider-base < ui-control
 	prop marks = null
 	prop showValue = false
 	prop formatOptions = null
-	prop locale = 'en-GB'
+	prop locale = null
+
+	# Its own `locale`, or the app's (uiLocale).
+	get currentLocale do locale or uiLocale.locale
 	prop name = null
 	prop disabled = false
 
@@ -29,8 +34,7 @@ tag ui-slider-base < ui-control
 	get range do Array.isArray(data)
 	def values value do value == null ? [min] : [].concat(value)
 
-	get formatter do #formatter ||= new Intl.NumberFormat(locale, formatOptions or {})
-	def format n do formatter.format(n)
+	def format n do formatNumber(n, Object.assign({ locale: currentLocale }, formatOptions))
 	get valueText do values(data).map(do format($1)).join(' – ')
 
 	def markValue mark do typeof mark == 'object' ? mark.value : mark
@@ -68,7 +72,7 @@ tag ui-slider-base < ui-control
 	def unmount do machine.stop!
 
 	def render
-		connectField!
+		connectField(currentLocale)
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)

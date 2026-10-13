@@ -1,4 +1,5 @@
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless badge: a short label like a status or count.
 #
@@ -27,5 +28,5 @@ tag ui-badge-base
 			<iconify-icon.icon icon=icon aria-hidden='true'>
 		<slot>
 		if removable
-			<button.remove type='button' aria-label=(removeLabel or "Remove {textContent.trim!}".trim!) @click=requestRemove>
+			<button.remove type='button' aria-label=(removeLabel or uiLocale.messages.common.remove(textContent.trim!)) @click=requestRemove>
 				<iconify-icon icon='lucide:x' aria-hidden='true'>

@@ -3,6 +3,7 @@ import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless number input: a text input with decrement/increment buttons,
 # arrow-key and Shift stepping, clamping to `min`/`max` on blur, and
@@ -22,7 +23,10 @@ tag ui-number-input-base < ui-control
 	prop max = null
 	prop step = null
 	prop formatOptions = null
-	prop locale = 'en-GB'
+	prop locale = null
+
+	# Its own `locale`, or the app's (uiLocale).
+	get currentLocale do locale or uiLocale.locale
 	prop name = null
 	prop placeholder = null
 	prop icon = null
@@ -66,7 +70,7 @@ tag ui-number-input-base < ui-control
 			id: zagId
 			ids: fieldIds(self)
 			defaultValue: initial
-			min, max, step, formatOptions, locale, name, placeholder, allowMouseWheel
+			min, max, step, formatOptions, locale: currentLocale, translations: uiLocale.zag('numberInput'), name, placeholder, allowMouseWheel
 			required: required
 			disabled: disabled or #locked
 			# Left unset, Zag marks out-of-range values invalid itself, but it
@@ -89,7 +93,7 @@ tag ui-number-input-base < ui-control
 	def render
 		# Inside a ui-field it owns the label, hint and error; empty vs filled
 		# also matters, as `invalid` depends on it.
-		connectField(data == null)
+		connectField("{data == null}|{currentLocale}")
 
 		machine.syncValue data, do
 			#emitted = machine.valueKey(data)

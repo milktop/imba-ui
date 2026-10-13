@@ -2,6 +2,7 @@ import * as zagFile from '@zag-js/file-upload'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless file upload: a dropzone (click, Enter or drop files on it) and the
 # list of chosen files, with image previews and a remove button each.
@@ -38,17 +39,12 @@ tag ui-file-upload-base < ui-control
 		#previews.get(file)
 
 	def reason code
-		{
-			FILE_INVALID_TYPE: 'Not an accepted file type'
-			FILE_TOO_LARGE: 'Too large'
-			FILE_TOO_SMALL: 'Too small'
-			TOO_MANY_FILES: 'Too many files'
-			FILE_EXISTS: 'Already added'
-		}[code] or code
+		uiLocale.messages.fileUpload.reasons[code] or code
 
 	def setup
 		machine = new Machine self, zagFile.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('fileUpload')
 			ids: fieldIds(self)
 			accept: accept
 			maxFiles: maxFiles
@@ -88,8 +84,8 @@ tag ui-file-upload-base < ui-control
 			<div.dropzone zag=describe(api.getDropzoneProps!)>
 				<ui-icon.icon path=icons.upload size=20>
 				<div.prompt>
-					"Drop {single ? 'a file' : 'files'} here or "
-					<button.browse zag=api.getTriggerProps!> "browse"
+					uiLocale.messages.fileUpload.prompt(!single)
+					<button.browse zag=api.getTriggerProps!> uiLocale.messages.fileUpload.browse
 				<div.hint> hint if hint
 			<input zag=api.getHiddenInputProps! @change.stop>
 			if api.acceptedFiles.length

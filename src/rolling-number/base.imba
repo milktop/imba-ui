@@ -1,3 +1,5 @@
+import { formatNumber } from '../format/base.imba'
+
 # Headless rolling number: its digits roll to their new value when it
 # changes, e.g. a live count on a dashboard. Still while the system asks for
 # reduced motion; assistive tech reads the whole number, not the digits.
@@ -8,7 +10,7 @@
 # - `value`: the number
 # - `format`: Intl.NumberFormat's options (grouping by default)
 # - `duration`: how long a roll takes, in ms (600)
-# - `locale`: the browser's by default
+# - `locale`: the app's (uiLocale) by default
 const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 tag ui-rolling-number-base
@@ -20,7 +22,7 @@ tag ui-rolling-number-base
 	get text
 		let n = Number(value)
 		return String(value ?? '') unless Number.isFinite(n)
-		new Intl.NumberFormat(locale or undefined, format or {}).format(n)
+		formatNumber(n, Object.assign({ locale }, format))
 
 	def render
 		let text = text

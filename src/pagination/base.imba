@@ -1,6 +1,7 @@
 import * as pagination from '@zag-js/pagination'
 import { Machine, uid } from '../zag.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless pagination: previous/next buttons and page numbers, with
 # ellipses for long runs.
@@ -26,7 +27,7 @@ tag ui-pagination-base
 	prop summary = false
 	prop noun = 'items'
 	prop firstLast = true
-	prop label = 'Pagination'
+	prop label = null
 
 	zagId = uid('pagination')
 
@@ -45,6 +46,7 @@ tag ui-pagination-base
 		let initial = data
 		machine = new Machine self, pagination.machine, do
 			id: zagId
+			translations: uiLocale.zag('pagination')
 			count: count
 			pageSize: pageSize
 			siblingCount: siblingCount
@@ -70,9 +72,9 @@ tag ui-pagination-base
 		let edges = firstLast and api.pages.some(do $1.type == 'ellipsis')
 
 		<self>
-			<nav.root zag=api.getRootProps! aria-label=label>
+			<nav.root zag=api.getRootProps! aria-label=(label ?? uiLocale.messages.pagination.label)>
 				if summary
-					<span.summary> "Showing {from}–{to} of {count}{noun ? ' ' + noun : ''}"
+					<span.summary> uiLocale.messages.pagination.showing(from, to, count, noun)
 				<div.pages>
 					if edges
 						<button.nav-button zag=api.getFirstTriggerProps!> <ui-icon path=icons.firstPage size=16>

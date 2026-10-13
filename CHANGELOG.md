@@ -5,6 +5,18 @@ fix things.
 
 ## Unreleased
 
+- `uiLocale` (`@milktop/imba-ui/locale`): the app's locale and the
+  components' words in one list, English and French built in, with
+  overrides merged over it; Zag's screen-reader labels follow it too.
+  Components with a `locale` prop (date picker, number input, slider,
+  progress) now default to it, which is the browser's locale until set,
+  rather than 'en-GB'
+- Text props that had English defaults (`emptyText`, `loadingText`,
+  `placeholder`, `label`…) now default to null and take the list's words
+- `formatNumber`, `formatBytes`, `formatRelative` and `ui-format-number`,
+  `ui-format-bytes`, `ui-format-relative` (kept up to date); charts, stats,
+  sliders and attachments format with them
+
 Ported from react-ui:
 
 - New components: `ui-kbd`, `ui-divider`, `ui-prose`, `ui-highlight`,

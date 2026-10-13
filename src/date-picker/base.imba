@@ -4,6 +4,7 @@ import { parseDateString } from '@zag-js/date-utils'
 import { Machine, uid } from '../zag.imba'
 import { closestField } from '../control.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless date picker: Zag's machine plus markup, no styles. Elements carry
 # Zag's data-scope/data-part/data-state attributes plus a class per part, so a
@@ -36,7 +37,10 @@ tag ui-date-picker-base < ui-control
 	prop range = false
 	prop min = null
 	prop max = null
-	prop locale = 'en-GB'
+	prop locale = null
+
+	# Its own `locale`, or the app's (uiLocale).
+	get currentLocale do locale or uiLocale.locale
 	prop placement = 'bottom-start'
 	prop disabled = false
 	# Function receiving a CalendarDate; return true to make it unselectable.
@@ -75,8 +79,8 @@ tag ui-date-picker-base < ui-control
 		api.setValue(values)
 
 	get pattern
-		#pattern = patternOf(locale) unless #patternLocale == locale
-		#patternLocale = locale
+		#pattern = patternOf(currentLocale) unless #patternLocale == currentLocale
+		#patternLocale = currentLocale
 		#pattern
 
 	# Typing at the end: once a field has its digits, the separator goes in
@@ -100,7 +104,7 @@ tag ui-date-picker-base < ui-control
 		let next = pieces.join(separator)
 		input.value = next unless next == input.value
 
-	def dateText date do new DateFormatter(locale).format(date.toDate(getLocalTimeZone!))
+	def dateText date do new DateFormatter(currentLocale).format(date.toDate(getLocalTimeZone!))
 
 	# Why a typed date can't be taken, or the date itself (null when empty).
 	def check input
@@ -108,11 +112,11 @@ tag ui-date-picker-base < ui-control
 		return null unless text
 		let pieces = text.split(pattern.separator)
 		let whole = pieces.length == pattern.fields.length and pieces.every(do /^\d+$/.test($1))
-		let date = whole ? parseDateString(text, locale, getLocalTimeZone!) : undefined
-		return { reason: "Enter a date as {input.placeholder}" } unless date
-		return { reason: "Pick a date from {dateText(datepicker.parse(min))}" } if min and date.compare(datepicker.parse(min)) < 0
-		return { reason: "Pick a date up to {dateText(datepicker.parse(max))}" } if max and date.compare(datepicker.parse(max)) > 0
-		return { reason: 'That date isn’t available' } if machine.connect(datepicker).isUnavailable(date)
+		let date = whole ? parseDateString(text, currentLocale, getLocalTimeZone!) : undefined
+		return { reason: uiLocale.messages.datePicker.format(input.placeholder) } unless date
+		return { reason: uiLocale.messages.datePicker.min(dateText(datepicker.parse(min))) } if min and date.compare(datepicker.parse(min)) < 0
+		return { reason: uiLocale.messages.datePicker.max(dateText(datepicker.parse(max))) } if max and date.compare(datepicker.parse(max)) > 0
+		return { reason: uiLocale.messages.datePicker.unavailable } if machine.connect(datepicker).isUnavailable(date)
 		{ date }
 
 	# A typed date it can't take: the reason, shown under the input and set as
@@ -158,7 +162,8 @@ tag ui-date-picker-base < ui-control
 		let initial = parseDates(data)
 		machine = new Machine self, datepicker.machine, do
 			id: zagId
-			locale: locale
+			locale: currentLocale
+			translations: uiLocale.zag('datePicker')
 			disabled: disabled or #locked
 			invalid: !!#field..invalid
 			ids: { label: do closestField(self)..labelledBy }
@@ -190,7 +195,7 @@ tag ui-date-picker-base < ui-control
 	def unmount do machine.stop!
 
 	def render
-		connectField!
+		connectField(currentLocale)
 		machine.syncValue data, do
 			machine.connect(datepicker).setValue(parseDates(data))
 

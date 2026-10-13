@@ -4,6 +4,8 @@ import '../segmented/base.imba'
 import { uid } from '../zag.imba'
 import '../control.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
+import { formatBytes } from '../format/base.imba'
 
 # Headless attachments: the files added to a page or form, as a grid of
 # tiles (image thumbnails, or an icon and the extension) or a compact list.
@@ -53,7 +55,7 @@ tag ui-attachments-base < ui-control
 	prop removable = false
 	prop addable = false
 	prop accept = null
-	prop addLabel = 'Add files'
+	prop addLabel = null
 	prop emptyText = null
 	prop maxFiles = null
 	prop columns = null
@@ -69,10 +71,11 @@ tag ui-attachments-base < ui-control
 
 	# The layout switch; the styled attachments use ui-segmented.
 	segmentedTag = 'ui-segmented-base'
-	layouts = [
-		{ value: 'grid', label: 'Grid', icon: 'lucide:layout-grid' }
-		{ value: 'list', label: 'List', icon: 'lucide:list' }
-	]
+	get layouts
+		[
+			{ value: 'grid', label: uiLocale.messages.attachments.grid, icon: 'lucide:layout-grid' }
+			{ value: 'list', label: uiLocale.messages.attachments.list, icon: 'lucide:list' }
+		]
 
 	# A layout remembered under `persist` wins over the one given.
 	def setup
@@ -119,7 +122,7 @@ tag ui-attachments-base < ui-control
 		let file = typeof File != 'undefined' and item instanceof File
 		let url = file ? localUrl(item) : item.url
 		let type = item.type or ''
-		let name = item.name or 'Untitled'
+		let name = item.name or uiLocale.messages.attachments.untitled
 		let image = type.startsWith('image/') or /\.(jpe?g|png|gif|webp|avif|svg)$/i.test(name)
 		{
 			item: item
@@ -136,10 +139,7 @@ tag ui-attachments-base < ui-control
 		#urls.set(file, URL.createObjectURL(file)) unless #urls.has(file)
 		#urls.get(file)
 
-	def formatSize bytes
-		return "{bytes} B" if bytes < 1024
-		return "{Math.round(bytes / 1024)} KB" if bytes < 1024 * 1024
-		"{Number((bytes / 1024 / 1024).toFixed(1))} MB"
+	def formatSize bytes do formatBytes(bytes)
 
 	def iconFor type, name
 		let n = name.toLowerCase!
@@ -176,11 +176,11 @@ tag ui-attachments-base < ui-control
 		let bad = []
 		for file in files
 			if !accepts(file)
-				bad.push({ file: file, reason: 'not an accepted type' })
+				bad.push({ file: file, reason: uiLocale.messages.attachments.notType })
 			elif maxFileSize and file.size > maxFileSize
-				bad.push({ file: file, reason: "over {formatSize(maxFileSize)}" })
+				bad.push({ file: file, reason: uiLocale.messages.attachments.over(formatSize(maxFileSize)) })
 			elif maxFiles and count + ok.length >= maxFiles
-				bad.push({ file: file, reason: "the limit is {maxFiles} files" })
+				bad.push({ file: file, reason: uiLocale.messages.attachments.limit(maxFiles).replace(/^./, do $1.toLowerCase!) })
 			else
 				ok.push(file)
 		rejected = bad
@@ -258,13 +258,13 @@ tag ui-attachments-base < ui-control
 					if label and !#field..label
 						<span.label id=labelId> label
 					if switchable
-						<{segmentedTag}.switch size='sm' iconOnly items=layouts value=layout aria-label='Layout' @change.stop=setLayout(e.detail)>
+						<{segmentedTag}.switch size='sm' iconOnly items=layouts value=layout aria-label=uiLocale.messages.attachments.layout @change.stop=setLayout(e.detail)>
 			if !list.length and !canAdd and emptyText
 				<p.empty> emptyText
 			<ul$files.files>
 				for entry in list
 					<li.file>
-						<button.open type='button' aria-label="Open {entry.name}" @click=open(entry)>
+						<button.open type='button' aria-label=uiLocale.messages.attachments.open(entry.name) @click=open(entry)>
 							<span.thumb .has-image=!!entry.thumb>
 								if entry.thumb
 									<img src=entry.thumb alt='' loading='lazy'>
@@ -276,30 +276,30 @@ tag ui-attachments-base < ui-control
 								<span.size> entry.size if entry.size
 						<span.actions>
 							if entry.url
-								<a.action href=entry.url download=entry.name aria-label="Download {entry.name}"> <ui-icon path=icons.download size=14>
+								<a.action href=entry.url download=entry.name aria-label=uiLocale.messages.attachments.downloadFile(entry.name)> <ui-icon path=icons.download size=14>
 							if canRemove
-								<button.action type='button' aria-label="Remove {entry.name}" @click=removeItem(entry)> <ui-icon path=icons.x size=14>
+								<button.action type='button' aria-label=uiLocale.messages.common.remove(entry.name) @click=removeItem(entry)> <ui-icon path=icons.x size=14>
 				if canAdd and !atMax
 					<li.file.add>
 						<label.add-tile>
 							<input.add-input type='file' multiple=(maxFiles != 1) accept=accept @change.stop=added>
 							<span.add-icon> <ui-icon path=icons.plus size=18>
 							<span.add-text>
-								<span.add-label> addLabel
-								<span.limit> "or drop files here" unless list.length
-								<span.limit> "{count} of {maxFiles}" if maxFiles and list.length
+								<span.add-label> addLabel ?? uiLocale.messages.attachments.add
+								<span.limit> uiLocale.messages.attachments.orDrop unless list.length
+								<span.limit> uiLocale.messages.attachments.count(count, maxFiles) if maxFiles and list.length
 			if rejected.length
 				<ul.rejected role='alert'> for item in rejected
-					<li> "{item.file.name} wasn’t added: {item.reason}."
+					<li> uiLocale.messages.attachments.notAdded(item.file.name, item.reason)
 			if dragging
 				<div.drop-hint aria-hidden='true'>
 					<ui-icon path=icons.upload size=20>
-					<span> atMax ? "The limit is {maxFiles} files" : "Drop to add"
+					<span> atMax ? uiLocale.messages.attachments.limit(maxFiles) : uiLocale.messages.attachments.dropToAdd
 
 			<ui-dialog size='lg' heading=(previewing..name) bind=previewOpen>
 				<img.preview src=(previewing..url) alt=(previewing..name or '')> if previewing
 				<div slot='footer'>
-					<a.download-link href=(previewing..url) download=(previewing..name)> "Download" if previewing
+					<a.download-link href=(previewing..url) download=(previewing..name)> uiLocale.messages.attachments.download if previewing
 			# Last, so a ui-field's label points at the add input, not these.
 			if name
 				<input$posted type='file' name=name multiple hidden aria-hidden='true' tabIndex=-1>

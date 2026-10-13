@@ -3,6 +3,7 @@ import '../dialog/base.imba'
 import '../button/base.imba'
 import '../input/base.imba'
 import '../alert/base.imba'
+import { uiLocale } from '../locale.imba'
 
 # confirm(): asks before doing something, from anywhere. A dialog you
 # `await` for a yes or no, with no state to keep and nothing to put in the
@@ -67,7 +68,7 @@ tag ui-confirm-base
 	alertTag = 'ui-alert-base'
 
 	get ready do !request.typeToConfirm or typed.trim! === request.typeToConfirm
-	get cancelLabel do request.cancelLabel === undefined ? 'Cancel' : request.cancelLabel
+	get cancelLabel do request.cancelLabel === undefined ? uiLocale.messages.common.cancel : request.cancelLabel
 
 	# The text to type takes focus (an alert dialog would focus its close button).
 	def mount
@@ -117,13 +118,13 @@ tag ui-confirm-base
 					if request.typeToConfirm
 						<form.type id=formId @submit.prevent=accept>
 							<span.type-label>
-								"Type "
+								uiLocale.messages.confirm.typePrefix + " "
 								<strong> request.typeToConfirm
-								" to confirm."
-							<{inputTag} bind=typed attrs={ autocomplete: 'off', 'aria-label': "Type {request.typeToConfirm} to confirm" }>
+								" " + uiLocale.messages.confirm.typeSuffix
+							<{inputTag} bind=typed attrs={ autocomplete: 'off', 'aria-label': uiLocale.messages.confirm.typeToConfirm(request.typeToConfirm) }>
 					if error
 						<{alertTag} variant='danger'> error
 			<div.actions slot='footer'>
 				if cancelLabel !== null
 					<{buttonTag} disabled=busy @click=settle(no)> cancelLabel
-				<{buttonTag} variant=(request.danger ? 'danger' : 'primary') disabled=!ready loading=busy @click=accept> request.confirmLabel or 'Confirm'
+				<{buttonTag} variant=(request.danger ? 'danger' : 'primary') disabled=!ready loading=busy @click=accept> request.confirmLabel or uiLocale.messages.common.confirm

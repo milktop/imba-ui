@@ -1,5 +1,6 @@
 import * as zagProgress from '@zag-js/progress'
 import { Machine, uid, defined } from '../zag.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless progress indicator, as a bar or a circle.
 #
@@ -19,7 +20,10 @@ tag ui-progress-base
 	prop size = 48
 	prop thickness = 5
 	prop formatOptions = null
-	prop locale = 'en-GB'
+	prop locale = null
+
+	# Its own `locale`, or the app's (uiLocale).
+	get currentLocale do locale or uiLocale.locale
 
 	zagId = uid('progress')
 
@@ -31,7 +35,7 @@ tag ui-progress-base
 			min: min
 			max: max
 			formatOptions: formatOptions
-			locale: locale
+			locale: currentLocale
 		}), { value: value ?? null })
 
 	def mount do machine.start!
@@ -39,7 +43,7 @@ tag ui-progress-base
 
 	def render
 		# Display only: a new value just refreshes the machine.
-		machine.watch "{value}|{min}|{max}"
+		machine.watch "{value}|{min}|{max}|{currentLocale}"
 		let api = machine.connect(zagProgress)
 
 		<self .{variant} zag=api.getRootProps!>

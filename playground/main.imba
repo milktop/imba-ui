@@ -6,6 +6,7 @@ import { colorScheme } from '../src/color-scheme.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/theming.imba'
+import './pages/locale.imba'
 import { repo } from './pages/installation.imba'
 import pkg from '../package.json'
 import './pages/button.imba'
@@ -201,6 +202,7 @@ tag playground
 		...blocks.map do(block)
 			{ label: block.title, description: block.about, href: block.path, icon: block.icon, group: 'Blocks' }
 		{ label: 'Theming', description: 'Tokens and overrides', href: '/theming', icon: 'lucide:palette', group: 'Guides' }
+		{ label: 'Locale', description: 'Language, dates and numbers', href: '/locale', icon: 'lucide:languages', group: 'Guides' }
 		{ label: 'Installation', description: 'Install, configure Vite, import', href: '/installation', icon: 'lucide:download', group: 'Guides' }
 		{ label: 'GitHub', description: 'Source, releases and issues', href: repo, icon: 'mdi:github', group: 'Guides', keywords: ['repo', 'source'] }
 		{ label: 'Toggle sidebar', value: 'sidebar', icon: 'lucide:panel-left', shortcut: '⌘B', group: 'Playground' }
@@ -231,6 +233,7 @@ tag playground
 		for block in blocks
 			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.group }, { label: block.title }] if block.path == router.pathname
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Theming' }] if router.pathname == '/theming'
+		return [{ label: 'Imba UI', href: '/' }, { label: 'Locale' }] if router.pathname == '/locale'
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Installation' }] if router.pathname == '/installation'
 		[{ label: 'Imba UI', href: '/' }, { label: 'Overview' }]
 
@@ -247,6 +250,7 @@ tag playground
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
 					<ui-nav-item icon='lucide:palette' href='/theming' active=(router.pathname == '/theming')> "Theming"
+					<ui-nav-item icon='lucide:languages' href='/locale' active=(router.pathname == '/locale')> "Locale"
 					<ui-nav-item icon='lucide:download' href='/installation' active=(router.pathname == '/installation')> "Installation"
 				<ui-nav-section heading='Components'>
 					for group in groups
@@ -282,6 +286,7 @@ tag playground
 			<ui-page width=pageWidth align=(document.documentElement.dataset.pageAlign or 'center')>
 				<page-home route='/'>
 				<page-theming route='/theming'>
+				<page-locale route='/locale'>
 				<page-installation route='/installation'>
 				<page-block-headings route='/blocks/headings'>
 				<page-block-panels route='/blocks/panels'>

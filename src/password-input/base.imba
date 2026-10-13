@@ -2,6 +2,7 @@ import * as zagPassword from '@zag-js/password-input'
 import { Machine, uid, defined } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless password input with a show/hide button.
 #
@@ -29,6 +30,7 @@ tag ui-password-input-base < ui-control
 	def setup
 		machine = new Machine self, zagPassword.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('passwordInput')
 			ids: fieldIds(self)
 			name: name
 			autoComplete: autocomplete

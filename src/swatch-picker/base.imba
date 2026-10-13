@@ -3,6 +3,7 @@ import { Machine, uid } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 import '../popover/base.imba'
+import { uiLocale } from '../locale.imba'
 
 # The palette by name (Tailwind's 500s): the default swatches, and the CSS
 # colour of a chosen name (`swatches.teal`).
@@ -36,7 +37,7 @@ tag ui-swatch-picker-base < ui-control
 	prop label = null
 	prop size = 'md'
 	prop variant = 'inline'
-	prop placeholder = 'Pick a colour'
+	prop placeholder = null
 	prop name = null
 	prop disabled = false
 
@@ -49,7 +50,7 @@ tag ui-swatch-picker-base < ui-control
 	get list
 		(items or []).map do(item)
 			if typeof item == 'string'
-				{ value: item, color: swatches[item] ?? item, label: item.charAt(0).toUpperCase! + item.slice(1) }
+				{ value: item, color: swatches[item] ?? item, label: uiLocale.messages.swatchPicker.colors[item] ?? (item.charAt(0).toUpperCase! + item.slice(1)) }
 			else
 				item
 
@@ -92,7 +93,7 @@ tag ui-swatch-picker-base < ui-control
 				<{popoverTag} placement='bottom-start' bind=open>
 					<button.trigger slot='trigger' type='button' aria-labelledby=(fieldLabel ? "{fieldLabel} {zagId}-value" : undefined) aria-invalid=(#field..invalid ? 'true' : undefined) disabled=(disabled or #locked)>
 						<span.chip .empty=!chosen style="--swatch: {chosen ? chosen.color : 'transparent'}">
-						<span.value .placeholder=!chosen id="{zagId}-value"> chosen ? (chosen.label ?? chosen.value) : placeholder
+						<span.value .placeholder=!chosen id="{zagId}-value"> chosen ? (chosen.label ?? chosen.value) : (placeholder ?? uiLocale.messages.swatchPicker.placeholder)
 						<span.indicator> <ui-icon path=icons.down size=16>
 					<div.grid zag=describe(Object.assign({}, api.getRootProps!, fieldLabel ? { 'aria-labelledby': fieldLabel } : {}))>
 						<div.items> for swatch in list

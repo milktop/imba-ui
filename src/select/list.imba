@@ -3,6 +3,7 @@ import { Machine, uid } from '../zag.imba'
 import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 import { itemLabel, itemValue, toValueArray } from '../items.imba'
+import { uiLocale } from '../locale.imba'
 
 # ui-select without search: a button that opens the list (Zag's select).
 # ui-select renders it and documents the props.
@@ -17,7 +18,7 @@ tag ui-list-select-base < ui-control
 	prop deselectable = false
 	prop closeOnSelect = null
 	prop placeholder = null
-	prop emptyText = 'No matches'
+	prop emptyText = null
 	prop labelKey = 'label'
 	prop valueKey = 'value'
 	prop disabledKey = 'disabled'
@@ -62,6 +63,7 @@ tag ui-list-select-base < ui-control
 		let initial = toValueArray(data)
 		machine = new Machine self, select.machine, do
 			id: zagId
+			translations: uiLocale.zag('select')
 			collection: #collection
 			multiple: multiple
 			deselectable: deselectable
@@ -135,7 +137,7 @@ tag ui-list-select-base < ui-control
 								<{valueTag} item=picked>
 					else
 						<span.value-text .placeholder=api.empty zag=api.getValueTextProps!>
-							api.empty ? (placeholder ?? 'Select…') : api.valueAsString
+							api.empty ? (placeholder ?? uiLocale.messages.select.placeholder) : api.valueAsString
 					<span.indicator zag=api.getIndicatorProps!> <ui-icon path=icons.down>
 				if clearable
 					<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
@@ -160,4 +162,4 @@ tag ui-list-select-base < ui-control
 							if emptyTag
 								<{emptyTag} query=''>
 							else
-								emptyText
+								emptyText ?? uiLocale.messages.select.empty

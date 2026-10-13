@@ -1,6 +1,7 @@
 import * as zagToast from '@zag-js/toast'
 import { Machine, uid } from '../zag.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Toasts: brief notifications stacked in a corner.
 #
@@ -60,7 +61,7 @@ tag ui-toast-base
 # The region toasts stack in, rendered at the end of <body>.
 tag ui-toaster-base
 	prop store = toaster
-	prop label = 'Notifications'
+	prop label = null
 
 	# The tag for each toast; the styled toaster uses ui-toast.
 	toastTag = 'ui-toast-base'
@@ -79,7 +80,7 @@ tag ui-toaster-base
 
 		<self>
 			<global>
-				<div.group zag=api.getGroupProps(label: label)>
+				<div.group zag=api.getGroupProps(label: label ?? uiLocale.messages.toaster.label)>
 					# Keyed by id, so each toast keeps its element (and machine) as
 					# others come and go.
 					for data, i in api.getToasts!

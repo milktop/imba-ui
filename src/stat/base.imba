@@ -1,6 +1,8 @@
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import { formatNumber } from '../format/base.imba'
 import '../rolling-number/base.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless stat: a headline number with its label, e.g. on a dashboard.
 #
@@ -39,7 +41,7 @@ tag ui-stat-base
 	get good do direction == 'flat' ? null : ((direction == 'up') != !!invert)
 	get changeText do "{change > 0 ? '+' : ''}{change}{changeUnit}"
 	get isNumber do typeof value == 'number' and Number.isFinite(value)
-	get valueText do isNumber ? new Intl.NumberFormat(undefined, format or {}).format(value) : String(value ?? '')
+	get valueText do isNumber ? formatNumber(value, format) : String(value ?? '')
 
 	# The tag of the rolling number; the styled stat uses ui-rolling-number.
 	rollingTag = 'ui-rolling-number-base'
@@ -60,7 +62,7 @@ tag ui-stat-base
 		if change != null or changeLabel
 			<div.footer>
 				if change != null
-					<span.change .good=(good === true) .bad=(good === false) aria-label="{direction == 'up' ? 'Up' : (direction == 'down' ? 'Down' : 'No change')} {changeText}">
+					<span.change .good=(good === true) .bad=(good === false) aria-label="{uiLocale.messages.stat[direction == 'flat' ? 'same' : direction]} {changeText}">
 						<ui-icon path=(direction == 'down' ? icons.trendDown : icons.trendUp) size=14> if direction != 'flat'
 						changeText
 				<span.change-label> changeLabel if changeLabel

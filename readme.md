@@ -17,6 +17,7 @@ code, and some composed screens (blocks).
 | Divider | `<ui-divider>` | A line across or up, with an optional label; solid, dashed or dotted |
 | Prose | `<ui-prose>` | Rich text (an `html` string or children) styled like the editor's content |
 | Highlight | `<ui-highlight>` | Text with the parts matching a `query` marked; named tints or any colour (`$ui-highlight`) |
+| Format | `<ui-format-number>`, `<ui-format-bytes>`, `<ui-format-relative>` | Numbers (currency, percent, compact), sizes and relative times in the app's locale; also `formatNumber`, `formatBytes`, `formatRelative` |
 | Rolling number | `<ui-rolling-number>` | A number whose digits roll to a new value; Intl `format`; still for reduced motion |
 | Card | `<ui-card>` | Surface with heading, description, actions and footer slots; `flush` for edge-to-edge content |
 | Data list | `<ui-data-list>` (+ `<ui-data-item>`) | Labels and values as a `<dl>`: beside or above, plain/divided/card, grid columns, info tooltips |
@@ -259,6 +260,26 @@ commands = [
 - `load` takes an async function(query) for server search; earlier results
   stay while it runs.
 - Bind the open state with `bind=`; the `trigger` slot is optional.
+
+## Locale and words
+
+Dates, numbers and every word a component shows or reads out (placeholders,
+empty states, screen-reader labels, Zag's own) follow one app-wide setting.
+English and French are built in; until it's set, the browser's locale is used.
+
+```imba
+import { uiLocale } from '@milktop/imba-ui/locale'
+
+uiLocale.set('fr-FR')
+# Change a few words, keeping the rest
+uiLocale.set('en-GB', { table: { empty: 'No pupils yet' }, select: { placeholder: 'Choose…' } })
+```
+
+For another language, pass the whole list (start from `en`, exported from the
+same module). Text given to a component (`placeholder`, `emptyText`, `label`)
+wins over the list, and a component's own `locale` prop over the app's.
+`formatNumber`, `formatBytes` and `formatRelative` (and their tags) use the
+same locale.
 
 ## Theming
 

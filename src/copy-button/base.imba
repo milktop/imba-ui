@@ -1,6 +1,7 @@
 import * as zagClipboard from '@zag-js/clipboard'
 import { Machine, uid, defined } from '../zag.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless copy button: copies `value` to the clipboard and shows a tick and
 # "Copied" for `timeout` ms.
@@ -12,8 +13,8 @@ import { icons } from '../icons.imba'
 # Emits `copy` with the value once it is copied.
 tag ui-copy-button-base
 	prop value = ''
-	prop label = 'Copy'
-	prop copiedLabel = 'Copied'
+	prop label = null
+	prop copiedLabel = null
 	prop iconOnly = false
 	prop timeout = 2000
 
@@ -22,6 +23,7 @@ tag ui-copy-button-base
 	def setup
 		machine = new Machine self, zagClipboard.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('clipboard')
 			value: String(value ?? '')
 			timeout: timeout
 			onStatusChange: do(details)
@@ -34,7 +36,7 @@ tag ui-copy-button-base
 	def render
 		machine.watch String(value ?? '')
 		let api = machine.connect(zagClipboard)
-		let text = api.copied ? copiedLabel : label
+		let text = api.copied ? (copiedLabel ?? uiLocale.messages.copyButton.copied) : (label ?? uiLocale.messages.copyButton.copy)
 
 		<self .copied=api.copied>
 			<button.trigger .icon-only=iconOnly zag=api.getTriggerProps! aria-label=(iconOnly ? text : undefined)>

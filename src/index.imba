@@ -1,5 +1,6 @@
 # Everything, styled. Import single components from their own entry points
 # (e.g. '@milktop/imba-ui/date-picker') to keep bundles small.
+import './format/index.imba'
 import './button/index.imba'
 import './copy-button/index.imba'
 import './avatar/index.imba'
@@ -63,3 +64,7 @@ import './fields/index.imba'
 import './app-shell/index.imba'
 import './breadcrumbs/index.imba'
 import './command/index.imba'
+
+export { uiLocale, en, fr } from './locale.imba'
+export { formatNumber, formatBytes, formatRelative } from './format/base.imba'
+export { confirm } from './confirm/index.imba'

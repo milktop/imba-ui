@@ -5,6 +5,7 @@ import { RichImage } from './image.js'
 import { closestField } from '../control.imba'
 import '../popover/base.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless rich text editor on TipTap (ProseMirror): a toolbar over an
 # editable area whose value is HTML.
@@ -201,30 +202,30 @@ tag ui-editor-base < ui-control
 
 		<self .focused=focused .disabled=(disabled or #locked)>
 			if toolbar and !(disabled or #locked)
-				<div.toolbar role='toolbar' aria-label='Formatting'>
+				<div.toolbar role='toolbar' aria-label=uiLocale.messages.editor.toolbar>
 					for name, i in tools
 						if name == '|'
 							<span.divider key="d{i}">
 						elif name == 'link'
 							<ui-popover key='link' placement='bottom-start' bind=linkOpen @openchange=(openLink! if e.detail)>
-								<button.tool slot='trigger' type='button' aria-label='Link' aria-pressed=String(!!editor..isActive('link')) @mousedown.prevent>
+								<button.tool slot='trigger' type='button' aria-label=uiLocale.messages.editor.link aria-pressed=String(!!editor..isActive('link')) @mousedown.prevent>
 									<iconify-icon icon='lucide:link' aria-hidden='true'>
 								<form.link-form @submit.prevent=applyLink>
 									<ui-input.link-input size='sm' icon='lucide:link' placeholder='https://…' bind=linkUrl>
 									<div.link-actions>
-										<ui-button size='sm' variant='ghost' @click=removeLink> "Remove" if editor..isActive('link')
-										<ui-button size='sm' variant='primary' type='submit'> "Apply"
+										<ui-button size='sm' variant='ghost' @click=removeLink> uiLocale.messages.editor.remove if editor..isActive('link')
+										<ui-button size='sm' variant='primary' type='submit'> uiLocale.messages.editor.apply
 						elif name == 'image'
 							if uploadImage
-								<label.tool key='image' aria-label='Image' @mousedown.prevent>
+								<label.tool key='image' aria-label=uiLocale.messages.editor.image @mousedown.prevent>
 									<input.image-input type='file' accept='image/*' multiple @change.stop=pickedImages>
 									<iconify-icon icon='lucide:image' aria-hidden='true'>
 						elif toolDefs[name]
 							let tool = toolDefs[name]
-							<button.tool key=name type='button' aria-label=tool.label aria-pressed=(tool.active ? String(isActive(tool)) : undefined) disabled=!canRun(tool) @mousedown.prevent @click=run(tool)>
+							<button.tool key=name type='button' aria-label=(uiLocale.messages.editor.tools[name] ?? tool.label) aria-pressed=(tool.active ? String(isActive(tool)) : undefined) disabled=!canRun(tool) @mousedown.prevent @click=run(tool)>
 								<iconify-icon icon=tool.icon aria-hidden='true'>
 			<div$content.content style="--min-height: {minHeight}; --max-height: {maxHeight or 'none'}">
 			if uploading
-				<div.uploading> "Uploading…"
+				<div.uploading> uiLocale.messages.editor.uploading
 			if maxLength
 				<div.count .over=(characters >= maxLength)> "{characters} / {maxLength}"

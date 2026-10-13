@@ -1,4 +1,5 @@
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless alert: a message in the page (not a popup; see toast for those).
 #
@@ -28,4 +29,4 @@ tag ui-alert-base
 			<div.description> <slot>
 			<div.actions> <slot name='actions'>
 		if dismissible
-			<button.close type='button' aria-label='Dismiss' @click=emit('dismiss')> <ui-icon path=icons.x size=14>
+			<button.close type='button' aria-label=uiLocale.messages.common.dismiss @click=emit('dismiss')> <ui-icon path=icons.x size=14>

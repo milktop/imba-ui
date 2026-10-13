@@ -1,5 +1,6 @@
 import { Presence } from '../zag.imba'
 import { icons } from '../icons.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless action bar: a small toolbar floating at the bottom of the screen
 # while something is selected, e.g. table rows.
@@ -20,7 +21,7 @@ import { icons } from '../icons.imba'
 tag ui-action-bar-base
 	prop open = false
 	prop closable = true
-	prop label = 'Selection actions'
+	prop label = null
 
 	presence = new Presence(self, 200)
 
@@ -38,9 +39,9 @@ tag ui-action-bar-base
 		<self>
 			<global>
 				<div.positioner>
-					<div.content role='toolbar' aria-label=label zag=presence.keep(hidden: !data, 'data-state': data ? 'open' : 'closed') @animationend=presence.done! @keydown.esc=close>
+					<div.content role='toolbar' aria-label=(label ?? uiLocale.messages.actionBar.label) zag=presence.keep(hidden: !data, 'data-state': data ? 'open' : 'closed') @animationend=presence.done! @keydown.esc=close>
 						<div.selection> <slot name='selection'>
 						<span.separator aria-hidden='true'>
 						<div.actions> <slot>
 						if closable
-							<button.close type='button' aria-label='Close' @click=close> <ui-icon path=icons.x size=14>
+							<button.close type='button' aria-label=uiLocale.messages.common.close @click=close> <ui-icon path=icons.x size=14>

@@ -2,6 +2,7 @@ import * as tree from '@zag-js/tree-view'
 import { Machine, uid, defined } from '../zag.imba'
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless tree view: nested items that open and close, e.g. folders,
 # categories or a clinic's sites and rooms. Arrow keys move through it (←→
@@ -53,6 +54,7 @@ tag ui-tree-view-base
 		let initial = [].concat(data ?? [])
 		machine = new Machine self, tree.machine, do defined({
 			id: zagId
+			translations: uiLocale.zag('treeView')
 			collection: collection
 			selectionMode: selectionMode
 			defaultSelectedValue: initial

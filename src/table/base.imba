@@ -1,6 +1,7 @@
 import { icons } from '../icons.imba'
 import '../checkbox/base.imba'
 import '../skeleton/base.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless data table: rows of objects, laid out by `columns`.
 #
@@ -56,7 +57,7 @@ tag ui-table-base
 	prop manualSort = false
 	prop loading = false
 	prop loadingRows = 5
-	prop emptyText = 'Nothing here yet'
+	prop emptyText = null
 	prop maxHeight = null
 	prop label = null
 	prop size = 'md'
@@ -151,7 +152,7 @@ tag ui-table-base
 						<tr>
 							if selectable
 								<th.select-cell scope='col'>
-									<ui-checkbox label='Select all rows' labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
+									<ui-checkbox label=uiLocale.messages.table.selectAll labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
 							for column in columns
 								<th scope='col' data-align=(column.align or 'start') aria-sort=ariaSort(column) style=(column.width ? "width: {column.width}" : undefined)>
 									if column.sortable
@@ -171,13 +172,13 @@ tag ui-table-base
 						elif !rows.length
 							<tr>
 								<td.empty colSpan=columnCount>
-									<slot name='empty'> <span> emptyText
+									<slot name='empty'> <span> emptyText ?? uiLocale.messages.table.empty
 						else
 							for row in sortedRows
 								<tr key=keyOf(row) .selected=isSelected(row) aria-selected=(selectable ? String(isSelected(row)) : undefined) @click=rowClicked(e, row)>
 									if selectable
 										<td.select-cell>
-											<ui-checkbox label="Select {display(row, columns[0])}" labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
+											<ui-checkbox label=uiLocale.messages.table.selectRow(display(row, columns[0])) labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
 									for column in columns
 										<td data-align=(column.align or 'start')>
 											if column.tag

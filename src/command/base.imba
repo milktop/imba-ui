@@ -3,6 +3,7 @@ import * as listbox from '@zag-js/listbox'
 import { Machine, Presence, uid, defined } from '../zag.imba'
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless command menu (⌘K): a dialog with a search box over a list of
 # commands, filtered as you type.
@@ -34,10 +35,10 @@ export def formatHotkey key = 'k'
 tag ui-command-base
 	prop open = false
 	prop items = []
-	prop label = 'Command menu'
-	prop placeholder = 'Type a command or search…'
-	prop emptyText = 'No results'
-	prop loadingText = 'Searching…'
+	prop label = null
+	prop placeholder = null
+	prop emptyText = null
+	prop loadingText = null
 	prop hotkey = 'k'
 	prop load = null
 	prop debounce = 200
@@ -207,19 +208,19 @@ tag ui-command-base
 				<div.backdrop zag=presence.keep(api.getBackdropProps!)>
 				<div.positioner zag=api.getPositionerProps!>
 					<div.content zag=presence.keep(api.getContentProps!) @animationend=presence.done!>
-						<h2.sr-only zag=api.getTitleProps!> label
+						<h2.sr-only zag=api.getTitleProps!> label ?? uiLocale.messages.command.label
 						<div.root zag=list.getRootProps!>
-							<span.sr-only zag=list.getLabelProps!> label
+							<span.sr-only zag=list.getLabelProps!> label ?? uiLocale.messages.command.label
 							<div.search>
 								<ui-icon.search-icon path=icons.search size=16>
-								<input$input.input type='text' zag=list.getInputProps(autoHighlight: yes) placeholder=placeholder @input=search(e.target.value) @change.stop>
-								<kbd.key.esc> "Esc"
+								<input$input.input type='text' zag=list.getInputProps(autoHighlight: yes) placeholder=(placeholder ?? uiLocale.messages.command.placeholder) @input=search(e.target.value) @change.stop>
+								<kbd.key.esc> uiLocale.messages.command.esc
 							<div$list.list zag=list.getContentProps!>
 								# Earlier results stay while a search runs.
 								if loading and #results.length == 0
-									<div.status> loadingText
+									<div.status> loadingText ?? uiLocale.messages.command.loading
 								elif #results.length == 0
-									<div.status> emptyText
+									<div.status> emptyText ?? uiLocale.messages.command.empty
 								else
 									for group, i in #groups
 										<div.group zag=list.getItemGroupProps(id: "g{i}")>

@@ -1,5 +1,6 @@
 import './list.imba'
 import './search.imba'
+import { uiLocale } from '../locale.imba'
 
 # Headless select: pick from a list. A button that opens it, or, with
 # `searchable`, `load` or `oncreate`, an input you type into to filter it.
@@ -59,12 +60,12 @@ tag ui-select-base < ui-control
 	prop searchable = false
 	prop load = null
 	prop debounce = 200
-	prop loadingText = 'Loading…'
+	prop loadingText = null
 	prop oncreate = null
 	prop deselectable = false
 	prop closeOnSelect = null
 	prop clearable = false
-	prop emptyText = 'No matches'
+	prop emptyText = null
 	prop name = null
 	prop size = 'md'
 	prop quiet = false

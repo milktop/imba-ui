@@ -4,6 +4,7 @@ import { fieldIds } from '../control.imba'
 import { icons } from '../icons.imba'
 import { itemLabel, itemValue, toValueArray } from '../items.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # The key of the "Create …" option, which no item's can match.
 const CREATE = '__ui-select-create__'
@@ -20,8 +21,8 @@ tag ui-search-select-base < ui-control
 	prop hideSelected = false
 	prop closeOnSelect = null
 	prop placeholder = null
-	prop emptyText = 'No matches'
-	prop loadingText = 'Loading…'
+	prop emptyText = null
+	prop loadingText = null
 	prop labelKey = 'label'
 	prop valueKey = 'value'
 	prop disabledKey = 'disabled'
@@ -121,6 +122,7 @@ tag ui-search-select-base < ui-control
 		let initial = toValueArray(data)
 		machine = new Machine self, combobox.machine, do
 			id: zagId
+			translations: uiLocale.zag('combobox')
 			collection: #collection
 			multiple: multiple
 			closeOnSelect: closeOnSelect ?? !multiple
@@ -129,7 +131,7 @@ tag ui-search-select-base < ui-control
 			invalid: !!#field..invalid
 			ids: fieldIds(self)
 			name: name
-			placeholder: placeholder ?? 'Search…'
+			placeholder: placeholder ?? uiLocale.messages.select.searchPlaceholder
 			defaultValue: initial
 			openOnClick: true
 			inputBehavior: 'autohighlight'
@@ -243,9 +245,9 @@ tag ui-search-select-base < ui-control
 									<{valueTag} item=item>
 								else
 									labelOf(item)
-							<button.tag-remove type='button' tabIndex=-1 aria-label="Remove {labelOf(item)}" @click.stop=api.clearValue(keyOf(item))>
+							<button.tag-remove type='button' tabIndex=-1 aria-label=uiLocale.messages.common.remove(labelOf(item)) @click.stop=api.clearValue(keyOf(item))>
 								<ui-icon path=icons.x size=12>
-					<input$input.input zag=describe(api.getInputProps!) placeholder=(tags.length ? '' : (placeholder ?? 'Search…')) @keydown=removeLast(e) @change.stop>
+					<input$input.input zag=describe(api.getInputProps!) placeholder=(tags.length ? '' : (placeholder ?? uiLocale.messages.select.searchPlaceholder)) @keydown=removeLast(e) @change.stop>
 				if clearable
 					<button.clear zag=api.getClearTriggerProps!> <ui-icon path=icons.x size=14>
 				<button.trigger zag=api.getTriggerProps!> <ui-icon path=icons.down>
@@ -263,15 +265,15 @@ tag ui-search-select-base < ui-control
 					if !list.length and !create
 						<li.empty>
 							if loading
-								loadingText
+								loadingText ?? uiLocale.messages.select.loading
 							elif emptyTag
 								<{emptyTag} query=typed>
 							else
-								emptyText
+								emptyText ?? uiLocale.messages.select.empty
 					if create
 						<li.create zag=api.getItemProps(item: create)>
 							if createTag
 								<{createTag} query=create.label>
 							else
 								<iconify-icon icon='lucide:plus' aria-hidden='true'>
-								<span> "Create “{create.label}”"
+								<span> uiLocale.messages.select.create(create.label)

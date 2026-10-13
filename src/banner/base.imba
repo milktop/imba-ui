@@ -1,5 +1,6 @@
 import { icons } from '../icons.imba'
 import 'iconify-icon'
+import { uiLocale } from '../locale.imba'
 
 # Headless banner: a slim, prominent strip for an announcement or a
 # page-wide message, e.g. across the top of the content.
@@ -39,4 +40,4 @@ tag ui-banner-base
 				<div.description> <slot>
 				<div.actions> <slot name='actions'>
 				if dismissible
-					<button.close type='button' aria-label='Dismiss' @click=dismiss> <ui-icon path=icons.x size=14>
+					<button.close type='button' aria-label=uiLocale.messages.common.dismiss @click=dismiss> <ui-icon path=icons.x size=14>
