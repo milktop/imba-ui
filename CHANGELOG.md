@@ -3,6 +3,35 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.13.0 (2026-10-14)
+
+- `ui-appearance`: one button opening light and dark, the accent colour and
+  the sidebar style. `accents` and `sidebars` list what users may choose (the
+  first is the fallback for a saved choice outside them); `dev` offers every
+  one, any colour, a reset and the props to paste for the current choice,
+  with a switch to preview what users get
+- `appearance` (`@milktop/imba-ui/appearance`): the accent and sidebar style,
+  saved like `colorScheme`, with `defaults`, `update`, `load`, `onchange` for
+  saving it per user, `restrict` and `storageKey`. Seven Tailwind accents or
+  any hex colour; eight light-mode sidebar styles (`default`, `neutral`,
+  `neutral-accent`, `soft`, `tint`, `accent`, `dark`, `deep`). The readme has
+  the `<head>` script that paints it before the bundle loads
+- The accent is a scale, `$ui-accent-50` … `-950` (with `$ui-accent-500-text`),
+  and `$ui-accent`, `-soft`, `-soft-text`, `$ui-ring` and `-ring-soft` are
+  steps of it, in light and dark: set the scale to recolour them all
+- New sidebar tokens for coloured sidebars: `$ui-sidebar-text` (the logo,
+  ui-sidebar-user), `-muted` and `-border`
+
+To check when upgrading:
+
+- The default colours are unchanged. Overriding `$ui-accent` and its
+  companions still works; setting the scale instead now recolours dark mode
+  too
+- ui-sidebar-user's text, the sidebar's edge and nested groups' rule now
+  read the new sidebar tokens (by default the same colours as before), and
+  flyouts in the collapsed rail use the page's text colours, so a sidebar
+  coloured through its tokens no longer gives them white text on white
+
 ## 0.12.2 (2026-10-13)
 
 - The sidebar goes over the top bar while it's hovered or focused, so its
