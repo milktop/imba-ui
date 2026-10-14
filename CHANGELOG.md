@@ -3,6 +3,24 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.14.0 (2026-10-14)
+
+To check when upgrading:
+
+- On wide screens an `inset` `ui-app-shell` now scrolls only its page, not
+  the window: the sidebar, top bar and the frame round the page stay put.
+  Code listening for the window's scroll should listen on the shell's
+  `scroller` instead
+
+New:
+
+- `ui-app-shell scroll='page'` scrolls only the page without `inset` too
+  ('window', the default, scrolls the window); phones scroll the window
+  either way
+- A page that scrolls takes focus, so Space, Page Up/Down, Home, End and
+  the arrows scroll it with nothing focused; it prints in full, and is
+  marked `scroll-region` so Inertia resets and restores its scroll
+
 ## 0.13.0 (2026-10-14)
 
 - `ui-appearance`: one button opening light and dark, the accent colour and

@@ -30,6 +30,10 @@ tag ui-app-shell < ui-app-shell-base
 		&.inset >>> [data-ui-page] bg:$ui-canvas mx:3 mb:3 rd:calc($ui-radius + 10px)
 		&.inset.mobile >>> [data-ui-page] mx:2 mb:2
 		&.inset >>> [data-ui-topbar] bdb:none bg:$ui-frame
+		# Only the page scrolls (the page's own styles below); printing lets it
+		# run on.
+		&.page-scroll h:100dvh of:hidden
+			@print h:auto of:visible
 		# The sidebar is grey too, so the white frame (top bar and the gap round
 		# the panel) is a layer of its own; its hover and active items go white.
 		&.inset >>> [data-ui-sidebar] bdr:none bg:$ui-sidebar-bg
@@ -171,6 +175,8 @@ tag ui-topbar < ui-topbar-base
 tag ui-page < ui-page-base
 	css
 		grid-area:main d:block min-width:0 box-sizing:border-box p:4 @md:8
+		&.scrolls min-height:0 ofy:auto overscroll-behavior:contain outline:none
+			@print ofy:visible
 		.inner mx:auto max-width:56rem
 		&[data-align=start] .inner ml:0
 		&[data-width=narrow] .inner max-width:40rem
