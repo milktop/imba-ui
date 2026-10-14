@@ -75,7 +75,8 @@ tag ui-sidebar < ui-sidebar-base
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft
 		.nav d:flex fld:column g:4 flg:1 min-height:0 ofy:auto ofx:hidden px:2 py:2
-		.footer d:flex fld:column g:1 px:2 py:3 fls:0
+		# A faint line above the footer (ui-sidebar-user), like the top bar's
+		.footer d:flex fld:column g:1 px:2 py:3 fls:0 bdt:1px solid $ui-sidebar-divider
 			&:not(:has(*)) d:none
 		&.rail .footer ai:center
 
@@ -109,6 +110,7 @@ tag ui-nav-item < ui-nav-item-base
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 		&.active .link bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text fw:$ui-sidebar-active-weight
+		&.active .icon c:$ui-sidebar-active-icon
 		.icon fs:16px fls:0 w:4 h:4
 		.text flg:1 min-width:0 of:hidden text-overflow:ellipsis transition:opacity 150ms
 		.badge fls:0 min-width:5 h:5 px:1.5 box-sizing:border-box d:inline-flex ai:center jc:center rd:full bg:$ui-accent-soft c:$ui-accent-soft-text fs:xs fw:500
@@ -137,7 +139,7 @@ tag ui-nav-group < ui-nav-group-base
 			# On the white flyout, the plain (not inset) colours again, and the
 			# page's text colours, should the sidebar be coloured.
 			--nav-hover:$ui-sidebar-hover --nav-active:$ui-sidebar-active --nav-active-shadow:$ui-sidebar-active-shadow
-			$ui-sidebar-text:$ui-text $ui-sidebar-muted:$ui-muted $ui-sidebar-border:$ui-border
+			$ui-sidebar-text:$ui-text $ui-sidebar-muted:$ui-muted $ui-sidebar-border:$ui-border $ui-sidebar-divider:$ui-border
 			$ui-sidebar-item-text:$ui-muted $ui-sidebar-hover-text:$ui-text $ui-sidebar-active-text:$ui-text
 			$ui-sidebar-hover:$ui-hover $ui-sidebar-active:$ui-hover $ui-sidebar-active-shadow:none
 		&.rail .flyout-heading d:block px:3 pt:1 pb:1.5 fs:xs fw:600 c:$ui-muted

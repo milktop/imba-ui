@@ -323,9 +323,9 @@ what it styles and its light and dark values.
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
 | `$ui-sidebar-surface`, `-heading`, `-icon`, `-hover-text` | The sidebar's background (outside the inset layout), section headings, its own icon buttons, and hovered text |
-| `$ui-sidebar-text`, `-muted`, `-border` | The sidebar's other text (the logo, ui-sidebar-user) and its muted text, its edge and dividers: for a coloured sidebar |
+| `$ui-sidebar-text`, `-muted`, `-border`, `-divider` | The sidebar's other text (the logo, ui-sidebar-user) and its muted text, its edge and nested groups' rule, and the line above its footer: for a coloured sidebar |
 | `$ui-sidebar-item-height`, `-item-padding`, `-item-radius`, `-item-text` | Sidebar items and group toggles: size, shape and resting text colour |
-| `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`, `-active-weight`, `-active-shadow` | Sidebar items: hovered, and the current page |
+| `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`, `-active-icon`, `-active-weight`, `-active-shadow` | Sidebar items: hovered, and the current page (its icon follows its text unless set) |
 | `$ui-sidebar-inset-hover`, `-inset-active`, `-inset-active-shadow` | The same in an `inset` layout (white items on the grey sidebar) |
 
 ### Dark mode
@@ -369,7 +369,7 @@ in the `<head>`:
 behind one button:
 
 ```imba
-<ui-appearance accents=['teal', 'blue', 'violet'] sidebars=['neutral-accent', 'tint', 'dark']>
+<ui-appearance accents=['teal', 'blue', 'violet'] sidebars=['neutral', 'tint', 'dark']>
 ```
 
 `accents` and `sidebars` are what users may choose (every one if left out), the
@@ -385,20 +385,19 @@ scale worked out in the browser. The sidebar styles are light-mode only:
 | Style | The sidebar | The current page |
 | --- | --- | --- |
 | `default` | As the theme has it | As the theme has it |
-| `neutral` | Grey | A darker grey |
-| `neutral-accent` | Grey | A darker grey, its text in the accent |
+| `neutral` | Grey | A darker grey, its icon in the accent |
 | `soft` | Grey | The accent's soft tint |
 | `tint` | The accent's lightest tint | A deeper tint, its text in the accent |
-| `accent` | The accent (600), white text | Two steps darker (800) |
-| `dark` | The accent's 900, white text | Two steps lighter (700) |
-| `deep` | The accent's 950, white text | Two steps lighter (800) |
+| `accent` | The accent (600), white text | A translucent white, a stronger hover |
+| `dark` | The accent's 900, white text | A translucent white, a stronger hover |
+| `deep` | The accent's 950, white text | A translucent white, a stronger hover |
 
 Set them from code too, for example from a user's saved preference:
 
 ```imba
 import { appearance } from '@milktop/imba-ui/appearance'
 
-appearance.defaults = { accent: 'teal', sidebar: 'neutral-accent' }   # before anything is saved, and for reset
+appearance.defaults = { accent: 'teal', sidebar: 'neutral' }   # before anything is saved, and for reset
 appearance.update accent: 'violet', sidebar: 'dark'
 appearance.load(user.appearance)                # apply a saved one
 appearance.onchange = do(value) save(value)     # { accent, custom, sidebar }
