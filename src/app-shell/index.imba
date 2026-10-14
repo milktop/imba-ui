@@ -50,7 +50,7 @@ tag ui-sidebar < ui-sidebar-base
 		# the top bar, which would otherwise cover those near the top (the
 		# collapse button's tooltip). They're its children, so hovering one
 		# still counts.
-		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-sidebar-surface bdr:1px solid $ui-border fs:sm
+		pos:sticky t:0 zi:35 h:100dvh of:hidden bg:$ui-sidebar-surface c:$ui-sidebar-text bdr:1px solid $ui-sidebar-border fs:sm
 		@hover, @focus-within zi:37
 		&.mobile pos:fixed l:0 t:0 b:0 zi:50 w:min(18rem, 85vw) shadow:$ui-shadow
 			d:none
@@ -91,7 +91,7 @@ tag ui-nav-section < ui-nav-section-base
 		.heading-row d:flex ai:center jc:space-between g:2 h:6 pr:1
 		.heading flg:1 px:3 fs:xs fw:600 c:$ui-sidebar-heading ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
 		.collapse-all d:grid place-items:center w:6 h:6 p:0 bd:none rd:calc($ui-radius - 2px) bg:transparent c:$ui-sidebar-icon fs:14px cursor:pointer o:0.7
-			@hover o:1 c:$ui-text bg:var(--nav-hover, $ui-sidebar-hover)
+			@hover o:1 c:$ui-sidebar-hover-text bg:var(--nav-hover, $ui-sidebar-hover)
 			@focus-visible outline:2px solid $ui-ring-soft
 		.items d:flex fld:column g:0.5
 		&.rail .heading o:0
@@ -120,33 +120,37 @@ tag ui-nav-group < ui-nav-group-base
 		&.flyout .trigger bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow) c:$ui-sidebar-active-text
 		.icon fs:16px fls:0 w:4 h:4
 		.text flg:1 min-width:0 of:hidden text-overflow:ellipsis transition:opacity 150ms
-		.indicator c:$ui-muted transition:transform 200ms, opacity 150ms
+		.indicator c:$ui-sidebar-muted transition:transform 200ms, opacity 150ms
 		&.open .indicator transform:rotate(180deg)
 		&.rail .text, &.rail .indicator o:0
 		# Nested items are indented under the group's label.
-		.panel d:flex fld:column g:0.5 mt:0.5 ml:5 pl:2 bdl:1px solid $ui-border
+		.panel d:flex fld:column g:0.5 mt:0.5 ml:5 pl:2 bdl:1px solid $ui-sidebar-border
 		.flyout-heading d:none
 		# In the rail: a panel beside the toggle. The wrapper's left padding
 		# bridges the gap, so the pointer can cross to it without closing it.
 		&.rail .children pos:fixed t:var(--flyout-top) l:var(--flyout-left) zi:50 pl:2
 		&.rail .panel m:0 p:1.5 min-width:44 bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface shadow:$ui-shadow animation:ui-flyout-in 120ms ease-out
-			# On the white flyout, the plain (not inset) colours again.
+			# On the white flyout, the plain (not inset) colours again, and the
+			# page's text colours, should the sidebar be coloured.
 			--nav-hover:$ui-sidebar-hover --nav-active:$ui-sidebar-active --nav-active-shadow:$ui-sidebar-active-shadow
+			$ui-sidebar-text:$ui-text $ui-sidebar-muted:$ui-muted $ui-sidebar-border:$ui-border
+			$ui-sidebar-item-text:$ui-muted $ui-sidebar-hover-text:$ui-text $ui-sidebar-active-text:$ui-text
+			$ui-sidebar-hover:$ui-hover $ui-sidebar-active:$ui-hover $ui-sidebar-active-shadow:none
 		&.rail .flyout-heading d:block px:3 pt:1 pb:1.5 fs:xs fw:600 c:$ui-muted
 
 tag ui-sidebar-user < ui-sidebar-user-base
 	css
 		d:block w:100%
-		.trigger d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
+		.trigger d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-sidebar-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer
 			@hover bg:var(--nav-hover, $ui-sidebar-hover)
 			@focus-visible outline:2px solid $ui-ring-soft outline-offset:-2px
 			&[aria-expanded=true] bg:var(--nav-active, $ui-sidebar-active) shadow:var(--nav-active-shadow, $ui-sidebar-active-shadow)
 		.avatar fls:0
 		.text d:flex fld:column flg:1 min-width:0 lh:1.3 transition:opacity 150ms
 		.name fw:500 of:hidden text-overflow:ellipsis
-		.description fs:xs c:$ui-muted of:hidden text-overflow:ellipsis
+		.description fs:xs c:$ui-sidebar-muted of:hidden text-overflow:ellipsis
 			&:empty d:none
-		.indicator fls:0 c:$ui-muted fs:14px
+		.indicator fls:0 c:$ui-sidebar-muted fs:14px
 		&.rail .text, &.rail .indicator o:0
 		# As wide as the trigger when it opens upwards (Zag sets
 		# --reference-width), and never narrower than 13rem.

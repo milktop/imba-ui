@@ -56,15 +56,32 @@ global css
 		$ui-hover:#f4f4f5
 		# Loading placeholders: visible on the canvas and on cards alike.
 		$ui-skeleton:#e4e4e7
-		$ui-accent:#2563eb
+		# The accent as an 11-step scale (Tailwind's blue until `appearance`, or
+		# your own CSS, sets another); the accent tokens below are steps of it,
+		# so setting the scale recolours them all, in light and dark.
+		# $ui-accent-500-text is the text that reads on the 500 (dark mode's
+		# accent): white, or the 950 for light accents like teal.
+		$ui-accent-50:#eff6ff
+		$ui-accent-100:#dbeafe
+		$ui-accent-200:#bfdbfe
+		$ui-accent-300:#93c5fd
+		$ui-accent-400:#60a5fa
+		$ui-accent-500:#3b82f6
+		$ui-accent-600:#2563eb
+		$ui-accent-700:#1d4ed8
+		$ui-accent-800:#1e40af
+		$ui-accent-900:#1e3a8a
+		$ui-accent-950:#172554
+		$ui-accent-500-text:white
+		$ui-accent:$ui-accent-600
 		$ui-accent-text:white
-		$ui-accent-soft:#dbeafe
-		$ui-accent-soft-text:#1e40af
+		$ui-accent-soft:$ui-accent-100
+		$ui-accent-soft-text:$ui-accent-800
 		# Selected text, and ui-highlight's marks.
 		$ui-selection:color-mix(in srgb, $ui-accent 24%, transparent)
 		$ui-highlight:color-mix(in srgb, $ui-accent 22%, transparent)
-		$ui-ring:#3b82f6
-		$ui-ring-soft:#3b82f633
+		$ui-ring:$ui-accent-500
+		$ui-ring-soft:color-mix(in srgb, $ui-accent-500 20%, transparent)
 		$ui-danger:#dc2626
 		$ui-success:#16a34a
 		$ui-warning:#d97706
@@ -98,6 +115,11 @@ global css
 		# the item tokens, enough for a coloured sidebar:
 		#   ui-sidebar $ui-sidebar-surface:teal $ui-sidebar-item-text:white …
 		$ui-sidebar-surface:$ui-surface
+		# Its text outside the nav items (the logo, ui-sidebar-user), muted text,
+		# and its edge and dividers: for a coloured sidebar.
+		$ui-sidebar-text:$ui-text
+		$ui-sidebar-muted:$ui-muted
+		$ui-sidebar-border:$ui-border
 		$ui-sidebar-heading:$ui-muted
 		$ui-sidebar-icon:$ui-muted
 		$ui-sidebar-hover-text:$ui-text
@@ -127,13 +149,14 @@ global css
 		$ui-field-border-hover:#4a4a53
 		$ui-hover:#27272d
 		$ui-skeleton:#303036
-		$ui-accent:#3b82f6
-		$ui-accent-soft:#1e3a8a
-		$ui-accent-soft-text:#bfdbfe
+		$ui-accent:$ui-accent-500
+		$ui-accent-text:$ui-accent-500-text
+		$ui-accent-soft:$ui-accent-900
+		$ui-accent-soft-text:$ui-accent-200
 		$ui-selection:color-mix(in srgb, $ui-accent 40%, transparent)
 		$ui-highlight:color-mix(in srgb, $ui-accent 35%, transparent)
-		$ui-ring:#60a5fa
-		$ui-ring-soft:#60a5fa33
+		$ui-ring:$ui-accent-400
+		$ui-ring-soft:color-mix(in srgb, $ui-accent-400 20%, transparent)
 		$ui-danger:#f87171
 		$ui-success:#4ade80
 		$ui-warning:#fbbf24
