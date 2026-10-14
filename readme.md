@@ -213,6 +213,13 @@ while there is an error.
   child tags (submenus, checkbox and radio items too), or give it `items`.
 - `ui-sidebar accordion` keeps one nav group open at a time, and
   `ui-nav-section collapsible` adds a collapse/expand-all button to a section.
+- On wide screens an `inset` shell fills the viewport and only the page
+  scrolls, so the frame round it stays put; `scroll='page'` does the same
+  without `inset` (the default, 'window', scrolls the whole window). Phones
+  scroll the window either way. The page then takes focus, so Space and the
+  arrow keys scroll it straight away, prints in full, and is marked
+  `scroll-region` for Inertia's scroll resets. Listen for scrolling on the
+  shell's `scroller` (the page, or the document's scrolling element).
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.

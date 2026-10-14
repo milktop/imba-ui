@@ -30,6 +30,10 @@ import { uiLocale } from '../locale.imba'
 # - `persist`: a localStorage key to remember the collapsed state
 # - `inset`: the page becomes a rounded panel inset from the edges, with the
 #   sidebar and top bar flat around it
+# - `scroll`: what scrolls on wide screens: 'window' (default) or 'page', where
+#   the shell fills the viewport and only the page scrolls. `inset` always
+#   scrolls the page there. Phones scroll the window either way, so the
+#   browser can hide its toolbars. `scroller` is the element that scrolls.
 #
 # The parts find the shell by walking up the DOM, so they can be subclassed
 # or wrapped freely.
@@ -45,6 +49,7 @@ tag ui-app-shell-base
 	prop persist = null
 	prop breakpoint = 768
 	prop inset = false
+	prop scroll = 'window'
 
 	isUiAppShell = yes
 	drawerOpen = no
@@ -56,6 +61,11 @@ tag ui-app-shell-base
 
 	# The rail only exists on wide screens; on phones the sidebar is a drawer.
 	get rail do collapsed and !mobile
+
+	# Only the page scrolls (see `scroll`).
+	get pageScroll do !mobile and (inset or scroll == 'page')
+	get page do querySelector(':scope > [data-ui-page]')
+	get scroller do (pageScroll and page) or globalThis.document.scrollingElement
 
 	def setup
 		if persist
@@ -78,6 +88,8 @@ tag ui-app-shell-base
 			elif (e.metaKey or e.ctrlKey) and e.key.toLowerCase! == 'b' and !mobile and !e.target.isContentEditable
 				e.preventDefault!
 				toggle!
+			elif pageScroll and !e.defaultPrevented
+				scrollKey(e)
 		globalThis.addEventListener('keydown', #onKey)
 
 	# Re-renders the shell and its parts at once. They were rendered by the app,
@@ -99,6 +111,27 @@ tag ui-app-shell-base
 		#media..removeEventListener('change', #onMedia)
 		globalThis.removeEventListener('keydown', #onKey)
 
+	# The keys that scroll the window do nothing for the page while nothing is
+	# focused, and Chrome ignores them on the page itself (focusable, see
+	# ui-page): they scroll it here, and focus it. Focus inside the page leaves
+	# them to the browser (fields, nested scrollers).
+	def scrollKey e
+		let doc = globalThis.document
+		let el = page
+		return unless el and [null, doc.body, doc.documentElement, el].includes(doc.activeElement)
+		return if e.altKey or e.ctrlKey or e.metaKey
+		let step = el.clientHeight * 0.875
+		let top = {
+			ArrowDown: 40, ArrowUp: -40, PageDown: step, PageUp: -step
+			' ': (e.shiftKey ? -step : step)
+			Home: -el.scrollTop, End: el.scrollHeight
+		}[e.key]
+		return if top == undefined
+		e.preventDefault!
+		el.focus(preventScroll: yes)
+		let still = globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
+		el.scrollBy(top: top, behavior: (still ? 'auto' : 'smooth'))
+
 	# Collapses the sidebar, or on phones opens and closes the drawer.
 	def toggle
 		return (drawerOpen ? closeDrawer! : openDrawer!) if mobile
@@ -118,7 +151,7 @@ tag ui-app-shell-base
 		refresh!
 		#returnFocus..focus!
 
-	<self .rail=rail .mobile=mobile .inset=inset .drawer-open=drawerOpen>
+	<self .rail=rail .mobile=mobile .inset=inset .page-scroll=pageScroll .drawer-open=drawerOpen>
 		<slot>
 		if mobile and drawerOpen
 			<div.backdrop @click=closeDrawer>
@@ -386,13 +419,26 @@ tag ui-topbar-base
 #
 # - `width`: 'narrow', 'default', 'wide' or 'full' (the content's max width)
 # - `align`: 'center' (default) or 'start', where a capped page sits
+#
+# When the shell scrolls the page rather than the window, the page can take
+# focus (so the keyboard scrolls it) and is marked `scroll-region`, so Inertia
+# resets and restores its scroll on visits as it does the window's.
 tag ui-page-base
 	prop heading = null
 	prop description = null
 	prop width = 'default'
 	prop align = 'center'
 
-	<self data-width=width data-align=align data-ui-page>
+	get shell do closestWith(self, 'isUiAppShell')
+	# The shell's own page, not one shown inside it.
+	get scrolls do !!shell..pageScroll and parentElement == shell
+
+	# Set here: Imba would set unknown names on a tag as properties.
+	def rendered
+		toggleAttribute('scroll-region', scrolls)
+		if scrolls then setAttribute('tabindex', '-1') else removeAttribute('tabindex')
+
+	<self .scrolls=scrolls data-width=width data-align=align data-ui-page data-ui-shell-part>
 		<div.inner>
 			if heading or description
 				<header.header>
