@@ -89,17 +89,21 @@ tag ui-sidebar < ui-sidebar-base
 			@hover@after bg:$ui-accent
 		&.rail .edge cursor:e-resize
 
-# The heading fades out in the rail; a divider keeps sections apart.
+# In the rail the heading row shrinks to a divider that keeps sections apart
+# (none above the first), rather than leaving its height as a gap.
 tag ui-nav-section < ui-nav-section-base
 	css
 		d:flex fld:column g:0.5
-		.heading-row d:flex ai:center jc:space-between g:2 h:6 pr:1
+		.heading-row d:flex ai:center jc:space-between g:2 h:6 pr:1 transition:height 150ms, margin 150ms
 		.heading flg:1 px:3 fs:xs fw:600 c:$ui-sidebar-heading ws:nowrap of:hidden d:flex ai:center transition:opacity 150ms
 		.collapse-all d:grid place-items:center w:6 h:6 p:0 bd:none rd:calc($ui-radius - 2px) bg:transparent c:$ui-sidebar-icon fs:14px cursor:pointer o:0.7
 			@hover o:1 c:$ui-sidebar-hover-text bg:var(--nav-hover, $ui-sidebar-hover)
 			@focus-visible outline:2px solid $ui-ring-soft
 		.items d:flex fld:column g:0.5
 		&.rail .heading o:0
+		&.rail .heading-row h:1px mx:2 my:1.5 bg:$ui-sidebar-divider of:hidden
+		&.rail .collapse-all d:none
+		&.rail:first-child .heading-row d:none
 
 # Shared by items and groups: icons stay put as the sidebar narrows, labels
 # fade and are clipped.
@@ -135,7 +139,7 @@ tag ui-nav-group < ui-nav-group-base
 		# In the rail: a panel beside the toggle. The wrapper's left padding
 		# bridges the gap, so the pointer can cross to it without closing it.
 		&.rail .children pos:fixed t:var(--flyout-top) l:var(--flyout-left) zi:50 pl:2
-		&.rail .panel m:0 p:1.5 min-width:44 bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface shadow:$ui-shadow animation:ui-flyout-in 120ms ease-out
+		&.rail .panel m:0 p:1.5 min-width:44 max-height:calc(100vh - 16px) box-sizing:border-box ofy:auto bd:1px solid $ui-border rd:calc($ui-radius + 2px) bg:$ui-surface shadow:$ui-shadow animation:ui-flyout-in 120ms ease-out
 			# On the white flyout, the plain (not inset) colours again, and the
 			# page's text colours, should the sidebar be coloured.
 			--nav-hover:$ui-sidebar-hover --nav-active:$ui-sidebar-active --nav-active-shadow:$ui-sidebar-active-shadow

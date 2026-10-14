@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.14.2 (2026-10-14)
+
+- In the rail, a nav section's heading row becomes a thin divider (from
+  `$ui-sidebar-divider`, none above the first section) instead of leaving
+  its height as an empty gap
+- A nav group's flyout moves up when it would run past the bottom of the
+  window, and scrolls when taller than the window
+
 ## 0.14.1 (2026-10-14)
 
 - Calmer sidebar styles: `neutral` is grey with the current page's icon in
