@@ -56,6 +56,7 @@ import './pages/radio-group.imba'
 import './pages/switch.imba'
 import './pages/segmented.imba'
 import './pages/theme-toggle.imba'
+import './pages/appearance-panel.imba'
 import './pages/fields.imba'
 import './pages/tooltip.imba'
 import './pages/popover.imba'
@@ -133,6 +134,7 @@ const groups = [
 		{ path: '/switch', title: 'Switch', about: 'On/off toggles' }
 		{ path: '/segmented', title: 'Segmented', about: 'A compact row of options' }
 		{ path: '/theme-toggle', title: 'Theme toggle', about: 'Light, dark or the OS setting' }
+		{ path: '/appearance', title: 'Appearance', about: 'Mode, accent and sidebar style' }
 	] }
 	{ title: 'Forms', icon: 'lucide:clipboard-list', pages: [
 		{ path: '/fields', title: 'Fields', about: 'Grid, labels, hints, errors, fieldsets' }
@@ -356,6 +358,7 @@ tag playground
 				<page-switch route='/switch'>
 				<page-segmented route='/segmented'>
 				<page-theme-toggle route='/theme-toggle'>
+				<page-appearance-panel route='/appearance'>
 				<page-fields route='/fields'>
 				<page-tooltip route='/tooltip'>
 				<page-popover route='/popover'>

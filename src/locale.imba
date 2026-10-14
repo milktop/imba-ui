@@ -51,6 +51,12 @@ export const en = {
 	chart: { label: 'Chart', total: 'Total', trend: (do(values) "Trend: {values}") }
 	stat: { up: 'Up', down: 'Down', same: 'No change' }
 	themeToggle: { label: 'Colour scheme', light: 'Light', dark: 'Dark', system: 'System' }
+	appearance: {
+		label: 'Appearance', mode: 'Mode', accent: 'Colour', sidebar: 'Sidebar', lightOnly: 'in light mode'
+		custom: 'Any colour', dev: 'Dev mode', reset: 'Reset'
+		accents: { slate: 'Slate', blue: 'Blue', indigo: 'Indigo', violet: 'Violet', teal: 'Teal', emerald: 'Emerald', rose: 'Rose' }
+		sidebars: { default: 'Default', neutral: 'Grey', 'neutral-accent': 'Neutral', soft: 'Soft', tint: 'Tint', accent: 'Accent', dark: 'Dark', deep: 'Deep' }
+	}
 	fileUpload: {
 		prompt: (do(multiple) "Drop {multiple ? 'files' : 'a file'} here or "), browse: 'browse'
 		reasons: { FILE_INVALID_TYPE: 'Not an accepted file type', FILE_TOO_LARGE: 'Too large', FILE_TOO_SMALL: 'Too small', TOO_MANY_FILES: 'Too many files', FILE_EXISTS: 'Already added' }
@@ -124,6 +130,12 @@ export const fr = {
 	chart: { label: 'Graphique', total: 'Total', trend: (do(values) "Tendance : {values}") }
 	stat: { up: 'Hausse', down: 'Baisse', same: 'Stable' }
 	themeToggle: { label: 'Thème', light: 'Clair', dark: 'Sombre', system: 'Système' }
+	appearance: {
+		label: 'Apparence', mode: 'Mode', accent: 'Couleur', sidebar: 'Barre latérale', lightOnly: 'en mode clair'
+		custom: 'Couleur libre', dev: 'Mode dev', reset: 'Réinitialiser'
+		accents: { slate: 'Ardoise', blue: 'Bleu', indigo: 'Indigo', violet: 'Violet', teal: 'Teal', emerald: 'Émeraude', rose: 'Rose' }
+		sidebars: { default: 'Par défaut', neutral: 'Gris', 'neutral-accent': 'Neutre', soft: 'Doux', tint: 'Teinte', accent: 'Accent', dark: 'Foncé', deep: 'Très foncé' }
+	}
 	fileUpload: {
 		prompt: (do(multiple) "Déposez {multiple ? 'des fichiers' : 'un fichier'} ici ou "), browse: 'parcourez'
 		reasons: { FILE_INVALID_TYPE: 'Type non autorisé', FILE_TOO_LARGE: 'Trop volumineux', FILE_TOO_SMALL: 'Trop petit', TOO_MANY_FILES: 'Trop de fichiers', FILE_EXISTS: 'Déjà ajouté' }

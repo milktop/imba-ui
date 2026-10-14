@@ -58,6 +58,7 @@ code, and some composed screens (blocks).
 | Switch | `<ui-switch>` | On/off toggle; binds `checked` |
 | Segmented | `<ui-segmented>` | Pill of options with a sliding indicator; arrow keys move the selection; icons, `iconOnly` (with tooltips) |
 | Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, a menu or a single toggle button (also just on phones), driving `colorScheme` (saved, follows the OS) |
+| Appearance | `<ui-appearance>` | One button opening light and dark, the accent colour and the sidebar style, driving `colorScheme` and `appearance` (saved); the choices on offer are yours, and a dev mode tries every one |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
 | Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
@@ -83,7 +84,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.12.2
+npm install github:milktop/imba-ui#v0.13.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```
@@ -300,6 +301,7 @@ what it styles and its light and dark values.
 | `$ui-field-bg`, `$ui-field-border`, `$ui-field-border-hover` | Form controls (inputs, selects, checkboxes, the editor): fill, border, border on hover. Light, they follow `$ui-surface` and `$ui-border`; dark, a darker fill and a stronger border |
 | `$ui-field-autofill-bg` | Text inputs the browser autofilled: a faint accent tint in place of the browser's own colour. Set it to `$ui-field-bg` for no tint |
 | `$ui-canvas`, `$ui-sidebar-bg`, `$ui-frame` | The app shell: the page behind cards, the sidebar, the frame round an inset layout |
+| `$ui-accent-50` … `$ui-accent-950`, `$ui-accent-500-text` | The accent as a scale, which the accent and ring tokens are steps of (light: 600, 100, 800, 500; dark: 500, 900, 200, 400), and the text on its 500. Set the scale to recolour them all, in both modes |
 | `$ui-accent`, `$ui-accent-text` | Primary buttons, selections, checked controls; text on them |
 | `$ui-accent-soft`, `$ui-accent-soft-text` | Soft buttons, accent badges, highlighted items |
 | `$ui-ring`, `$ui-ring-soft` | Focus rings and outlines |
@@ -314,6 +316,7 @@ what it styles and its light and dark values.
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
 | `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
 | `$ui-sidebar-surface`, `-heading`, `-icon`, `-hover-text` | The sidebar's background (outside the inset layout), section headings, its own icon buttons, and hovered text |
+| `$ui-sidebar-text`, `-muted`, `-border` | The sidebar's other text (the logo, ui-sidebar-user) and its muted text, its edge and dividers: for a coloured sidebar |
 | `$ui-sidebar-item-height`, `-item-padding`, `-item-radius`, `-item-text` | Sidebar items and group toggles: size, shape and resting text colour |
 | `$ui-sidebar-hover`, `$ui-sidebar-active`, `-active-text`, `-active-weight`, `-active-shadow` | Sidebar items: hovered, and the current page |
 | `$ui-sidebar-inset-hover`, `-inset-active`, `-inset-active-shadow` | The same in an `inset` layout (white items on the grey sidebar) |
@@ -348,6 +351,65 @@ in the `<head>`:
     var d = s === 'dark' || (s === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
     document.documentElement.classList.toggle('dark', d)
     document.documentElement.style.colorScheme = d ? 'dark' : 'light'
+  } catch (e) {}
+</script>
+```
+
+### Accent and sidebar style
+
+`appearance` holds the accent colour and the sidebar style, saved like
+`colorScheme`. `<ui-appearance>` lets people choose them, with light and dark,
+behind one button:
+
+```imba
+<ui-appearance accents=['teal', 'blue', 'violet'] sidebars=['neutral-accent', 'tint', 'dark']>
+```
+
+`accents` and `sidebars` are what users may choose (every one if left out), the
+default first: a saved choice outside them moves to it. While building the app,
+add `dev`: it offers every accent and sidebar style, any colour, a reset, and
+the props to paste for the current choice, and its switch previews what users
+get. Take it off before shipping.
+
+The accents are Tailwind's scales (`slate`, `blue`, `indigo`, `violet`, `teal`,
+`emerald`, `rose`), each 600 taking white text; a custom hex colour gets its
+scale worked out in the browser. The sidebar styles are light-mode only:
+
+| Style | The sidebar | The current page |
+| --- | --- | --- |
+| `default` | As the theme has it | As the theme has it |
+| `neutral` | Grey | A darker grey |
+| `neutral-accent` | Grey | A darker grey, its text in the accent |
+| `soft` | Grey | The accent's soft tint |
+| `tint` | The accent's lightest tint | A deeper tint, its text in the accent |
+| `accent` | The accent (600), white text | Two steps darker (800) |
+| `dark` | The accent's 900, white text | Two steps lighter (700) |
+| `deep` | The accent's 950, white text | Two steps lighter (800) |
+
+Set them from code too, for example from a user's saved preference:
+
+```imba
+import { appearance } from '@milktop/imba-ui/appearance'
+
+appearance.defaults = { accent: 'teal', sidebar: 'neutral-accent' }   # before anything is saved, and for reset
+appearance.update accent: 'violet', sidebar: 'dark'
+appearance.load(user.appearance)                # apply a saved one
+appearance.onchange = do(value) save(value)     # { accent, custom, sidebar }
+```
+
+It sets the `$ui-accent-50` … `-950` scale on `<html>` and the style as
+`data-ui-sidebar-style`, and saves both under `ui-appearance` (set
+`appearance.storageKey` first to change it), scale included, so the `<head>`
+can paint them before your bundle loads, next to the dark mode script:
+
+```html
+<script>
+  try {
+    var a = JSON.parse(localStorage.getItem('ui-appearance') || '{}'), r = document.documentElement
+    if (a.sidebar && a.sidebar !== 'default') r.dataset.uiSidebarStyle = a.sidebar
+    var steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+    if (a.scale) steps.forEach(function (s, i) { r.style.setProperty('--ui-accent-' + s, a.scale[i]) })
+    if (a.scaleText) r.style.setProperty('--ui-accent-500-text', a.scaleText)
   } catch (e) {}
 </script>
 ```

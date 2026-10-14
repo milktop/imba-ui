@@ -3,6 +3,7 @@ import '@fontsource-variable/plus-jakarta-sans'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/dm-sans'
 import { colorScheme } from '../src/color-scheme.imba'
+import { appearance, accents as scaledAccents } from '../src/appearance.imba'
 import { uiLocale } from '../src/locale.imba'
 import { highlightImba } from './demo.imba'
 
@@ -90,12 +91,25 @@ export def appearanceTokens state, dark
 		'ui-sidebar-bg': state.sidebar == 'white' ? '#ffffff' : shade
 	}
 
+let lastAccent = null
+
 export def applyAppearance state
 	let root = document.documentElement
 	let dark = colorScheme.dark
 	let tokens = appearanceTokens(state, dark)
 	# Dark mode only overrides the colours; the rest carry over from light.
 	tokens = { ...appearanceTokens(state, no), ...tokens } if dark
+	# The library's own accents go through `appearance` (its scale recolours
+	# the accent tokens, and ui-appearance shows the same choice); the
+	# playground's extra ones (amber, neutral) set the tokens directly.
+	if scaledAccents[state.accent]
+		for name in ['ui-accent', 'ui-accent-text', 'ui-accent-soft', 'ui-accent-soft-text', 'ui-ring', 'ui-ring-soft']
+			delete tokens[name]
+			root.style.removeProperty("--{name}")
+		# Only when this panel's accent changes, so its other settings leave a
+		# choice made in ui-appearance alone
+		appearance.load(accent: state.accent, custom: null) unless state.accent == lastAccent
+	lastAccent = state.accent
 	root.style.setProperty("--{name}", value) for own name, value of tokens
 	if dark
 		root.style.removeProperty('--ui-canvas')
