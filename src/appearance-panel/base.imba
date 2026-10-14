@@ -15,7 +15,7 @@ const schemeIcons = { system: 'lucide:monitor', light: 'lucide:sun', dark: 'luci
 # Headless appearance panel: light or dark (colorScheme), the accent colour
 # and the sidebar style (appearance), behind one button.
 #
-#   <ui-appearance accents=['teal', 'blue', 'violet'] sidebars=['neutral-accent', 'tint', 'dark']>
+#   <ui-appearance accents=['teal', 'blue', 'violet'] sidebars=['neutral', 'tint', 'dark']>
 #   <ui-appearance dev>
 #
 # - `accents`, `sidebars`: what users may choose, by name (every one if left

@@ -3,6 +3,17 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.14.1 (2026-10-14)
+
+- Calmer sidebar styles: `neutral` is grey with the current page's icon in
+  the accent (new token `$ui-sidebar-active-icon`), and replaces
+  `neutral-accent`, whose name still loads as `neutral`; on `accent`, `dark`
+  and `deep` the current page is a stronger version of the hover in
+  translucent white rather than a pill from the scale
+- A faint line above the sidebar's footer (ui-sidebar-user), like the top
+  bar's, from the new `$ui-sidebar-divider` (set it to `transparent` for
+  none)
+
 ## 0.14.0 (2026-10-14)
 
 To check when upgrading:

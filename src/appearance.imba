@@ -2,7 +2,7 @@
 # ui-appearance) or set in code, saved like colorScheme:
 #
 #   import { appearance } from '@milktop/imba-ui/appearance'
-#   appearance.defaults = { accent: 'teal', sidebar: 'neutral-accent' }
+#   appearance.defaults = { accent: 'teal', sidebar: 'neutral' }
 #   appearance.update accent: 'violet', sidebar: 'dark'
 #   appearance.load(user.appearance)        # a saved choice, e.g. from the server
 #   appearance.onchange = do(value) save(value)
@@ -40,7 +40,10 @@ export const accents = {
 	rose: [['#fff1f2', '#ffe4e6', '#fecdd3', '#fda4af', '#fb7185', '#f43f5e', '#e11d48', '#be123c', '#9f1239', '#881337', '#4c0519'], 'white']
 }
 
-export const sidebarStyles = ['default', 'neutral', 'neutral-accent', 'soft', 'tint', 'accent', 'dark', 'deep']
+export const sidebarStyles = ['default', 'neutral', 'soft', 'tint', 'accent', 'dark', 'deep']
+
+# Old names still accepted, e.g. from a saved choice
+const sidebarAliases = { 'neutral-accent': 'neutral' }
 
 # Lightness and share of the colour's chroma per step, for a custom colour.
 const ramp = [[0.98, 0.15], [0.95, 0.3], [0.9, 0.5], [0.83, 0.7], [0.74, 0.9], [0.65, 1], [0.56, 1], [0.48, 0.9], [0.4, 0.75], [0.33, 0.6], [0.23, 0.45]]
@@ -88,7 +91,8 @@ class Appearance
 		return out unless value
 		out.accent = value.accent if accents[value.accent]
 		out.custom = value.custom if value.custom === null or isHex(value.custom)
-		out.sidebar = value.sidebar if sidebarStyles.includes(value.sidebar)
+		let sidebar = sidebarAliases[value.sidebar] or value.sidebar
+		out.sidebar = sidebar if sidebarStyles.includes(sidebar)
 		out
 
 	def reload
@@ -142,16 +146,15 @@ export const appearance = new Appearance
 # plain one's surface and the inset one's background), in light mode. They're
 # set on the sidebar itself, so they win over tokens set on <html>.
 global css
+	# Grey, the current page's icon in the accent (neutral-accent: the old
+	# name, which a page may still paint before the bundle loads)
 	html.!dark[data-ui-sidebar-style=neutral] [data-ui-sidebar], html.!dark[data-ui-sidebar-style=neutral-accent] [data-ui-sidebar]
 		$ui-sidebar-hover:#eef0f3
 		$ui-sidebar-inset-hover:#eef0f3
 		$ui-sidebar-active:#e6e9ee
 		$ui-sidebar-inset-active:#e6e9ee
 		$ui-sidebar-inset-active-shadow:none
-
-	# The current page's text in the accent
-	html.!dark[data-ui-sidebar-style=neutral-accent] [data-ui-sidebar]
-		$ui-sidebar-active-text:$ui-accent-800
+		$ui-sidebar-active-icon:$ui-accent
 
 	html.!dark[data-ui-sidebar-style=soft] [data-ui-sidebar]
 		$ui-sidebar-hover:$ui-accent-soft
@@ -170,12 +173,12 @@ global css
 		$ui-sidebar-inset-active-shadow:none
 		$ui-sidebar-active-text:$ui-accent-800
 
-	# The coloured ones: white text, translucent white hovers, and the current
-	# page a pill two steps from the sidebar's colour
+	# The coloured ones: white text and translucent white hovers
 	html.!dark[data-ui-sidebar-style=accent] [data-ui-sidebar], html.!dark[data-ui-sidebar-style=dark] [data-ui-sidebar], html.!dark[data-ui-sidebar-style=deep] [data-ui-sidebar]
 		$ui-sidebar-text:white
 		$ui-sidebar-muted:rgba(255,255,255,0.6)
 		$ui-sidebar-border:transparent
+		$ui-sidebar-divider:rgba(255,255,255,0.12)
 		$ui-sidebar-item-text:rgba(255,255,255,0.88)
 		$ui-sidebar-heading:rgba(255,255,255,0.55)
 		$ui-sidebar-icon:rgba(255,255,255,0.7)
@@ -192,19 +195,24 @@ global css
 		$ui-sidebar-item-text:white
 		$ui-sidebar-heading:rgba(255,255,255,0.7)
 		$ui-sidebar-icon:rgba(255,255,255,0.85)
-		$ui-sidebar-hover:rgba(255,255,255,0.14)
-		$ui-sidebar-inset-hover:rgba(255,255,255,0.14)
-		$ui-sidebar-active:$ui-accent-800
-		$ui-sidebar-inset-active:$ui-accent-800
+		# Like the dark ones (below), a little stronger on the lighter colour
+		$ui-sidebar-hover:rgba(255,255,255,0.1)
+		$ui-sidebar-inset-hover:rgba(255,255,255,0.1)
+		$ui-sidebar-active:rgba(255,255,255,0.18)
+		$ui-sidebar-inset-active:rgba(255,255,255,0.18)
+
+	# The dark ones: the current page a stronger version of the hover, so it
+	# stays quiet whatever the accent
+	html.!dark[data-ui-sidebar-style=dark] [data-ui-sidebar], html.!dark[data-ui-sidebar-style=deep] [data-ui-sidebar]
+		$ui-sidebar-hover:rgba(255,255,255,0.06)
+		$ui-sidebar-inset-hover:rgba(255,255,255,0.06)
+		$ui-sidebar-active:rgba(255,255,255,0.12)
+		$ui-sidebar-inset-active:rgba(255,255,255,0.12)
 
 	html.!dark[data-ui-sidebar-style=dark] [data-ui-sidebar]
 		$ui-sidebar-surface:$ui-accent-900
 		$ui-sidebar-bg:$ui-accent-900
-		$ui-sidebar-active:$ui-accent-700
-		$ui-sidebar-inset-active:$ui-accent-700
 
 	html.!dark[data-ui-sidebar-style=deep] [data-ui-sidebar]
 		$ui-sidebar-surface:$ui-accent-950
 		$ui-sidebar-bg:$ui-accent-950
-		$ui-sidebar-active:$ui-accent-800
-		$ui-sidebar-inset-active:$ui-accent-800

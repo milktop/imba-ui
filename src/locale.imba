@@ -55,7 +55,7 @@ export const en = {
 		label: 'Appearance', mode: 'Mode', accent: 'Colour', sidebar: 'Sidebar', lightOnly: 'in light mode'
 		custom: 'Any colour', dev: 'Dev mode', reset: 'Reset'
 		accents: { slate: 'Slate', blue: 'Blue', indigo: 'Indigo', violet: 'Violet', teal: 'Teal', emerald: 'Emerald', rose: 'Rose' }
-		sidebars: { default: 'Default', neutral: 'Grey', 'neutral-accent': 'Neutral', soft: 'Soft', tint: 'Tint', accent: 'Accent', dark: 'Dark', deep: 'Deep' }
+		sidebars: { default: 'Default', neutral: 'Neutral', soft: 'Soft', tint: 'Tint', accent: 'Accent', dark: 'Dark', deep: 'Deep' }
 	}
 	fileUpload: {
 		prompt: (do(multiple) "Drop {multiple ? 'files' : 'a file'} here or "), browse: 'browse'
@@ -134,7 +134,7 @@ export const fr = {
 		label: 'Apparence', mode: 'Mode', accent: 'Couleur', sidebar: 'Barre latérale', lightOnly: 'en mode clair'
 		custom: 'Couleur libre', dev: 'Mode dev', reset: 'Réinitialiser'
 		accents: { slate: 'Ardoise', blue: 'Bleu', indigo: 'Indigo', violet: 'Violet', teal: 'Teal', emerald: 'Émeraude', rose: 'Rose' }
-		sidebars: { default: 'Par défaut', neutral: 'Gris', 'neutral-accent': 'Neutre', soft: 'Doux', tint: 'Teinte', accent: 'Accent', dark: 'Foncé', deep: 'Très foncé' }
+		sidebars: { default: 'Par défaut', neutral: 'Neutre', soft: 'Doux', tint: 'Teinte', accent: 'Accent', dark: 'Foncé', deep: 'Très foncé' }
 	}
 	fileUpload: {
 		prompt: (do(multiple) "Déposez {multiple ? 'des fichiers' : 'un fichier'} ici ou "), browse: 'parcourez'

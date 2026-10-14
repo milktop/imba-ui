@@ -120,6 +120,8 @@ global css
 		$ui-sidebar-text:$ui-text
 		$ui-sidebar-muted:$ui-muted
 		$ui-sidebar-border:$ui-border
+		# The line above its footer
+		$ui-sidebar-divider:$ui-border
 		$ui-sidebar-heading:$ui-muted
 		$ui-sidebar-icon:$ui-muted
 		$ui-sidebar-hover-text:$ui-text
@@ -130,6 +132,8 @@ global css
 		$ui-sidebar-active-text:$ui-text
 		$ui-sidebar-active-weight:500
 		$ui-sidebar-active-shadow:none
+		# The current page's icon (its text colour by default)
+		$ui-sidebar-active-icon:currentColor
 		$ui-sidebar-inset-hover:color-mix(in srgb, $ui-surface 75%, transparent)
 		$ui-sidebar-inset-active:$ui-surface
 		$ui-sidebar-inset-active-shadow:0 1px 2px rgba(0,0,0,0.06)
