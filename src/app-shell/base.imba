@@ -323,6 +323,10 @@ tag ui-nav-group-base
 		style.setProperty('--flyout-top', "{box.top}px")
 		style.setProperty('--flyout-left', "{box.right}px")
 		flyout = yes
+		# Moved up when it would run past the bottom of the window.
+		render!
+		let top = Math.max(8, Math.min(box.top, window.innerHeight - $children.offsetHeight - 8))
+		style.setProperty('--flyout-top', "{top}px")
 
 	def hideFlyout
 		flyout = no
@@ -354,7 +358,7 @@ tag ui-nav-group-base
 			<iconify-icon.icon icon=icon aria-hidden='true'> if icon
 			<span.text> label
 			<ui-icon.indicator path=icons.down size=14>
-		<div.children hidden=(rail ? !flyout : !data) @click=(hideFlyout! if e.target.closest('a'))>
+		<div$children.children hidden=(rail ? !flyout : !data) @click=(hideFlyout! if e.target.closest('a'))>
 			<div.panel>
 				<div.flyout-heading aria-hidden='true'> label
 				<slot>
