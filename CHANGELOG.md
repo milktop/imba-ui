@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.14.3 (2026-10-14)
+
+- In dark mode the sidebar's hovered item is 5% white and the current page
+  9% white, with no shadow, in both layouts, in place of the grey hover and
+  the surface-coloured pill: calmer, and like the light sidebar styles
+
 ## 0.14.2 (2026-10-14)
 
 - In the rail, a nav section's heading row becomes a thin divider (from

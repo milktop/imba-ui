@@ -171,3 +171,10 @@ global css
 		$ui-shadow:0 10px 30px -10px rgba(0,0,0,0.6)
 		# Shadows don't read on dark; borders do the work.
 		$ui-card-shadow:none
+		# The sidebar's hovered and current items: translucent white, the
+		# current one a stronger hover, in both layouts
+		$ui-sidebar-hover:rgba(255,255,255,0.05)
+		$ui-sidebar-active:rgba(255,255,255,0.09)
+		$ui-sidebar-inset-hover:rgba(255,255,255,0.05)
+		$ui-sidebar-inset-active:rgba(255,255,255,0.09)
+		$ui-sidebar-inset-active-shadow:none
