@@ -45,6 +45,10 @@ def closestMenu el do closestWith(el, 'isUiMenu')
 #   `{ type, name, value, checked }`
 # - `placement`: 'bottom-start' (default), 'bottom-end', …
 # - `label`: a small label above the items, styled like a group heading
+# - `indicator`: where checkbox and radio items show they're checked: 'end'
+#   (default; a tick after the label, so labels line up with the other
+#   items) or 'start' (a tick, or a dot for radios, before it); submenus
+#   follow their menu's unless they set one
 # - `keepOpen`: stay open after an item is chosen (e.g. to tick several
 #   checkboxes); an item's own `keepOpen` (entry or prop) overrides it, and
 #   submenus follow their menu's unless they set one
@@ -64,6 +68,7 @@ tag ui-menu-base
 	prop placement = 'bottom-start'
 	prop label = null
 	prop keepOpen = null
+	prop indicator = null
 
 	isUiMenu = yes
 	isSubmenu = no
@@ -77,6 +82,7 @@ tag ui-menu-base
 	get api do machine.connect(zagMenu)
 	get parentMenu do null
 	get keepsOpen do keepOpen ?? parentMenu..keepsOpen ?? no
+	get indicatorSide do indicator ?? parentMenu..indicatorSide ?? 'end'
 	get linkElement do linkTag or parentMenu..linkElement or 'a'
 	get trigger do $triggerSlot..firstElementChild
 
@@ -168,7 +174,7 @@ tag ui-menu-base
 			else
 				<span$triggerSlot.trigger-slot> <slot name='trigger'>
 			<div.positioner zag=api.getPositionerProps!>
-				<div.content zag=presence.keep(api.getContentProps!) @animationend.self=presence.done!>
+				<div.content data-indicator=indicatorSide zag=presence.keep(api.getContentProps!) @animationend.self=presence.done!>
 					if label and !isSubmenu
 						<div.group-label.menu-label> label
 					for item in items
@@ -180,7 +186,7 @@ tag ui-menu-base
 							<div.item .danger=!!item.danger zag=api.getOptionItemProps(optionProps(item))>
 								<span.indicator>
 									<span.mark.{item.type} zag=api.getItemIndicatorProps(optionProps(item))>
-										if item.type === 'checkbox'
+										if item.type === 'checkbox' or indicatorSide === 'end'
 											<iconify-icon icon='lucide:check' aria-hidden='true'>
 								if item.icon
 									<iconify-icon.icon icon=item.icon aria-hidden='true'>
@@ -287,7 +293,7 @@ tag ui-menu-item-base
 				if optionType
 					<span.indicator>
 						<span.mark.{optionType} zag=(api ? api.getItemIndicatorProps(optionProps!) : undefined)>
-							if optionType === 'checkbox'
+							if optionType === 'checkbox' or menu..indicatorSide === 'end'
 								<iconify-icon icon='lucide:check' aria-hidden='true'>
 				if icon
 					<iconify-icon.icon icon=icon aria-hidden='true'>
