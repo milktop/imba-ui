@@ -34,6 +34,10 @@ tag ui-button < ui-button-base
 		&.link h:auto px:0 bg:transparent bc:transparent c:$ui-accent
 			@hover bg:transparent td:underline
 			@active y:0
+		# Looks like an input: for a button that opens a search or a picker.
+		&.field jc:flex-start px:3 bg:$ui-field-bg bc:$ui-field-border c:$ui-muted fw:400
+			@hover bg:$ui-field-bg bc:$ui-field-border-hover
+			@active y:0
 
 		&.sm h:$ui-control-height-sm px:2.5 fs:xs g:1.5
 		&.lg h:$ui-control-height-lg px:5 fs:md

@@ -44,7 +44,7 @@ export const en = {
 		unavailable: 'That date isn’t available'
 	}
 	swatchPicker: { placeholder: 'Pick a colour', colors: Object.fromEntries(swatchNames.map(do [$1, capital($1)])) }
-	command: { label: 'Command menu', placeholder: 'Type a command or search…', empty: 'No results', loading: 'Searching…', esc: 'Esc' }
+	command: { label: 'Command menu', search: 'Search…', placeholder: 'Type a command or search…', empty: 'No results', loading: 'Searching…', esc: 'Esc' }
 	toaster: { label: 'Notifications' }
 	actionBar: { label: 'Selection actions' }
 	spinner: { label: 'Loading' }
@@ -123,7 +123,7 @@ export const fr = {
 			purple: 'Pourpre', fuchsia: 'Fuchsia', pink: 'Rose', rose: 'Rose vif'
 		}
 	}
-	command: { label: 'Menu de commandes', placeholder: 'Tapez une commande ou recherchez…', empty: 'Aucun résultat', loading: 'Recherche…', esc: 'Échap' }
+	command: { label: 'Menu de commandes', search: 'Rechercher…', placeholder: 'Tapez une commande ou recherchez…', empty: 'Aucun résultat', loading: 'Recherche…', esc: 'Échap' }
 	toaster: { label: 'Notifications' }
 	actionBar: { label: 'Actions sur la sélection' }
 	spinner: { label: 'Chargement' }

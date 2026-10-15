@@ -3,7 +3,8 @@ import 'iconify-icon'
 # aria-label, type, disabled, form attributes and events work natively, and
 # tooltips and popovers can use it as their trigger.
 #
-# - `variant`: 'default', 'primary', 'danger' or 'ghost' (styling hooks)
+# - `variant`: 'default', 'primary', 'soft', 'danger', 'ghost', 'link' or
+#   'field' (looks like an input, for buttons that open a picker or search)
 # - `size`: 'sm', 'md' (matching the inputs' height) or 'lg'
 # - `icon`, `iconEnd`: Iconify names; with no text it is an icon button, so
 #   give it an aria-label

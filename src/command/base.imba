@@ -9,11 +9,12 @@ import { uiLocale } from '../locale.imba'
 # commands, filtered as you type.
 #
 #   <ui-command items=commands @select=run(e.detail)>
-#     <ui-button slot='trigger' icon='lucide:search'> 'Search'
+#     <ui-command-trigger slot='trigger'>
 #
 # ⌘K (Ctrl+K elsewhere) opens and closes it; ↑/↓ move through the results,
-# Enter picks one, Escape closes it. The `trigger` slot is optional; bind the
-# open state with `bind=` (or `bind:open=`) instead.
+# Enter picks one, Escape closes it. The `trigger` slot takes any button:
+# ui-command-trigger is a search box showing the shortcut. It's optional;
+# bind the open state with `bind=` (or `bind:open=`) instead.
 #
 # - `items`: objects with `label`, plus optional `value`, `group` (a heading
 #   the item is listed under), `icon` (Iconify), `description`, `shortcut`
@@ -58,6 +59,8 @@ tag ui-command-base
 	get data do open
 	set data v do open = v
 
+	# How a ui-command-trigger finds its menu.
+	get isUiCommand do yes
 	get trigger do $triggerSlot..firstElementChild
 	# The shortcut as it reads here ('⌘K'), for a trigger's hint.
 	get hotkeyText do hotkey ? formatHotkey(hotkey) : null

@@ -9,7 +9,7 @@ code, and some composed screens (blocks).
 
 | Component | Tag | Notes |
 | --- | --- | --- |
-| Button | `<ui-button>` | A real `<button>`: variants, sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
+| Button | `<ui-button>` | A real `<button>`: variants (`field` looks like an input, for pickers), sizes, Iconify icons, icon-only (square, or `round`), loading, a `count` badge or `dot` |
 | Copy button | `<ui-copy-button>` | Copies a value, shows a tick; fits an input's suffix slot |
 | Avatar | `<ui-avatar>` | Image with initials (or icon) fallback, sizes, circle or square, colours (or one picked from the name), a `status` dot |
 | Badge | `<ui-badge>` | Status labels: neutral, accent, success, warning, danger, outline; `removable` tags that emit `remove` |
@@ -74,7 +74,7 @@ code, and some composed screens (blocks).
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
 | Breadcrumbs | `<ui-breadcrumbs>` (+ `<ui-breadcrumb>`) | Trail from `items` or markup; icons, custom separator; middle crumbs fold into a … popover past `max` or when they don't fit |
-| Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load`; emits `select` |
+| Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load`; emits `select`. `<ui-command-trigger>` is a search box that opens it, showing its shortcut |
 | App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-sidebar-user>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
 
 ## Install
@@ -254,7 +254,7 @@ you type (every word must appear in the label, description, group or
 
 ```imba
 <ui-command items=commands @select=run(e.detail)>
-	<button slot='trigger'> "Search"
+	<ui-command-trigger slot='trigger'>
 
 commands = [
 	{ label: 'Students', href: '/students', icon: 'lucide:users', group: 'Pages' }
@@ -270,6 +270,11 @@ commands = [
 - `load` takes an async function(query) for server search; earlier results
   stay while it runs.
 - Bind the open state with `bind=`; the `trigger` slot is optional.
+- `ui-command-trigger` is a search box for the `trigger` slot: a `field`
+  button with a search icon, "Search…" (or your own text) and the menu's
+  shortcut, hidden on small screens. It takes `icon`, `variant`, `size` and
+  `shortcut` (null for none). It's a real `<button is='ui-command-trigger'>`,
+  so style it by class rather than by tag name.
 
 ## Locale and words
 
