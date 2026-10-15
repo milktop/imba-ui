@@ -66,7 +66,7 @@ code, and some composed screens (blocks).
 | Confirm | `confirm(options)` | Await a yes or no from anywhere: danger, type-to-confirm, async `onConfirm` (the button spins; errors show in the dialog), queued calls |
 | Sheet | `<ui-sheet>` | Panel sliding in from any edge (`side`), sized sm/md/lg; a modal dialog underneath, with scrolling body and pinned footer |
 | Action bar | `<ui-action-bar>` | Floating toolbar at the bottom while something is selected: count, actions, close; not modal |
-| Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups, separators and nested submenus, links and checkbox/radio items, from `items` or child tags (`ui-menu-item`, `ui-menu-group`, `ui-menu-separator`, `ui-submenu`, `ui-menu-checkbox`, `ui-menu-radio-group`); emits `select` and `change` |
+| Menu | `<ui-menu>` | Dropdown of actions with icons, shortcuts, a label, groups, separators and nested submenus, links and checkbox/radio items (ticked after the label; `indicator='start'` puts the mark before it), from `items` or child tags (`ui-menu-item`, `ui-menu-group`, `ui-menu-separator`, `ui-submenu`, `ui-menu-checkbox`, `ui-menu-radio-group`); emits `select` and `change` |
 | Context menu | `<ui-context-menu>` | ui-menu opened by right-click or long-press on its area, at the pointer |
 | Toast | `<ui-toaster>` + `toaster` | Notifications stacked in a corner: success/error/warning/info/loading, actions, pause on hover |
 | Tabs | `<ui-tabs>` + `<ui-tab>` | Panels with a tab list built from their labels; line or pills |
@@ -84,7 +84,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.15.0
+npm install github:milktop/imba-ui#v0.16.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```

@@ -173,10 +173,10 @@ tag page-menu
 					<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "View"
 				<div.out>
 					<json-print data={ changed }>
-					<p.note> 'Entries with `type: "checkbox"` or `type: "radio"` (one checked per `name`). The menu updates their `checked` and emits `change` with `{ type, name, value, checked }`; `keepOpen` keeps it open while you tick several.'
+					<p.note> 'Entries with `type: "checkbox"` or `type: "radio"` (one checked per `name`). The menu updates their `checked` and emits `change` with `{ type, name, value, checked }`; `keepOpen` keeps it open while you tick several. A tick after the label marks checked items, so every label lines up.'
 
 			<demo-section heading='Checkbox and radio items as child tags'>
-				<ui-menu>
+				<ui-menu indicator='start'>
 					<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "View"
 					<ui-menu-checkbox bind=showGrid keepOpen> "Show grid"
 					<ui-menu-checkbox bind=showRulers shortcut='⌘R' keepOpen> "Show rulers"
@@ -187,7 +187,7 @@ tag page-menu
 						<ui-menu-radio value='size'> "Size"
 				<div.out>
 					<json-print data={ showGrid: showGrid, showRulers: showRulers, sort: sort }>
-					<p.note> "ui-menu-checkbox and ui-menu-radio-group take `bind=` (or `checked` and `value` with `@change`). Here only the checkboxes have `keepOpen`, so picking a sort order closes the menu."
+					<p.note> "ui-menu-checkbox and ui-menu-radio-group take `bind=` (or `checked` and `value` with `@change`). Here only the checkboxes have `keepOpen`, so picking a sort order closes the menu. This one has `indicator='start'`, which puts the ticks and dots before the labels instead of after them."
 
 			<demo-section heading='Context menu' uses='actions'>
 				<p.note> "ui-context-menu opens the same menu at the pointer when you right-click (or long-press) its area. It takes `items`, child tags and submenus like ui-menu."

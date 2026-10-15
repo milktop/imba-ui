@@ -35,6 +35,10 @@ global css
 		# Checked marks in the accent: a tick, and a dot in a soft halo.
 		.mark.checkbox d:block w:14px h:14px fs:14px c:$ui-accent
 		.mark.radio d:block w:6px h:6px rd:full bg:$ui-accent box-shadow:0 0 0 3px $ui-accent-soft
+		# indicator='end' (the default): a tick after the label and any shortcut,
+		# for radios too.
+		&[data-indicator=end] .item > .indicator order:1
+			.mark.radio w:14px h:14px fs:14px rd:0 bg:transparent box-shadow:none c:$ui-accent
 		.item > .chevron d:block w:14px h:14px fs:14px ml:auto c:$ui-muted
 		.separator d:block h:1px my:1 mx:-1 bg:$ui-border
 		.group-label px:2 pt:2 pb:1 fs:xs fw:500 c:$ui-muted

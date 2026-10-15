@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.16.0 (2026-10-15)
+
+- Menus mark checked checkbox and radio items with a tick after the label
+  (and any shortcut), in place of a tick or dot before it, so their labels
+  line up with the other items. `indicator='start'` on ui-menu or a
+  submenu brings the old marks back. ui-theme-toggle's menu follows
+
 ## 0.15.0 (2026-10-15)
 
 - `ui-command-trigger`: a search box for ui-command's `trigger` slot, with a
