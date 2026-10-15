@@ -341,7 +341,8 @@ tag ui-event-calendar-base
 		let from = minutesOfDay(start)
 		let to = from + minutesBetween(start, parseLocal(event.end))
 		let latest = Math.max(0, endHour * 60 - to)
-		let earliest = kind == 'move' ? Math.min(0, startHour * 60 - from) : -Infinity
+		# A move stays after the first hour; a resize keeps at least a slot.
+		let earliest = kind == 'move' ? Math.min(0, startHour * 60 - from) : Math.min(0, slotMinutes - (to - from))
 		Math.max(earliest, Math.min(latest, byMinutes))
 
 	# Where a pinned event placed at `minute` starts: on a slot, ending by the last hour.

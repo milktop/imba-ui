@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.16.1 (2026-10-15)
+
+- `ui-event-calendar`: resizing an event upward stops once it is one slot
+  long, instead of the preview shrinking past its start (the drop was
+  refused anyway); Shift+↑ stops there too
+
 ## 0.16.0 (2026-10-15)
 
 - Menus mark checked checkbox and radio items with a tick after the label
