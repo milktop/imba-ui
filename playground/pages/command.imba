@@ -33,6 +33,16 @@ tag page-command
 				<div.out>
 					<json-print data={ picked }>
 
+			<demo-section heading='Search box trigger'>
+				<p.note> "ui-command-trigger is a `field` button with a search icon and the menu's shortcut (hidden on small screens). Give it your own text, `icon` or `variant`; `shortcut=null` hides the hint."
+				<div.row>
+					<ui-command items=actions hotkey='j' @select=(picked = e.detail)>
+						<ui-command-trigger slot='trigger' [w:64]>
+					<ui-command items=actions hotkey=null @select=(picked = e.detail)>
+						<ui-command-trigger slot='trigger' variant='ghost' icon='lucide:terminal'> "Lesson actions"
+				<div.out>
+					<json-print data={ picked }>
+
 			<demo-section heading='Opened from code'>
 				<ui-command items=actions hotkey=null bind=open @select=(picked = e.detail)>
 				<ui-button @click=(open = yes)> "Open it"

@@ -192,11 +192,8 @@ tag playground
 		# The version, as a quiet pill after the name.
 		.version px:1.5 py:0.5 rd:full bg:$ui-hover c:$ui-muted fs:11px fw:500 lh:1 font-variant-numeric:tabular-nums
 		# The ⌘K trigger: a search box on wide screens, an icon on phones.
-		.search d:flex ai:center g:2 h:8 pl:2.5 pr:2.5 @md:1.5 w:auto @md:56 box-sizing:border-box bd:1px solid $ui-border rd:$ui-radius bg:$ui-surface c:$ui-muted ff:inherit fs:sm cursor:pointer
-			@hover c:$ui-text bc:$ui-muted
-			@focus-visible outline:2px solid $ui-ring-soft
-			.search-text d:none @md:block flg:1 ta:left
-			kbd d:none @md:inline-flex ai:center h:5 px:1.5 bd:1px solid $ui-border rd:sm bg:$ui-hover ff:inherit fs:11px
+		.search w:auto @md:56 px:2.5 @md:3
+			>>> .text d:none @md:block
 		.github d:inline-flex ai:center jc:center w:$ui-control-height-sm h:$ui-control-height-sm rd:$ui-radius c:$ui-muted fs:lg
 			@hover c:$ui-text bg:$ui-hover
 			@focus-visible outline:2px solid $ui-ring-soft
@@ -286,10 +283,7 @@ tag playground
 				<ui-breadcrumbs items=trail>
 				<div slot='end'>
 					<ui-command$command items=commands @select=run(e.detail)>
-						<button.search slot='trigger' type='button'>
-							<iconify-icon icon='lucide:search' aria-hidden='true'>
-							<span.search-text> "Search"
-							<kbd> $command..hotkeyText
+						<ui-command-trigger.search slot='trigger' size='sm' aria-label='Search'>
 					<a.github href=repo target='_blank' rel='noopener' aria-label='GitHub repository'>
 						<iconify-icon icon='mdi:github' aria-hidden='true'>
 					<appearance-panel>

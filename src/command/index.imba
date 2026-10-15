@@ -1,5 +1,6 @@
 import '../theme.imba'
 import './base.imba'
+import './trigger.imba'
 
 global css
 	@keyframes ui-command-fade-in

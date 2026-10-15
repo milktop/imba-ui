@@ -24,6 +24,7 @@ tag page-button
 					<ui-button variant='danger' @click=(clicks++)> "Delete"
 					<ui-button variant='ghost' @click=(clicks++)> "Ghost"
 					<ui-button variant='link' @click=(clicks++)> "Forgot password?"
+					<ui-button variant='field' icon='lucide:calendar' @click=(clicks++)> "Pick a date"
 				<div.out>
 					<json-print data={ clicks }>
 
