@@ -3,6 +3,16 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.15.0 (2026-10-15)
+
+- `ui-command-trigger`: a search box for ui-command's `trigger` slot, with a
+  search icon, "Search…" in the app's locale (or your own text) and the
+  menu's shortcut, which it reads from the menu and hides on small screens;
+  takes `icon`, `variant`, `size` and `shortcut` (null for none)
+- `ui-button` has a `field` variant that looks like an input, for buttons
+  that open a search or a picker
+- New locale word `command.search`
+
 ## 0.14.3 (2026-10-14)
 
 - In dark mode the sidebar's hovered item is 5% white and the current page
