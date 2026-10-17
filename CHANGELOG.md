@@ -3,6 +3,17 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.17.0 (2026-10-17)
+
+- Menus: `indicator='highlight'` shows a checked checkbox or radio item by
+  tinting its row in the accent's soft colour, with no tick (set
+  `$ui-menu-checked-bg` and `$ui-menu-checked-text` for another).
+  `indicator` can now be set on ui-menu-group, ui-menu-radio-group, single
+  items and `items` entries too, not just on the menu
+- Menu items have an `end` slot for a count or the like after the label
+  (`<ui-badge slot='end'> 34`); it isn't part of the label's text, so
+  typeahead still matches the label
+
 ## 0.16.1 (2026-10-15)
 
 - `ui-event-calendar`: resizing an event upward stops once it is one slot

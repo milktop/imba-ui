@@ -65,6 +65,13 @@ tag page-menu
 	showGrid = yes
 	showRulers = no
 	sort = 'name'
+	status = 'all'
+	statuses = [
+		{ value: 'all', label: 'All', count: 100 }
+		{ value: 'due', label: 'Due', count: 34 }
+		{ value: 'overdue', label: 'Overdue', count: 0 }
+		{ value: 'paid', label: 'Paid', count: 66 }
+	]
 
 	css
 		.area d:grid place-items:center h:32 w:100% bd:1px dashed $ui-border rd:$ui-radius c:$ui-muted fs:sm user-select:none
@@ -188,6 +195,18 @@ tag page-menu
 				<div.out>
 					<json-print data={ showGrid: showGrid, showRulers: showRulers, sort: sort }>
 					<p.note> "ui-menu-checkbox and ui-menu-radio-group take `bind=` (or `checked` and `value` with `@change`). Here only the checkboxes have `keepOpen`, so picking a sort order closes the menu. This one has `indicator='start'`, which puts the ticks and dots before the labels instead of after them."
+
+			<demo-section heading='Highlighted, with counts' uses='statuses'>
+				<ui-menu placement='bottom-end'>
+					<ui-button slot='trigger' iconEnd='lucide:chevron-down'> "Status"
+					<ui-menu-radio-group bind=status label='Status' indicator='highlight'>
+						for s in statuses
+							<ui-menu-radio value=s.value>
+								s.label
+								<ui-badge slot='end'> s.count
+				<div.out>
+					<json-print data={ status: status }>
+					<p.note> "`indicator='highlight'` drops the tick and tints the checked row in the accent's soft colour (set `$ui-menu-checked-bg` and `$ui-menu-checked-text` for another). It works on a menu, a group or one item. The `end` slot puts a count (or anything) after the label, outside the label's text, so typing still jumps by name."
 
 			<demo-section heading='Context menu' uses='actions'>
 				<p.note> "ui-context-menu opens the same menu at the pointer when you right-click (or long-press) its area. It takes `items`, child tags and submenus like ui-menu."

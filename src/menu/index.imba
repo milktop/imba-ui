@@ -30,6 +30,9 @@ global css
 		.item > .icon d:block w:15px h:15px fs:15px c:$ui-muted fls:0
 		.item.danger > .icon c:inherit
 		.item > .label fl:1
+		# The `end` slot: a count or the like, after the label.
+		.item > .end d:flex ai:center g:1 ml:2 c:$ui-muted fs:xs
+			&:empty d:none
 		.item > .shortcut ml:4 c:$ui-muted fs:11px ff:inherit
 		.item > .indicator d:grid place-items:center w:15px h:15px fls:0
 		# Checked marks in the accent: a tick, and a dot in a soft halo.
@@ -37,8 +40,13 @@ global css
 		.mark.radio d:block w:6px h:6px rd:full bg:$ui-accent box-shadow:0 0 0 3px $ui-accent-soft
 		# indicator='end' (the default): a tick after the label and any shortcut,
 		# for radios too.
-		&[data-indicator=end] .item > .indicator order:1
+		.item[data-indicator=end] > .indicator order:1
 			.mark.radio w:14px h:14px fs:14px rd:0 bg:transparent box-shadow:none c:$ui-accent
+		# indicator='highlight': no mark, the checked row is tinted instead.
+		# $ui-menu-checked-bg/-text (set on the menu or any parent) override the
+		# accent's soft tint.
+		.item[data-indicator=highlight][data-state=checked] fw:500
+			bg:var(--ui-menu-checked-bg, $ui-accent-soft) c:var(--ui-menu-checked-text, $ui-accent-soft-text)
 		.item > .chevron d:block w:14px h:14px fs:14px ml:auto c:$ui-muted
 		.separator d:block h:1px my:1 mx:-1 bg:$ui-border
 		.group-label px:2 pt:2 pb:1 fs:xs fw:500 c:$ui-muted

@@ -12,6 +12,16 @@ def closestWith el, flag
 
 def closestMenu el do closestWith(el, 'isUiMenu')
 
+# How a checkbox or radio item shows it's checked: its own `indicator`, else
+# its group's, else its menu's.
+def optionIndicator el
+	return el.indicator if el.indicator
+	let node = el.parentElement
+	until !node or node.isUiMenu
+		return node.indicator if node.isUiMenuGroup and node.indicator
+		node = node.parentElement
+	node..indicatorSide ?? 'end'
+
 # Headless dropdown menu of actions from a trigger.
 #
 #   <ui-menu items=actions @select=run(e.detail)>
@@ -47,8 +57,11 @@ def closestMenu el do closestWith(el, 'isUiMenu')
 # - `label`: a small label above the items, styled like a group heading
 # - `indicator`: where checkbox and radio items show they're checked: 'end'
 #   (default; a tick after the label, so labels line up with the other
-#   items) or 'start' (a tick, or a dot for radios, before it); submenus
-#   follow their menu's unless they set one
+#   items), 'start' (a tick, or a dot for radios, before it) or
+#   'highlight' (no mark; the checked row is tinted, in `$ui-menu-checked-bg`
+#   and `$ui-menu-checked-text`, the accent's soft tint by default); submenus
+#   follow their menu's unless they set one, and groups, items and `items`
+#   entries can set their own
 # - `keepOpen`: stay open after an item is chosen (e.g. to tick several
 #   checkboxes); an item's own `keepOpen` (entry or prop) overrides it, and
 #   submenus follow their menu's unless they set one
@@ -183,11 +196,13 @@ tag ui-menu-base
 						elif item..group
 							<div.group-label> item.group
 						elif isOption(item)
-							<div.item .danger=!!item.danger zag=api.getOptionItemProps(optionProps(item))>
-								<span.indicator>
-									<span.mark.{item.type} zag=api.getItemIndicatorProps(optionProps(item))>
-										if item.type === 'checkbox' or indicatorSide === 'end'
-											<iconify-icon icon='lucide:check' aria-hidden='true'>
+							let side = item.indicator ?? indicatorSide
+							<div.item .danger=!!item.danger data-indicator=side zag=api.getOptionItemProps(optionProps(item))>
+								if side !== 'highlight'
+									<span.indicator>
+										<span.mark.{item.type} zag=api.getItemIndicatorProps(optionProps(item))>
+											if item.type === 'checkbox' or side === 'end'
+												<iconify-icon icon='lucide:check' aria-hidden='true'>
 								if item.icon
 									<iconify-icon.icon icon=item.icon aria-hidden='true'>
 								<span.label> itemLabel(item, labelKey)
@@ -251,6 +266,8 @@ tag ui-submenu-base < ui-menu-base
 # - `value`: what the menu's `select` emits (the label's text if unset)
 # - `href`: makes it a link (the menu's `linkTag`, `<a>` by default)
 # - `icon`, `shortcut`, `danger`, `disabled` and `keepOpen`: as on `items` entries
+# - `end` slot: content after the label, such as a count
+#   (`<ui-badge slot='end'> 34`); it isn't part of the label's text
 #
 # An item's own `@click` runs when it's chosen, by pointer or keyboard.
 tag ui-menu-item-base
@@ -261,6 +278,8 @@ tag ui-menu-item-base
 	prop danger = false
 	prop disabled = false
 	prop keepOpen = null
+	# Checkbox and radio items: as on ui-menu.
+	prop indicator = null
 
 	isUiMenuItem = yes
 
@@ -288,16 +307,18 @@ tag ui-menu-item-base
 	# The item is an element inside the tag, so it can be a link.
 	def render
 		let api = menu..machine ? menu.api : null
+		let side = optionType ? optionIndicator(self) : undefined
 		<self data-ui-menu-item>
-			<{href ? (menu..linkElement or 'a') : 'div'}.item .danger=!!danger href=(href or undefined) zag=(api ? itemProps(api) : undefined)>
-				if optionType
+			<{href ? (menu..linkElement or 'a') : 'div'}.item .danger=!!danger href=(href or undefined) data-indicator=side zag=(api ? itemProps(api) : undefined)>
+				if optionType and side !== 'highlight'
 					<span.indicator>
 						<span.mark.{optionType} zag=(api ? api.getItemIndicatorProps(optionProps!) : undefined)>
-							if optionType === 'checkbox' or menu..indicatorSide === 'end'
+							if optionType === 'checkbox' or side === 'end'
 								<iconify-icon icon='lucide:check' aria-hidden='true'>
 				if icon
 					<iconify-icon.icon icon=icon aria-hidden='true'>
 				<span.label> <slot>
+				<span.end> <slot name='end'>
 				if shortcut
 					<kbd.shortcut> shortcut
 
@@ -321,9 +342,12 @@ tag ui-menu-separator-base
 #     <ui-menu-item value='message'> 'Send message'
 #
 # - `label`: the heading (optional)
+# - `indicator`: for its checkbox and radio items, as on ui-menu
 tag ui-menu-group-base
 	prop label = null
+	prop indicator = null
 
+	isUiMenuGroup = yes
 	groupId = uid('group')
 
 	get menu do #menu or closestMenu(self)
@@ -347,7 +371,8 @@ tag ui-menu-group-base
 #   <ui-menu-checkbox bind=showGrid> 'Show grid'
 #
 # - `checked`: whether it's ticked (`bind=` works too)
-# - `value`, `icon`, `shortcut`, `disabled` and `keepOpen`: as on ui-menu-item
+# - `value`, `icon`, `shortcut`, `disabled` `keepOpen` and the `end` slot: as on
+#   ui-menu-item; `indicator` as on ui-menu (else its group's)
 #
 # Emits `change` with the new checked state (it doesn't bubble to the menu).
 tag ui-menu-checkbox-base < ui-menu-item-base
@@ -374,7 +399,7 @@ tag ui-menu-checkbox-base < ui-menu-item-base
 #     <ui-menu-radio value='date'> 'Date'
 #
 # - `value`: the checked radio's value (`bind=` works too)
-# - `label`: an optional heading, as on ui-menu-group
+# - `label` and `indicator`: as on ui-menu-group
 #
 # Emits `change` with the new value (it doesn't bubble to the menu).
 tag ui-menu-radio-group-base < ui-menu-group-base
@@ -393,7 +418,8 @@ tag ui-menu-radio-group-base < ui-menu-group-base
 # One radio item in a ui-menu-radio-group; its content is the label.
 #
 # - `value`: what the group's value becomes (the label's text if unset)
-# - `icon`, `shortcut`, `disabled` and `keepOpen`: as on ui-menu-item
+# - `icon`, `shortcut`, `disabled` `keepOpen` and the `end` slot: as on
+#   ui-menu-item; `indicator` as on ui-menu (else its group's)
 tag ui-menu-radio-base < ui-menu-item-base
 	isUiMenuOption = yes
 	optionType = 'radio'
