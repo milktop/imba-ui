@@ -54,6 +54,11 @@ const toolDefs = {
 }
 
 tag ui-editor-base < ui-control
+	# Child tags; the styled tag uses the styled ones.
+	popoverTag = 'ui-popover-base'
+	inputTag = 'ui-input-base'
+	buttonTag = 'ui-button-base'
+
 	prop value = ''
 	prop placeholder = ''
 	prop tools = defaultTools
@@ -207,14 +212,14 @@ tag ui-editor-base < ui-control
 						if name == '|'
 							<span.divider key="d{i}">
 						elif name == 'link'
-							<ui-popover key='link' placement='bottom-start' bind=linkOpen @openchange=(openLink! if e.detail)>
+							<{popoverTag} key='link' placement='bottom-start' bind=linkOpen @openchange=(openLink! if e.detail)>
 								<button.tool slot='trigger' type='button' aria-label=uiLocale.messages.editor.link aria-pressed=String(!!editor..isActive('link')) @mousedown.prevent>
 									<iconify-icon icon='lucide:link' aria-hidden='true'>
 								<form.link-form @submit.prevent=applyLink>
-									<ui-input.link-input size='sm' icon='lucide:link' placeholder='https://…' bind=linkUrl>
+									<{inputTag}.link-input size='sm' icon='lucide:link' placeholder='https://…' bind=linkUrl>
 									<div.link-actions>
-										<ui-button size='sm' variant='ghost' @click=removeLink> uiLocale.messages.editor.remove if editor..isActive('link')
-										<ui-button size='sm' variant='primary' type='submit'> uiLocale.messages.editor.apply
+										<{buttonTag} size='sm' variant='ghost' @click=removeLink> uiLocale.messages.editor.remove if editor..isActive('link')
+										<{buttonTag} size='sm' variant='primary' type='submit'> uiLocale.messages.editor.apply
 						elif name == 'image'
 							if uploadImage
 								<label.tool key='image' aria-label=uiLocale.messages.editor.image @mousedown.prevent>

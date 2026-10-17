@@ -7,6 +7,7 @@ import './base.imba'
 # edges read. Avatars are slotted or rendered here, so through `>>>`.
 tag ui-avatar-group < ui-avatar-group-base
 	avatarTag = 'ui-avatar'
+	tooltipTag = 'ui-tooltip'
 
 	css
 		d:inline-flex ai:center va:middle

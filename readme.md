@@ -511,6 +511,13 @@ Every component is two tags:
 - `ui-<name>-base` (`@milktop/imba-ui/<name>/base`): behaviour and markup, no styles
 - `ui-<name>` (`@milktop/imba-ui/<name>`): the base plus the default theme
 
+The base tags stay unstyled even when the styled library is loaded, so both
+can share a page. Base tags that contain other components render their base
+tags (ui-avatar-base's tooltip is ui-tooltip-base) and name each one in a field
+(`tooltipTag`, `popoverTag`, `menuTag`, …): set one in a subclass to use a
+styled tag or your own there. The playground's Headless page shows them side by
+side.
+
 Imba scopes a subclass's CSS to everything its instances render, including the
 markup they inherit. So a custom look is a subclass with ordinary scoped CSS:
 
@@ -526,6 +533,19 @@ tag lesson-date-picker < ui-date-picker-base
 Elements have a class per part (`.control`, `.content`, `.item`, `.cell`…)
 plus Zag's `data-part` and state attributes (`data-selected`, `data-highlighted`,
 `data-state=open`…).
+
+Parts rendered by child tags (a menu's items, a radio group's radios) need
+`>>>` to be reached from the subclass's CSS:
+
+```imba
+import '@milktop/imba-ui/menu/base'
+
+tag ink-menu < ui-menu-base
+	css
+		>>> [data-part=content] p:1 bg:$ui-text c:$ui-surface
+		>>> .item px:2 py:1
+			&[data-highlighted] bg:$ui-surface c:$ui-text
+```
 
 ## Writing a component
 

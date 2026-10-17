@@ -46,6 +46,9 @@ tag ui-data-list-base
 # - `label`: the term
 # - `info`: adds an icon with this text in a tooltip
 tag ui-data-item-base
+	# The styled tag uses the styled one.
+	tooltipTag = 'ui-tooltip-base'
+
 	prop label = ''
 	prop info = null
 
@@ -54,6 +57,6 @@ tag ui-data-item-base
 			<dt.label>
 				<span> label
 				if info
-					<ui-tooltip content=info>
+					<{tooltipTag} content=info>
 						<span.info tabIndex=0 aria-label=info> <ui-icon path=icons.info size=13>
 			<dd.value> <slot>

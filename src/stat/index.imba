@@ -9,10 +9,10 @@ if typeof document != 'undefined' and !document.getElementById('ui-stats-rules')
 	let style = document.createElement('style')
 	style.id = 'ui-stats-rules'
 	style.textContent = [
-		'[data-ui-stats] { container-type: inline-size; }'
-		'[data-ui-stats] > .grid { grid-template-columns: minmax(0, 1fr); }'
-		'@container (min-width: 26rem) { [data-ui-stats] > .grid { grid-template-columns: repeat(min(2, var(--columns)), minmax(0, 1fr)); } }'
-		'@container (min-width: 46rem) { [data-ui-stats] > .grid { grid-template-columns: repeat(var(--columns), minmax(0, 1fr)); } }'
+		'[data-ui-stats][data-styled] { container-type: inline-size; }'
+		'[data-ui-stats][data-styled] > .grid { grid-template-columns: minmax(0, 1fr); }'
+		'@container (min-width: 26rem) { [data-ui-stats][data-styled] > .grid { grid-template-columns: repeat(min(2, var(--columns)), minmax(0, 1fr)); } }'
+		'@container (min-width: 46rem) { [data-ui-stats][data-styled] > .grid { grid-template-columns: repeat(var(--columns), minmax(0, 1fr)); } }'
 	].join('\n')
 	document.head.appendChild(style)
 
@@ -42,6 +42,7 @@ tag ui-stat < ui-stat-base
 
 # Through `>>>`: the stats are slotted in, rendered by the page.
 tag ui-stats < ui-stats-base
+	styled = yes
 	css
 		d:block w:100%
 		# Columns come from the container queries above.

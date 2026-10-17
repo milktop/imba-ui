@@ -47,6 +47,17 @@ New components follow the same pattern: add both files, an entry in
   per part (`.control`, `.content`, `.item`) alongside its `zag=` props. Imba
   scopes subclass CSS to inherited markup, but not to elements rendered by child
   tags. Inline small pieces instead, or use `>>>`.
+- **Base tags stay unstyled with the styled library loaded.** A base that
+  renders another component uses its base tag through a field
+  (`tooltipTag = 'ui-tooltip-base'`), and the styled tag sets the styled one
+  (`tooltipTag = 'ui-tooltip'`); never write a styled tag in base markup.
+  Styles that must be `global css` (shared by child tags) anchor on a
+  `data-styled` attribute the base renders only when `styled` is on, which the
+  styled tag sets (`styled = yes`), e.g. `[data-ui-menu][data-styled]`. Keep
+  purely functional rules (`d:contents` wrappers, `[hidden]`) global.
+- **No `$refs` inside a dynamic tag's children.** Under `<{tooltipTag}>`, a
+  `<span$text>` compiles to an undefined element and the render throws; find
+  the element by class instead (`querySelector('.text')`).
 - **Machine props are read lazily.** Parse fixed values (e.g. `defaultValue`)
   before the props function. After changing something it reads outside a Zag
   event, call `machine.refresh!`.

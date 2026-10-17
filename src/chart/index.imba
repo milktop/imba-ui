@@ -2,9 +2,9 @@ import '../theme.imba'
 import './base.imba'
 
 # The area and bar charts share their parts, so they're styled together
-# (each carries data-ui-chart).
+# (each carries data-ui-chart, and data-styled when it's the styled tag).
 global css
-	[data-ui-chart]
+	[data-ui-chart][data-styled]
 		d:block pos:relative w:100% min-width:0 c:$ui-text ff:$ui-font fs:sm
 		.frame pos:relative w:100%
 		.svg d:block of:visible
@@ -32,6 +32,7 @@ global css
 		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
 
 tag ui-area-chart < ui-area-chart-base
+	styled = yes
 
 tag ui-donut-chart < ui-donut-chart-base
 	css
@@ -55,6 +56,7 @@ tag ui-donut-chart < ui-donut-chart-base
 			small c:$ui-muted fw:400 fs:11px
 		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
 tag ui-bar-chart < ui-bar-chart-base
+	styled = yes
 
 tag ui-sparkline < ui-sparkline-base
 	css

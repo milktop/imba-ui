@@ -4,6 +4,9 @@ import '../skeleton/index.imba'
 import './base.imba'
 
 tag ui-table < ui-table-base
+	checkboxTag = 'ui-checkbox'
+	skeletonTag = 'ui-skeleton'
+
 	css
 		d:block w:100% min-width:0 c:$ui-text ff:$ui-font fs:sm
 		# Scrolls sideways on narrow screens; with maxHeight, down too, under a

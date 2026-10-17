@@ -19,6 +19,8 @@ tag ui-data-list < ui-data-list-base
 		&.grid .list gtc:1fr @sm:repeat(var(--columns, 2), minmax(0, 1fr)) cg:6
 
 tag ui-data-item < ui-data-item-base
+	tooltipTag = 'ui-tooltip'
+
 	css
 		d:block
 		.label d:flex ai:center g:1 m:0 c:$ui-muted

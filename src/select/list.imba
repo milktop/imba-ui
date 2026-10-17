@@ -8,6 +8,9 @@ import { uiLocale } from '../locale.imba'
 # ui-select without search: a button that opens the list (Zag's select).
 # ui-select renders it and documents the props.
 tag ui-list-select-base < ui-control
+	# The styled tag sets this; its styles only apply when it's on.
+	styled = no
+
 	prop label = null
 	prop items = []
 	prop value = null
@@ -114,7 +117,7 @@ tag ui-list-select-base < ui-control
 		let api = machine.connect(select)
 		let list = listed
 
-		<self .{size} .{variant} .quiet=quiet data-ui-select-list zag=api.getRootProps!>
+		<self .{size} .{variant} .quiet=quiet data-ui-select-list data-styled=(styled or undefined) zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps!>

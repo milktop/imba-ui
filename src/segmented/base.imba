@@ -18,6 +18,9 @@ import 'iconify-icon'
 #
 # Emits `change` with the selected item's original value.
 tag ui-segmented-base < ui-control
+	# The styled tag uses the styled one.
+	tooltipTag = 'ui-tooltip-base'
+
 	prop label = null
 	prop items = []
 	prop value = null
@@ -58,7 +61,7 @@ tag ui-segmented-base < ui-control
 	# so keyboard focus opens the tooltip by hand. Pointer focus doesn't
 	# (a click already closes it).
 	def tipFocus e, open
-		let tip = e.target.closest('label')..querySelector('ui-tooltip')
+		let tip = e.target.closest('label')..querySelector(tooltipTag)
 		return unless tip
 		if open and e.target.matches(':focus-visible') then tip.show! else tip.hide!
 
@@ -83,7 +86,7 @@ tag ui-segmented-base < ui-control
 						# Zag's tooltip props go on a wrapper of their own, since the item's
 						# carry its id and data-state.
 						if withTooltips
-							<ui-tooltip content=(item..tooltip or text)>
+							<{tooltipTag} content=(item..tooltip or text)>
 								<span.item-tip>
 									<span.item-text zag=api.getItemTextProps(props)>
 										<iconify-icon.item-icon icon=item.icon aria-hidden='true'> if item..icon

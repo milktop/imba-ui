@@ -28,6 +28,9 @@ import '../tooltip/base.imba'
 const autoColors = ['red', 'orange', 'amber', 'green', 'teal', 'blue', 'purple', 'pink']
 
 tag ui-avatar-base
+	# The styled tag uses the styled one.
+	tooltipTag = 'ui-tooltip-base'
+
 	prop src = null
 	prop name = null
 	prop letters = 2
@@ -96,7 +99,7 @@ tag ui-avatar-base
 			# The tooltip's trigger is a layer over the whole avatar, since the
 			# avatar itself carries Zag's root props.
 			if tooltipText
-				<ui-tooltip content=tooltipText>
+				<{tooltipTag} content=tooltipText>
 					<span.tooltip-target>
 			if status
 				<span.status data-status=(preset ? status : 'custom') role='img' aria-label=(statusLabel or status) style=(preset ? undefined : "background: {status}")>

@@ -1,9 +1,10 @@
 import '../theme.imba'
 import './base.imba'
 
-# The list's look, shared by both modes.
+# The list's look, shared by both modes (the styled tags carry data-styled;
+# the headless ones stay unstyled).
 global css
-	[data-ui-select-list]
+	[data-ui-select-list][data-styled]
 		# The positioner carries the z-index itself. Zag sets it inline as
 		# var(--z-index) but doesn't always fill in the variable, so set both.
 		.positioner zi:50 --z-index:50
@@ -31,6 +32,7 @@ global css
 		.tag-text d:inline-flex ai:center g:1
 
 tag ui-list-select < ui-list-select-base
+	styled = yes
 	css
 		d:block pos:relative c:$ui-text ff:$ui-font
 
@@ -69,6 +71,7 @@ tag ui-list-select < ui-list-select-base
 
 
 tag ui-search-select < ui-search-select-base
+	styled = yes
 	css
 		d:block pos:relative c:$ui-text ff:$ui-font
 

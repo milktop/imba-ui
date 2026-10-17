@@ -32,6 +32,14 @@ const schemeIcons = { system: 'lucide:monitor', light: 'lucide:sun', dark: 'luci
 #
 # Emits `change` with appearance's value when the user changes it.
 tag ui-appearance-base
+	# Child tags; the styled tag uses the styled ones.
+	popoverTag = 'ui-popover-base'
+	buttonTag = 'ui-button-base'
+	segmentedTag = 'ui-segmented-base'
+	swatchPickerTag = 'ui-swatch-picker-base'
+	nativeSelectTag = 'ui-native-select-base'
+	switchTag = 'ui-switch-base'
+
 	prop accents = null
 	prop sidebars = null
 	prop dev = false
@@ -76,17 +84,17 @@ tag ui-appearance-base
 
 	def render
 		<self>
-			<ui-popover.popover heading=words.label placement=placement>
-				<ui-button.trigger slot='trigger' variant='ghost' icon='lucide:palette' aria-label=words.label>
+			<{popoverTag}.popover heading=words.label placement=placement>
+				<{buttonTag}.trigger slot='trigger' variant='ghost' icon='lucide:palette' aria-label=words.label>
 				<div.panel>
 					if schemes
 						<div.setting>
 							<div.label> words.mode
-							<ui-segmented size='sm' items=schemeItems value=colorScheme.value
+							<{segmentedTag} size='sm' items=schemeItems value=colorScheme.value
 								@change.stop=(colorScheme.value = e.detail)>
 					<div.setting>
 						<div.label> words.accent
-						<ui-swatch-picker size='sm' items=accentItems value=(appearance.custom ? null : appearance.accent)
+						<{swatchPickerTag} size='sm' items=accentItems value=(appearance.custom ? null : appearance.accent)
 							@change.stop=pick(accent: e.detail, custom: null)>
 					if exploring
 						<label.custom>
@@ -99,14 +107,14 @@ tag ui-appearance-base
 							<span> words.sidebar
 							<span.hint> words.lightOnly if colorScheme.dark
 						if sidebarItems.length <= 4
-							<ui-segmented size='sm' items=sidebarItems value=appearance.sidebar
+							<{segmentedTag} size='sm' items=sidebarItems value=appearance.sidebar
 								@change.stop=pick(sidebar: e.detail)>
 						else
-							<ui-native-select size='sm' items=sidebarItems value=appearance.sidebar
+							<{nativeSelectTag} size='sm' items=sidebarItems value=appearance.sidebar
 								@change.stop=pick(sidebar: e.detail)>
 					if dev
 						<div.dev>
-							<ui-switch label=words.dev checked=devMode @change.stop=setDevMode(e.detail)>
+							<{switchTag} label=words.dev checked=devMode @change.stop=setDevMode(e.detail)>
 							if exploring
 								<code.config> config
-								<ui-button size='sm' @click=(appearance.reset!, emit('change', appearance.value))> words.reset
+								<{buttonTag} size='sm' @click=(appearance.reset!, emit('change', appearance.value))> words.reset

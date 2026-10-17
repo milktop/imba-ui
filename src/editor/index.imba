@@ -5,6 +5,10 @@ import '../button/index.imba'
 import './base.imba'
 
 tag ui-editor < ui-editor-base
+	popoverTag = 'ui-popover'
+	inputTag = 'ui-input'
+	buttonTag = 'ui-button'
+
 	css
 		d:block pos:relative w:100% min-width:0 box-sizing:border-box bg:$ui-field-bg bd:1px solid $ui-field-border rd:$ui-radius c:$ui-text ff:$ui-font fs:sm
 		@hover bc:$ui-field-border-hover

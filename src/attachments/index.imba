@@ -5,6 +5,7 @@ import '../segmented/index.imba'
 
 tag ui-attachments < ui-attachments-base
 	segmentedTag = 'ui-segmented'
+	dialogTag = 'ui-dialog'
 
 	css
 		d:block pos:relative w:100% c:$ui-text ff:$ui-font fs:sm

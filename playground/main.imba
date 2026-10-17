@@ -6,6 +6,7 @@ import { colorScheme } from '../src/color-scheme.imba'
 import './demo.imba'
 import { applyAppearance, loadAppearance } from './appearance.imba'
 import './pages/theming.imba'
+import './pages/headless.imba'
 import './pages/tokens.imba'
 import './pages/locale.imba'
 import { repo } from './pages/installation.imba'
@@ -206,6 +207,7 @@ tag playground
 		...blocks.map do(block)
 			{ label: block.title, description: block.about, href: block.path, icon: block.icon, group: 'Blocks' }
 		{ label: 'Theming', description: 'Ways to change the look, app to part', href: '/theming', icon: 'lucide:palette', group: 'Guides' }
+		{ label: 'Headless', description: 'The unstyled tags, and styling your own', href: '/headless', icon: 'lucide:box', group: 'Guides', keywords: ['base', 'unstyled'] }
 		{ label: 'Tokens', description: 'Every $ui-* variable, light and dark', href: '/tokens', icon: 'lucide:swatch-book', group: 'Guides', keywords: ['variables', 'colours', 'css'] }
 		{ label: 'Locale', description: 'Language, dates and numbers', href: '/locale', icon: 'lucide:languages', group: 'Guides' }
 		{ label: 'Installation', description: 'Install, configure Vite, import', href: '/installation', icon: 'lucide:download', group: 'Guides' }
@@ -238,6 +240,7 @@ tag playground
 		for block in blocks
 			return [{ label: 'Imba UI', href: '/' }, { label: 'Blocks' }, { label: block.group }, { label: block.title }] if block.path == router.pathname
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Theming' }] if router.pathname == '/theming'
+		return [{ label: 'Imba UI', href: '/' }, { label: 'Headless' }] if router.pathname == '/headless'
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Tokens' }] if router.pathname == '/tokens'
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Locale' }] if router.pathname == '/locale'
 		return [{ label: 'Imba UI', href: '/' }, { label: 'Installation' }] if router.pathname == '/installation'
@@ -256,6 +259,7 @@ tag playground
 				<ui-nav-section>
 					<ui-nav-item icon='lucide:house' href='/' active=(router.pathname == '/')> "Overview"
 					<ui-nav-item icon='lucide:palette' href='/theming' active=(router.pathname == '/theming')> "Theming"
+					<ui-nav-item icon='lucide:box' href='/headless' active=(router.pathname == '/headless')> "Headless"
 					<ui-nav-item icon='lucide:swatch-book' href='/tokens' active=(router.pathname == '/tokens')> "Tokens"
 					<ui-nav-item icon='lucide:languages' href='/locale' active=(router.pathname == '/locale')> "Locale"
 					<ui-nav-item icon='lucide:download' href='/installation' active=(router.pathname == '/installation')> "Installation"
@@ -290,6 +294,7 @@ tag playground
 			<ui-page width=pageWidth align=(document.documentElement.dataset.pageAlign or 'center')>
 				<page-home route='/'>
 				<page-theming route='/theming'>
+				<page-headless route='/headless'>
 				<page-tokens route='/tokens'>
 				<page-locale route='/locale'>
 				<page-installation route='/installation'>

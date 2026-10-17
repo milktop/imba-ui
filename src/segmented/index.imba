@@ -3,6 +3,8 @@ import '../tooltip/index.imba'
 import './base.imba'
 
 tag ui-segmented < ui-segmented-base
+	tooltipTag = 'ui-tooltip'
+
 	css
 		d:inline-block c:$ui-text ff:$ui-font max-width:100%
 		# Sizes: the control's height, the items' side padding (less with

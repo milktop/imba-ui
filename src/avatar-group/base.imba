@@ -30,8 +30,9 @@ tag ui-avatar-group-base
 	prop spacing = 'normal'
 	prop label = null
 
-	# The avatar tag to render; the styled group uses the styled one.
+	# The avatar and tooltip tags; the styled group uses the styled ones.
 	avatarTag = 'ui-avatar-base'
+	tooltipTag = 'ui-tooltip-base'
 
 	get people do (items or []).map(do(item) typeof item == 'string' ? { name: item } : item)
 	get shown do max and people.length > max ? people.slice(0, max) : people
@@ -45,5 +46,5 @@ tag ui-avatar-group-base
 			<{avatarTag} key=(person.name or person.src) size=size square=square letters=letters color=(person.color or color) name=person.name src=person.src tooltip=(tooltip or null)>
 		<slot>
 		if hidden.length
-			<ui-tooltip content=hiddenNames>
+			<{tooltipTag} content=hiddenNames>
 				<span.more .square=square aria-label="{hidden.length} more: {hiddenNames}"> "+{hidden.length}"

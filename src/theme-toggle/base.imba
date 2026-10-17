@@ -37,6 +37,11 @@ const icons = { light: 'lucide:sun', dark: 'lucide:moon', system: 'lucide:monito
 #
 # Emits `change` with 'light', 'dark' or 'system'.
 tag ui-theme-toggle-base
+	# Child tags; the styled tag uses the styled ones.
+	menuTag = 'ui-menu-base'
+	tooltipTag = 'ui-tooltip-base'
+	segmentedTag = 'ui-segmented-base'
+
 	prop variant = 'segmented'
 	prop mobile = null
 	prop breakpoint = 768
@@ -88,15 +93,15 @@ tag ui-theme-toggle-base
 		let shown = colorScheme.dark ? 'dark' : 'light'
 		<self .{size} .icon-only=(!!iconOnly and mode === 'menu') role='group' aria-label=groupLabel data-variant=mode>
 			if mode === 'menu'
-				<ui-menu.menu placement=(placement or (iconOnly ? 'bottom' : 'bottom-end')) keepOpen=keepOpen>
+				<{menuTag}.menu placement=(placement or (iconOnly ? 'bottom' : 'bottom-end')) keepOpen=keepOpen>
 					<button.trigger slot='trigger' type='button' aria-label="{groupLabel}: {names[value]}">
 						<iconify-icon.trigger-icon icon=icons[value] aria-hidden='true'>
-					<ui-menu-radio-group value=value @change=pick(e.detail)>
+					<ui-menu-radio-group-base value=value @change=pick(e.detail)>
 						for item in items
-							<ui-menu-radio key=item.value value=item.value icon=item.icon> item.label
+							<ui-menu-radio-base key=item.value value=item.value icon=item.icon> item.label
 			elif mode === 'toggle'
-				<ui-tooltip content=names[shown]>
+				<{tooltipTag} content=names[shown]>
 					<button.trigger type='button' aria-label=names.dark aria-pressed=String(colorScheme.dark) @click=flip>
 						<iconify-icon.trigger-icon icon=icons[shown] aria-hidden='true'>
 			else
-				<ui-segmented.segmented iconOnly size=size items=items value=value @change.stop=pick(e.detail)>
+				<{segmentedTag}.segmented iconOnly size=size items=items value=value @change.stop=pick(e.detail)>

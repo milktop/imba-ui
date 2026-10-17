@@ -13,6 +13,9 @@ const CREATE = '__ui-select-create__'
 # server, or creates items (Zag's combobox). ui-select renders it and
 # documents the props.
 tag ui-search-select-base < ui-control
+	# The styled tag sets this; its styles only apply when it's on.
+	styled = no
+
 	prop label = null
 	prop items = []
 	prop value = null
@@ -230,7 +233,7 @@ tag ui-search-select-base < ui-control
 		let tags = picked
 		let create = creating
 
-		<self .{size} .{variant} .quiet=quiet data-ui-select-list zag=api.getRootProps! @focusout=revert(e)>
+		<self .{size} .{variant} .quiet=quiet data-ui-select-list data-styled=(styled or undefined) zag=api.getRootProps! @focusout=revert(e)>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
 			<div.control zag=api.getControlProps! @mousedown=focusInput(e)>

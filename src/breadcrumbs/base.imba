@@ -38,6 +38,9 @@ def closestTrail el
 const MORE = { more: yes }
 
 tag ui-breadcrumbs-base
+	# The styled tag uses the styled one.
+	popoverTag = 'ui-popover-base'
+
 	prop items = null
 	prop separator = null
 	prop max = null
@@ -99,7 +102,7 @@ tag ui-breadcrumbs-base
 								else
 									<ui-icon path=icons.right size=14>
 						if entry == MORE
-							<ui-popover bind=folded placement='bottom-start'>
+							<{popoverTag} bind=folded placement='bottom-start'>
 								<button.more slot='trigger' type='button' aria-label=uiLocale.messages.breadcrumbs.more(foldedItems.length)> "…"
 								<ol.folded>
 									for item in foldedItems
