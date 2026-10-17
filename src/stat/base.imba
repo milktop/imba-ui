@@ -75,8 +75,11 @@ tag ui-stat-base
 # - `variant`: 'plain' (default), 'cards' (each stat a card) or 'divided'
 #   (one card split into cells)
 tag ui-stats-base
+	# The styled tag sets this; its styles only apply when it's on.
+	styled = no
+
 	prop columns = 4
 	prop variant = 'plain'
 
-	<self .{variant} data-ui-stats style="--columns: {columns}">
+	<self .{variant} data-ui-stats data-styled=(styled or undefined) style="--columns: {columns}">
 		<div.grid> <slot>

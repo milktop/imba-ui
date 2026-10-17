@@ -45,6 +45,7 @@ tag ui-sidebar < ui-sidebar-base
 	sectionTag = 'ui-nav-section'
 	groupTag = 'ui-nav-group'
 	itemTag = 'ui-nav-item'
+	tooltipTag = 'ui-tooltip'
 
 	css
 		grid-area:sidebar d:flex fld:column min-width:0 box-sizing:border-box
@@ -108,6 +109,8 @@ tag ui-nav-section < ui-nav-section-base
 # Shared by items and groups: icons stay put as the sidebar narrows, labels
 # fade and are clipped.
 tag ui-nav-item < ui-nav-item-base
+	tooltipTag = 'ui-tooltip'
+
 	css
 		d:block
 		.link d:flex ai:center g:3 w:100% h:$ui-sidebar-item-height p:$ui-sidebar-item-padding box-sizing:border-box bd:none rd:$ui-sidebar-item-radius bg:transparent c:$ui-sidebar-item-text ff:inherit fs:sm- ta:left td:none ws:nowrap cursor:pointer
@@ -149,6 +152,9 @@ tag ui-nav-group < ui-nav-group-base
 		&.rail .flyout-heading d:block px:3 pt:1 pb:1.5 fs:xs fw:600 c:$ui-muted
 
 tag ui-sidebar-user < ui-sidebar-user-base
+	menuTag = 'ui-menu'
+	avatarTag = 'ui-avatar'
+
 	css
 		d:block w:100%
 		.trigger d:flex ai:center g:2.5 w:100% p:1.5 box-sizing:border-box bd:none rd:$ui-radius bg:transparent c:$ui-sidebar-text ff:inherit fs:sm- ta:left ws:nowrap cursor:pointer

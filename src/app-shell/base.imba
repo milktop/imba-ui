@@ -161,6 +161,9 @@ tag ui-app-shell-base
 # `items`: sections as data, e.g.
 #   [{ heading: 'Menu', items: [{ label, icon, href, active, badge, items }] }]
 tag ui-sidebar-base
+	# The styled tag uses the styled one.
+	tooltipTag = 'ui-tooltip-base'
+
 	prop items = null
 	prop label = null
 	# A thin strip along the right edge that collapses or expands it on click:
@@ -200,7 +203,7 @@ tag ui-sidebar-base
 			if mobile
 				<button.icon-button type='button' aria-label=uiLocale.messages.shell.closeMenu @click=close> <ui-icon path=icons.x size=16>
 			elif !rail
-				<ui-tooltip content="{uiLocale.messages.shell.collapseSidebar} (⌘B)" placement='right'>
+				<{tooltipTag} content="{uiLocale.messages.shell.collapseSidebar} (⌘B)" placement='right'>
 					<button.icon-button type='button' aria-label=uiLocale.messages.shell.collapseSidebar @click=toggle> <ui-icon path=icons.panelClose size=16>
 		<nav.nav aria-label=(label ?? uiLocale.messages.shell.nav)>
 			if items
@@ -217,7 +220,7 @@ tag ui-sidebar-base
 		<div.footer>
 			<slot name='footer'>
 			if rail
-				<ui-tooltip content="{uiLocale.messages.shell.expandSidebar} (⌘B)" placement='right'>
+				<{tooltipTag} content="{uiLocale.messages.shell.expandSidebar} (⌘B)" placement='right'>
 					<button.icon-button.expand type='button' aria-label=uiLocale.messages.shell.expandSidebar @click=toggle> <ui-icon path=icons.panelOpen size=16>
 		# Mouse only: keyboard users have the buttons above and ⌘B. It never
 		# takes focus (mousedown is prevented), so no focus ring is left behind.
@@ -262,6 +265,9 @@ tag ui-nav-section-base
 # It renders <a href>, which Imba's router picks up. For Inertia, subclass it
 # and set `linkTag = 'inertia-link'`.
 tag ui-nav-item-base
+	# The styled tag uses the styled one.
+	tooltipTag = 'ui-tooltip-base'
+
 	prop href = null
 	prop icon = null
 	prop active = false
@@ -273,22 +279,22 @@ tag ui-nav-item-base
 	get shell do closestWith(self, 'isUiAppShell')
 	# Inside a group's flyout the label stays visible.
 	get rail do !!shell..rail and !closestWith(self, 'isUiNavGroup')
-	get text do label or $text..textContent.trim! or ''
+	get text do label or querySelector('.text')..textContent.trim! or ''
 
 	def followed
 		shell..closeDrawer!
 
 	<self .active=active .rail=rail data-ui-shell-part>
-		<ui-tooltip content=text placement='right' disabled=!rail>
+		<{tooltipTag} content=text placement='right' disabled=!rail>
 			if href
 				<{linkTag}.link href=href aria-current=(active ? 'page' : undefined) aria-label=(rail ? text : undefined) @click=followed>
 					<iconify-icon.icon icon=icon aria-hidden='true'> if icon
-					<span$text.text> <slot>
+					<span.text> <slot>
 					<span.badge> badge if badge != null
 			else
 				<button.link type='button' aria-label=(rail ? text : undefined)>
 					<iconify-icon.icon icon=icon aria-hidden='true'> if icon
-					<span$text.text> <slot>
+					<span.text> <slot>
 					<span.badge> badge if badge != null
 
 # Nav items under a heading that opens and closes. In the rail it shows its
@@ -385,6 +391,10 @@ tag ui-nav-group-base
 # - `letters`, `color`: passed to the avatar (one initial, its colour or
 #   'auto'), like ui-avatar's
 tag ui-sidebar-user-base
+	# Child tags; the styled tag uses the styled ones.
+	menuTag = 'ui-menu-base'
+	avatarTag = 'ui-avatar-base'
+
 	prop name = ''
 	prop description = null
 	prop src = null
@@ -396,9 +406,9 @@ tag ui-sidebar-user-base
 	get rail do !!shell..rail
 
 	<self .rail=rail data-ui-shell-part>
-		<ui-menu items=items placement=(rail ? 'right-end' : 'top-start')>
+		<{menuTag} items=items placement=(rail ? 'right-end' : 'top-start')>
 			<button.trigger slot='trigger' type='button' aria-label=(rail ? name : undefined)>
-				<ui-avatar.avatar name=name src=src size='sm' letters=letters color=color>
+				<{avatarTag}.avatar name=name src=src size='sm' letters=letters color=color>
 				<span.text>
 					<span.name> name
 					<span.description> description if description

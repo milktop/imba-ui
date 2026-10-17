@@ -5,6 +5,10 @@ import '../tooltip/index.imba'
 import './base.imba'
 
 tag ui-theme-toggle < ui-theme-toggle-base
+	menuTag = 'ui-menu'
+	tooltipTag = 'ui-tooltip'
+	segmentedTag = 'ui-segmented'
+
 	css
 		d:inline-block
 		# Sizes: the square buttons (the trigger and icon-only menu items) and

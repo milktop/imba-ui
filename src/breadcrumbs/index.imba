@@ -6,6 +6,8 @@ import './base.imba'
 # (see the base), then long labels are cut with an ellipsis, the current
 # page's last.
 tag ui-breadcrumbs < ui-breadcrumbs-base
+	popoverTag = 'ui-popover'
+
 	css
 		d:block min-width:0 ff:$ui-font fs:sm
 		nav min-width:0

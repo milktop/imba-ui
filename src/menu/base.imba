@@ -83,6 +83,8 @@ tag ui-menu-base
 	prop keepOpen = null
 	prop indicator = null
 
+	# The styled tag sets this; its styles only apply when it's on.
+	styled = no
 	isUiMenu = yes
 	isSubmenu = no
 	zagId = uid('menu')
@@ -177,7 +179,7 @@ tag ui-menu-base
 		presence.update(api.open)
 		part.render! for part in Array.from(parts)
 
-		<self data-ui-menu>
+		<self data-ui-menu data-styled=(styled or undefined)>
 			if isSubmenu
 				<div.item.trigger-item zag=triggerItemProps(api)>
 					if icon

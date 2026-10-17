@@ -8,6 +8,13 @@ import '../switch/index.imba'
 import './base.imba'
 
 tag ui-appearance < ui-appearance-base
+	popoverTag = 'ui-popover'
+	buttonTag = 'ui-button'
+	segmentedTag = 'ui-segmented'
+	swatchPickerTag = 'ui-swatch-picker'
+	nativeSelectTag = 'ui-native-select'
+	switchTag = 'ui-switch'
+
 	css
 		d:inline-block
 		# A little wider than a popover's default, for four sidebar styles

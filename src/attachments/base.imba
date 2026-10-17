@@ -69,8 +69,10 @@ tag ui-attachments-base < ui-control
 	#urls = new WeakMap
 	labelId = "{uid('attachments')}-label"
 
-	# The layout switch; the styled attachments use ui-segmented.
+	# The layout switch and preview dialog; the styled attachments use the
+	# styled ones.
 	segmentedTag = 'ui-segmented-base'
+	dialogTag = 'ui-dialog-base'
 	get layouts
 		[
 			{ value: 'grid', label: uiLocale.messages.attachments.grid, icon: 'lucide:layout-grid' }
@@ -296,7 +298,7 @@ tag ui-attachments-base < ui-control
 					<ui-icon path=icons.upload size=20>
 					<span> atMax ? uiLocale.messages.attachments.limit(maxFiles) : uiLocale.messages.attachments.dropToAdd
 
-			<ui-dialog size='lg' heading=(previewing..name) bind=previewOpen>
+			<{dialogTag} size='lg' heading=(previewing..name) bind=previewOpen>
 				<img.preview src=(previewing..url) alt=(previewing..name or '')> if previewing
 				<div slot='footer'>
 					<a.download-link href=(previewing..url) download=(previewing..name)> uiLocale.messages.attachments.download if previewing

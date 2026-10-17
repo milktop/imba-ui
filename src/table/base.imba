@@ -48,6 +48,10 @@ import { uiLocale } from '../locale.imba'
 #       <thead> <tr> <th> 'Name'; <th data-align='end'> 'Year'
 #       <tbody> …
 tag ui-table-base
+	# Child tags; the styled tag uses the styled ones.
+	checkboxTag = 'ui-checkbox-base'
+	skeletonTag = 'ui-skeleton-base'
+
 	prop columns = []
 	prop rows = []
 	prop rowKey = 'id'
@@ -152,7 +156,7 @@ tag ui-table-base
 						<tr>
 							if selectable
 								<th.select-cell scope='col'>
-									<ui-checkbox label=uiLocale.messages.table.selectAll labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
+									<{checkboxTag} label=uiLocale.messages.table.selectAll labelHidden checked=allState disabled=!rows.length @change.stop=toggleAll(e.detail)>
 							for column in columns
 								<th scope='col' data-align=(column.align or 'start') aria-sort=ariaSort(column) style=(column.width ? "width: {column.width}" : undefined)>
 									if column.sortable
@@ -168,7 +172,7 @@ tag ui-table-base
 									if selectable
 										<td.select-cell>
 									for column in columns
-										<td> <ui-skeleton height='0.75rem' width='60%'>
+										<td> <{skeletonTag} height='0.75rem' width='60%'>
 						elif !rows.length
 							<tr>
 								<td.empty colSpan=columnCount>
@@ -178,7 +182,7 @@ tag ui-table-base
 								<tr key=keyOf(row) .selected=isSelected(row) aria-selected=(selectable ? String(isSelected(row)) : undefined) @click=rowClicked(e, row)>
 									if selectable
 										<td.select-cell>
-											<ui-checkbox label=uiLocale.messages.table.selectRow(display(row, columns[0])) labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
+											<{checkboxTag} label=uiLocale.messages.table.selectRow(display(row, columns[0])) labelHidden checked=isSelected(row) @change.stop=toggleRow(row, e.detail)>
 									for column in columns
 										<td data-align=(column.align or 'start')>
 											if column.tag

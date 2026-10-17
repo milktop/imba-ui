@@ -15,46 +15,50 @@ global css
 	# Item tags wrap their item, which may be a link.
 	[data-ui-menu-item] d:contents
 
-	# The positioner carries the z-index itself. Zag sets it inline as
-	# var(--z-index) but doesn't always fill in the variable, so set both.
-	[data-scope=menu][data-part=positioner] zi:50 --z-index:50
-	[data-scope=menu][data-part=content] zi:50 fw:400 min-width:48 py:2 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm ta:left bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
-		transform-origin:var(--transform-origin)
-		&[data-state=open] animation:ui-menu-in 120ms ease-out
-		&[data-state=closed] animation:ui-menu-out 100ms ease-in forwards
-		.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:sm- c:inherit td:none cursor:pointer user-select:none outline:none
-			&[data-highlighted] bg:$ui-hover
-			&[data-state=open] bg:$ui-hover
-			&[data-disabled] o:0.4 cursor:not-allowed
-			&.danger c:$ui-danger
-		.item > .icon d:block w:15px h:15px fs:15px c:$ui-muted fls:0
-		.item.danger > .icon c:inherit
-		.item > .label fl:1
-		# The `end` slot: a count or the like, after the label.
-		.item > .end d:flex ai:center g:1 ml:2 c:$ui-muted fs:xs
-			&:empty d:none
-		.item > .shortcut ml:4 c:$ui-muted fs:11px ff:inherit
-		.item > .indicator d:grid place-items:center w:15px h:15px fls:0
-		# Checked marks in the accent: a tick, and a dot in a soft halo.
-		.mark.checkbox d:block w:14px h:14px fs:14px c:$ui-accent
-		.mark.radio d:block w:6px h:6px rd:full bg:$ui-accent box-shadow:0 0 0 3px $ui-accent-soft
-		# indicator='end' (the default): a tick after the label and any shortcut,
-		# for radios too.
-		.item[data-indicator=end] > .indicator order:1
-			.mark.radio w:14px h:14px fs:14px rd:0 bg:transparent box-shadow:none c:$ui-accent
-		# indicator='highlight': no mark, the checked row is tinted instead.
-		# $ui-menu-checked-bg/-text (set on the menu or any parent) override the
-		# accent's soft tint.
-		.item[data-indicator=highlight][data-state=checked] fw:500
-			bg:var(--ui-menu-checked-bg, $ui-accent-soft) c:var(--ui-menu-checked-text, $ui-accent-soft-text)
-		.item > .chevron d:block w:14px h:14px fs:14px ml:auto c:$ui-muted
-		.separator d:block h:1px my:1 mx:-1 bg:$ui-border
-		.group-label px:2 pt:2 pb:1 fs:xs fw:500 c:$ui-muted
-		# The menu's own label reads a little stronger than its group headings.
-		.menu-label pt:1.5 c:$ui-text fw:600
-		ui-menu-group-base, ui-menu-group, ui-menu-radio-group-base, ui-menu-radio-group d:block
+	# The look, for the styled menu only (it carries data-styled); the
+	# headless ui-menu-base and its submenus stay unstyled.
+	[data-ui-menu][data-styled]
+		# The positioner carries the z-index itself. Zag sets it inline as
+		# var(--z-index) but doesn't always fill in the variable, so set both.
+		[data-scope=menu][data-part=positioner] zi:50 --z-index:50
+		[data-scope=menu][data-part=content] zi:50 fw:400 min-width:48 py:2 px:1 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm ta:left bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
+			transform-origin:var(--transform-origin)
+			&[data-state=open] animation:ui-menu-in 120ms ease-out
+			&[data-state=closed] animation:ui-menu-out 100ms ease-in forwards
+			.item d:flex ai:center g:2 px:2 h:8 rd:sm fs:sm- c:inherit td:none cursor:pointer user-select:none outline:none
+				&[data-highlighted] bg:$ui-hover
+				&[data-state=open] bg:$ui-hover
+				&[data-disabled] o:0.4 cursor:not-allowed
+				&.danger c:$ui-danger
+			.item > .icon d:block w:15px h:15px fs:15px c:$ui-muted fls:0
+			.item.danger > .icon c:inherit
+			.item > .label fl:1
+			# The `end` slot: a count or the like, after the label.
+			.item > .end d:flex ai:center g:1 ml:2 c:$ui-muted fs:xs
+				&:empty d:none
+			.item > .shortcut ml:4 c:$ui-muted fs:11px ff:inherit
+			.item > .indicator d:grid place-items:center w:15px h:15px fls:0
+			# Checked marks in the accent: a tick, and a dot in a soft halo.
+			.mark.checkbox d:block w:14px h:14px fs:14px c:$ui-accent
+			.mark.radio d:block w:6px h:6px rd:full bg:$ui-accent box-shadow:0 0 0 3px $ui-accent-soft
+			# indicator='end' (the default): a tick after the label and any shortcut,
+			# for radios too.
+			.item[data-indicator=end] > .indicator order:1
+				.mark.radio w:14px h:14px fs:14px rd:0 bg:transparent box-shadow:none c:$ui-accent
+			# indicator='highlight': no mark, the checked row is tinted instead.
+			# $ui-menu-checked-bg/-text (set on the menu or any parent) override the
+			# accent's soft tint.
+			.item[data-indicator=highlight][data-state=checked] fw:500
+				bg:var(--ui-menu-checked-bg, $ui-accent-soft) c:var(--ui-menu-checked-text, $ui-accent-soft-text)
+			.item > .chevron d:block w:14px h:14px fs:14px ml:auto c:$ui-muted
+			.separator d:block h:1px my:1 mx:-1 bg:$ui-border
+			.group-label px:2 pt:2 pb:1 fs:xs fw:500 c:$ui-muted
+			# The menu's own label reads a little stronger than its group headings.
+			.menu-label pt:1.5 c:$ui-text fw:600
+			ui-menu-group-base, ui-menu-group, ui-menu-radio-group-base, ui-menu-radio-group d:block
 
 tag ui-menu < ui-menu-base
+	styled = yes
 tag ui-submenu < ui-submenu-base
 tag ui-menu-item < ui-menu-item-base
 tag ui-menu-separator < ui-menu-separator-base

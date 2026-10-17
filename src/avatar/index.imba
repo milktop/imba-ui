@@ -3,6 +3,8 @@ import '../tooltip/index.imba'
 import './base.imba'
 
 tag ui-avatar < ui-avatar-base
+	tooltipTag = 'ui-tooltip'
+
 	css
 		pos:relative d:inline-grid place-items:center fls:0 w:10 h:10 of:hidden rd:full
 		bg:$ui-accent-soft c:$ui-accent-soft-text ff:$ui-font fs:sm fw:600 us:none va:middle

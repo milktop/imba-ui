@@ -27,6 +27,9 @@ export def seriesColor color, index
 
 # Charts drawn to their measured width (so text isn't stretched).
 tag ui-chart-base
+	# The styled tag sets this; its styles only apply when it's on.
+	styled = no
+
 	prop data = []
 	prop x = 'label'
 	prop y = null
@@ -113,7 +116,7 @@ tag ui-area-chart-base < ui-chart-base
 		let stroke = line!.x(do(_, i) xs(i)).y(do ys($1[1])).curve(shape)
 		let step = labelStep(rows.length)
 
-		<self data-ui-chart>
+		<self data-ui-chart data-styled=(styled or undefined)>
 			<div$frame.frame style="height: {height}px" @pointermove=move @pointerleave=(hover = null)>
 				if width
 					<svg.svg width=width height=height aria-hidden='true'>
@@ -192,7 +195,7 @@ tag ui-bar-chart-base < ui-chart-base
 				let bx = stacked ? xs(i) : xs(i) + inner(s.key)
 				{ x: bx, y: ys(low + value), w: (stacked ? xs.bandwidth! : inner.bandwidth!), h: Math.max(0, ys(low) - ys(low + value)), color: s.color }
 
-		<self data-ui-chart>
+		<self data-ui-chart data-styled=(styled or undefined)>
 			<div$frame.frame style="height: {height}px" @pointermove=move @pointerleave=(hover = null)>
 				if width
 					<svg.svg width=width height=height aria-hidden='true'>

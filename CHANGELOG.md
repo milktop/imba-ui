@@ -3,6 +3,29 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.18.0 (2026-10-17)
+
+- Headless tags stay unstyled when the styled library is loaded too.
+  ui-menu-base (and its items and submenus), ui-list-select-base and
+  ui-search-select-base, ui-area-chart-base, ui-bar-chart-base and
+  ui-stats-base no longer pick up the styled tags' global CSS: it now
+  applies only to elements with `data-styled`, which the styled tags set
+  (`styled = yes`). App CSS that overrides those styles may need the
+  extra attribute to keep winning
+- Headless composites render headless children: ui-appearance-base,
+  ui-attachments-base, ui-avatar-base, ui-avatar-group-base,
+  ui-breadcrumbs-base, ui-data-item-base, ui-editor-base, ui-segmented-base,
+  ui-sidebar-base, ui-nav-item-base, ui-sidebar-user-base, ui-table-base and
+  ui-theme-toggle-base used the styled tooltip, popover, dialog, menu,
+  button, input and so on (which their base files didn't even import). Each
+  child is now a field (`tooltipTag`, `popoverTag`, `menuTag`, …) set to the
+  base tag, and the styled tag sets the styled one; set it in a subclass to
+  use another tag there
+- ui-theme-toggle's menu renders ui-menu-radio-group-base and
+  ui-menu-radio-base (styled by the menu around them, as before)
+- Playground: a Headless page with styled and headless tags side by side,
+  a custom look on ui-menu-base, and a headless composite with a styled child
+
 ## 0.17.0 (2026-10-17)
 
 - Menus: `indicator='highlight'` shows a checked checkbox or radio item by
