@@ -3,6 +3,11 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.20.1 (2026-10-18)
+
+- ui-date-range-filter: the presets and Clear no longer dip a pixel when
+  pressed, as ui-button does; they're choices in a list
+
 ## 0.20.0 (2026-10-18)
 
 - ui-date-range-filter: a button that opens preset ranges beside a range
