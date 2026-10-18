@@ -17,7 +17,8 @@ appendCustomStyle('[stroke-width="2"] { stroke-width: var(--ui-icon-stroke, 2); 
 # Plain rules Imba's CSS can't express: Zag's `hidden` on closed parts beats
 # any component display (e.g. d:flex on a dialog panel, which would otherwise
 # stay on screen, invisible but clickable); the browser's focus outline only
-# shows for keyboard focus, not after a click; selected text takes
+# shows for keyboard focus, not after a click (imba/preflight.css gives
+# every focused button one); selected text takes
 # $ui-selection; and animations stop when the system asks for less motion.
 if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 	let style = document.createElement('style')
@@ -25,7 +26,7 @@ if typeof document != 'undefined' and !document.getElementById('ui-base-rules')
 	style.textContent = [
 		'[data-scope][hidden] { display: none !important; }'
 		'::selection { background: var(--ui-selection); }'
-		'[data-scope]:focus:not(:focus-visible) { outline: none; }'
+		'[data-scope]:focus:not(:focus-visible), button:focus:not(:focus-visible) { outline: none; }'
 		'@media (prefers-reduced-motion: reduce) { [data-scope][data-part] { animation: none !important; transition: none !important; } }'
 		'@media (prefers-reduced-motion: reduce) { [data-ui-pulse]::after { animation: none !important; } }'
 		'@media (prefers-reduced-motion: reduce) { [data-ui-rolling] * { transition: none !important; } }'

@@ -43,6 +43,16 @@ export const en = {
 		format: (do(pattern) "Enter a date as {pattern}"), min: (do(date) "Pick a date from {date}"), max: (do(date) "Pick a date up to {date}")
 		unavailable: 'That date isn’t available'
 	}
+	dateRangeFilter: {
+		placeholder: 'All dates', clear: 'Clear'
+		ranges: {
+			today: 'Today', yesterday: 'Yesterday', tomorrow: 'Tomorrow'
+			last7: 'Last 7 days', last30: 'Last 30 days', next7: 'Next 7 days', next30: 'Next 30 days'
+			thisWeek: 'This week', lastWeek: 'Last week', nextWeek: 'Next week'
+			thisMonth: 'This month', lastMonth: 'Last month', nextMonth: 'Next month'
+			thisQuarter: 'This quarter', lastQuarter: 'Last quarter', thisYear: 'This year', lastYear: 'Last year'
+		}
+	}
 	swatchPicker: { placeholder: 'Pick a colour', colors: Object.fromEntries(swatchNames.map(do [$1, capital($1)])) }
 	command: { label: 'Command menu', search: 'Search…', placeholder: 'Type a command or search…', empty: 'No results', loading: 'Searching…', esc: 'Esc' }
 	toaster: { label: 'Notifications' }
@@ -114,6 +124,16 @@ export const fr = {
 		format: (do(pattern) "Saisissez une date au format {pattern.replace(/d/g, 'j').replace(/y/g, 'a')}")
 		min: (do(date) "Choisissez une date à partir du {date}"), max: (do(date) "Choisissez une date jusqu’au {date}")
 		unavailable: 'Cette date n’est pas disponible'
+	}
+	dateRangeFilter: {
+		placeholder: 'Toutes les dates', clear: 'Effacer'
+		ranges: {
+			today: 'Aujourd’hui', yesterday: 'Hier', tomorrow: 'Demain'
+			last7: '7 derniers jours', last30: '30 derniers jours', next7: '7 prochains jours', next30: '30 prochains jours'
+			thisWeek: 'Cette semaine', lastWeek: 'Semaine dernière', nextWeek: 'Semaine prochaine'
+			thisMonth: 'Ce mois-ci', lastMonth: 'Mois dernier', nextMonth: 'Mois prochain'
+			thisQuarter: 'Ce trimestre', lastQuarter: 'Trimestre dernier', thisYear: 'Cette année', lastYear: 'Année dernière'
+		}
 	}
 	swatchPicker: {
 		placeholder: 'Choisir une couleur'
