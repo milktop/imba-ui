@@ -3,6 +3,16 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.19.0 (2026-10-18)
+
+- ui-popover `flush`: no padding, and the panel takes its content's width
+  instead of the fixed one, for content that sizes and spaces itself (an
+  inline date picker, a swatch grid)
+- The inline date picker has no frame of its own: no border, shadow or
+  background, so it no longer shows a card inside a card or popover. Put
+  it in a ui-card (or a `flush` popover) where it needs one
+- Playground: the inline calendar in a card, and in a flush popover
+
 ## 0.18.0 (2026-10-17)
 
 - Headless tags stay unstyled when the styled library is loaded too.

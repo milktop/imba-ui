@@ -35,7 +35,7 @@ code, and some composed screens (blocks).
 | Tree view | `<ui-tree-view>` | Nested items that open and close: keyboard navigation, single or multiple selection, checkboxes that tick a branch's children; bind the selection, `expanded` and `checked` |
 | Sortable list | `<ui-sortable-list>` | Rows put in order by dragging a grip (or the whole row), or with the keyboard (Space, arrows, Space; Escape cancels), announced to screen readers; `itemTag` for row content; card or plain; bindable |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
-| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today; separators typed for you; a typed date it can't take stays, marked invalid with the reason (`invalidchange`); `inline` calendar |
+| Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today; separators typed for you; a typed date it can't take stays, marked invalid with the reason (`invalidchange`); `inline` calendar, unframed for a card or popover |
 | Event calendar | `<ui-event-calendar>` | Events by the hour over a day, a few days or a week, optionally a column per resource (in the views you choose, `resourceViews`): select to book, drag or keyboard to move and resize, all-day strip with folding, availability shading and refusals, pinned placing, right-click menus, extra rows, sticky headers in a fixed height; `eventTag`/`resourceTag` for custom content; bindable date, view and pinned |
 | Native select | `<ui-native-select>` | The browser's own `<select>` styled like the inputs: groups, a placeholder, the items' own values, field wiring |
 | Swatch picker | `<ui-swatch-picker>` | A colour from swatches (Tailwind's by name, or your own), arrow keys like radios; inline or in a popover field |
@@ -60,7 +60,7 @@ code, and some composed screens (blocks).
 | Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, a menu or a single toggle button (also just on phones), driving `colorScheme` (saved, follows the OS) |
 | Appearance | `<ui-appearance>` | One button opening light and dark, the accent colour and the sidebar style, driving `colorScheme` and `appearance` (saved); the choices on offer are yours, and a dev mode tries every one |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
-| Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; binds `open` |
+| Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; `flush` for content that sizes itself; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open`; `exitcomplete` once it has animated out |
 | Confirm | `confirm(options)` | Await a yes or no from anywhere: danger, type-to-confirm, async `onConfirm` (the button spins; errors show in the dialog), queued calls |
@@ -84,7 +84,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.18.0
+npm install github:milktop/imba-ui#v0.19.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```
