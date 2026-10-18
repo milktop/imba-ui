@@ -24,9 +24,10 @@ tag ui-date-picker < ui-date-picker-base
 		# A typed date it can't take: the box in red, the reason under it.
 		&.has-problem .control bc:$ui-danger
 		.error mt:1.5 fs:xs c:$ui-danger
-		# Inline: the calendar's own width, even in a grid or flex column.
+		# Inline: the calendar's own width, even in a grid or flex column, and no
+		# frame of its own; the card or popover around it supplies that.
 		&.inline w:fit-content
-		&.inline .content shadow:$ui-card-shadow
+		&.inline .content bd:none shadow:none rd:0 bg:transparent
 		.clear, .trigger, .prev, .next
 			d:grid place-items:center w:7 h:7 bd:none bg:transparent rd:sm c:$ui-muted cursor:pointer
 			@hover bg:$ui-hover c:$ui-text

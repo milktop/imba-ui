@@ -11,7 +11,7 @@ import { uiLocale } from '../locale.imba'
 # subclass can style it with plain scoped CSS (see ./index.imba).
 #
 # - `inline`: just the calendar, always showing (no input or popup), e.g. a
-#   sidebar or a booking panel
+#   sidebar, a booking panel or a `flush` popover; it has no frame of its own
 #
 # Typing puts in the locale's separators (11102026 → 11/10/2026; 11.10.2026
 # in German); a separator typed by hand, or a pasted date, works too. A typed

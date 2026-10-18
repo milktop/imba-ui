@@ -48,6 +48,15 @@ tag page-date-picker
 					<p.note> "Type 12/12/2026, a Saturday, or 11/1 and press Enter: the text stays, marked invalid with the reason, and the value doesn't change. Digits get the locale's separators as you type."
 
 			<demo-section heading='Inline'>
-				<ui-date-picker inline bind=visitDate>
+				<ui-card[w:fit-content] size='sm'>
+					<ui-date-picker inline bind=visitDate>
 				<div.out>
 					<json-print data={ visitDate }>
+					<p.note> "Inline has no frame of its own: here a card supplies it."
+
+			<demo-section heading='In a popover'>
+				<ui-popover flush placement='bottom-start'>
+					<ui-button slot='trigger' icon='lucide:calendar' iconEnd='lucide:chevron-down'> visitDate
+					<ui-date-picker inline bind=visitDate>
+				<div.out>
+					<p.note> "A `flush` popover takes the calendar's width and leaves the spacing to it."

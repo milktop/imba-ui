@@ -16,6 +16,8 @@ import { icons } from '../icons.imba'
 # - `closable`: shows a close button
 # - `arrow`: points the panel at its trigger
 # - `modal`: traps focus and blocks the page behind it
+# - `flush`: no padding, and the panel takes its content's width, for content
+#   that sizes and spaces itself (an inline date picker, a swatch grid)
 #
 # Bind the open state with `bind=` or `bind:open=`; `openchange` is emitted
 # with the new state.
@@ -27,6 +29,7 @@ tag ui-popover-base
 	prop closable = false
 	prop arrow = false
 	prop modal = false
+	prop flush = false
 
 	zagId = uid('popover')
 
@@ -66,7 +69,7 @@ tag ui-popover-base
 		let api = machine.connect(popover)
 		trigger.zag = api.getTriggerProps! if trigger
 
-		<self>
+		<self .flush=flush>
 			<span$triggerSlot.trigger-slot> <slot name='trigger'>
 			<div.positioner zag=api.getPositionerProps!>
 				<div.content zag=api.getContentProps!>
