@@ -17,11 +17,26 @@ import 'iconify-icon'
 # a click outside.
 #
 # - `presets`: keys of the built-in ranges, or `{ label, range }` for one of
-#   your own, `range` being a function returning [from, to] as Dates (it's
-#   given the locale's first day of the week, 1 Monday to 7 Sunday)
+#   your own (below), mixed in any order
 # - `placeholder`: the button's text with no dates ("All dates")
 # - `placement`: where the panel opens ('bottom-end')
 # - `locale`: its own, rather than the app's (uiLocale)
+#
+# A preset of your own is a `label` for its button (and the trigger, once
+# picked) and a `range` function returning [from, to] as local Dates, both
+# days included. It runs each time it's used, so it can't go stale, and it's
+# given the locale's first day of the week (1 Monday to 7 Sunday) for ranges
+# that care. Its label is yours to translate.
+#
+#   const schoolYear =
+#   	label: 'This school year'
+#   	range: do
+#   		let now = new Date
+#   		# Before September we're still in the year that began last autumn.
+#   		let start = now.getMonth! >= 8 ? now.getFullYear! : now.getFullYear! - 1
+#   		[new Date(start, 8, 1), new Date(start + 1, 7, 31)]
+#
+#   <ui-date-range-filter presets=['thisMonth', 'lastMonth', schoolYear] bind=filters.dates>
 #
 # Built-in ranges: today, yesterday, tomorrow, last7, last30, next7, next30,
 # thisWeek, lastWeek, nextWeek, thisMonth, lastMonth, nextMonth, thisQuarter,
