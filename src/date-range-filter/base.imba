@@ -133,7 +133,7 @@ tag ui-date-range-filter-base
 			<div.panel tabindex=-1 data-autofocus=true>
 				<div.presets>
 					for item in items
-						<{buttonTag}.preset block size='sm' variant=(matches(item) ? 'soft' : 'ghost') aria-pressed=String(matches(item)) @click=pick(item)> item.label
+						<{buttonTag}.preset block size='sm' variant='ghost' aria-pressed=String(matches(item)) @click=pick(item)> item.label
 					<{buttonTag}.clear block size='sm' icon='lucide:x' disabled=!dates.length @click=clear> words.clear
 				<{dividerTag} orientation='vertical' spacing='0'>
 				<{datePickerTag} inline range locale=locale bind=data @change.stop=emit('change', data)>
