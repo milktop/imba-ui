@@ -1,6 +1,6 @@
 {
   "name": "@milktop/imba-ui",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "type": "module",
   "description": "Imba UI components on Zag state machines",
   "license": "MIT",
@@ -12,6 +12,8 @@
     "./appearance": "./src/appearance.imba",
     "./date-picker": "./src/date-picker/index.imba",
     "./date-picker/base": "./src/date-picker/base.imba",
+    "./date-range-filter": "./src/date-range-filter/index.imba",
+    "./date-range-filter/base": "./src/date-range-filter/base.imba",
     "./select": "./src/select/index.imba",
     "./select/base": "./src/select/base.imba",
     "./input": "./src/input/index.imba",

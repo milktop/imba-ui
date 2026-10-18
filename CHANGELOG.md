@@ -3,6 +3,21 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.20.0 (2026-10-18)
+
+- ui-date-range-filter: a button that opens preset ranges beside a range
+  calendar, for narrowing a list to some dates. Binds [from, to] as ISO
+  dates (empty for all dates) and emits `change`. `presets` takes keys of
+  the built-in ranges (today, last7, last30, thisMonth, lastQuarter,
+  next7, nextMonth… with English and French labels in uiLocale's
+  `dateRangeFilter`) or `{ label, range }` of your own. The matching
+  preset lights up however the dates were picked, and focus lands on the
+  panel when it opens, not on the first preset
+- Clicked buttons no longer show the browser's focus ring:
+  imba/preflight.css gives every focused button one, which beat
+  ui-button's `outline:none`. Keyboard focus keeps the accent ring
+- Playground: a Date range filter page
+
 ## 0.19.0 (2026-10-18)
 
 - ui-popover `flush`: no padding, and the panel takes its content's width

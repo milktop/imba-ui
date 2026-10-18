@@ -36,6 +36,7 @@ code, and some composed screens (blocks).
 | Sortable list | `<ui-sortable-list>` | Rows put in order by dragging a grip (or the whole row), or with the keyboard (Space, arrows, Space; Escape cancels), announced to screen readers; `itemTag` for row content; card or plain; bindable |
 | Collapsible | `<ui-collapsible>` | A section that opens with a height animation; heading or own trigger |
 | Date picker | `<ui-date-picker>` | Single or range, min/max, unavailable dates, day/month/year views; ↑/↓ in the input step a day (⇧ a week), starting from today; separators typed for you; a typed date it can't take stays, marked invalid with the reason (`invalidchange`); `inline` calendar, unframed for a card or popover |
+| Date range filter | `<ui-date-range-filter>` | A button opening preset ranges (last 30 days, last quarter…) beside a range calendar; binds `[from, to]`; pick presets by key or add your own |
 | Event calendar | `<ui-event-calendar>` | Events by the hour over a day, a few days or a week, optionally a column per resource (in the views you choose, `resourceViews`): select to book, drag or keyboard to move and resize, all-day strip with folding, availability shading and refusals, pinned placing, right-click menus, extra rows, sticky headers in a fixed height; `eventTag`/`resourceTag` for custom content; bindable date, view and pinned |
 | Native select | `<ui-native-select>` | The browser's own `<select>` styled like the inputs: groups, a placeholder, the items' own values, field wiring |
 | Swatch picker | `<ui-swatch-picker>` | A colour from swatches (Tailwind's by name, or your own), arrow keys like radios; inline or in a popover field |
@@ -84,7 +85,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.19.0
+npm install github:milktop/imba-ui#v0.20.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```
