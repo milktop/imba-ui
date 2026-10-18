@@ -12,6 +12,7 @@ tag ui-popover < ui-popover-base
 		.positioner zi:50 --z-index:50
 		.content zi:50 fw:400 pos:relative w:72 max-width:calc(100vw - 32px) p:4 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 			--arrow-size:12px --arrow-background:$ui-surface
+		&.flush .content w:auto p:0
 		.arrow-tip bdt:1px solid $ui-border bdl:1px solid $ui-border
 		# Room for the close button; slotted content follows below.
 		.header pr:6 mb:3
