@@ -346,10 +346,18 @@ tag ui-nav-group-base
 					continue if group == self or !group.data
 					group.data = no
 					group.render!
+			revealChildren! if data
 		elif flyout
 			hideFlyout!
 		else
 			showFlyout!
+
+	# Scrolls the sidebar just enough to show the opened items (the heading
+	# stays in view when the group is taller than the sidebar).
+	def revealChildren
+		render!
+		let reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+		scrollIntoView(block: 'nearest', behavior: reduce ? 'auto' : 'smooth')
 
 	def focusLeft e
 		hideFlyout! unless contains(e.relatedTarget)
