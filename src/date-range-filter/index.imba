@@ -19,3 +19,6 @@ tag ui-date-range-filter < ui-date-range-filter-base
 		.preset jc:flex-start fw:400 fs:13px
 			&.ghost c:$ui-text
 		.clear mt:auto fw:400 fs:13px c:$ui-muted
+		# Choices in a list, so they don't dip when pressed like ui-button does.
+		.preset, .clear
+			@active y:0
