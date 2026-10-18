@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.20.2 (2026-10-18)
+
+- ui-date-range-filter: the picked preset is a quiet tint (10% accent, the
+  normal text colour, medium weight) rather than the soft button's fill.
+  Set `$ui-date-range-filter-active-bg` and `-text` for another, e.g.
+  `$ui-hover` for grey
+
 ## 0.20.1 (2026-10-18)
 
 - ui-date-range-filter: the presets and Clear no longer dip a pixel when
