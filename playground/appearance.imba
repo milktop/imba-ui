@@ -2,6 +2,14 @@ import '@fontsource-variable/inter'
 import '@fontsource-variable/plus-jakarta-sans'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/dm-sans'
+import '@fontsource-variable/figtree'
+import '@fontsource-variable/onest'
+import '@fontsource-variable/manrope'
+import '@fontsource-variable/outfit'
+import '@fontsource-variable/instrument-sans'
+import '@fontsource-variable/hanken-grotesk'
+import '@fontsource-variable/mona-sans'
+import '@fontsource-variable/ibm-plex-sans'
 import { colorScheme } from '../src/color-scheme.imba'
 import { appearance, accents as scaledAccents } from '../src/appearance.imba'
 import { uiLocale } from '../src/locale.imba'
@@ -29,6 +37,14 @@ export const fonts = {
 	jakarta: { name: 'Jakarta', family: "'Plus Jakarta Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/plus-jakarta-sans' }
 	geist: { name: 'Geist', family: "'Geist Variable', system-ui, sans-serif", pkg: '@fontsource-variable/geist' }
 	dm: { name: 'DM Sans', family: "'DM Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/dm-sans' }
+	figtree: { name: 'Figtree', family: "'Figtree Variable', system-ui, sans-serif", pkg: '@fontsource-variable/figtree' }
+	onest: { name: 'Onest', family: "'Onest Variable', system-ui, sans-serif", pkg: '@fontsource-variable/onest' }
+	manrope: { name: 'Manrope', family: "'Manrope Variable', system-ui, sans-serif", pkg: '@fontsource-variable/manrope' }
+	outfit: { name: 'Outfit', family: "'Outfit Variable', system-ui, sans-serif", pkg: '@fontsource-variable/outfit' }
+	instrument: { name: 'Instrument Sans', family: "'Instrument Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/instrument-sans' }
+	hanken: { name: 'Hanken Grotesk', family: "'Hanken Grotesk Variable', system-ui, sans-serif", pkg: '@fontsource-variable/hanken-grotesk' }
+	mona: { name: 'Mona Sans', family: "'Mona Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/mona-sans' }
+	plex: { name: 'IBM Plex Sans', family: "'IBM Plex Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/ibm-plex-sans' }
 }
 
 export const radii = { sharp: ['Sharp', '2px'], default: ['Default', '6px'], round: ['Round', '12px'] }
