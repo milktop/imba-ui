@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.20.3 (2026-10-18)
+
+- Opening a nav group scrolls the sidebar just enough to show its items
+  (smoothly, unless reduced motion is on), so the last group no longer
+  opens out of sight
+
 ## 0.20.2 (2026-10-18)
 
 - ui-date-range-filter: the picked preset is a quiet tint (10% accent, the
