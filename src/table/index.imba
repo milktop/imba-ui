@@ -37,19 +37,50 @@ tag ui-table < ui-table-base
 		.scroll >>> :is(th, td)[data-align=center] ta:center
 		.scroll >>> :is(th, td)[data-align=end] ta:right
 		.scroll >>> tbody tr@last-child td bdb:none
+		# A footer (totals) reads as the table's end: a rule above it, on the
+		# header's faint band, in the body's size and colour.
+		.scroll >>> tfoot th, .scroll >>> tfoot td fs:sm c:$ui-text fw:500 bdt:1px solid $ui-border bdb:none bg:color-mix(in srgb, $ui-hover 60%, $ui-surface)
 		.scroll >>> tbody tr
 			@hover bg:color-mix(in srgb, $ui-hover 60%, transparent)
 		.scroll >>> tbody tr.selected bg:color-mix(in srgb, $ui-accent-soft 45%, transparent)
 		.scroll >>> .select-cell w:9 pr:0
-		.sort d:inline-flex ai:center g:1 m:0 -1.5 px:1.5 h:6 bd:none rd:sm bg:transparent c:inherit ff:inherit fs:inherit fw:inherit cursor:pointer
+		.sort d:inline-flex ai:center g:1 m:0 -1.5 px:1.5 h:6 bd:none rd:sm bg:transparent c:inherit ff:inherit fs:inherit fw:inherit td:none cursor:pointer
 			@hover c:$ui-text
 			@focus-visible outline:2px solid $ui-ring-soft
-			&[data-dir] c:$ui-text
+			&.sorted c:$ui-text
 		# Sort icons show on hover or focus, and on the sorted column; their
 		# space is kept, so labels don't shift.
 		.sort-icon d:inline-flex o:0 transition:opacity 120ms
 		.sort@hover .sort-icon, .sort@focus-visible .sort-icon o:0.5
-		.sort[data-dir] .sort-icon o:1
+		.sort.sorted .sort-icon o:1
 		th[data-align=end] .sort fld:row-reverse
 		.scroll >>> td.empty h:auto py:10 ta:center c:$ui-muted ws:normal
 		&.loading tbody o:0.5 transition:opacity 150ms
+
+export { TableSelection, TableSort, compareValues } from './state.imba'
+
+# The parts for a table written as markup. Their cells take the table's look
+# from ui-table; these style what they add.
+tag ui-table-header < ui-table-header-base
+	css
+		.sort d:inline-flex ai:center g:1 m:0 -1.5 px:1.5 h:6 bd:none rd:sm bg:transparent c:inherit ff:inherit fs:inherit fw:inherit td:none cursor:pointer
+			@hover c:$ui-text
+			@focus-visible outline:2px solid $ui-ring-soft
+			&.sorted c:$ui-text
+		# As on the generated headings: shown on hover or focus, and on the
+		# sorted column, with their space kept.
+		.sort-icon d:inline-flex o:0 transition:opacity 120ms
+		.sort@hover .sort-icon, .sort@focus-visible .sort-icon o:0.5
+		.sort.sorted .sort-icon o:1
+		&[data-align=end] .sort fld:row-reverse
+
+tag ui-table-cell < ui-table-cell-base
+	css &.nowrap ws:nowrap
+
+tag ui-table-row < ui-table-row-base
+
+tag ui-table-select < ui-table-select-base
+	checkboxTag = 'ui-checkbox'
+
+tag ui-table-select-all < ui-table-select-all-base
+	checkboxTag = 'ui-checkbox'

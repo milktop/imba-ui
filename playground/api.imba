@@ -84,8 +84,13 @@ def propsOf body, notes
 	let props = []
 	for line in body
 		let m = line.match(/^\tprop (\w+)(?: = (.+))?$/)
-		continue unless m
-		props.push({ name: m[1], default: m[2] ?? 'null', note: notes[m[1]]..text or '' })
+		# Setters stand in for props named like native ones (`align` on a
+		# cell); they're listed when the doc comment describes them.
+		let s = !m and line.match(/^\tset (\w+) /)
+		if m
+			props.push({ name: m[1], default: m[2] ?? 'null', note: notes[m[1]]..text or '' })
+		elif s and notes[s[1]] and !props.find(do $1.name == s[1])
+			props.push({ name: s[1], default: 'null', note: notes[s[1]].text })
 	props
 
 # A "Props" panel for a component page: one table per tag in its base file.

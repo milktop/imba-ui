@@ -3,6 +3,32 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.21.0 (2026-10-19)
+
+- ui-table: parts for a table written as markup: `ui-table-header` (a
+  sortable heading), `ui-table-cell` (`align`, `nowrap`), `ui-table-row`
+  (marked when ticked), `ui-table-select` and `ui-table-select-all`. They
+  extend `th`/`td`/`tr`, so they're real table cells
+- `TableSelection` and `TableSort` (exported from the package and
+  `@milktop/imba-ui/table`): a table's ticked rows and order, kept in one
+  field on the page. Set them on ui-table (`selection=`, `sorting=`) for its
+  parts, or for `columns` in place of `bind:selected`/`bind:sort`
+- `TableSort` follows the URL by default, for sorting on the server: it
+  reads the order from the query (`sort`, `dir`), and sortable headings
+  become links to the same URL with the next order and without `page`.
+  ui-table's `linkTag` renders them with your router's link (Inertia's
+  `Link`). `url:` gives it another URL (Inertia's page URL, for SSR);
+  `local: yes` keeps the order in the object, for rows sorted in the browser
+  with `apply(rows)`
+- `TableSort`'s `default` is the order when none is picked (the server's,
+  when the query has no `sort`): its heading shows it and flips between
+  ascending and descending, other headings cycle back to it, and links to
+  it leave `sort` and `dir` out of the URL
+- ui-table: a heading sorted and then cleared no longer keeps its icon
+  showing
+- ui-table: a `<tfoot>` (totals) is styled as the table's end: a rule
+  above it, the header's faint band, medium weight
+
 ## 0.20.4 (2026-10-18)
 
 - ui-date-range-filter: the docs explain a preset of your own (a `label`
