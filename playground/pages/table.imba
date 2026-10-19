@@ -71,10 +71,10 @@ tag page-table
 	empty = no
 
 	picked = new TableSelection
-	order = new TableSort(key: 'student')
+	order = new TableSort(local: yes, default: { key: 'student' })
 	# Sorted on the server: the order lives in the URL's query, and without
 	# one the server sorts by name.
-	serverSort = new TableSort(url: yes, default: { key: 'name', dir: 'asc' })
+	serverSort = new TableSort(default: { key: 'name' })
 
 	columns = [
 		{ key: 'name', label: 'Student', sortable: yes, tag: StudentCell }
@@ -152,7 +152,7 @@ tag page-table
 					<json-print data={ order: order.value, picked: picked.keys }>
 
 			<demo-section heading='Sorted on the server' uses='serverSort' bare>
-				<p.note> "A TableSort with `url` reads the order from the query, and its headings link to the next one: the same URL with `sort` and `dir` set and `page` removed. `default` is the server's order when the query has none: its heading shows it and flips rather than turning off. `linkTag` renders them with your router's link (Inertia's `Link`)."
+				<p.note> "A TableSort follows the URL: it reads the order from the query, and its headings link to the next one: the same URL with `sort` and `dir` set and `page` removed. `default` is the server's order when the query has none: its heading shows it and flips rather than turning off. `linkTag` renders them with your router's link (Inertia's `Link`)."
 				<ui-table sorting=serverSort linkTag=RouterLink>
 					<table>
 						<thead>

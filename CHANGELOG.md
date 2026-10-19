@@ -13,10 +13,13 @@ fix things.
   `@milktop/imba-ui/table`): a table's ticked rows and order, kept in one
   field on the page. Set them on ui-table (`selection=`, `sorting=`) for its
   parts, or for `columns` in place of `bind:selected`/`bind:sort`
-- `new TableSort(url: …)` reads the order from the query (`sort`, `dir`),
-  for sorting on the server: sortable headings become links to the same URL
-  with the next order and without `page`. ui-table's `linkTag` renders them
-  with your router's link (Inertia's `Link`)
+- `TableSort` follows the URL by default, for sorting on the server: it
+  reads the order from the query (`sort`, `dir`), and sortable headings
+  become links to the same URL with the next order and without `page`.
+  ui-table's `linkTag` renders them with your router's link (Inertia's
+  `Link`). `url:` gives it another URL (Inertia's page URL, for SSR);
+  `local: yes` keeps the order in the object, for rows sorted in the browser
+  with `apply(rows)`
 - `TableSort`'s `default` is the order when none is picked (the server's,
   when the query has no `sort`): its heading shows it and flips between
   ascending and descending, other headings cycle back to it, and links to

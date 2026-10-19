@@ -66,44 +66,46 @@ export class TableSelection
 
 	def clear do keys = []
 
-# How rows are sorted: a key and 'asc' or 'desc', or none. Sortable headers
-# cycle ascending, descending, then off (back to the default order, if any).
-#
-# Sorted on the server, it reads the order from the URL's query (`sort` and
-# `dir`), and sortable headers become links to the next one:
-#
-#   sorting = new TableSort(url: yes)               # the current location
-#   sorting = new TableSort(url: do getPage!.url)   # Inertia's page URL
-#   sorting = new TableSort(url: yes, default: { key: 'date', dir: 'desc' })
-#
-# Sorted here, it keeps the order itself:
-#
-#   sorting = new TableSort(key: 'name')
-#   sorting.apply(rows)
-#
-# - `url`: yes for the current location, or a URL (or a function returning
-#   one); its links keep the rest of the query, minus the page, so a new
-#   order starts on the first
-# - `params`: the query's names, `{ sort: 'sort', dir: 'dir', page: 'page' }`
-# - `default`: the order rows are in when none is picked (`{ key, dir }`),
-#   e.g. the server's when the query has no `sort`. Its heading shows it, and
-#   flips between ascending and descending rather than turning off; links
-#   back to it leave `sort` and `dir` out of the URL
-# - `key`, `dir`: the order to begin with, sorted here
-# - `onchange(order)`: called when a header changes it (`{ key, dir }` or null)
 # `{ key, dir }` with dir 'asc' (the default) or 'desc'; null without a key.
 def orderOf order
 	order and order.key ? { key: order.key, dir: order.dir == 'desc' ? 'desc' : 'asc' } : null
 
+# How rows are sorted: a key and 'asc' or 'desc', or none. Sortable headers
+# cycle ascending, descending, then off (back to the default order, if any).
+#
+# By default it follows the URL, for sorting on the server: it reads the
+# order from the query (`sort` and `dir`), and sortable headers become links
+# to the next one.
+#
+#   sorting = new TableSort(default: { key: 'date', dir: 'desc' })
+#   sorting = new TableSort(url: do getPage!.url)   # Inertia's page URL (SSR too)
+#
+# With `local`, it keeps the order itself, for rows sorted here:
+#
+#   sorting = new TableSort(local: yes, default: { key: 'name' })
+#   sorting.apply(rows)
+#
+# - `default`: the order rows are in when none is picked (`{ key, dir }`),
+#   e.g. the server's when the query has no `sort`. Its heading shows it, and
+#   flips between ascending and descending rather than turning off; links
+#   back to it leave `sort` and `dir` out of the URL
+# - `url`: the URL to read (or a function returning it); the current
+#   location by default. Links keep the rest of its query, minus the page,
+#   so a new order starts on the first
+# - `params`: the query's names, `{ sort: 'sort', dir: 'dir', page: 'page' }`
+# - `local`: keeps the order here instead of in the URL; headers are buttons
+# - `onchange(order)`: called when a header changes it (`{ key, dir }`, or
+#   null back to the default)
 export class TableSort
 	constructor options = {}
 		#url = options.url ?? null
+		local = !!options.local
 		params = { sort: 'sort', dir: 'dir', page: 'page', ...(options.params or {}) }
 		onchange = options.onchange or null
-		#order = orderOf(options.key ? { key: options.key, dir: options.dir } : null)
+		#order = null
 		#default = orderOf(options.default)
 
-	get linked do #url != null and #url !== false
+	get linked do !local
 
 	def currentUrl
 		let href = typeof #url == 'function' ? #url() : (typeof #url == 'string' ? #url : null)

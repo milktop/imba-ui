@@ -27,8 +27,9 @@ import { TableSelection, TableSort, compareValues } from './state.imba'
 #   descending, then off. Bind the state with `bind:sort=` ({ key, dir });
 #   with `manualSort` rows aren't sorted here: sort them yourself, with
 #   `sortList(list)` before paging or on a server (listen for `sortchange`).
-# - `sorting`: a TableSort to keep the order in instead of `sort`; one that
-#   follows the URL (sorted on the server) makes the headings links
+# - `sorting`: a TableSort to keep the order in instead of `sort`. Following
+#   the URL (its default; sorted on the server), the headings are links and
+#   rows come in sorted; with `local: yes`, they're sorted here
 # - `selectable`: a checkbox per row and a select-all; the selected rows' keys
 #   are bindable with `bind:selected=` (`selectionchange` is emitted too).
 #   Shift-clicking a row's checkbox ticks (or clears) the rows between it and
@@ -95,7 +96,7 @@ tag ui-table-base
 	# The order: `sorting`, else a TableSort kept in step with `sort`.
 	get sorter
 		return sorting if sorting
-		#sorter ||= new TableSort
+		#sorter ||= new TableSort(local: yes)
 		#sorter.value = sort
 		#sorter
 
