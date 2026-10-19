@@ -67,13 +67,14 @@ export class TableSelection
 	def clear do keys = []
 
 # How rows are sorted: a key and 'asc' or 'desc', or none. Sortable headers
-# cycle ascending, descending, then off.
+# cycle ascending, descending, then off (back to the default order, if any).
 #
 # Sorted on the server, it reads the order from the URL's query (`sort` and
 # `dir`), and sortable headers become links to the next one:
 #
 #   sorting = new TableSort(url: yes)               # the current location
 #   sorting = new TableSort(url: do getPage!.url)   # Inertia's page URL
+#   sorting = new TableSort(url: yes, default: { key: 'date', dir: 'desc' })
 #
 # Sorted here, it keeps the order itself:
 #
@@ -84,14 +85,23 @@ export class TableSelection
 #   one); its links keep the rest of the query, minus the page, so a new
 #   order starts on the first
 # - `params`: the query's names, `{ sort: 'sort', dir: 'dir', page: 'page' }`
+# - `default`: the order rows are in when none is picked (`{ key, dir }`),
+#   e.g. the server's when the query has no `sort`. Its heading shows it, and
+#   flips between ascending and descending rather than turning off; links
+#   back to it leave `sort` and `dir` out of the URL
 # - `key`, `dir`: the order to begin with, sorted here
 # - `onchange(order)`: called when a header changes it (`{ key, dir }` or null)
+# `{ key, dir }` with dir 'asc' (the default) or 'desc'; null without a key.
+def orderOf order
+	order and order.key ? { key: order.key, dir: order.dir == 'desc' ? 'desc' : 'asc' } : null
+
 export class TableSort
 	constructor options = {}
 		#url = options.url ?? null
 		params = { sort: 'sort', dir: 'dir', page: 'page', ...(options.params or {}) }
 		onchange = options.onchange or null
-		#order = options.key ? { key: options.key, dir: options.dir == 'desc' ? 'desc' : 'asc' } : null
+		#order = orderOf(options.key ? { key: options.key, dir: options.dir } : null)
+		#default = orderOf(options.default)
 
 	get linked do #url != null and #url !== false
 
@@ -101,17 +111,22 @@ export class TableSort
 		new URL(href or here or '/', here or 'http://localhost')
 
 	# The order: `{ key, dir }`, or null. Linked, the URL's; just after a
-	# header click, the new one until the URL catches up.
-	get value
+	# header click, the new one until the URL catches up. Without one, the
+	# default.
+	get value do picked ?? #default
+
+	# The order picked (in the URL, or here), leaving out the default.
+	get picked
 		return #order unless linked
 		let url = currentUrl!
 		if #pending
 			return #pending.order if url.href == #pending.from
 			#pending = null
-		let key = url.searchParams.get(params.sort)
-		key ? { key, dir: url.searchParams.get(params.dir) == 'desc' ? 'desc' : 'asc' } : null
+		orderOf({ key: url.searchParams.get(params.sort), dir: url.searchParams.get(params.dir) })
 	set value order
-		#order = order and order.key ? { key: order.key, dir: order.dir == 'desc' ? 'desc' : 'asc' } : null
+		#order = orderOf(order)
+
+	get default do #default
 
 	get key do value..key ?? null
 	get dir do value..dir ?? null
@@ -124,14 +139,17 @@ export class TableSort
 	# The order a click on `key`'s header moves to.
 	def next key
 		let dir = directionOf(key)
-		dir == null ? { key, dir: 'asc' } : (dir == 'asc' ? { key, dir: 'desc' } : null)
+		let order = dir == null ? { key, dir: 'asc' } : (dir == 'asc' ? { key, dir: 'desc' } : null)
+		# Turning it off would go back to the default, so its own column flips.
+		order = { key, dir: 'asc' } if !order and #default and #default.key == key
+		order
 
 	# A link to the next order for `key`: the current URL with `sort` and `dir`
-	# set (or removed, going back to none) and `page` removed.
+	# set (or removed, going back to the default or none) and `page` removed.
 	def href key
 		let url = currentUrl!
 		let order = next(key)
-		if order
+		if order and !(#default and order.key == #default.key and order.dir == #default.dir)
 			url.searchParams.set(params.sort, order.key)
 			url.searchParams.set(params.dir, order.dir)
 		else

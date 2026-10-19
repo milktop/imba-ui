@@ -17,6 +17,10 @@ fix things.
   for sorting on the server: sortable headings become links to the same URL
   with the next order and without `page`. ui-table's `linkTag` renders them
   with your router's link (Inertia's `Link`)
+- `TableSort`'s `default` is the order when none is picked (the server's,
+  when the query has no `sort`): its heading shows it and flips between
+  ascending and descending, other headings cycle back to it, and links to
+  it leave `sort` and `dir` out of the URL
 - ui-table: a heading sorted and then cleared no longer keeps its icon
   showing
 - ui-table: a `<tfoot>` (totals) is styled as the table's end: a rule
