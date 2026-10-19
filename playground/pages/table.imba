@@ -1,5 +1,6 @@
 import source from './table.imba?raw'
 import { toaster } from '../../src/toast/index.imba'
+import { TableSelection, TableSort } from '../../src/table/index.imba'
 
 const first = ['Ada', 'Alan', 'Grace', 'Katherine', 'Margaret', 'Tim', 'Edsger', 'Barbara', 'Donald', 'Radia', 'Frances', 'John']
 const last = ['Lovelace', 'Turing', 'Hopper', 'Johnson', 'Hamilton', 'Berners-Lee', 'Dijkstra', 'Liskov', 'Knuth', 'Perlman', 'Allen', 'McCarthy']
@@ -46,6 +47,15 @@ tag RowActions
 	<self> <ui-menu items=items label=row.name placement='bottom-end' @select=toaster.info(title: "{e.detail}: {row.name}")>
 		<ui-button slot='trigger' size='sm' variant='ghost' icon='lucide:ellipsis' aria-label="Actions for {row.name}">
 
+# Follows a link without reloading the page, as Inertia's `Link` does; a
+# table's `linkTag` renders its sorting links with it.
+tag RouterLink < a
+	def follow e
+		return if e.metaKey or e.ctrlKey or e.shiftKey or e.altKey
+		e.preventDefault!
+		router.go(getAttribute('href'))
+	<self @click=follow(e)> <slot>
+
 const invoices = [
 	{ id: 'INV-031', student: 'Ada Lovelace', date: '1 Oct', amount: 120 }
 	{ id: 'INV-030', student: 'Alan Turing', date: '24 Sep', amount: 140 }
@@ -59,6 +69,11 @@ tag page-table
 	sort = { key: 'name', dir: 'asc' }
 	loading = no
 	empty = no
+
+	picked = new TableSelection
+	order = new TableSort(key: 'student')
+	# Sorted on the server: the order lives in the URL's query.
+	serverSort = new TableSort(url: yes)
 
 	columns = [
 		{ key: 'name', label: 'Student', sortable: yes, tag: StudentCell }
@@ -88,7 +103,6 @@ tag page-table
 		.toolbar d:flex ai:center jc:space-between g:3 flw:wrap w:100%
 		.search w:100% @sm:64
 		.stack d:flex fld:column g:3 w:100%
-		.total fw:600
 
 	<self>
 		<demo-page source=source heading='Table' intro='ui-table lays out rows of objects by `columns`: sortable headings, row selection with select-all (Shift-click a checkbox to tick a run of rows, and an action bar appears), custom cells, loading and empty states. ui-pagination pages through them.'>
@@ -108,26 +122,52 @@ tag page-table
 				<div.out>
 					<json-print data={ page, sort, selected }>
 
-			<demo-section heading='Written as markup' bare>
-				<p.note> "Without `columns`, write the <table> yourself: it gets the same look (use data-align on cells), but no sorting, selection or loading states."
-				<ui-table>
+			<demo-section heading='Written as markup' uses='picked order' bare>
+				<p.note> "Without `columns`, write the <table> yourself: plain <th>/<td> get the same look, and the parts add sorting (a TableSort) and selection (a TableSelection), set once on ui-table."
+				<ui-table sorting=order selection=picked>
 					<table>
 						<thead>
 							<tr>
-								<th> "Invoice"
-								<th> "Student"
-								<th> "Date"
-								<th data-align='end'> "Amount"
+								<ui-table-select-all rows=invoices>
+								<ui-table-header sort='id'> "Invoice"
+								<ui-table-header sort='student'>
+									<iconify-icon icon='lucide:user' width='13' [va:-2px]>
+									" Student"
+								<ui-table-header> "Date"
+								<ui-table-header sort='amount' align='end'> "Amount"
 						<tbody>
-							for invoice in invoices
-								<tr>
-									<td> invoice.id
-									<td> invoice.student
-									<td> invoice.date
-									<td data-align='end'> "£{invoice.amount}"
-							<tr.total>
-								<td colSpan=3> "Total"
+							for invoice in order.apply(invoices)
+								<ui-table-row key=invoice.id row=invoice>
+									<ui-table-select row=invoice label="Select {invoice.id}">
+									<ui-table-cell> <code> invoice.id
+									<ui-table-cell> <strong> invoice.student
+									<ui-table-cell nowrap> invoice.date
+									<ui-table-cell align='end'> "£{invoice.amount}"
+						<tfoot>
+							<tr>
+								<td colSpan=4> "Total"
 								<td data-align='end'> "£{invoices.reduce((do $1 + $2.amount), 0)}"
+				<div.out>
+					<json-print data={ order: order.value, picked: picked.keys }>
+
+			<demo-section heading='Sorted on the server' uses='serverSort' bare>
+				<p.note> "A TableSort with `url` reads the order from the query, and its headings link to the next one: the same URL with `sort` and `dir` set and `page` removed. `linkTag` renders them with your router's link (Inertia's `Link`)."
+				<ui-table sorting=serverSort linkTag=RouterLink>
+					<table>
+						<thead>
+							<tr>
+								<ui-table-header sort='name'> "Student"
+								<ui-table-header sort='subject'> "Subject"
+								<ui-table-header sort='lessons' align='end'> "Lessons"
+						<tbody>
+							# Standing in for the server, which would sort the query.
+							for s in serverSort.apply(students.slice(0, 5))
+								<tr>
+									<td> s.name
+									<td> s.subject
+									<td data-align='end'> s.lessons
+				<div.out>
+					<json-print data={ query: globalThis.location.search or '(none)', order: serverSort.value }>
 
 			<demo-section heading='Loading and empty' bare>
 				<div.stack>
