@@ -3,7 +3,7 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
-## Unreleased
+## 0.21.0 (2026-10-19)
 
 - ui-table: parts for a table written as markup: `ui-table-header` (a
   sortable heading), `ui-table-cell` (`align`, `nowrap`), `ui-table-row`
