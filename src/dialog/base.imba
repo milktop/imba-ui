@@ -49,7 +49,8 @@ tag ui-dialog-base
 			modal: !!modal
 			trapFocus: !!modal
 			preventScroll: !!modal
-			closeOnInteractOutside: !!modal
+			# Zag's own default; an alert waits for one of its buttons
+			closeOnInteractOutside: !!modal and !alert
 			onOpenChange: do(details)
 				data = details.open
 				emit('openchange', data) if machine.track(data)

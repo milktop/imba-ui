@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.22.1 (2026-10-20)
+
+- ui-dialog: an `alert` dialog no longer closes on a click on the backdrop,
+  as documented; it waits for one of its buttons (Escape still closes it).
+  This includes `confirm()`
+
 ## 0.22.0 (2026-10-20)
 
 - ui-popover: the panel takes its content's width, up to 18rem (where text
