@@ -12,7 +12,8 @@ import { formatNumber } from '../format/base.imba'
 #
 # Arrow keys step (Page Up/Down and Shift step by 10), Home/End jump to the
 # ends. The value (a number, or [from, to]) updates while dragging, so a
-# binding stays live; `change` is emitted when the drag or key press ends.
+# binding stays live, and `input` is emitted with it at each step; `change`
+# is emitted when the drag or key press ends.
 tag ui-slider-base < ui-control
 	prop label = null
 	prop value = null
@@ -58,7 +59,7 @@ tag ui-slider-base < ui-control
 			minStepsBetweenThumbs: range ? 1 : 0
 			onValueChange: do(details)
 				data = range ? details.value : details.value[0]
-				machine.track(data)
+				emit('input', data) if machine.track(data)
 			onValueChangeEnd: do(details)
 				let key = machine.valueKey(data)
 				return if key == #emitted
@@ -93,7 +94,7 @@ tag ui-slider-base < ui-control
 					<div.range zag=api.getRangeProps!>
 				for v, i in thumbs
 					<div.thumb zag=describe(api.getThumbProps(index: i))>
-						<input zag=api.getHiddenInputProps(index: i) @change.stop>
+						<input zag=api.getHiddenInputProps(index: i) @input.stop @change.stop>
 			if marks
 				<div.markers zag=api.getMarkerGroupProps!>
 					for mark in marks

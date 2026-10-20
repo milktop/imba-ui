@@ -14,7 +14,8 @@ import { uiLocale } from '../locale.imba'
 # - `steppers`: false hides the buttons for narrow spaces (keys still step)
 #
 # The value is a number (or null when empty). It updates while typing, so a
-# binding stays live; `change` is emitted on commit (blur or Enter), as with
+# binding stays live. `input` is emitted with it on every change (typing, the
+# buttons, keys, the wheel); `change` on commit (blur or Enter), as with
 # native inputs.
 tag ui-number-input-base < ui-control
 	prop label = null
@@ -78,7 +79,7 @@ tag ui-number-input-base < ui-control
 			invalid: #field..invalid or (data == null ? false : undefined)
 			onValueChange: do(details)
 				data = toNumber(details.valueAsNumber)
-				machine.track(data)
+				emit('input', data) if machine.track(data)
 			onValueCommit: do(details)
 				let key = machine.valueKey(data)
 				return if key == #emitted
@@ -105,7 +106,9 @@ tag ui-number-input-base < ui-control
 		<self zag=api.getRootProps!>
 			if label and !#field..label
 				<label.label zag=api.getLabelProps!> label
-			<div.control zag=api.getControlProps!>
+			# The native `input` stops here, after Zag's own listener on the
+			# input, so the tag's `input` is only ours (with the number).
+			<div.control zag=api.getControlProps! @input.stop>
 				if icon
 					<span.affix.start> <iconify-icon icon=icon>
 				if prefix

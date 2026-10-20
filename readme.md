@@ -85,7 +85,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.24.1
+npm install github:milktop/imba-ui#v0.25.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```
@@ -124,7 +124,9 @@ Values work three ways, all two-way:
 Values are plain: ISO dates from the date picker, and the items' own values
 (numeric ids stay numbers) from select. Changing the value from
 outside updates the component without emitting `change`, as with native inputs;
-only user changes emit it. With async `load`, an outside value only shows a
+only user changes emit it. Number input and slider also emit `input` (the value
+in `e.detail`) on every change before it's committed: each step, keystroke or
+drag, where `change` waits for blur, Enter or the end of the drag. With async `load`, an outside value only shows a
 label once its item is among the loaded results.
 
 ## Forms
