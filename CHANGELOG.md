@@ -3,6 +3,16 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.23.0 (2026-10-20)
+
+- ui-fields: `stackBelow` sets the grid width (px) below which fields go
+  full width (480 by default; 0 never stacks), e.g. `stackBelow=320` for a
+  two-column form in a popover. The grid is measured with a ResizeObserver,
+  since container queries can't take a variable
+- ui-field: the control's own tag no longer keeps its standalone min-width
+  (ui-select's 12rem, ui-number-input's 10rem), so it shrinks to a narrow
+  field instead of overflowing it
+
 ## 0.22.0 (2026-10-20)
 
 - ui-popover: the panel takes its content's width, up to 18rem (where text

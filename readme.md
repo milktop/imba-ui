@@ -73,7 +73,7 @@ code, and some composed screens (blocks).
 | Tabs | `<ui-tabs>` + `<ui-tab>` | Panels with a tab list built from their labels; line or pills |
 | Accordion | `<ui-accordion>` + `<ui-accordion-item>` | Expandable sections, single or multiple open |
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
-| Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrow; with `legend` or `disabled` a real `<fieldset>` |
+| Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrower than `stackBelow`; with `legend` or `disabled` a real `<fieldset>` |
 | Breadcrumbs | `<ui-breadcrumbs>` (+ `<ui-breadcrumb>`) | Trail from `items` or markup; icons, custom separator; middle crumbs fold into a … popover past `max` or when they don't fit |
 | Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load`; emits `select`. `<ui-command-trigger>` is a search box that opens it, showing its shortcut |
 | App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-sidebar-user>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
@@ -131,7 +131,11 @@ label once its item is among the loaded results.
 
 `ui-fields` lays fields out on a 12-column grid; each `ui-field` spans `span`
 columns (default 12) and every field goes full width when the grid is narrower
-than 480px (a container query, so it works in dialogs and sidebars too).
+than `stackBelow` (480px by default; it measures the grid, not the viewport, so
+it works in dialogs and sidebars too). Lower it (`<ui-fields stackBelow=320>`)
+for a form in a popover that should keep its columns, or set 0 to never stack.
+Give such a form (or its popover) a width: a grid sized by its own content
+narrows once stacked, so it stays stacked.
 
 ```imba
 <ui-fields>

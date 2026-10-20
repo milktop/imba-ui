@@ -13,12 +13,13 @@ tag ui-field < ui-field-base
 
 	css
 		d:vflex ai:stretch g:1.5 min-width:0 c:$ui-text ff:$ui-font
-		gc:span var(--span)
-		# Full width when the surrounding ui-fields is narrow.
-		..@!480 gc:1 / -1
+		# Full width when the surrounding ui-fields is stacked (see stackBelow).
+		gc:var(--ui-fields-column, span var(--span))
 
 		# Components fill the field, whatever their standalone min-width.
 		>>> [data-part=root] min-width:0
+		# …and their own tags (ui-select's 12rem), slotted, so unscoped.
+		>>> > * min-width:0
 
 		.label fs:sm fw:500 w:max-content
 		.required c:$ui-danger

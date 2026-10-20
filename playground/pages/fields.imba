@@ -24,6 +24,14 @@ tag page-fields
 				<div.out>
 					<p.note> "Each field spans `span` of 12 columns; below 480px wide they all go full width."
 
+			<demo-section heading='Keeping columns'>
+				<div [w:26rem max-width:100%]>
+					<ui-fields stackBelow=320>
+						<ui-field span=6 label='From' type='date'>
+						<ui-field span=6 label='To' type='date'>
+				<div.out>
+					<p.note> "`stackBelow` sets the width the grid stacks below (480px by default, 0 never stacks); this one keeps two columns down to 320px."
+
 			<demo-section heading='Fieldsets and validation'>
 				<ui-fields legend='Student' description='Who the lessons are for' disabled=locked>
 					<ui-field span=6 label='First name' required error=errors.first bind=student.first>
