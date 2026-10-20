@@ -20,7 +20,9 @@ import { uiLocale } from '../locale.imba'
 #   the item is listed under), `icon` (Iconify), `description`, `shortcut`
 #   text, `keywords` (extra words to match) and `disabled`. An item with
 #   `href` goes there when picked.
-# - `load`: optional async function(query) returning items, for server search
+# - `load`: optional async function(query) returning more items, for server
+#   search. They're listed after the matching `items`, which filter as you
+#   type while the search runs.
 # - `hotkey`: the key used with ⌘/Ctrl; null turns the shortcut off
 # - `navigate`: function(href) for items with `href`, e.g. Inertia's
 #   `router.visit`. By default a link is clicked, which Imba's router picks up.
@@ -52,6 +54,8 @@ tag ui-command-base
 	loading = no
 	#groups = []
 	#results = []
+	#local = []
+	#loaded = []
 	#sourceItems = null
 	#ticket = 0
 
@@ -68,9 +72,13 @@ tag ui-command-base
 	# Zag's key for an item.
 	def keyOf item do String(item.value ?? item.href ?? item.label)
 
+	# Lowercase without accents, so "tache" finds "Tâches".
+	def fold text
+		String(text).normalize('NFD').replace(/\p{M}/gu, '').toLowerCase!
+
 	# Every word typed must appear in the label, description, group or keywords.
 	def matches item, words
-		let text = [item.label, item.description, item.group, ...(item.keywords or [])].join(' ').toLowerCase!
+		let text = fold([item.label, item.description, item.group, ...(item.keywords or [])].join(' '))
 		words.every(do text.includes($1))
 
 	# Results in group order (by first appearance), so the list reads and the
@@ -88,13 +96,17 @@ tag ui-command-base
 			isItemDisabled: do(item) !!item.disabled
 
 	def filterLocal text
-		let words = text.trim!.toLowerCase!.split(/\s+/).filter(Boolean)
-		setResults(words.length ? items.filter(do matches($1, words)) : items)
+		let words = fold(text).split(/\s+/).filter(Boolean)
+		#local = words.length ? (items or []).filter(do matches($1, words)) : (items or [])
+		setResults([...#local, ...#loaded])
 
+	# The items filter at once; loaded results from the last search stay
+	# below them until the new ones arrive.
 	def search text
-		unless load
-			filterLocal(text)
-			return listMachine.refresh!
+		query = text
+		filterLocal(text)
+		listMachine.refresh!
+		return unless load
 		let ticket = ++#ticket
 		loading = yes
 		render!
@@ -103,12 +115,13 @@ tag ui-command-base
 			let list = await load(text)
 			return unless ticket == #ticket
 			loading = no
-			setResults(list or [])
+			#loaded = list or []
+			setResults([...#local, ...#loaded])
 			listMachine.refresh!
 
 	def setup
 		#sourceItems = items
-		setResults(items)
+		filterLocal('')
 		let initial = !!data
 		machine = new Machine self, dialog.machine, do defined({
 			id: zagId
@@ -147,6 +160,7 @@ tag ui-command-base
 	# Each time it opens: an empty search over all the commands.
 	def reset
 		query = ''
+		#loaded = []
 		$input.value = '' if $input
 		$list.scrollTop = 0 if $list
 		search('')
@@ -192,7 +206,7 @@ tag ui-command-base
 
 	def render
 		# New items from the parent replace the list (keeping the search).
-		if items !== #sourceItems and !load
+		if items !== #sourceItems
 			#sourceItems = items
 			filterLocal(query)
 			listMachine.refresh!
