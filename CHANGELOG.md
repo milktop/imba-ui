@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.24.1 (2026-10-20)
+
+- ui-command: result icons are drawn at once. iconify-icon waited until it
+  had seen each one, and a row reused as the results changed could stay
+  blank
+
 ## 0.24.0 (2026-10-20)
 
 - ui-command: with both `items` and `load`, the items filter at once as you
