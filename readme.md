@@ -124,7 +124,9 @@ Values work three ways, all two-way:
 Values are plain: ISO dates from the date picker, and the items' own values
 (numeric ids stay numbers) from select. Changing the value from
 outside updates the component without emitting `change`, as with native inputs;
-only user changes emit it. With async `load`, an outside value only shows a
+only user changes emit it. Number input and slider also emit `input` (the value
+in `e.detail`) on every change before it's committed: each step, keystroke or
+drag, where `change` waits for blur, Enter or the end of the drag. With async `load`, an outside value only shows a
 label once its item is among the loaded results.
 
 ## Forms
