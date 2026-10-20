@@ -75,7 +75,7 @@ code, and some composed screens (blocks).
 | Field | `<ui-field>` | Label, hint and error around any control, wired up with aria attributes |
 | Fields | `<ui-fields>` | 12-column grid of fields that stacks when narrower than `stackBelow`; with `legend` or `disabled` a real `<fieldset>` |
 | Breadcrumbs | `<ui-breadcrumbs>` (+ `<ui-breadcrumb>`) | Trail from `items` or markup; icons, custom separator; middle crumbs fold into a … popover past `max` or when they don't fit |
-| Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load`; emits `select`. `<ui-command-trigger>` is a search box that opens it, showing its shortcut |
+| Command menu | `<ui-command>` | ⌘K search box over commands: groups, icons, shortcuts, keywords, links (`href`), async `load` (server results listed after the commands, which filter as you type), accents ignored; emits `select`. `<ui-command-trigger>` is a search box that opens it, showing its shortcut |
 | App shell | `<ui-app-shell>` + `<ui-sidebar>`, `<ui-nav-section>`, `<ui-nav-item>`, `<ui-nav-group>`, `<ui-sidebar-user>`, `<ui-topbar>`, `<ui-page>` | App layout: sidebar that collapses to an icon rail (⌘B, persisted) and becomes a drawer on phones, sticky top bar, page header |
 
 ## Install
@@ -85,7 +85,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.21.0
+npm install github:milktop/imba-ui#v0.24.0
 # or, while developing locally
 npm install file:../../imba/ui
 ```

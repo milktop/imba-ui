@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.24.0 (2026-10-20)
+
+- ui-command: with both `items` and `load`, the items filter at once as you
+  type and the loaded results are listed after them when they arrive (the
+  previous ones stay until then). Before, `load`'s results replaced the list
+  after its debounce. With `load` alone nothing changes
+- ui-command: matching ignores accents, so "tache" finds "Tâches"
+
 ## 0.23.0 (2026-10-20)
 
 - ui-fields: `stackBelow` sets the grid width (px) below which fields go
