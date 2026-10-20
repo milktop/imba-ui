@@ -61,7 +61,7 @@ code, and some composed screens (blocks).
 | Theme toggle | `<ui-theme-toggle>` | Light, dark and system as icons with tooltips, a menu or a single toggle button (also just on phones), driving `colorScheme` (saved, follows the OS) |
 | Appearance | `<ui-appearance>` | One button opening light and dark, the accent colour and the sidebar style, driving `colorScheme` and `appearance` (saved); the choices on offer are yours, and a dev mode tries every one |
 | Tooltip | `<ui-tooltip>` | Hover/focus hint on any element, with arrow and placement |
-| Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; `flush` for content that sizes itself; binds `open` |
+| Popover | `<ui-popover>` | Floating panel from a trigger, with heading, close button, optional arrow; sized by its content up to 18rem, or exactly with `$ui-popover-width`; `flush` for content that sizes itself; binds `open` |
 | Hover card | `<ui-hover-card>` | Rich preview while hovering or focusing a trigger; stays open over the card |
 | Dialog | `<ui-dialog>` | Modal rendered at the end of `<body>`: focus trap, scroll lock, heading, footer slot; binds `open`; `exitcomplete` once it has animated out |
 | Confirm | `confirm(options)` | Await a yes or no from anywhere: danger, type-to-confirm, async `onConfirm` (the button spins; errors show in the dialog), queued calls |

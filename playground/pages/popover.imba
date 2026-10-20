@@ -14,6 +14,8 @@ tag page-popover
 
 	get subjectName do subjects.find(do $1.value == subject)..label
 
+	filters = { subject: null, from: '' , to: '', search: '' }
+
 	css
 		.actions d:hflex jc:flex-end g:2 mt:4
 
@@ -39,3 +41,19 @@ tag page-popover
 					<div.set>
 						<button @click=(editing = !editing)> "Toggle from outside"
 					<p.note> "Binding `open` lets Save close it."
+
+			<demo-section heading='Wide content'>
+				<ui-popover heading='Filter lessons' closable [$ui-popover-width:34rem]>
+					<ui-button slot='trigger' icon='lucide:filter'> "Filters"
+					<ui-fields>
+						<ui-field label='Subject' span=6>
+							<ui-select items=subjects bind=filters.subject>
+						<ui-field label='Search' span=6>
+							<ui-input bind=filters.search>
+						<ui-field label='From' span=6>
+							<ui-date-picker bind=filters.from>
+						<ui-field label='To' span=6>
+							<ui-date-picker bind=filters.to>
+				<div.out>
+					<json-print data=filters>
+					<p.note> "The panel sizes to its content up to 18rem; `$ui-popover-width` sets it exactly (ui-fields stacks below 480px, so leave room for two columns)."

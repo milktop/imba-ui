@@ -3,6 +3,14 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.22.0 (2026-10-20)
+
+- ui-popover: the panel takes its content's width, up to 18rem (where text
+  wraps), in place of a fixed 18rem. `$ui-popover-width` sets an exact width
+  for wider content, like a two-column form:
+  `<ui-popover [$ui-popover-width:34rem]>`
+- ui-popover: `flush` now means no padding and no width cap
+
 ## 0.21.0 (2026-10-19)
 
 - ui-table: parts for a table written as markup: `ui-table-header` (a

@@ -16,8 +16,14 @@ import { icons } from '../icons.imba'
 # - `closable`: shows a close button
 # - `arrow`: points the panel at its trigger
 # - `modal`: traps focus and blocks the page behind it
-# - `flush`: no padding, and the panel takes its content's width, for content
-#   that sizes and spaces itself (an inline date picker, a swatch grid)
+# - `flush`: no padding and no width cap, for content that sizes and spaces
+#   itself (an inline date picker, a swatch grid)
+#
+# The panel takes its content's width, up to 18rem, where text wraps.
+# `$ui-popover-width` sets an exact width instead (still kept inside the
+# viewport), for content that should fill it, like a two-column form:
+#
+#   <ui-popover [$ui-popover-width:34rem]>
 #
 # Bind the open state with `bind=` or `bind:open=`; `openchange` is emitted
 # with the new state.
