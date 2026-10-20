@@ -3,6 +3,15 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.25.0 (2026-10-20)
+
+- ui-number-input: emits `input` with the value (a number, or null) on every
+  change: typing, the buttons, arrow keys and the wheel. Before, only typing
+  fired `input`, and that was the native event, without the value; stepping
+  emitted nothing until blur. `change` still waits for blur or Enter
+- ui-slider: emits `input` with the value at each step of a drag or key
+  press, before `change` at the end
+
 ## 0.24.1 (2026-10-20)
 
 - ui-command: result icons are drawn at once. iconify-icon waited until it
