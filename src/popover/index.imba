@@ -10,9 +10,11 @@ tag ui-popover < ui-popover-base
 		# The positioner carries the z-index itself. Zag sets it inline as
 		# var(--z-index) but doesn't always fill in the variable, so set both.
 		.positioner zi:50 --z-index:50
-		.content zi:50 fw:400 pos:relative w:72 max-width:calc(100vw - 32px) p:4 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
+		# Sized by its content up to 18rem, where text wraps; $ui-popover-width
+		# sets an exact width instead.
+		.content zi:50 fw:400 pos:relative w:var(--ui-popover-width, auto) max-width:min(var(--ui-popover-width, 18rem), 100vw - 32px) p:4 box-sizing:border-box bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 2px) shadow:$ui-shadow outline:none
 			--arrow-size:12px --arrow-background:$ui-surface
-		&.flush .content w:auto p:0
+		&.flush .content p:0 max-width:calc(100vw - 32px)
 		.arrow-tip bdt:1px solid $ui-border bdl:1px solid $ui-border
 		# Room for the close button; slotted content follows below.
 		.header pr:6 mb:3
