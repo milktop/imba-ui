@@ -245,7 +245,10 @@ tag ui-command-base
 												<div.group-label zag=list.getItemGroupLabelProps(htmlFor: "g{i}")> group.name
 											for item in group.items
 												<div.item zag=list.getItemProps(item: item, highlightOnHover: yes)>
-													<iconify-icon.icon icon=item.icon aria-hidden='true'> if item.icon
+													# Drawn at once: iconify-icon otherwise waits to be seen, and a
+													# row reused as the results change could stay blank.
+													# (html: since it reads the attribute, not a property)
+													<iconify-icon.icon icon=item.icon html:noobserver=yes aria-hidden='true'> if item.icon
 													<span.text>
 														<span.label> item.label
 														<span.description> item.description if item.description
