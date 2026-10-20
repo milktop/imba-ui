@@ -43,9 +43,9 @@ tag page-popover
 					<p.note> "Binding `open` lets Save close it."
 
 			<demo-section heading='Wide content'>
-				<ui-popover heading='Filter lessons' closable [$ui-popover-width:34rem]>
+				<ui-popover heading='Filter lessons' closable [$ui-popover-width:32rem]>
 					<ui-button slot='trigger' icon='lucide:filter'> "Filters"
-					<ui-fields>
+					<ui-fields stackBelow=320>
 						<ui-field label='Subject' span=6>
 							<ui-select items=subjects bind=filters.subject>
 						<ui-field label='Search' span=6>
@@ -56,4 +56,4 @@ tag page-popover
 							<ui-date-picker bind=filters.to>
 				<div.out>
 					<json-print data=filters>
-					<p.note> "The panel sizes to its content up to 18rem; `$ui-popover-width` sets it exactly (ui-fields stacks below 480px, so leave room for two columns)."
+					<p.note> "The panel sizes to its content up to 18rem; `$ui-popover-width` sets it exactly; ui-fields' `stackBelow` keeps two columns in it."

@@ -23,7 +23,7 @@ import { icons } from '../icons.imba'
 # `$ui-popover-width` sets an exact width instead (still kept inside the
 # viewport), for content that should fill it, like a two-column form:
 #
-#   <ui-popover [$ui-popover-width:34rem]>
+#   <ui-popover [$ui-popover-width:32rem]>
 #
 # Bind the open state with `bind=` or `bind:open=`; `openchange` is emitted
 # with the new state.
