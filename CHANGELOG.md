@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.26.2 (2026-10-22)
+
+- ui-app-shell: the sidebar's scrollbar is thin, in a faint shade of its
+  text, and hidden in the rail, where it covered the items' right side
+  (the rail still scrolls)
+
 ## 0.26.1 (2026-10-22)
 
 - ui-app-shell: the sidebar narrows below 1536px rather than 1280px, so a
