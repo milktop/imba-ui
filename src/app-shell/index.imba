@@ -76,6 +76,9 @@ tag ui-sidebar < ui-sidebar-base
 			@hover bg:var(--nav-hover, $ui-sidebar-hover) c:$ui-sidebar-hover-text
 			@focus-visible outline:2px solid $ui-ring-soft
 		.nav d:flex fld:column g:4 flg:1 min-height:0 ofy:auto ofx:hidden px:2 py:2
+			scrollbar-width:thin scrollbar-color:color-mix(in srgb, currentColor 25%, transparent) transparent
+		# The rail has no room for a scrollbar; it still scrolls.
+		&.rail .nav scrollbar-width:none
 		# A faint line above the footer (ui-sidebar-user), like the top bar's
 		.footer d:flex fld:column g:1 px:2 py:3 fls:0 bdt:1px solid $ui-sidebar-divider
 			&:not(:has(*)) d:none
