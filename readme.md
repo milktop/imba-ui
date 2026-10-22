@@ -85,7 +85,7 @@ the Vite plugin from `@milktop/inertia-imba`. Install a tagged version from
 GitHub (see the [releases](https://github.com/milktop/imba-ui/tags)):
 
 ```sh
-npm install github:milktop/imba-ui#v0.26.0
+npm install github:milktop/imba-ui#v0.26.1
 # or, while developing locally
 npm install file:../../imba/ui
 ```
@@ -231,7 +231,7 @@ while there is an error.
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.
 - Size the sidebar with `$ui-sidebar-width-wide` (15rem) and
-  `$ui-sidebar-width-narrow` (13rem, below 1280px), or set
+  `$ui-sidebar-width-narrow` (13rem, below 1536px), or set
   `$ui-sidebar-width` for one width throughout; the rail with
   `$ui-sidebar-rail-width`; and its items with `$ui-sidebar-item-height`, `-item-padding`,
   `-item-radius` and `-item-text`.
@@ -335,7 +335,7 @@ what it styles and its light and dark values.
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
 | `$ui-icon-stroke` | Line weight of stroke icons such as Lucide's (`2`, in their 24-unit grid; try `1.5` or `2.5`) |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
-| `$ui-sidebar-width-wide`, `-narrow` | ui-app-shell's open sidebar, from 1280px and below it (`$ui-sidebar-width` overrides both) |
+| `$ui-sidebar-width-wide`, `-narrow` | ui-app-shell's open sidebar, from 1536px and below it (`$ui-sidebar-width` overrides both) |
 | `$ui-sidebar-rail-width` | ui-app-shell's collapsed sidebar |
 | `$ui-sidebar-surface`, `-heading`, `-icon`, `-hover-text` | The sidebar's background (outside the inset layout), section headings, its own icon buttons, and hovered text |
 | `$ui-sidebar-text`, `-muted`, `-border`, `-divider` | The sidebar's other text (the logo, ui-sidebar-user) and its muted text, its edge and nested groups' rule, and the line above its footer: for a coloured sidebar |

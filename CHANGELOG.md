@@ -3,6 +3,11 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.26.1 (2026-10-22)
+
+- ui-app-shell: the sidebar narrows below 1536px rather than 1280px, so a
+  13" or 14" laptop in full screen (1440px, 1512px) gets the narrow one
+
 ## 0.26.0 (2026-10-22)
 
 - ui-app-shell: the open sidebar is 13rem below 1280px, 15rem from there,
