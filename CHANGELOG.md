@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.26.0 (2026-10-22)
+
+- ui-app-shell: the open sidebar is 13rem below 1280px, 15rem from there,
+  leaving more room for the page on smaller screens. Tune the two with
+  `$ui-sidebar-width-wide` and `$ui-sidebar-width-narrow`; an app that sets
+  `$ui-sidebar-width` keeps that one width throughout, as before
+
 ## 0.25.0 (2026-10-20)
 
 - ui-number-input: emits `input` with the value (a number, or null) on every
