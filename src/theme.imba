@@ -103,8 +103,12 @@ global css
 		$ui-control-height-lg:2.75rem
 		# Stroke icons' line weight (Lucide's own is 2, in a 24-unit grid).
 		$ui-icon-stroke:2
-		# ui-app-shell's sidebar, open and as an icon rail.
-		$ui-sidebar-width:15rem
+		# ui-app-shell's sidebar, open and as an icon rail. Open, it's -wide,
+		# or -narrow below 1280px; set $ui-sidebar-width for one fixed width.
+		$ui-sidebar-width-wide:15rem
+		$ui-sidebar-width-narrow:13rem
+		$ui-sidebar-width:$ui-sidebar-width-wide
+		$ui-sidebar-width@!1280:$ui-sidebar-width-narrow
 		$ui-sidebar-rail-width:3.5rem
 		# Its nav items (and group toggles): size, shape and resting text.
 		$ui-sidebar-item-height:2.125rem

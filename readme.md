@@ -230,8 +230,10 @@ while there is an error.
 - `ui-page` takes `width` ('narrow', 'default', 'wide' or 'full'), `align`
   ('center' or 'start') and
   `breadcrumbs` and `actions` slots.
-- Size the sidebar with `$ui-sidebar-width` and `$ui-sidebar-rail-width`,
-  and its items with `$ui-sidebar-item-height`, `-item-padding`,
+- Size the sidebar with `$ui-sidebar-width-wide` (15rem) and
+  `$ui-sidebar-width-narrow` (13rem, below 1280px), or set
+  `$ui-sidebar-width` for one width throughout; the rail with
+  `$ui-sidebar-rail-width`; and its items with `$ui-sidebar-item-height`, `-item-padding`,
   `-item-radius` and `-item-text`.
 - Style the current page's item (and hovers) with `$ui-sidebar-active`,
   `$ui-sidebar-active-text` and friends (the `-inset-` ones in an `inset`
@@ -333,7 +335,8 @@ what it styles and its light and dark values.
 | `$ui-control-height`, `-sm`, `-lg` | Buttons and inputs share these, so they line up in a row |
 | `$ui-icon-stroke` | Line weight of stroke icons such as Lucide's (`2`, in their 24-unit grid; try `1.5` or `2.5`) |
 | `$ui-shadow`, `$ui-card-shadow` | Popups; cards at rest |
-| `$ui-sidebar-width`, `$ui-sidebar-rail-width` | ui-app-shell's sidebar, open and collapsed |
+| `$ui-sidebar-width-wide`, `-narrow` | ui-app-shell's open sidebar, from 1280px and below it (`$ui-sidebar-width` overrides both) |
+| `$ui-sidebar-rail-width` | ui-app-shell's collapsed sidebar |
 | `$ui-sidebar-surface`, `-heading`, `-icon`, `-hover-text` | The sidebar's background (outside the inset layout), section headings, its own icon buttons, and hovered text |
 | `$ui-sidebar-text`, `-muted`, `-border`, `-divider` | The sidebar's other text (the logo, ui-sidebar-user) and its muted text, its edge and nested groups' rule, and the line above its footer: for a coloured sidebar |
 | `$ui-sidebar-item-height`, `-item-padding`, `-item-radius`, `-item-text` | Sidebar items and group toggles: size, shape and resting text colour |
