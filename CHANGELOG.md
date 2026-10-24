@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.27.0 (2026-10-24)
+
+- ui-tabs: `iconOnly` shows each tab as its icon alone, with its label in
+  a tooltip (and still read out by screen readers); tabs without an icon
+  keep their label. For a row of tabs too long to name them all, e.g. a
+  record's sections in a side sheet
+
 ## 0.26.3 (2026-10-24)
 
 - ui-tabs: the line variant's tab list no longer shows a vertical scrollbar.

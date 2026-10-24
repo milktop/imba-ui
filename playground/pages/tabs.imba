@@ -6,6 +6,7 @@ tag page-tabs
 	inbox = 'inbox'
 	inboxCount = 5
 	range = 'day'
+	record = 'invoices'
 
 	<self>
 		<demo-page source=source heading='Tabs' intro='ui-tabs takes <ui-tab> panels and builds the tab list from their labels. Arrow keys move between tabs.'>
@@ -24,6 +25,17 @@ tag page-tabs
 					<div.set>
 						<button @click=(tab = 'invoices')> "Invoices"
 					<p.note> "With no value the first enabled tab is selected."
+
+			<demo-section heading='Icons only'>
+				<ui-tabs iconOnly bind=record>
+					<ui-tab value='invoices' label='Invoices' icon='lucide:receipt-text' count=2 countColor='danger' countLabel='overdue'> <p> "2 invoices are overdue."
+					<ui-tab value='payments' label='Payments' icon='lucide:banknote'> <p> "Last payment: £120 on 2 October."
+					<ui-tab value='lessons' label='Lessons' icon='lucide:calendar'> <p> "Next lesson on Thursday."
+					<ui-tab value='notes' label='Notes' icon='lucide:notebook-pen'> <p> "No notes yet."
+					<ui-tab value='contact' label='Contact' icon='lucide:contact'> <p> "ada@example.com"
+				<div.out>
+					<json-print data={ record }>
+					<p.note> "`iconOnly`: each label moves to a tooltip and stays readable by screen readers. Tabs without an icon keep their label."
 
 			<demo-section heading='Pills'>
 				<ui-tabs variant='pills' bind=view>

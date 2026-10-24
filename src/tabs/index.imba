@@ -1,4 +1,5 @@
 import '../theme.imba'
+import '../tooltip/index.imba'
 import './base.imba'
 
 # Shared with ui-button's count (same name, same frames).
@@ -7,6 +8,8 @@ global css @keyframes ui-pulse
 	75%, to transform:scale(2.2) opacity:0
 
 tag ui-tabs < ui-tabs-base
+	tooltipTag = 'ui-tooltip'
+
 	css
 		d:block w:100% c:$ui-text ff:$ui-font
 
@@ -37,6 +40,12 @@ tag ui-tabs < ui-tabs-base
 		&.corner-counts .count pos:absolute t:1 r:0 transform:translateX(25%) min-width:15px h:15px px:1 fs:10px shadow:0 0 0 2px $ui-surface
 			&.dot min-width:0 w:7px h:7px p:0 t:2 r:1.5 transform:none
 		.sr-only pos:absolute w:1px h:1px of:hidden clip:rect(0 0 0 0) ws:nowrap
+		# Icon only: the tooltip's target fills the tab, so its whole width shows
+		# the label on hover
+		.trigger.icon-only px:0
+		&.line .trigger.icon-only px:0
+		.tip-target d:grid place-items:center as:stretch px:3
+		.trigger.icon-only .count ml:-1.5 mr:3
 		.indicator transition-property:var(--transition-property) transition-duration:200ms
 		.panels pt:4
 
