@@ -16,10 +16,15 @@ import 'iconify-icon'
 # - `variant`: 'line' (default, an underline) or 'pills' (styling hooks)
 # - `counts`: where the tabs' counts sit: 'inline' (default, after the
 #   label) or 'corner' (top right, like a button's)
+# - `iconOnly`: tabs with an icon show just the icon, their label in a
+#   tooltip (and still read out); tabs without one keep their label
 tag ui-tabs-base
 	prop value = null
 	prop variant = 'line'
 	prop counts = 'inline'
+	prop iconOnly = false
+
+	tooltipTag = 'ui-tooltip-base'
 
 	isUiTabs = yes
 	zagId = uid('tabs')
@@ -70,10 +75,19 @@ tag ui-tabs-base
 		<self .{variant} .corner-counts=(counts == 'corner') zag=api.getRootProps!>
 			<div.list zag=api.getListProps!>
 				for tab in tabs
-					<button.trigger zag=api.getTriggerProps(value: String(tab.value), disabled: !!tab.disabled)>
-						if tab.icon
-							<iconify-icon.icon icon=tab.icon aria-hidden='true'>
-						<span> tab.label
+					const bare = iconOnly and tab.icon
+					<button.trigger .icon-only=bare zag=api.getTriggerProps(value: String(tab.value), disabled: !!tab.disabled)>
+						if bare
+							# The tooltip goes on a span filling the tab: on the button
+							# itself its Zag props would replace the tab's
+							<{tooltipTag}.tip content=tab.label placement='bottom'>
+								<span.tip-target>
+									<iconify-icon.icon icon=tab.icon aria-hidden='true'>
+							<span.sr-only> tab.label
+						else
+							if tab.icon
+								<iconify-icon.icon icon=tab.icon aria-hidden='true'>
+							<span> tab.label
 						if tab.badge != null
 							<span.count .dot=(tab.badge === '') .pulse=tab.pulse .{tab.countColor} data-ui-pulse=(tab.pulse or undefined) aria-hidden='true'> tab.badge
 							if tab.spoken
