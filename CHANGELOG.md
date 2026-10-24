@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.28.0 (2026-10-24)
+
+- ui-dialog: `size='full'` takes most of the screen (up to 72rem wide, the
+  viewport's height less a margin), its body unpadded and filling the
+  height, for a document or a PDF in an iframe (give it `flex: 1`)
+
 ## 0.27.0 (2026-10-24)
 
 - ui-tabs: `iconOnly` shows each tab as its icon alone, with its label in
