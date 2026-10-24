@@ -41,10 +41,13 @@ tag ui-tabs < ui-tabs-base
 		.panels pt:4
 
 		# Line: an underline that slides to the selected tab.
-		&.line .list bdb:1px solid $ui-border
+		# The rule is a shadow inside the list and the indicator sits on it: below
+		# the list they'd overflow it, and a list that scrolls sideways would then
+		# scroll down too.
+		&.line .list shadow:inset 0 -1px 0 $ui-border
 		# Taller than a control, so the underlined tabs have room to breathe.
 		&.line .trigger rd:0 h:calc($ui-control-height + 0.5rem) px:3.5
-		&.line .indicator pos:absolute b:-1px l:var(--left) w:var(--width) h:2px bg:$ui-accent
+		&.line .indicator pos:absolute b:0 l:var(--left) w:var(--width) h:2px bg:$ui-accent
 
 		# Pills: a raised pill behind the selected tab, like ui-segmented.
 		&.pills .list d:inline-flex p:1 bg:$ui-hover rd:$ui-radius
