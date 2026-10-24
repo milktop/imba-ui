@@ -3,6 +3,13 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.26.3 (2026-10-24)
+
+- ui-tabs: the line variant's tab list no longer shows a vertical scrollbar.
+  Its indicator sat 1px below the list, which scrolls sideways and so
+  scrolled down too; the rule is now drawn inside the list, with the
+  indicator on it
+
 ## 0.26.2 (2026-10-22)
 
 - ui-app-shell: the sidebar's scrollbar is thin, in a faint shade of its
