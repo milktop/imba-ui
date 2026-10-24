@@ -18,7 +18,8 @@ import { icons } from '../icons.imba'
 #
 # - `heading`, `description`: label and describe it for assistive tech
 # - `alert`: an alertdialog, for confirmations; the backdrop doesn't close it
-# - `size`: 'sm', 'md' (default) or 'lg'
+# - `size`: 'sm', 'md' (default), 'lg' or 'full' (most of the screen, its
+#   body filling the height with no padding: for a document or a PDF)
 # - `closable`: false hides the close button
 # - `modal`: false leaves the page usable behind it: no backdrop, focus isn't
 #   trapped, the page still scrolls, and clicking outside doesn't close it

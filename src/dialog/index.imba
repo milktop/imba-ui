@@ -27,6 +27,9 @@ tag ui-dialog < ui-dialog-base
 			bg:$ui-surface c:$ui-text ff:$ui-font fs:sm bd:1px solid $ui-border rd:calc($ui-radius + 4px) shadow:$ui-shadow outline:none pointer-events:auto
 			&.sm max-width:24rem
 			&.lg max-width:44rem
+			# Most of the screen, for a document (a PDF in an iframe, say): its body
+			# fills the height, with no padding of its own
+			&.full max-width:72rem h:calc(100vh - 32px)
 			&[data-state=open] animation:ui-dialog-in 180ms ease-out
 			&[data-state=closed] animation:ui-dialog-out 120ms ease-in forwards
 		.header px:6 pt:6 pr:12
@@ -35,6 +38,10 @@ tag ui-dialog < ui-dialog-base
 		.body px:6 py:4 ofy:auto
 			&:empty d:none
 		.header + .body pt:4
+		.full .body fl:1 d:flex fld:column p:0 ofy:hidden
+		.full .header pb:4
+		.full .header + .body pt:0
+		.full .footer pt:4
 		.footer d:flex jc:flex-end g:2 flw:wrap px:6 pb:6
 			&:not(:has(*)) d:none
 		# A slotted wrapper <div> steps aside, so its buttons are the flex items

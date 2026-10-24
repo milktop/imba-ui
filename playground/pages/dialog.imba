@@ -4,9 +4,12 @@ tag page-dialog
 	editOpen = no
 	confirmOpen = no
 	noticeOpen = no
+	documentOpen = no
 	student = { name: 'Ada Lovelace', email: 'ada@example.com', year: 11 }
 	draftStudent = {}
 	deleted = no
+
+	css .document fl:1 w:100% bd:none
 
 	def startEditStudent do draftStudent = Object.assign({}, student)
 	def saveStudent
@@ -44,6 +47,17 @@ tag page-dialog
 					<div.set>
 						<button @click=(deleted = no)> "Undo delete"
 					<p.note> "`alert` makes it an alertdialog: clicking the backdrop doesn’t close it."
+
+			<demo-section heading='Full size'>
+				<ui-dialog size='full' heading='Facture vil-28923' bind=documentOpen>
+					<iframe.document title='Facture vil-28923' srcdoc="<body style='font: 14px system-ui; padding: 2rem'><h1>Invoice</h1><p>A PDF would fill this frame.</p></body>">
+					<div slot='footer'>
+						<ui-button icon='lucide:download'> "Download"
+						<ui-button variant='primary' @click=(documentOpen = no)> "Close"
+				<div.out>
+					<div.set>
+						<button @click=(documentOpen = yes)> "Open document"
+					<p.note> "`size='full'` takes most of the screen and lets its body fill the height, unpadded: give the content `flex: 1`."
 
 			<demo-section heading='Opened from code'>
 				<ui-dialog heading='Lesson booked' bind=noticeOpen>
