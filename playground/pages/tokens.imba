@@ -16,6 +16,8 @@ def readTokens
 			mode = null
 		elif mode and /^\t\t\$ui-/.test(line)
 			let m = line.match(/^\t\t\$(ui-[\w-]+):(.+)$/)
+			# A value that only applies at some widths ($ui-x@!1536:…) isn't a default
+			continue unless m
 			let name = m[1]
 			unless byName[name]
 				byName[name] = { name, light: '', dark: '' }
