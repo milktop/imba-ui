@@ -3,6 +3,12 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.28.1 (2026-10-30)
+
+- Controls (checkbox, switch, select, radio group…) hidden and shown again,
+  e.g. inside an `if`, kept their value but stopped redrawing on change, so
+  a checkbox looked stuck. They now redraw and show their current value
+
 ## 0.28.0 (2026-10-24)
 
 - ui-dialog: `size='full'` takes most of the screen (up to 72rem wide, the
