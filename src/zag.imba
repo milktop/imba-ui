@@ -37,12 +37,27 @@ export def uid prefix = 'ui'
 #   has to be worked out before it, not inside it.
 export class Machine
 	constructor owner, machine, props
-		service = new VanillaMachine(machine, props)
+		#owner = owner
+		#machine = machine
+		#props = props
+		create!
+
+	def create
+		service = new VanillaMachine(#machine, #props)
 		unsubscribe = service.subscribe do
-			owner.render! if owner.isConnected
+			#owner.render! if #owner.isConnected
 			imba.commit!
 
+	# A stopped Zag service can't start again (stop drops its store
+	# subscriptions), so a component mounted again, like one inside an `if`
+	# that's shown again, gets a new one, then the next render pushes the
+	# current value into it.
 	def start
+		if #stopped
+			#stopped = no
+			create!
+			#valueKey = #watchKey = undefined
+			refresh!
 		service.start!
 		running = yes
 
@@ -82,6 +97,7 @@ export class Machine
 
 	def stop
 		running = no
+		#stopped = yes
 		unsubscribe!
 		service.stop!
 
