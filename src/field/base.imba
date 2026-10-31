@@ -4,6 +4,7 @@ import '../input/base.imba'
 import '../number-input/base.imba'
 import '../textarea/base.imba'
 import '../password-input/base.imba'
+import '../phone-input/base.imba'
 
 # Defined in control.imba (which can't import this file without a cycle).
 export { closestField, fieldIds }
@@ -17,12 +18,15 @@ export { closestField, fieldIds }
 # - A plain <input>, <select> or <textarea> gets an id, the label's `for`,
 #   aria-describedby and aria-invalid.
 # - `span`: columns (of 12) to take inside ui-fields.
+# - A control can `report` a problem of its own (ui-phone-input's "too
+#   short"); it shows like an error while `error` is empty.
 #
 # Without children it renders an input, passing on `type`, `name`,
 # `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
 # `step`, `attrs`, `required` and `disabled`. `type='number'` renders a number
 # input (with `formatOptions`, `steppers`), `type='password'` a password
-# input with a show/hide button, `type='textarea'` a textarea (with `rows`,
+# input with a show/hide button, `type='phone'` a phone input (with
+# `country`, `countries`, `showType`, `picker`), `type='textarea'` a textarea (with `rows`,
 # `maxRows`). Each gets the field's value: `bind=`, `bind:value=` or `value` +
 # `@change`.
 tag ui-field-base
@@ -49,6 +53,10 @@ tag ui-field-base
 	prop steppers = yes
 	prop rows = 3
 	prop maxRows = null
+	prop country = null
+	prop countries = []
+	prop showType = false
+	prop picker = null
 	prop required = false
 	prop disabled = false
 
@@ -57,6 +65,7 @@ tag ui-field-base
 	numberTag = 'ui-number-input-base'
 	textareaTag = 'ui-textarea-base'
 	passwordTag = 'ui-password-input-base'
+	phoneTag = 'ui-phone-input-base'
 
 	# As in the inputs: `bind=` replaces `data`, which otherwise aliases `value`.
 	get data do value
@@ -73,13 +82,22 @@ tag ui-field-base
 	get labelId do "{fieldId}-label"
 	get hintId do "{fieldId}-hint"
 	get errorId do "{fieldId}-error"
-	get invalid do !!error
+	# What's shown: the `error` given, else the control's own (report).
+	get message do error or #reported
+	get invalid do !!message
 	get labelledBy do label ? labelId : null
 	# An error replaces the hint while there is one.
-	get describedBy do error ? errorId : (hint ? hintId : null)
+	get describedBy do message ? errorId : (hint ? hintId : null)
 
 	# What changes a component's Zag props; components refresh when it does.
 	get stateKey do "{labelledBy}|{invalid}"
+
+	# A control's own problem (a phone number too short), shown while there's
+	# no `error`; null clears it.
+	def report problem
+		return if (problem or null) == (#reported or null)
+		#reported = problem
+		render!
 
 	# Props for a component's focusable control. Zag's spread removes undefined.
 	def describe props
@@ -124,11 +142,13 @@ tag ui-field-base
 					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions steppers=steppers required=required disabled=disabled bind=data>
 				elif type == 'password'
 					<{passwordTag} name=name placeholder=placeholder autocomplete=(autocomplete or 'current-password') icon=icon required=required disabled=disabled bind=data>
+				elif type == 'phone'
+					<{phoneTag} name=name placeholder=placeholder autocomplete=(autocomplete or 'tel') country=country countries=countries showType=showType picker=picker required=required disabled=disabled bind=data>
 				elif type == 'textarea'
 					<{textareaTag} name=name placeholder=placeholder rows=rows maxRows=maxRows attrs=attrs required=required disabled=disabled bind=data>
 				else
 					<{inputTag} type=type name=name placeholder=placeholder autocomplete=autocomplete icon=icon prefix=prefix suffix=suffix min=min max=max step=step attrs=attrs required=required disabled=disabled bind=data>
-		if error
-			<p.error id=errorId role='alert'> error
+		if message
+			<p.error id=errorId role='alert'> message
 		elif hint
 			<p.hint id=hintId> hint
