@@ -45,6 +45,7 @@ code, and some composed screens (blocks).
 | Time input | `<ui-time-input>` | A time of day as 'HH:mm' (or null), with `step` in minutes, `min`/`max`; the browser's own picker |
 | Number input | `<ui-number-input>` | +/- buttons, arrow/Shift stepping, clamping, locale formatting (`formatOptions`); emits a number |
 | Password input | `<ui-password-input>` | Show/hide button; `ui-field type='password'` renders one |
+| Phone input | `<ui-phone-input>` | Formats for its country, flag picks the country, E.164 value; `ui-field type='phone'` renders one |
 | Pin input | `<ui-pin-input>` | One box per character for codes; emits `complete` when filled |
 | Slider | `<ui-slider>` | Single or range (array value), marks, formatted value |
 | Tags input | `<ui-tags-input>` | Free-form tags: add with Enter or comma, edit, remove |

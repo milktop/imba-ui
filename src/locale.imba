@@ -100,6 +100,7 @@ export const en = {
 			bulletList: 'Bulleted list', orderedList: 'Numbered list', blockquote: 'Quote', undo: 'Undo', redo: 'Redo'
 		}
 	}
+	phoneInput: { country: 'Country', mobile: 'Mobile', landline: 'Landline' }
 	zag: {}
 }
 
@@ -190,6 +191,7 @@ export const fr = {
 			bulletList: 'Liste à puces', orderedList: 'Liste numérotée', blockquote: 'Citation', undo: 'Annuler', redo: 'Rétablir'
 		}
 	}
+	phoneInput: { country: 'Pays', mobile: 'Mobile', landline: 'Fixe' }
 	zag: {
 		datePicker: {
 			dayCell: (do(state) state.unavailable ? "Indisponible. {state.valueText}" : (state.selected ? "Date choisie. {state.valueText}" : "Choisir {state.valueText}"))

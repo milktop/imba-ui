@@ -42,6 +42,7 @@ import './pages/textarea.imba'
 import './pages/editable.imba'
 import './pages/editor.imba'
 import './pages/password-input.imba'
+import './pages/phone-input.imba'
 import './pages/pin-input.imba'
 import './pages/slider.imba'
 import './pages/tags-input.imba'
@@ -112,6 +113,7 @@ const groups = [
 	{ title: 'Inputs', icon: 'lucide:text-cursor-input', pages: [
 		{ path: '/input', title: 'Input', about: 'Text with icons, prefix and suffix' }
 		{ path: '/password-input', title: 'Password input', about: 'Show/hide, new or current password' }
+		{ path: '/phone-input', title: 'Phone input', about: 'Numbers with their country flag' }
 		{ path: '/number-input', title: 'Number input', about: 'Steppers, clamping, formatting' }
 		{ path: '/time-input', title: 'Time input', about: 'A time of day, typed or picked' }
 		{ path: '/textarea', title: 'Textarea', about: 'Grows with its content' }
@@ -344,6 +346,7 @@ tag playground
 				<page-editable route='/editable'>
 				<page-editor route='/editor'>
 				<page-password-input route='/password-input'>
+				<page-phone-input route='/phone-input'>
 				<page-pin-input route='/pin-input'>
 				<page-slider route='/slider'>
 				<page-tags-input route='/tags-input'>

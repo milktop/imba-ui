@@ -10,6 +10,7 @@ tag ui-field < ui-field-base
 	numberTag = 'ui-number-input'
 	textareaTag = 'ui-textarea'
 	passwordTag = 'ui-password-input'
+	phoneTag = 'ui-phone-input'
 
 	css
 		d:vflex ai:stretch g:1.5 min-width:0 c:$ui-text ff:$ui-font

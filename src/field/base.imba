@@ -4,6 +4,7 @@ import '../input/base.imba'
 import '../number-input/base.imba'
 import '../textarea/base.imba'
 import '../password-input/base.imba'
+import '../phone-input/base.imba'
 
 # Defined in control.imba (which can't import this file without a cycle).
 export { closestField, fieldIds }
@@ -22,7 +23,8 @@ export { closestField, fieldIds }
 # `placeholder`, `autocomplete`, `icon`, `prefix`, `suffix`, `min`, `max`,
 # `step`, `attrs`, `required` and `disabled`. `type='number'` renders a number
 # input (with `formatOptions`, `steppers`), `type='password'` a password
-# input with a show/hide button, `type='textarea'` a textarea (with `rows`,
+# input with a show/hide button, `type='phone'` a phone input (with
+# `country`, `countries`, `showType`), `type='textarea'` a textarea (with `rows`,
 # `maxRows`). Each gets the field's value: `bind=`, `bind:value=` or `value` +
 # `@change`.
 tag ui-field-base
@@ -49,6 +51,9 @@ tag ui-field-base
 	prop steppers = yes
 	prop rows = 3
 	prop maxRows = null
+	prop country = null
+	prop countries = []
+	prop showType = false
 	prop required = false
 	prop disabled = false
 
@@ -57,6 +62,7 @@ tag ui-field-base
 	numberTag = 'ui-number-input-base'
 	textareaTag = 'ui-textarea-base'
 	passwordTag = 'ui-password-input-base'
+	phoneTag = 'ui-phone-input-base'
 
 	# As in the inputs: `bind=` replaces `data`, which otherwise aliases `value`.
 	get data do value
@@ -124,6 +130,8 @@ tag ui-field-base
 					<{numberTag} name=name placeholder=placeholder icon=icon prefix=prefix suffix=suffix min=min max=max step=step formatOptions=formatOptions steppers=steppers required=required disabled=disabled bind=data>
 				elif type == 'password'
 					<{passwordTag} name=name placeholder=placeholder autocomplete=(autocomplete or 'current-password') icon=icon required=required disabled=disabled bind=data>
+				elif type == 'phone'
+					<{phoneTag} name=name placeholder=placeholder autocomplete=(autocomplete or 'tel') country=country countries=countries showType=showType required=required disabled=disabled bind=data>
 				elif type == 'textarea'
 					<{textareaTag} name=name placeholder=placeholder rows=rows maxRows=maxRows attrs=attrs required=required disabled=disabled bind=data>
 				else
