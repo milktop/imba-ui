@@ -3,6 +3,20 @@
 Until 1.0, a minor version may change props or markup; patch versions only
 fix things.
 
+## 0.29.0 (2026-10-31)
+
+- ui-phone-input: a phone number formatted for its country (national at
+  home, international abroad), with a flag that follows the number and is
+  also a country picker: a list searched by name, code or dialling code
+  ("irl", "353"), or the native select on touch screens (`picker`). Its
+  value is E.164 ('+33612345678') once valid, else the text as typed; on
+  blur it says why (too short, too long, not a number). `country`
+  (default: the locale's region), `countries` listed first, `showType`
+  for a mobile or landline icon. `ui-field type='phone'` renders one.
+  Adds libphonenumber-js (about 40KB gzipped)
+- ui-field: a control can `report` a problem of its own, shown like an
+  error while `error` is empty
+
 ## 0.28.1 (2026-10-30)
 
 - Controls (checkbox, switch, select, radio group…) hidden and shown again,
